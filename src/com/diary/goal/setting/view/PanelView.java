@@ -3,6 +3,7 @@ package com.diary.goal.setting.view;
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.activity.RichTextEditorActivity;
+import com.diary.goal.setting.activity.UnitOverviewActivity;
 import com.diary.goal.setting.richedit.RichEditText;
 import com.diary.goal.setting.tools.BitmapCustomize;
 
@@ -62,7 +63,7 @@ public abstract class PanelView extends View implements View.OnClickListener{
 	@Override
 	public void onClick(View v) {
 		Intent intent=new Intent();
-		intent.setClass(context, RichTextEditorActivity.class);
+		intent.setClass(context, UnitOverviewActivity.class);
 		context.startActivity(intent);
 		
 	}

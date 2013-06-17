@@ -21,6 +21,10 @@
             </intent-filter>
         </activity>
         <activity 
+            android:name=".activity.UnitOverviewActivity">
+            
+        </activity>
+        <activity 
             android:theme="@style/Theme.Sherlock.Light"
             android:name=".activity.RichTextEditorActivity">
             
