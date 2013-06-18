@@ -1,6 +1,14 @@
 package com.diary.goal.setting;
 
+import java.io.IOException;
 import java.util.HashMap;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.diary.goal.setting.database.DiaryHelper;
+import com.diary.goal.setting.tools.Constant;
+import com.diary.goal.setting.tools.Function;
 
 import android.app.Application;
 import android.content.Context;
@@ -10,6 +18,19 @@ import android.view.WindowManager;
 
 public class DiaryApplication extends Application {
 
+	/**
+	 * conf file for diary index
+	 */
+	private JSONObject sudoConfig;
+	/**
+	 * access to local database
+	 */
+	private DiaryHelper dbHelper;
+	/**
+	 * get current day pad status
+	 */
+	private HashMap<Constant.SudoType, Boolean> padStatus;
+	
 	private int screen_width;
 	private int screen_height;
 	private int initialOrientation;
@@ -38,6 +59,19 @@ public class DiaryApplication extends Application {
 		screen_width=displaymetrics.widthPixels;
 		screen_height=displaymetrics.heightPixels;
 		initialOrientation=this.getResources().getConfiguration().orientation;
+		dbHelper=new DiaryHelper(this);
+		
+		padStatus = new HashMap<Constant.SudoType, Boolean>();
+		padStatus.put(Constant.SudoType.WORK, false);
+		padStatus.put(Constant.SudoType.SOCIAL, false);
+		padStatus.put(Constant.SudoType.FAMILY, false);
+		padStatus.put(Constant.SudoType.FINANCE, false);
+		padStatus.put(Constant.SudoType.DATE, false);
+		padStatus.put(Constant.SudoType.SQUARE_6, false);
+		padStatus.put(Constant.SudoType.HEALTHY, false);
+		padStatus.put(Constant.SudoType.SQUARE_8, false);
+		padStatus.put(Constant.SudoType.SQUARE_9, false);
+		
 		super.onCreate();
 	}
 	public int getScreen_w() {
@@ -67,5 +101,26 @@ public class DiaryApplication extends Application {
 		else
 			reverseOrientation=false;
 	}
+	public JSONObject getSudoConfig(){
+		if(sudoConfig==null){
+			try {
+				sudoConfig=new JSONObject(Function.ReadInputStream(this.getAssets().open("sudo_conf")));
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return sudoConfig; 
+	}
+	
+	public DiaryHelper getDbHelper() {
+		return dbHelper;
+	}
 
+	public HashMap<Constant.SudoType, Boolean> getPadStatus(){
+		return padStatus;
+	}
 }

@@ -1,7 +1,6 @@
 package com.diary.goal.setting.view;
 
 import java.util.Calendar;
-import java.util.Date;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -33,6 +32,12 @@ public class PanelView_5 extends PanelView {
 		paint=new Paint();
 		paint.setColor(0xFFFFFF00);
 		this.setOnClickListener(null);
+	}
+	
+	@Override
+	void selfDraw(Canvas canvas) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	@Override

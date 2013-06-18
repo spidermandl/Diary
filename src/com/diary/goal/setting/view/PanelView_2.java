@@ -1,6 +1,10 @@
 package com.diary.goal.setting.view;
 
+import com.diary.goal.setting.tools.Constant.SudoType;
+
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.util.AttributeSet;
 
 public class PanelView_2 extends PanelView {
@@ -18,4 +22,17 @@ public class PanelView_2 extends PanelView {
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
+	void selfDraw(Canvas canvas) {
+		Paint paint=new Paint();
+		paint.setColor(0xFFFF00FF);
+		canvas.drawText(SudoType.getTypeString(sudoType), 0, 0, paint);
+		
+	}
+	
+	@Override
+	void init() {
+		sudoType=SudoType.SOCIAL;
+		super.init();
+	}
 }
