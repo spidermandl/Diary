@@ -3,15 +3,13 @@ package com.diary.goal.setting.database;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 
-import com.diary.goal.setting.tools.Constant;
+import com.diary.goal.setting.model.DateModel;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
 
@@ -94,6 +92,10 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		return c;
 	}
 	
+	public Cursor getCategory(DateModel model){
+		return getCategory(model.getDate(), model.getType().getType(), model.getCategory());
+	}
+	
 	public Cursor getCategory(Date date,int type,int category){
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		String d=format.format(date);
@@ -106,6 +108,37 @@ public class DiaryHelper extends SQLiteOpenHelper{
 				null, null, null, null, null);
 		
 		return c;
+	}
+	
+	public void insertDiaryContent(DateModel model,String text){
+		ContentValues values=new ContentValues();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		values.put(DIARY_TRACK_COLUMNS[1], format.format(model.getDate()));
+		values.put(DIARY_TRACK_COLUMNS[2], format.format(model.getDate()));
+		values.put(DIARY_TRACK_COLUMNS[3], model.getType().getType());
+		values.put(DIARY_TRACK_COLUMNS[4], model.getCategory());
+		values.put(DIARY_TRACK_COLUMNS[5], text);
+		
+		db.insertOrThrow(DIARY_TRACK_TABLENAME, DIARY_TRACK_COLUMNS[0], values);
+	}
+	
+	public void updateDiaryContent(DateModel model,String text){
+		ContentValues values=new ContentValues();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		values.put(DIARY_TRACK_COLUMNS[2], format.format(model.getDate()));
+		values.put(DIARY_TRACK_COLUMNS[5], text);
+		
+		format = new SimpleDateFormat("yyyy-MM-dd");
+		String date=format.format(model.getDate());
+		int type=model.getType().getType();
+		int category=model.getCategory();
+		db.update(DIARY_TRACK_TABLENAME, values,
+				DIARY_TRACK_COLUMNS[1]+" between '"+date+" 00:00:00' and '"+date+" 23:59:59' " +
+				      " and "
+		           +DIARY_TRACK_COLUMNS[3]+ " = "+type+
+		              " and "
+		           +DIARY_TRACK_COLUMNS[4]+ " = "+category,
+		        null);
 	}
 
 }

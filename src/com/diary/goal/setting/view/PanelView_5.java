@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 
 public class PanelView_5 extends PanelView {
 	Calendar calendar;
@@ -36,13 +37,13 @@ public class PanelView_5 extends PanelView {
 	
 	@Override
 	void selfDraw(Canvas canvas) {
-		// TODO Auto-generated method stub
+		Log.e("55555555555", "55555555555");
 		
 	}
 	
 	@Override
 	protected void onDraw(Canvas canvas) {
-		canvas.drawText(calendar.get(Calendar.YEAR)+"年", this.getMeasuredWidth()/2, this.getHeight()/4, paint);
-		canvas.drawText(calendar.get(Calendar.MONTH)+"月"+calendar.get(Calendar.DAY_OF_MONTH)+"日", this.getMeasuredWidth()/2, this.getHeight()*3/4,paint);
+		canvas.drawText(calendar.get(Calendar.YEAR)+"年", this.getWidth()/2, this.getHeight()/4, paint);
+		canvas.drawText(calendar.get(Calendar.MONTH)+"月"+calendar.get(Calendar.DAY_OF_MONTH)+"日", this.getWidth()/2, this.getHeight()*3/4,paint);
 	}
 }

@@ -3,7 +3,6 @@ package com.diary.goal.setting.activity;
 import java.util.Date;
 
 import com.diary.goal.setting.adapter.UnitOverviewAdapter;
-import com.diary.goal.setting.tools.Constant.SudoType;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,9 +13,8 @@ public class UnitOverviewActivity extends Activity{
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		Intent intent=getIntent();
 		ListView listview=new ListView(this);
-		listview.setAdapter(new UnitOverviewAdapter(this,new Date(),(SudoType)intent.getSerializableExtra("type")));
+		listview.setAdapter(new UnitOverviewAdapter(this));
 		setContentView(listview);
 		super.onCreate(savedInstanceState);
 	}

@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
+import com.diary.goal.setting.model.DateModel;
 import com.diary.goal.setting.tools.Constant;
 
 import android.app.Activity;
@@ -16,7 +17,6 @@ import android.os.Bundle;
 public class SudoKuActivity extends Activity {
 	
 	
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		DiaryApplication.getInstance().setOrientation(
@@ -28,7 +28,9 @@ public class SudoKuActivity extends Activity {
 	}
 	
 	private void init(){
-		Cursor c=DiaryApplication.getInstance().getDbHelper().getTodayPad(new Date());
+		DateModel model=DiaryApplication.getInstance().getDateModel();
+		model.setDate(new Date());
+		Cursor c=DiaryApplication.getInstance().getDbHelper().getTodayPad(model.getDate());
         HashMap<Constant.SudoType, Boolean> status=DiaryApplication.getInstance().getPadStatus();
 		if(c!=null){
 			while(c.moveToNext()){

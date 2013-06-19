@@ -9,6 +9,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 
 public class PanelView_1 extends PanelView {
 
@@ -35,6 +36,7 @@ public class PanelView_1 extends PanelView {
 		Paint paint=new Paint();
 		paint.setColor(0xFFFF00FF);
 		canvas.drawText(SudoType.getTypeString(sudoType), 0, 0, paint);
+		Log.e("11111111111", "1111111111111");
 	}
 
 }

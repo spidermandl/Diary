@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.diary.goal.setting.database.DiaryHelper;
+import com.diary.goal.setting.model.DateModel;
 import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.tools.Function;
 
@@ -31,6 +32,7 @@ public class DiaryApplication extends Application {
 	 */
 	private HashMap<Constant.SudoType, Boolean> padStatus;
 	
+	private DateModel dateModel;
 	private int screen_width;
 	private int screen_height;
 	private int initialOrientation;
@@ -122,5 +124,15 @@ public class DiaryApplication extends Application {
 
 	public HashMap<Constant.SudoType, Boolean> getPadStatus(){
 		return padStatus;
+	}
+
+	public DateModel getDateModel() {
+		if(dateModel==null)
+			dateModel=new DateModel();
+		return dateModel;
+	}
+
+	public void setDateModel(DateModel dateModel) {
+		this.dateModel = dateModel;
 	}
 }

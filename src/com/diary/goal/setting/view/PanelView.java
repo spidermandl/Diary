@@ -4,6 +4,7 @@ import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.activity.RichTextEditorActivity;
 import com.diary.goal.setting.activity.UnitOverviewActivity;
+import com.diary.goal.setting.model.DateModel;
 import com.diary.goal.setting.richedit.RichEditText;
 import com.diary.goal.setting.tools.BitmapCustomize;
 import com.diary.goal.setting.tools.Constant;
@@ -12,6 +13,7 @@ import com.diary.goal.setting.tools.Constant.SudoType;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -57,6 +59,9 @@ public abstract class PanelView extends View implements View.OnClickListener{
 	@Override
 	protected void onDraw(Canvas canvas) {
 		if(!DiaryApplication.getInstance().getPadStatus().get(sudoType)){
+			canvas.drawBitmap(BitmapCustomize.customizePicture(context, R.drawable.null_edit,
+    				this.getWidth(),
+    				this.getHeight()), 0, 0, new Paint());
 		this.setBackgroundDrawable(new BitmapDrawable(
 	    		BitmapCustomize.customizePicture(context, R.drawable.null_edit,
 	    				this.getWidth(),
@@ -70,8 +75,8 @@ public abstract class PanelView extends View implements View.OnClickListener{
 	
 	@Override
 	public void onClick(View v) {
+		DiaryApplication.getInstance().getDateModel().setType(sudoType);
 		Intent intent=new Intent();
-		intent.putExtra("type", sudoType);
 		intent.setClass(context, UnitOverviewActivity.class);
 		context.startActivity(intent);
 		

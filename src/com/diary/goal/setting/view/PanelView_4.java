@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 
 public class PanelView_4 extends PanelView {
 
@@ -25,7 +26,8 @@ public class PanelView_4 extends PanelView {
 	@Override
 	void selfDraw(Canvas canvas) {
 		Paint paint=new Paint();
-		paint.setColor(0xFFFF00FF);
+		paint.setColor(0xFFFFFF00);
+		Log.e("444444444", "444444444");
 		canvas.drawText(SudoType.getTypeString(sudoType), 0, 0, paint);
 		
 	}
