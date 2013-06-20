@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res/com.diary.goal.setting"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+
+	<com.diary.goal.setting.view.ViewFlow
+		android:id="@+id/viewflow" android:layout_width="fill_parent"
+		android:layout_height="fill_parent" app:sidebuffer="3">
+	    
+	</com.diary.goal.setting.view.ViewFlow>
+
+</FrameLayout>

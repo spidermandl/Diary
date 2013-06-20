@@ -15,6 +15,7 @@ import com.diary.goal.setting.activity.RichTextEditorActivity;
 import com.diary.goal.setting.model.DateModel;
 import com.diary.goal.setting.tools.Constant.SudoType;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -37,6 +38,9 @@ public class UnitOverviewAdapter extends BaseAdapter {
 		categorys=new HashMap<Integer, String>();
 		configs=new HashMap<Integer, String>();
 		indexs=new ArrayList<Integer>();
+		loadData();
+	}
+	private void loadData(){
 		DateModel model=DiaryApplication.getInstance().getDateModel();
 		JSONObject json=DiaryApplication.getInstance().getSudoConfig();
 		try {
@@ -65,6 +69,15 @@ public class UnitOverviewAdapter extends BaseAdapter {
 	}
 	
 	@Override
+	public void notifyDataSetChanged() {
+		categorys.clear();
+		configs.clear();
+		indexs.clear();
+		loadData();
+		
+		super.notifyDataSetChanged();
+	}
+	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
 		return indexs.size();
@@ -86,24 +99,25 @@ public class UnitOverviewAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if(convertView==null){
 			convertView = m_inflater.inflate(R.layout.essay_overview, null);
-			TextView category=(TextView)convertView.findViewById(R.id.title);
-			category.setText(configs.get(indexs.get(position)));
-			TextView content=(TextView)convertView.findViewById(R.id.content);
-			content.setText(categorys.get(indexs.get(position)));
-			final int index=position;
-			content.setOnClickListener(new View.OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					DiaryApplication.getInstance().getDateModel().setCategory(indexs.get(index));
-					DiaryApplication.getInstance().getDateModel().setText(categorys.get(indexs.get(index)));
-					Intent intent=new Intent();
-					intent.setClass(context, RichTextEditorActivity.class);
-					context.startActivity(intent);
-					
-				}
-			});
 		}
+		TextView category=(TextView)convertView.findViewById(R.id.title);
+		category.setText(configs.get(indexs.get(position)));
+		TextView content=(TextView)convertView.findViewById(R.id.content);
+		content.setText(categorys.get(indexs.get(position)));
+		final int index=position;
+		content.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				DiaryApplication.getInstance().getDateModel().setCategory(indexs.get(index));
+				DiaryApplication.getInstance().getDateModel().setText(categorys.get(indexs.get(index)));
+				Intent intent=new Intent();
+				intent.setClass(context, RichTextEditorActivity.class);
+				((Activity)context).startActivityForResult(intent, 0);
+				//context.startActivity(intent);
+				
+			}
+		});
 		return convertView;
 	}
 

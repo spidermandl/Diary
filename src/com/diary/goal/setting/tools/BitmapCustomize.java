@@ -8,10 +8,11 @@ import com.diary.goal.setting.DiaryApplication;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 
 public class BitmapCustomize {
 
-	static public Bitmap customizePicture(Context con, int resid,int required_width,int required_height) {
+	static public Bitmap customizePicture(Context con, int resid,int required_width,int required_height,boolean zoom) {
 		Bitmap temp = DiaryApplication.getInstance().getBitmap(resid);
 		if (temp == null) {
 			InputStream is = con.getResources().openRawResource(resid);
@@ -30,9 +31,22 @@ public class BitmapCustomize {
 			options.inSampleSize=calculateInSampleSize(options, required_width, required_height);
 			options.inJustDecodeBounds=false;
 			temp=BitmapFactory.decodeStream(is,null,options);
+			if(zoom)
+				temp=zoomBitmap(temp, required_width, required_height);
 			DiaryApplication.getInstance().setBitmap(resid, temp);
 		}
 		return temp;
+	}
+	
+	public static Bitmap zoomBitmap(Bitmap bitmap, int width, int height) {
+		int w = bitmap.getWidth();
+		int h = bitmap.getHeight();
+		Matrix matrix = new Matrix();
+		float scaleWidth = ((float) width / w);
+		float scaleHeight = ((float) height / h);
+		matrix.postScale(scaleWidth, scaleHeight);
+		Bitmap newbmp = Bitmap.createBitmap(bitmap, 0, 0, w, h, matrix, true);
+		return newbmp;
 	}
 	
 	public static int calculateInSampleSize(BitmapFactory.Options options,int reqWidth,int reqHeight) {

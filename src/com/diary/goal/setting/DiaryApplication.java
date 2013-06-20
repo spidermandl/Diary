@@ -64,6 +64,7 @@ public class DiaryApplication extends Application {
 		dbHelper=new DiaryHelper(this);
 		
 		padStatus = new HashMap<Constant.SudoType, Boolean>();
+		padStatus.put(Constant.SudoType.NO_TYPE, false);
 		padStatus.put(Constant.SudoType.WORK, false);
 		padStatus.put(Constant.SudoType.SOCIAL, false);
 		padStatus.put(Constant.SudoType.FAMILY, false);

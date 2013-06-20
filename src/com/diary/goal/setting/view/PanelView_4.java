@@ -25,10 +25,8 @@ public class PanelView_4 extends PanelView {
 	
 	@Override
 	void selfDraw(Canvas canvas) {
-		Paint paint=new Paint();
-		paint.setColor(0xFFFFFF00);
-		Log.e("444444444", "444444444");
-		canvas.drawText(SudoType.getTypeString(sudoType), 0, 0, paint);
+		mPaint.setColor(0xFFFF00FF);
+		canvas.drawText(SudoType.getTypeString(sudoType), this.getMeasuredWidth()/2, this.getMeasuredHeight()/2, mPaint);
 		
 	}
 	

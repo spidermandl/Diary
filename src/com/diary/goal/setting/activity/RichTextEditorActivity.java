@@ -14,6 +14,7 @@
 
 package com.diary.goal.setting.activity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 
@@ -69,4 +70,6 @@ public class RichTextEditorActivity extends SherlockActivity {
 
       return true;
   }
+  
+
 }

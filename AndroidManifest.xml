@@ -31,7 +31,8 @@
         </activity>
         <activity 
             android:theme="@style/Theme.Sherlock.Light"
-            android:name=".activity.RichTextEditorActivity">
+            android:name=".activity.RichTextEditorActivity"
+            android:launchMode="singleTop">
             
         </activity>
     </application>

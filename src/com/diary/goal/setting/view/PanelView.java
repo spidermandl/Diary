@@ -12,8 +12,11 @@ import com.diary.goal.setting.tools.Constant.SudoType;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -22,6 +25,7 @@ public abstract class PanelView extends View implements View.OnClickListener{
 
 	protected Context context;
 	protected Constant.SudoType sudoType=SudoType.NO_TYPE;
+	protected Paint mPaint;
 	
 	public PanelView(Context context) {
 		super(context);
@@ -47,6 +51,7 @@ public abstract class PanelView extends View implements View.OnClickListener{
 	
 	void init(){
 		this.setOnClickListener(this);
+		mPaint=new Paint();
 	}
 	
 	@Override
@@ -59,13 +64,14 @@ public abstract class PanelView extends View implements View.OnClickListener{
 	@Override
 	protected void onDraw(Canvas canvas) {
 		if(!DiaryApplication.getInstance().getPadStatus().get(sudoType)){
-			canvas.drawBitmap(BitmapCustomize.customizePicture(context, R.drawable.null_edit,
+			Bitmap temp=BitmapCustomize.customizePicture(context, R.drawable.null_edit,
     				this.getWidth(),
-    				this.getHeight()), 0, 0, new Paint());
-		this.setBackgroundDrawable(new BitmapDrawable(
-	    		BitmapCustomize.customizePicture(context, R.drawable.null_edit,
-	    				this.getWidth(),
-	    				this.getHeight())));
+    				this.getHeight(),false);
+			canvas.drawBitmap(temp, zoomBitmap(temp, this.getWidth(), this.getHeight()), mPaint);
+//		this.setBackgroundDrawable(new BitmapDrawable(
+//	    		BitmapCustomize.customizePicture(context, R.drawable.null_edit,
+//	    				this.getWidth(),
+//	    				this.getHeight())));
 		}
 		selfDraw(canvas);
 		super.onDraw(canvas);
@@ -81,4 +87,15 @@ public abstract class PanelView extends View implements View.OnClickListener{
 		context.startActivity(intent);
 		
 	}
+	
+	private Matrix zoomBitmap(Bitmap bitmap, int width, int height) {
+		int w = bitmap.getWidth();
+		int h = bitmap.getHeight();
+		Matrix matrix = new Matrix();
+		float scaleWidth = ((float) width / w);
+		float scaleHeight = ((float) height / h);
+		matrix.postScale(scaleWidth, scaleHeight);
+		return matrix;
+	}
+	
 }

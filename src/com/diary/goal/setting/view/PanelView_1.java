@@ -4,6 +4,7 @@ import java.util.Calendar;
 
 import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.tools.Constant.SudoType;
+import com.diary.goal.setting.tools.TextUtil;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -33,10 +34,8 @@ public class PanelView_1 extends PanelView {
 	
 	@Override
 	void selfDraw(Canvas canvas) {
-		Paint paint=new Paint();
-		paint.setColor(0xFFFF00FF);
-		canvas.drawText(SudoType.getTypeString(sudoType), 0, 0, paint);
-		Log.e("11111111111", "1111111111111");
+		mPaint.setColor(0xFFFF00FF);
+		canvas.drawText(SudoType.getTypeString(sudoType), this.getMeasuredWidth()/2, this.getMeasuredHeight()/2, mPaint);
 	}
 
 }
