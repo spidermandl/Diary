@@ -3,6 +3,7 @@ package com.diary.goal.setting.adapter;
 import com.diary.goal.setting.R;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +21,7 @@ public class NinePanelAdapter extends BaseAdapter {
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return 1000;
+		return Integer.MAX_VALUE;
 	}
 
 	@Override
@@ -38,6 +39,7 @@ public class NinePanelAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if(convertView==null){
+			Log.e("create View", "null "+position);
 			convertView = m_inflater.inflate(R.layout.nine_panel_frame, null);
 		}
 		return convertView;

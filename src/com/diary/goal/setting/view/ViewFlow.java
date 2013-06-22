@@ -374,7 +374,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 				} else if (velocityX < -SNAP_VELOCITY
 						&& mCurrentScreen < getChildCount() - 1) {
 					// Fling hard enough to move right
-					snapToScreen(mCurrentScreen + 1);
+				    snapToScreen(mCurrentScreen + 1);
 				} else {
 					snapToDestination();
 				}
@@ -386,7 +386,6 @@ public class ViewFlow extends AdapterView<Adapter> {
 			}
 
 			mTouchState = TOUCH_STATE_REST;
-
 			break;
 		case MotionEvent.ACTION_CANCEL:
 			snapToDestination();
@@ -442,7 +441,8 @@ public class ViewFlow extends AdapterView<Adapter> {
 		whichScreen = Math.max(0, Math.min(whichScreen, getChildCount() - 1));
 
 		mNextScreen = whichScreen;
-
+		//mNextScreen = 1;
+		
 		final int newX = whichScreen * getWidth();
 		final int delta = newX - getScrollX();
 		mScroller.startScroll(getScrollX(), 0, delta, 0, Math.abs(delta) * 2);
@@ -504,7 +504,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 
 	@Override
 	public void setAdapter(Adapter adapter) {
-		setAdapter(adapter, 0);
+		setAdapter(adapter, Integer.MAX_VALUE/2);
 	}
 	
 	public void setAdapter(Adapter adapter, int initialPosition) {
