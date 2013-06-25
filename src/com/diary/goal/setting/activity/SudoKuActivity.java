@@ -40,16 +40,6 @@ public class SudoKuActivity extends Activity implements OnTouchListener,OnGestur
 	}
 	
 	private void init(){
-		DateModel model=DiaryApplication.getInstance().getDateModel();
-		model.setDate(new Date());
-		Cursor c=DiaryApplication.getInstance().getDbHelper().getTodayPad(model.getDate());
-        HashMap<Constant.SudoType, Boolean> status=DiaryApplication.getInstance().getPadStatus();
-		if(c!=null){
-			while(c.moveToNext()){
-				status.put(Constant.SudoType.getSudoType(c.getInt(0)), true);
-			}
-			c.close();
-		}
 	}
 	
 	@Override

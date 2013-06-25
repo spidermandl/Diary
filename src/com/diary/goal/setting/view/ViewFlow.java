@@ -266,6 +266,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 
 		case MotionEvent.ACTION_UP:
 			if (mTouchState == TOUCH_STATE_SCROLLING) {
+				Log.e("onInterceptTouchEvent action_up", "onInterceptTouchEvent action_up");
 				final VelocityTracker velocityTracker = mVelocityTracker;
 				velocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
 				int velocityX = (int) velocityTracker.getXVelocity();
@@ -364,6 +365,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 
 		case MotionEvent.ACTION_UP:
 			if (mTouchState == TOUCH_STATE_SCROLLING) {
+				Log.e("onTouchEvent action_up", "onTouchEvent action_up");
 				final VelocityTracker velocityTracker = mVelocityTracker;
 				velocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
 				int velocityX = (int) velocityTracker.getXVelocity();
@@ -434,6 +436,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 	}
 
 	private void snapToScreen(int whichScreen) {
+		Log.e("CurrentScreen", mCurrentScreen+"");
 		mLastScrollDirection = whichScreen - mCurrentScreen;
 		if (!mScroller.isFinished())
 			return;

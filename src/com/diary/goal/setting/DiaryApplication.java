@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import com.diary.goal.setting.database.DiaryHelper;
 import com.diary.goal.setting.model.DateModel;
+import com.diary.goal.setting.model.PanelDateModel;
 import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.tools.Function;
 
@@ -30,7 +31,8 @@ public class DiaryApplication extends Application {
 	/**
 	 * get current day pad status
 	 */
-	private HashMap<Constant.SudoType, Boolean> padStatus;
+	private PanelDateModel padStatus;
+	private HashMap<Integer, PanelDateModel> panelCache;
 	
 	private DateModel dateModel;
 	private int screen_width;
@@ -62,18 +64,6 @@ public class DiaryApplication extends Application {
 		screen_height=displaymetrics.heightPixels;
 		initialOrientation=this.getResources().getConfiguration().orientation;
 		dbHelper=new DiaryHelper(this);
-		
-		padStatus = new HashMap<Constant.SudoType, Boolean>();
-		padStatus.put(Constant.SudoType.NO_TYPE, false);
-		padStatus.put(Constant.SudoType.WORK, false);
-		padStatus.put(Constant.SudoType.SOCIAL, false);
-		padStatus.put(Constant.SudoType.FAMILY, false);
-		padStatus.put(Constant.SudoType.FINANCE, false);
-		padStatus.put(Constant.SudoType.DATE, false);
-		padStatus.put(Constant.SudoType.SQUARE_6, false);
-		padStatus.put(Constant.SudoType.HEALTHY, false);
-		padStatus.put(Constant.SudoType.SQUARE_8, false);
-		padStatus.put(Constant.SudoType.SQUARE_9, false);
 		
 		super.onCreate();
 	}
@@ -123,8 +113,11 @@ public class DiaryApplication extends Application {
 		return dbHelper;
 	}
 
-	public HashMap<Constant.SudoType, Boolean> getPadStatus(){
+	public PanelDateModel getPadStatus(){
 		return padStatus;
+	}
+	public void setPadStatus(PanelDateModel status){
+		padStatus=status;
 	}
 
 	public DateModel getDateModel() {
@@ -135,5 +128,15 @@ public class DiaryApplication extends Application {
 
 	public void setDateModel(DateModel dateModel) {
 		this.dateModel = dateModel;
+	}
+
+	public HashMap<Integer, PanelDateModel> getPanelCache() {
+		if(panelCache==null)
+			panelCache=new HashMap<Integer, PanelDateModel>();
+		return panelCache;
+	}
+
+	public void setPanelCache(HashMap<Integer, PanelDateModel> panelCache) {
+		this.panelCache = panelCache;
 	}
 }

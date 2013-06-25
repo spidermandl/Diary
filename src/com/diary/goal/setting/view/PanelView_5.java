@@ -2,6 +2,8 @@ package com.diary.goal.setting.view;
 
 import java.util.Calendar;
 
+import com.diary.goal.setting.DiaryApplication;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -29,7 +31,9 @@ public class PanelView_5 extends PanelView {
 	void init() {
 		// TODO Auto-generated method stub
 		super.init();
+		
 		calendar = Calendar.getInstance();
+		calendar.setTime(DiaryApplication.getInstance().getPadStatus().getDate());
 		paint=new Paint();
 		paint.setColor(0xFFFFFF00);
 		this.setOnClickListener(null);
@@ -44,6 +48,6 @@ public class PanelView_5 extends PanelView {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		canvas.drawText(calendar.get(Calendar.YEAR)+"年", this.getWidth()/2, this.getHeight()/4, paint);
-		canvas.drawText(calendar.get(Calendar.MONTH)+"月"+calendar.get(Calendar.DAY_OF_MONTH)+"日", this.getWidth()/2, this.getHeight()*3/4,paint);
+		canvas.drawText((calendar.get(Calendar.MONTH)+1)+"月"+calendar.get(Calendar.DAY_OF_MONTH)+"日", this.getWidth()/2, this.getHeight()*3/4,paint);
 	}
 }

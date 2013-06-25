@@ -63,7 +63,7 @@ public abstract class PanelView extends View implements View.OnClickListener{
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		if(!DiaryApplication.getInstance().getPadStatus().get(sudoType)){
+		if(!DiaryApplication.getInstance().getPadStatus().getPadStatus().get(sudoType)){
 			Bitmap temp=BitmapCustomize.customizePicture(context, R.drawable.null_edit,
     				this.getWidth(),
     				this.getHeight(),false);
