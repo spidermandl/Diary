@@ -32,9 +32,12 @@ public class DiaryApplication extends Application {
 	 * get current day pad status
 	 */
 	private PanelDateModel padStatus;
+	/**
+	 * days link
+	 */
 	private HashMap<Integer, PanelDateModel> panelCache;
-	
 	private DateModel dateModel;
+	private int dateCursor=0;
 	private int screen_width;
 	private int screen_height;
 	private int initialOrientation;
@@ -138,5 +141,13 @@ public class DiaryApplication extends Application {
 
 	public void setPanelCache(HashMap<Integer, PanelDateModel> panelCache) {
 		this.panelCache = panelCache;
+	}
+
+	public int getDateCursor() {
+		return dateCursor;
+	}
+
+	public void setDateCursor(int dateCursor) {
+		this.dateCursor = dateCursor;
 	}
 }

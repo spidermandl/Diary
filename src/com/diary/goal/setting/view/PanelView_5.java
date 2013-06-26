@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 
 public class PanelView_5 extends PanelView {
 	Calendar calendar;
@@ -32,8 +33,6 @@ public class PanelView_5 extends PanelView {
 		// TODO Auto-generated method stub
 		super.init();
 		
-		calendar = Calendar.getInstance();
-		calendar.setTime(DiaryApplication.getInstance().getPadStatus().getDate());
 		paint=new Paint();
 		paint.setColor(0xFFFFFF00);
 		this.setOnClickListener(null);
@@ -47,7 +46,24 @@ public class PanelView_5 extends PanelView {
 	
 	@Override
 	protected void onDraw(Canvas canvas) {
+
+		calendar = Calendar.getInstance();
+		calendar.setTime(DiaryApplication.getInstance().getPadStatus().getDate());
 		canvas.drawText(calendar.get(Calendar.YEAR)+"Äê", this.getWidth()/2, this.getHeight()/4, paint);
 		canvas.drawText((calendar.get(Calendar.MONTH)+1)+"ÔÂ"+calendar.get(Calendar.DAY_OF_MONTH)+"ÈÕ", this.getWidth()/2, this.getHeight()*3/4,paint);
+	}
+	
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+//		int action=event.getAction();
+//		switch (action) {
+//		case MotionEvent.ACTION_DOWN:
+//			return false;
+//		case MotionEvent.ACTION_MOVE:
+//			return false;
+//		case MotionEvent.ACTION_UP:
+//			return false;
+//		}
+		return false;
 	}
 }

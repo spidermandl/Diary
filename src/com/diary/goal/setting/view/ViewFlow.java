@@ -19,6 +19,7 @@ import java.util.EnumSet;
 import java.util.LinkedList;
 
 import com.diary.goal.setting.R;
+import com.diary.goal.setting.listener.FlipPathListener;
 
 
 //import org.taptwo.android.widget.viewflow.R;
@@ -35,6 +36,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.view.animation.Transformation;
 import android.widget.AbsListView;
 import android.widget.Adapter;
 import android.widget.AdapterView;
@@ -76,6 +78,8 @@ public class ViewFlow extends AdapterView<Adapter> {
 	private int mLastScrollDirection;
 	private AdapterDataSetObserver mDataSetObserver;
 	private int mLastOrientation = -1;
+	
+	private FlipPathListener mFlipListener;
 
 	private OnGlobalLayoutListener orientationChangeListener = new OnGlobalLayoutListener() {
 
@@ -299,6 +303,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
+		Log.e("root panel", "root panel");
 		if (getChildCount() == 0)
 			return false;
 
@@ -373,10 +378,14 @@ public class ViewFlow extends AdapterView<Adapter> {
 				if (velocityX > SNAP_VELOCITY && mCurrentScreen > 0) {
 					// Fling hard enough to move left
 					snapToScreen(mCurrentScreen - 1);
+					if(mFlipListener!=null)
+						mFlipListener.track(-1);
 				} else if (velocityX < -SNAP_VELOCITY
 						&& mCurrentScreen < getChildCount() - 1) {
 					// Fling hard enough to move right
 				    snapToScreen(mCurrentScreen + 1);
+				    if(mFlipListener!=null)
+						mFlipListener.track(1);
 				} else {
 					snapToDestination();
 				}
@@ -431,7 +440,6 @@ public class ViewFlow extends AdapterView<Adapter> {
 		final int screenWidth = getWidth();
 		final int whichScreen = (getScrollX() + (screenWidth / 2))
 				/ screenWidth;
-
 		snapToScreen(whichScreen);
 	}
 
@@ -736,5 +744,15 @@ public class ViewFlow extends AdapterView<Adapter> {
 				", X: " + mScroller.getCurrX() + ", Y: " + mScroller.getCurrY());
 		Log.d("viewflow", "IndexInAdapter: " + mCurrentAdapterIndex
 				+ ", IndexInBuffer: " + mCurrentBufferIndex);
+	}
+
+	@Override
+	protected boolean getChildStaticTransformation(View child, Transformation t) {
+		// TODO Auto-generated method stub
+		return super.getChildStaticTransformation(child, t);
+	}
+	
+	public void setFlipListener(FlipPathListener mFlipListener) {
+		this.mFlipListener = mFlipListener;
 	}
 }
