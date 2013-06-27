@@ -25,12 +25,13 @@ public class PanelView_9 extends PanelView {
 	@Override
 	void init() {
 		sudoType=SudoType.SQUARE_9;
+		bgColor=0xFF0000FF;
 		super.init();
 	}
 	
 	@Override
 	void selfDraw(Canvas canvas) {
-		mPaint.setColor(0xFFFF00FF);
+		mPaint.setColor(0xFFFFFFFF);
 		canvas.drawText(SudoType.getTypeString(sudoType), this.getMeasuredWidth()/2, this.getMeasuredHeight()/2, mPaint);
 		
 	}

@@ -230,7 +230,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 
 			mTouchState = mScroller.isFinished() ? TOUCH_STATE_REST
 					: TOUCH_STATE_SCROLLING;
-
+			Log.e("ViewFlow onInterceptTouchEvent", "action_down");
 			break;
 
 		case MotionEvent.ACTION_MOVE:
@@ -248,7 +248,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 
 			if (mTouchState == TOUCH_STATE_SCROLLING) {
 				// Scroll to follow the motion event
-
+				Log.e("ViewFlow onInterceptTouchEvent", "action_move true");
 				mLastMotionX = x;
 
 				final int scrollX = getScrollX();
@@ -266,11 +266,11 @@ public class ViewFlow extends AdapterView<Adapter> {
 				}
 				return true;
 			}
+			Log.e("ViewFlow onInterceptTouchEvent", "action_move false");
 			break;
 
 		case MotionEvent.ACTION_UP:
 			if (mTouchState == TOUCH_STATE_SCROLLING) {
-				Log.e("onInterceptTouchEvent action_up", "action_up");
 				final VelocityTracker velocityTracker = mVelocityTracker;
 				velocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
 				int velocityX = (int) velocityTracker.getXVelocity();
@@ -278,10 +278,14 @@ public class ViewFlow extends AdapterView<Adapter> {
 				if (velocityX > SNAP_VELOCITY && mCurrentScreen > 0) {
 					// Fling hard enough to move left
 					snapToScreen(mCurrentScreen - 1);
+					if(mFlipListener!=null)
+						mFlipListener.track(-1);
 				} else if (velocityX < -SNAP_VELOCITY
 						&& mCurrentScreen < getChildCount() - 1) {
 					// Fling hard enough to move right
 					snapToScreen(mCurrentScreen + 1);
+					if(mFlipListener!=null)
+						mFlipListener.track(+1);
 				} else {
 					snapToDestination();
 				}
@@ -293,17 +297,18 @@ public class ViewFlow extends AdapterView<Adapter> {
 			}
 
 			mTouchState = TOUCH_STATE_REST;
+			Log.e("ViewFlow onInterceptTouchEvent", "action_up");
 
 			break;
 		case MotionEvent.ACTION_CANCEL:
 			mTouchState = TOUCH_STATE_REST;
+			Log.e("ViewFlow onInterceptTouchEvent", "action_cancel");
 		}
 		return false;
 	}
 
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
-		Log.e("root panel", "root panel");
 		if (getChildCount() == 0)
 			return false;
 
@@ -330,7 +335,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 
 			mTouchState = mScroller.isFinished() ? TOUCH_STATE_REST
 					: TOUCH_STATE_SCROLLING;
-
+			Log.e("ViewFlow onTouchEvent", "action_down");
 			break;
 
 		case MotionEvent.ACTION_MOVE:
@@ -366,11 +371,11 @@ public class ViewFlow extends AdapterView<Adapter> {
 				}
 				return true;
 			}
+			Log.e("ViewFlow onTouchEvent", "action_move");
 			break;
 
 		case MotionEvent.ACTION_UP:
 			if (mTouchState == TOUCH_STATE_SCROLLING) {
-				Log.e("onTouchEvent action_up", "onTouchEvent action_up");
 				final VelocityTracker velocityTracker = mVelocityTracker;
 				velocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
 				int velocityX = (int) velocityTracker.getXVelocity();
@@ -397,10 +402,12 @@ public class ViewFlow extends AdapterView<Adapter> {
 			}
 
 			mTouchState = TOUCH_STATE_REST;
+			Log.e("ViewFlow onTouchEvent", "action_up");
 			break;
 		case MotionEvent.ACTION_CANCEL:
 			snapToDestination();
 			mTouchState = TOUCH_STATE_REST;
+			Log.e("ViewFlow onTouchEvent", "action_cancel");
 		}
 		return true;
 	}

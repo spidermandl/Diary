@@ -26,6 +26,7 @@ public abstract class PanelView extends View implements View.OnClickListener{
 	protected Context context;
 	protected Constant.SudoType sudoType=SudoType.NO_TYPE;
 	protected Paint mPaint;
+	protected int bgColor;
 	
 	public PanelView(Context context) {
 		super(context);
@@ -72,6 +73,9 @@ public abstract class PanelView extends View implements View.OnClickListener{
 //	    		BitmapCustomize.customizePicture(context, R.drawable.null_edit,
 //	    				this.getWidth(),
 //	    				this.getHeight())));
+		}
+		else{
+			canvas.drawColor(bgColor);
 		}
 		selfDraw(canvas);
 		super.onDraw(canvas);
