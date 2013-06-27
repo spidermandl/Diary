@@ -270,7 +270,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 
 		case MotionEvent.ACTION_UP:
 			if (mTouchState == TOUCH_STATE_SCROLLING) {
-				Log.e("onInterceptTouchEvent action_up", "onInterceptTouchEvent action_up");
+				Log.e("onInterceptTouchEvent action_up", "action_up");
 				final VelocityTracker velocityTracker = mVelocityTracker;
 				velocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
 				int velocityX = (int) velocityTracker.getXVelocity();
