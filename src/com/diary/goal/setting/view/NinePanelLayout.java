@@ -59,12 +59,15 @@ public class NinePanelLayout extends RelativeLayout {
 			else{
 				filpView.setVisibility(View.VISIBLE);
 			}
+			Log.e("NinePanelLayout", "ACTION_down");
 			break;
 		case MotionEvent.ACTION_MOVE:
 			if(filpView!=null)
 				filpView.setVisibility(View.GONE);
+			Log.e("NinePanelLayout", "ACTION_move");
 			break;
 		case MotionEvent.ACTION_UP:
+			Log.e("NinePanelLayout", "ACTION_UP");
 			if(filpView!=null)
 				filpView.setVisibility(View.GONE);
 			break;
