@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.widget.RelativeLayout;
 
 public class NinePanelLayout extends RelativeLayout {
@@ -15,6 +16,12 @@ public class NinePanelLayout extends RelativeLayout {
 	RelativeLayout filpView;
 	Context context;
 	LayoutInflater m_inflater;
+	
+	private final static int TOUCH_STATE_REST = 0;
+	private final static int TOUCH_STATE_SCROLLING = 1;
+	private int mTouchState = TOUCH_STATE_REST;
+	private float mLastMotionX;
+	private int mTouchSlop;
 	
 	public NinePanelLayout(Context context) {
 		super(context);
@@ -43,6 +50,9 @@ public class NinePanelLayout extends RelativeLayout {
 	void init(Context con){
 		this.context=con;
 		m_inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		final ViewConfiguration configuration = ViewConfiguration
+				.get(getContext());
+		mTouchSlop = configuration.getScaledTouchSlop();
 	}
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
@@ -72,7 +82,11 @@ public class NinePanelLayout extends RelativeLayout {
 				filpView.setVisibility(View.GONE);
 			break;
 		}
-
 		return super.onTouchEvent(event);
+	}
+	
+	public void invisibleTape(){
+		if(filpView!=null)
+			filpView.setVisibility(View.GONE);
 	}
 }

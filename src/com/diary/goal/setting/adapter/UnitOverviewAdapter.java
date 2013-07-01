@@ -13,12 +13,21 @@ import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.activity.RichTextEditorActivity;
 import com.diary.goal.setting.model.DateModel;
+import com.diary.goal.setting.tools.BitmapCustomize;
 import com.diary.goal.setting.tools.Constant.SudoType;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.NinePatch;
+import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.NinePatchDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,6 +113,9 @@ public class UnitOverviewAdapter extends BaseAdapter {
 		category.setText(configs.get(indexs.get(position)));
 		TextView content=(TextView)convertView.findViewById(R.id.content);
 		content.setText(categorys.get(indexs.get(position)));
+		Bitmap bitmap=BitmapCustomize.customizePicture(context, R.drawable.quote, 0, 0, false);
+		content.setBackgroundDrawable(new NinePatchDrawable(context.getResources(), 
+				bitmap, bitmap.getNinePatchChunk(), new Rect(), null));
 		final int index=position;
 		content.setOnClickListener(new View.OnClickListener() {
 			
@@ -120,5 +132,58 @@ public class UnitOverviewAdapter extends BaseAdapter {
 		});
 		return convertView;
 	}
+	
+//	public Drawable DRAWABLE_FILE(String key)
+//	{
+//		if(key == null)
+//		{
+//			Log.e("game","png key = null");
+//			return null;
+//		}
+//		BitmapHolder bitmapHolder = BITMAP_FILE(key);
+//		if(bitmapHolder == null) return null;
+//
+//		byte[] np = bitmapHolder.b.getNinePatchChunk();
+//		if((np == null) || !NinePatch.isNinePatchChunk(np))
+//			return new BitmapDrawable(Resources.getSystem(),bitmapHolder.b);
+//		else
+//			return new NinePatchDrawable(Resources.getSystem(),bitmapHolder.b,np,bitmapHolder.pad,null);
+//	}      
+//	
+//	public BitmapHolder BITMAP_FILE(String key)
+//	{
+//		//先从cache中取，取不到，再从preload中取，再取不到，再加载
+//	/*	BitmapCache.BitmapHolder bitmapHolder;
+//		
+//		bitmapHolder = BitmapCache.getInstance().get(key);
+//		if(bitmapHolder != null) return bitmapHolder;
+//		
+//		bitmapHolder = BitmapCache.getInstance().getPreload(key);
+//		if(bitmapHolder != null) return bitmapHolder;
+//		
+//		//从文件中加载
+//		bitmapHolder = loadBitmap(key);
+//		if(bitmapHolder == null) return null;
+//		
+//		BitmapCache.getInstance().put(key,bitmapHolder);
+//		return bitmapHolder; */
+//		
+//		String fullPath = FullFilePath(key);
+//		
+//		if(fullPath.endsWith(".9.png")) return loadBitmap(key);
+//		else
+//		{
+//			NativeBitmapHolder holder;
+//			if(Configuration.GetUseSDCard())
+//			{
+//				holder = NativeBitmapCache.getInstance().get(fullPath,false);
+//			}
+//			else
+//			{
+//				holder = NativeBitmapCache.getInstance().get(fullPath,true);
+//			}
+//			return new BitmapHolder(holder.b,null);
+//		} 
+//	}
 
 }

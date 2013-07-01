@@ -859,7 +859,8 @@ containing a value of this type.
         public static final int null_edit=0x7f020074;
         public static final int ptg_btn_find_next=0x7f020075;
         public static final int ptg_btn_find_prev=0x7f020076;
-        public static final int save=0x7f020077;
+        public static final int quote=0x7f020077;
+        public static final int save=0x7f020078;
     }
     public static final class id {
         public static final int abs__action_bar=0x7f040020;
