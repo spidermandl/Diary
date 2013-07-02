@@ -13,6 +13,7 @@ import com.diary.goal.setting.listener.FlipPathListener;
 import com.diary.goal.setting.model.DateModel;
 import com.diary.goal.setting.model.PanelDateModel;
 import com.diary.goal.setting.tools.Constant;
+import com.diary.goal.setting.view.FlipView;
 import com.diary.goal.setting.view.ViewFlow;
 
 import android.app.Activity;
@@ -50,13 +51,17 @@ public class SudoKuActivity extends Activity implements OnTouchListener,OnGestur
 		});
 		setContentView(viewFlow);
 		//setContentView(R.layout.nine_panel_frame);
+		//setContentView(R.layout.flip_frame);
 		super.onCreate(savedInstanceState);
 	}
 	
 	private void init(){
 		getPanelCache();
 	}
-	
+	/**
+	 * init date link
+	 * get current day status
+	 */
 	private void getPanelCache(){
 		HashMap<Integer, PanelDateModel> panelStatus=DiaryApplication.getInstance().getPanelCache();
 		int position=DiaryApplication.getInstance().getDateCursor();

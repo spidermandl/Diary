@@ -18,4 +18,11 @@
     <declare-styleable name="ViewFlow">
         <attr name="sidebuffer" format="integer" />
     </declare-styleable>  
+    
+    <declare-styleable name="Flipview"><!-- The first screen the workspace should display. -->
+     <attr name="defaultScreen" format="integer"/>
+     <!-- The number of horizontal cells in the CellLayout -->
+     <attr name="cellCountX" format="integer"/>
+     <!-- The number of vertical cells in the CellLayout -->
+     <attr name="cellCountY" format="integer"/></declare-styleable>
 </resources>

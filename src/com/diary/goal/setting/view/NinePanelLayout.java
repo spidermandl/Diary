@@ -54,36 +54,36 @@ public class NinePanelLayout extends RelativeLayout {
 				.get(getContext());
 		mTouchSlop = configuration.getScaledTouchSlop();
 	}
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		int action=event.getAction();
-		switch (action) {
-		case MotionEvent.ACTION_DOWN:
-			if(filpView==null){
-				filpView=(RelativeLayout)m_inflater.inflate(R.layout.flip_tape, null);
-				RelativeLayout.LayoutParams lp=new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);//filpView.getLayoutParams();
-				lp.topMargin=this.getHeight()/2;
-				filpView.setLayoutParams(lp);
-				this.addView(filpView);
-			}
-			else{
-				filpView.setVisibility(View.VISIBLE);
-			}
-			Log.e("NinePanelLayout", "ACTION_down");
-			break;
-		case MotionEvent.ACTION_MOVE:
-			if(filpView!=null)
-				filpView.setVisibility(View.GONE);
-			Log.e("NinePanelLayout", "ACTION_move");
-			break;
-		case MotionEvent.ACTION_UP:
-			Log.e("NinePanelLayout", "ACTION_UP");
-			if(filpView!=null)
-				filpView.setVisibility(View.GONE);
-			break;
-		}
-		return super.onTouchEvent(event);
-	}
+//	@Override
+//	public boolean onTouchEvent(MotionEvent event) {
+//		int action=event.getAction();
+//		switch (action) {
+//		case MotionEvent.ACTION_DOWN:
+//			if(filpView==null){
+//				filpView=(RelativeLayout)m_inflater.inflate(R.layout.flip_tape, null);
+//				RelativeLayout.LayoutParams lp=new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);//filpView.getLayoutParams();
+//				lp.topMargin=this.getHeight()/2;
+//				filpView.setLayoutParams(lp);
+//				this.addView(filpView);
+//			}
+//			else{
+//				filpView.setVisibility(View.VISIBLE);
+//			}
+//			Log.e("NinePanelLayout", "ACTION_down");
+//			break;
+//		case MotionEvent.ACTION_MOVE:
+//			if(filpView!=null)
+//				filpView.setVisibility(View.GONE);
+//			Log.e("NinePanelLayout", "ACTION_move");
+//			break;
+//		case MotionEvent.ACTION_UP:
+//			Log.e("NinePanelLayout", "ACTION_UP");
+//			if(filpView!=null)
+//				filpView.setVisibility(View.GONE);
+//			break;
+//		}
+//		return super.onTouchEvent(event);
+//	}
 	
 	public void invisibleTape(){
 		if(filpView!=null)

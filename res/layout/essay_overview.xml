@@ -13,7 +13,12 @@
     <TextView
         android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/brief_edit_paddingleft"
+		android:paddingRight="@dimen/brief_edit_paddingright"
+		android:paddingBottom="@dimen/brief_edit_paddingbottom"
+		android:paddingTop="@dimen/brief_edit_paddingtop"
+		android:textColor="#FF000000"/>
     
     <View android:layout_width="match_parent"
         android:layout_height="1dip"

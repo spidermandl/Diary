@@ -172,11 +172,38 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
         public static final int buttonStyleSmall=0x7f010019;
+        /**  The number of horizontal cells in the CellLayout 
+         <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int cellCountX=0x7f010064;
+        /**  The number of vertical cells in the CellLayout 
+         <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int cellCountY=0x7f010065;
         /**  Specifies a layout for custom navigation. Overrides navigationMode. 
          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
         public static final int customNavigationLayout=0x7f010050;
+        /**  The first screen the workspace should display. 
+         <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int defaultScreen=0x7f010063;
         /**  Options affecting how the action bar is displayed. 
          <p>Must be one or more (separated by '|') of the following constant values.</p>
 <table>
@@ -738,6 +765,10 @@ containing a value of this type.
         /**  Minimum width of the search view text entry area. 
          */
         public static final int abs__search_view_text_min_width=0x7f07000b;
+        public static final int brief_edit_paddingbottom=0x7f070010;
+        public static final int brief_edit_paddingleft=0x7f07000d;
+        public static final int brief_edit_paddingright=0x7f07000f;
+        public static final int brief_edit_paddingtop=0x7f07000e;
     }
     public static final class drawable {
         public static final int abs__ab_bottom_solid_dark_holo=0x7f020000;
@@ -974,10 +1005,11 @@ containing a value of this type.
         public static final int circle_layout=0x7f030016;
         public static final int edit_panal=0x7f030017;
         public static final int essay_overview=0x7f030018;
-        public static final int flip_tape=0x7f030019;
-        public static final int nine_panel_frame=0x7f03001a;
-        public static final int sherlock_spinner_dropdown_item=0x7f03001b;
-        public static final int sherlock_spinner_item=0x7f03001c;
+        public static final int flip_frame=0x7f030019;
+        public static final int flip_tape=0x7f03001a;
+        public static final int nine_panel_frame=0x7f03001b;
+        public static final int sherlock_spinner_dropdown_item=0x7f03001c;
+        public static final int sherlock_spinner_item=0x7f03001d;
     }
     public static final class menu {
         public static final int activity_main=0x7f0b0000;
@@ -1143,6 +1175,71 @@ containing a value of this type.
         public static final int Widget_Sherlock_TextView_SpinnerItem=0x7f0a0032;
     }
     public static final class styleable {
+        /** Attributes that can be used with a Flipview.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #Flipview_cellCountX com.diary.goal.setting:cellCountX}</code></td><td> The number of horizontal cells in the CellLayout </td></tr>
+           <tr><td><code>{@link #Flipview_cellCountY com.diary.goal.setting:cellCountY}</code></td><td> The number of vertical cells in the CellLayout </td></tr>
+           <tr><td><code>{@link #Flipview_defaultScreen com.diary.goal.setting:defaultScreen}</code></td><td> The first screen the workspace should display.</td></tr>
+           </table>
+           @see #Flipview_cellCountX
+           @see #Flipview_cellCountY
+           @see #Flipview_defaultScreen
+         */
+        public static final int[] Flipview = {
+            0x7f010063, 0x7f010064, 0x7f010065
+        };
+        /**
+          <p>
+          @attr description
+           The number of horizontal cells in the CellLayout 
+
+
+          <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          <p>This is a private symbol.
+          @attr name android:cellCountX
+        */
+        public static final int Flipview_cellCountX = 1;
+        /**
+          <p>
+          @attr description
+           The number of vertical cells in the CellLayout 
+
+
+          <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          <p>This is a private symbol.
+          @attr name android:cellCountY
+        */
+        public static final int Flipview_cellCountY = 2;
+        /**
+          <p>
+          @attr description
+           The first screen the workspace should display. 
+
+
+          <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          <p>This is a private symbol.
+          @attr name android:defaultScreen
+        */
+        public static final int Flipview_defaultScreen = 0;
         /**  Attributes used to style the Action Bar. 
            <p>Includes the following attributes:</p>
            <table>

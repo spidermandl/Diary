@@ -4,6 +4,7 @@ package com.diary.goal.setting.adapter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map.Entry;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,15 +20,10 @@ import com.diary.goal.setting.tools.Constant.SudoType;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.NinePatch;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.NinePatchDrawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,6 +80,15 @@ public class UnitOverviewAdapter extends BaseAdapter {
 		indexs.clear();
 		loadData();
 		
+		DateModel model=DiaryApplication.getInstance().getDateModel();
+		boolean isNull=true;
+		for(Entry<Integer, String> entry:categorys.entrySet()){
+			if(categorys.get(entry.getKey())!=null){
+				isNull=false;
+				break;
+			}
+		}
+		DiaryApplication.getInstance().getPadStatus().getPadStatus().put(model.getType(), !isNull);
 		super.notifyDataSetChanged();
 	}
 	@Override
@@ -112,10 +117,14 @@ public class UnitOverviewAdapter extends BaseAdapter {
 		TextView category=(TextView)convertView.findViewById(R.id.title);
 		category.setText(configs.get(indexs.get(position)));
 		TextView content=(TextView)convertView.findViewById(R.id.content);
-		content.setText(categorys.get(indexs.get(position)));
+
 		Bitmap bitmap=BitmapCustomize.customizePicture(context, R.drawable.quote, 0, 0, false);
+		int[] pads = new int[]{content.getPaddingLeft(), content.getPaddingTop(), content.getPaddingRight(), content.getPaddingBottom()};
 		content.setBackgroundDrawable(new NinePatchDrawable(context.getResources(), 
-				bitmap, bitmap.getNinePatchChunk(), new Rect(), null));
+				bitmap, bitmap.getNinePatchChunk(), new Rect(), null));	
+		content.setPadding(pads[0], pads[1], pads[2], pads[3]);
+		String text=categorys.get(indexs.get(position));
+		content.setText(text==null?"N/A":text);
 		final int index=position;
 		content.setOnClickListener(new View.OnClickListener() {
 			
