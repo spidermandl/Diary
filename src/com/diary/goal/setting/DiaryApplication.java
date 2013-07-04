@@ -1,6 +1,7 @@
 package com.diary.goal.setting;
 
 import java.io.IOException;
+import java.lang.ref.SoftReference;
 import java.util.HashMap;
 
 import org.json.JSONException;
@@ -53,7 +54,7 @@ public class DiaryApplication extends Application {
 	/**
 	 * store bitmap cache for accessing UI resource
 	 */
-	HashMap<Integer,Bitmap> bitmapCache=new HashMap<Integer, Bitmap>();
+	HashMap<Integer,SoftReference<Bitmap>> bitmapCache=new HashMap<Integer, SoftReference<Bitmap>>();
 
 	
 	UEHandler ueHandler;
@@ -96,10 +97,16 @@ public class DiaryApplication extends Application {
 	}
 	
 	public void setBitmap(Integer resid,Bitmap bitmap){
-		bitmapCache.put(resid, bitmap);
+		SoftReference<Bitmap> softBitmap=new SoftReference<Bitmap>(bitmap);
+		bitmapCache.put(resid, softBitmap);
 	}
 	public Bitmap getBitmap(Integer resid){
-		return (Bitmap)bitmapCache.get(resid);
+		SoftReference<Bitmap> softBitmap=bitmapCache.get(resid);
+		if(softBitmap!=null){
+			Bitmap bitmap=softBitmap.get();
+			return bitmap;
+		}
+		return null;
 	}
 	
 	public void setOrientation(int o){
