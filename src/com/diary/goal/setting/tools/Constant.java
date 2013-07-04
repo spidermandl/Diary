@@ -115,7 +115,8 @@ public class Constant {
 			throw new IllegalArgumentException(type);
 		}
 	}
-
+	
+	public static String FLURRY_KEY="YMY4T7WMFCYVP3R5SS7H";
 	// public static HashMap<Integer, String> SudoIndex=new HashMap<Integer,
 	// String>(map)
 }

@@ -9,8 +9,10 @@ import org.json.JSONObject;
 import com.diary.goal.setting.database.DiaryHelper;
 import com.diary.goal.setting.model.DateModel;
 import com.diary.goal.setting.model.PanelDateModel;
+import com.diary.goal.setting.thread.UEHandler;
 import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.tools.Function;
+import com.flurry.android.FlurryAgent;
 
 import android.app.Application;
 import android.content.Context;
@@ -53,6 +55,8 @@ public class DiaryApplication extends Application {
 	 */
 	HashMap<Integer,Bitmap> bitmapCache=new HashMap<Integer, Bitmap>();
 
+	
+	UEHandler ueHandler;
 	public static DiaryApplication getInstance(){
 		return instance;
 	}
@@ -68,7 +72,14 @@ public class DiaryApplication extends Application {
 		initialOrientation=this.getResources().getConfiguration().orientation;
 		dbHelper=new DiaryHelper(this);
 		
+		ueHandler = new UEHandler(this); 
+        Thread.setDefaultUncaughtExceptionHandler(ueHandler); 
+		FlurryAgent.onStartSession(this, Constant.FLURRY_KEY);
 		super.onCreate();
+	}
+	public void quit(){
+		dbHelper.close();
+		FlurryAgent.onEndSession(this);
 	}
 	public int getScreen_w() {
 		if(!reverseOrientation)

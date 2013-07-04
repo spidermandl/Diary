@@ -2,7 +2,6 @@ package com.diary.goal.setting.activity;
 
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 
 import com.diary.goal.setting.DiaryApplication;
@@ -24,6 +23,7 @@ import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.Window;
 import android.widget.Toast;
 
 public class SudoKuActivity extends Activity implements OnTouchListener,OnGestureListener{
@@ -35,6 +35,7 @@ public class SudoKuActivity extends Activity implements OnTouchListener,OnGestur
 	protected void onCreate(Bundle savedInstanceState) {
 		DiaryApplication.getInstance().setOrientation(
 				this.getResources().getConfiguration().orientation);
+		
 		init();
 		ViewFlow viewFlow=new ViewFlow(this);
 		viewFlow.setAdapter(new NinePanelAdapter(this));
@@ -53,6 +54,7 @@ public class SudoKuActivity extends Activity implements OnTouchListener,OnGestur
 		//setContentView(R.layout.nine_panel_frame);
 		//setContentView(R.layout.flip_frame);
 		super.onCreate(savedInstanceState);
+		
 	}
 	
 	private void init(){
@@ -101,6 +103,12 @@ public class SudoKuActivity extends Activity implements OnTouchListener,OnGestur
 			DiaryApplication.getInstance().setPadStatus(panelModel);
 			panelStatus.put(position, panelModel);
 		}
+	}
+	
+	@Override
+	protected void onDestroy() {
+		DiaryApplication.getInstance().quit();
+		super.onDestroy();
 	}
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
