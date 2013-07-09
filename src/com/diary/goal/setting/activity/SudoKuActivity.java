@@ -87,10 +87,10 @@ public class SudoKuActivity extends Activity implements OnTouchListener,OnGestur
 			status.put(Constant.SudoType.FAMILY, false);
 			status.put(Constant.SudoType.FINANCE, false);
 			status.put(Constant.SudoType.DATE, false);
-			status.put(Constant.SudoType.SQUARE_6, false);
+			status.put(Constant.SudoType.OTHER, false);
 			status.put(Constant.SudoType.HEALTHY, false);
-			status.put(Constant.SudoType.SQUARE_8, false);
-			status.put(Constant.SudoType.SQUARE_9, false);
+			status.put(Constant.SudoType.PERSONAL, false);
+			status.put(Constant.SudoType.SOUL, false);
 			if (c != null) {
 				while (c.moveToNext()) {
 					status.put(Constant.SudoType.getSudoType(c.getInt(0)), true);

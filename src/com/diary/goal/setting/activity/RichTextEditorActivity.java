@@ -14,10 +14,10 @@
 
 package com.diary.goal.setting.activity;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -33,11 +33,16 @@ public class RichTextEditorActivity extends SherlockActivity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    
     setContentView(R.layout.edit_panal);
+    final ActionBar ab = getSupportActionBar();
+
+    // set defaults for logo & home up
+    ab.setDisplayHomeAsUpEnabled(true);
+    ab.setDisplayUseLogoEnabled(false);
     
     editor=(RichEditText)findViewById(R.id.editor);
     editor.enableActionModes(true);
+    
     DateModel model=DiaryApplication.getInstance().getDateModel();
     editor.setText(model.getText()==null?"":model.getText());
   }

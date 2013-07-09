@@ -24,7 +24,7 @@ public class PanelView_8 extends PanelView {
 
 	@Override
 	void init() {
-		sudoType=SudoType.SQUARE_8;
+		sudoType=SudoType.PERSONAL;
 		bgColor=0xFFFF00FF;
 		super.init();
 	}

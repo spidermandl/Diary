@@ -14,10 +14,10 @@ public class Constant {
 		FAMILY(3), 
 		FINANCE(4), 
 		DATE(5), 
-		SQUARE_6(6), 
+		OTHER(6), 
 		HEALTHY(7), 
-		SQUARE_8(8), 
-		SQUARE_9(9);
+		PERSONAL(8), 
+		SOUL(9);
 
 		int sudo_type = 0;
 
@@ -42,13 +42,13 @@ public class Constant {
 			case 5:
 				return DATE;
 			case 6:
-				return SQUARE_6;
+				return OTHER;
 			case 7:
 				return HEALTHY;
 			case 8:
-				return SQUARE_8;
+				return PERSONAL;
 			case 9:
-				return SQUARE_9;
+				return SOUL;
 			default:
 				return NO_TYPE;
 			}
@@ -66,17 +66,17 @@ public class Constant {
 			if(type==FINANCE){
 				return "FINANCE";
 			}
-			if(type==SQUARE_6){
-				return "SQUARE_6";
+			if(type==OTHER){
+				return "OTHER";
 			}
 			if(type==HEALTHY){
 				return "HEALTHY";
 			}
-			if(type==SQUARE_8){
-				return "SQUARE_8";
+			if(type==PERSONAL){
+				return "PERSONAL";
 			}
-			if(type==SQUARE_9){
-				return "SQUARE_9";
+			if(type==SOUL){
+				return "SOUL";
 			}
 			return "";
 		}
@@ -100,17 +100,17 @@ public class Constant {
 			if ("DATE".equalsIgnoreCase(type)) {
 				return DATE;
 			}
-			if ("SQUARE_6".equalsIgnoreCase(type)) {
-				return SQUARE_6;
+			if ("OTHER".equalsIgnoreCase(type)) {
+				return OTHER;
 			}
 			if ("HEALTHY".equalsIgnoreCase(type)) {
 				return HEALTHY;
 			}
-			if ("SQUARE_8".equalsIgnoreCase(type)) {
-				return SQUARE_8;
+			if ("PERSONAL".equalsIgnoreCase(type)) {
+				return PERSONAL;
 			}
-			if ("SQUARE_9".equalsIgnoreCase(type)) {
-				return SQUARE_9;
+			if ("SOUL".equalsIgnoreCase(type)) {
+				return SOUL;
 			}
 			throw new IllegalArgumentException(type);
 		}

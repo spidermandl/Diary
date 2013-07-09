@@ -73,14 +73,14 @@ public class DiaryApplication extends Application {
 		initialOrientation=this.getResources().getConfiguration().orientation;
 		dbHelper=new DiaryHelper(this);
 		
-		ueHandler = new UEHandler(this); 
-        Thread.setDefaultUncaughtExceptionHandler(ueHandler); 
-		FlurryAgent.onStartSession(this, Constant.FLURRY_KEY);
+		//ueHandler = new UEHandler(this); 
+        //Thread.setDefaultUncaughtExceptionHandler(ueHandler); 
+		//FlurryAgent.onStartSession(this, Constant.FLURRY_KEY);
 		super.onCreate();
 	}
 	public void quit(){
 		dbHelper.close();
-		FlurryAgent.onEndSession(this);
+		//FlurryAgent.onEndSession(this);
 	}
 	public int getScreen_w() {
 		if(!reverseOrientation)
