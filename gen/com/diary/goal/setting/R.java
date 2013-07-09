@@ -172,11 +172,38 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
         public static final int buttonStyleSmall=0x7f010019;
+        /**  The number of horizontal cells in the CellLayout 
+         <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int cellCountX=0x7f010064;
+        /**  The number of vertical cells in the CellLayout 
+         <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int cellCountY=0x7f010065;
         /**  Specifies a layout for custom navigation. Overrides navigationMode. 
          <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
         public static final int customNavigationLayout=0x7f010050;
+        /**  The first screen the workspace should display. 
+         <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int defaultScreen=0x7f010063;
         /**  Options affecting how the action bar is displayed. 
          <p>Must be one or more (separated by '|') of the following constant values.</p>
 <table>
@@ -738,6 +765,10 @@ containing a value of this type.
         /**  Minimum width of the search view text entry area. 
          */
         public static final int abs__search_view_text_min_width=0x7f07000b;
+        public static final int brief_edit_paddingbottom=0x7f070010;
+        public static final int brief_edit_paddingleft=0x7f07000d;
+        public static final int brief_edit_paddingright=0x7f07000f;
+        public static final int brief_edit_paddingtop=0x7f07000e;
     }
     public static final class drawable {
         public static final int abs__ab_bottom_solid_dark_holo=0x7f020000;
@@ -852,14 +883,16 @@ containing a value of this type.
         public static final int abs__textfield_searchview_right_holo_dark=0x7f02006d;
         public static final int abs__textfield_searchview_right_holo_light=0x7f02006e;
         public static final int abs__toast_frame=0x7f02006f;
-        public static final int ic_action_search=0x7f020070;
-        public static final int ic_launcher=0x7f020071;
-        public static final int launcher_arrow_next=0x7f020072;
-        public static final int launcher_arrow_prev=0x7f020073;
-        public static final int null_edit=0x7f020074;
-        public static final int ptg_btn_find_next=0x7f020075;
-        public static final int ptg_btn_find_prev=0x7f020076;
-        public static final int save=0x7f020077;
+        public static final int dash_line=0x7f020070;
+        public static final int ic_action_search=0x7f020071;
+        public static final int ic_launcher=0x7f020072;
+        public static final int launcher_arrow_next=0x7f020073;
+        public static final int launcher_arrow_prev=0x7f020074;
+        public static final int null_edit=0x7f020075;
+        public static final int ptg_btn_find_next=0x7f020076;
+        public static final int ptg_btn_find_prev=0x7f020077;
+        public static final int quote=0x7f020078;
+        public static final int save=0x7f020079;
     }
     public static final class id {
         public static final int abs__action_bar=0x7f040020;
@@ -901,45 +934,51 @@ containing a value of this type.
         public static final int abs__textButton=0x7f040013;
         public static final int abs__title=0x7f04001b;
         public static final int abs__up=0x7f04000b;
-        public static final int content=0x7f040035;
-        public static final int cwac_richedittext_bold=0x7f04004d;
-        public static final int cwac_richedittext_center=0x7f04004b;
-        public static final int cwac_richedittext_effects=0x7f04004f;
-        public static final int cwac_richedittext_fonts=0x7f040050;
-        public static final int cwac_richedittext_format=0x7f040046;
-        public static final int cwac_richedittext_italic=0x7f04004e;
-        public static final int cwac_richedittext_mono=0x7f040049;
-        public static final int cwac_richedittext_normal=0x7f04004a;
-        public static final int cwac_richedittext_opposite=0x7f04004c;
-        public static final int cwac_richedittext_sans=0x7f040048;
-        public static final int cwac_richedittext_serif=0x7f040047;
-        public static final int cwac_richedittext_strike=0x7f040043;
-        public static final int cwac_richedittext_subscript=0x7f040045;
-        public static final int cwac_richedittext_superscript=0x7f040044;
-        public static final int cwac_richedittext_underline=0x7f040042;
+        public static final int category_type_1=0x7f040034;
+        public static final int category_type_2=0x7f040037;
+        public static final int category_type_3=0x7f04003a;
+        public static final int check_type_1=0x7f040036;
+        public static final int content_type_2=0x7f040039;
+        public static final int cwac_richedittext_bold=0x7f040053;
+        public static final int cwac_richedittext_center=0x7f040051;
+        public static final int cwac_richedittext_effects=0x7f040055;
+        public static final int cwac_richedittext_fonts=0x7f040056;
+        public static final int cwac_richedittext_format=0x7f04004c;
+        public static final int cwac_richedittext_italic=0x7f040054;
+        public static final int cwac_richedittext_mono=0x7f04004f;
+        public static final int cwac_richedittext_normal=0x7f040050;
+        public static final int cwac_richedittext_opposite=0x7f040052;
+        public static final int cwac_richedittext_sans=0x7f04004e;
+        public static final int cwac_richedittext_serif=0x7f04004d;
+        public static final int cwac_richedittext_strike=0x7f040049;
+        public static final int cwac_richedittext_subscript=0x7f04004b;
+        public static final int cwac_richedittext_superscript=0x7f04004a;
+        public static final int cwac_richedittext_underline=0x7f040048;
         public static final int disableHome=0x7f040009;
         public static final int edit_query=0x7f040026;
         public static final int editor=0x7f040033;
         public static final int homeAsUp=0x7f040006;
         public static final int listMode=0x7f040002;
-        public static final int menu_settings=0x7f040041;
-        public static final int next=0x7f040037;
+        public static final int menu_settings=0x7f040047;
+        public static final int next=0x7f04003d;
         public static final int normal=0x7f040001;
-        public static final int panel_1=0x7f040038;
-        public static final int panel_2=0x7f040039;
-        public static final int panel_3=0x7f04003a;
-        public static final int panel_4=0x7f04003b;
-        public static final int panel_5=0x7f04003c;
-        public static final int panel_6=0x7f04003d;
-        public static final int panel_7=0x7f04003e;
-        public static final int panel_8=0x7f04003f;
-        public static final int panel_9=0x7f040040;
-        public static final int prev=0x7f040036;
+        public static final int panel_1=0x7f04003e;
+        public static final int panel_2=0x7f04003f;
+        public static final int panel_3=0x7f040040;
+        public static final int panel_4=0x7f040041;
+        public static final int panel_5=0x7f040042;
+        public static final int panel_6=0x7f040043;
+        public static final int panel_7=0x7f040044;
+        public static final int panel_8=0x7f040045;
+        public static final int panel_9=0x7f040046;
+        public static final int prev=0x7f04003c;
         public static final int showCustom=0x7f040008;
         public static final int showHome=0x7f040005;
         public static final int showTitle=0x7f040007;
         public static final int tabMode=0x7f040003;
-        public static final int title=0x7f040034;
+        public static final int title_type_1=0x7f040035;
+        public static final int title_type_2=0x7f040038;
+        public static final int title_type_3=0x7f04003b;
         public static final int useLogo=0x7f040004;
         public static final int viewflow=0x7f040032;
         public static final int wrap_content=0x7f040000;
@@ -973,10 +1012,11 @@ containing a value of this type.
         public static final int circle_layout=0x7f030016;
         public static final int edit_panal=0x7f030017;
         public static final int essay_overview=0x7f030018;
-        public static final int flip_tape=0x7f030019;
-        public static final int nine_panel_frame=0x7f03001a;
-        public static final int sherlock_spinner_dropdown_item=0x7f03001b;
-        public static final int sherlock_spinner_item=0x7f03001c;
+        public static final int flip_frame=0x7f030019;
+        public static final int flip_tape=0x7f03001a;
+        public static final int nine_panel_frame=0x7f03001b;
+        public static final int sherlock_spinner_dropdown_item=0x7f03001c;
+        public static final int sherlock_spinner_item=0x7f03001d;
     }
     public static final class menu {
         public static final int activity_main=0x7f0b0000;
@@ -1142,6 +1182,71 @@ containing a value of this type.
         public static final int Widget_Sherlock_TextView_SpinnerItem=0x7f0a0032;
     }
     public static final class styleable {
+        /** Attributes that can be used with a Flipview.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #Flipview_cellCountX com.diary.goal.setting:cellCountX}</code></td><td> The number of horizontal cells in the CellLayout </td></tr>
+           <tr><td><code>{@link #Flipview_cellCountY com.diary.goal.setting:cellCountY}</code></td><td> The number of vertical cells in the CellLayout </td></tr>
+           <tr><td><code>{@link #Flipview_defaultScreen com.diary.goal.setting:defaultScreen}</code></td><td> The first screen the workspace should display.</td></tr>
+           </table>
+           @see #Flipview_cellCountX
+           @see #Flipview_cellCountY
+           @see #Flipview_defaultScreen
+         */
+        public static final int[] Flipview = {
+            0x7f010063, 0x7f010064, 0x7f010065
+        };
+        /**
+          <p>
+          @attr description
+           The number of horizontal cells in the CellLayout 
+
+
+          <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          <p>This is a private symbol.
+          @attr name android:cellCountX
+        */
+        public static final int Flipview_cellCountX = 1;
+        /**
+          <p>
+          @attr description
+           The number of vertical cells in the CellLayout 
+
+
+          <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          <p>This is a private symbol.
+          @attr name android:cellCountY
+        */
+        public static final int Flipview_cellCountY = 2;
+        /**
+          <p>
+          @attr description
+           The first screen the workspace should display. 
+
+
+          <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          <p>This is a private symbol.
+          @attr name android:defaultScreen
+        */
+        public static final int Flipview_defaultScreen = 0;
         /**  Attributes used to style the Action Bar. 
            <p>Includes the following attributes:</p>
            <table>

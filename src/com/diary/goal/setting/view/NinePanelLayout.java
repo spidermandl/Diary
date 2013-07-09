@@ -54,13 +54,11 @@ public class NinePanelLayout extends RelativeLayout {
 				.get(getContext());
 		mTouchSlop = configuration.getScaledTouchSlop();
 	}
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
+//	@Override
+//	public boolean onTouchEvent(MotionEvent event) {
 //		int action=event.getAction();
-//		final float x = event.getX();
 //		switch (action) {
 //		case MotionEvent.ACTION_DOWN:
-//			mTouchState = TOUCH_STATE_REST;
 //			if(filpView==null){
 //				filpView=(RelativeLayout)m_inflater.inflate(R.layout.flip_tape, null);
 //				RelativeLayout.LayoutParams lp=new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT);//filpView.getLayoutParams();
@@ -71,38 +69,21 @@ public class NinePanelLayout extends RelativeLayout {
 //			else{
 //				filpView.setVisibility(View.VISIBLE);
 //			}
-//			Log.e("NinePanellayout onTouchEvent", "action_down");
+//			Log.e("NinePanelLayout", "ACTION_down");
 //			break;
 //		case MotionEvent.ACTION_MOVE:
-//			final int deltaX = (int) (mLastMotionX - x);
-//
-//			Log.e("deltaX", deltaX+" "+mTouchSlop);
-//			boolean xMoved = Math.abs(deltaX) > mTouchSlop;
-//
-//			if (xMoved) {
-//				// Scroll if the user moved far enough along the X axis
-//				mTouchState = TOUCH_STATE_SCROLLING;
-//
-//			}
-//
-//			if (mTouchState == TOUCH_STATE_SCROLLING) {
-//				// Scroll to follow the motion event
-//				mLastMotionX = x;
-//				if(filpView!=null)
-//					filpView.setVisibility(View.GONE);
-//				return true;
-//			}
-//			Log.e("NinePanellayout onTouchEvent", "action_move");
-//			break;
-//		case MotionEvent.ACTION_UP:
 //			if(filpView!=null)
 //				filpView.setVisibility(View.GONE);
-//			Log.e("NinePanellayout onTouchEvent", "action_up");
+//			Log.e("NinePanelLayout", "ACTION_move");
+//			break;
+//		case MotionEvent.ACTION_UP:
+//			Log.e("NinePanelLayout", "ACTION_UP");
+//			if(filpView!=null)
+//				filpView.setVisibility(View.GONE);
 //			break;
 //		}
-//		return true;
-		return super.onTouchEvent(event);
-	}
+//		return super.onTouchEvent(event);
+//	}
 	
 	public void invisibleTape(){
 		if(filpView!=null)

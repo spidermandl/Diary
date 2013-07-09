@@ -1,6 +1,7 @@
 package com.diary.goal.setting;
 
 import java.io.IOException;
+import java.lang.ref.SoftReference;
 import java.util.HashMap;
 
 import org.json.JSONException;
@@ -9,8 +10,10 @@ import org.json.JSONObject;
 import com.diary.goal.setting.database.DiaryHelper;
 import com.diary.goal.setting.model.DateModel;
 import com.diary.goal.setting.model.PanelDateModel;
+import com.diary.goal.setting.thread.UEHandler;
 import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.tools.Function;
+import com.flurry.android.FlurryAgent;
 
 import android.app.Application;
 import android.content.Context;
@@ -51,8 +54,10 @@ public class DiaryApplication extends Application {
 	/**
 	 * store bitmap cache for accessing UI resource
 	 */
-	HashMap<Integer,Bitmap> bitmapCache=new HashMap<Integer, Bitmap>();
+	HashMap<Integer,SoftReference<Bitmap>> bitmapCache=new HashMap<Integer, SoftReference<Bitmap>>();
 
+	
+	UEHandler ueHandler;
 	public static DiaryApplication getInstance(){
 		return instance;
 	}
@@ -68,7 +73,14 @@ public class DiaryApplication extends Application {
 		initialOrientation=this.getResources().getConfiguration().orientation;
 		dbHelper=new DiaryHelper(this);
 		
+		//ueHandler = new UEHandler(this); 
+        //Thread.setDefaultUncaughtExceptionHandler(ueHandler); 
+		//FlurryAgent.onStartSession(this, Constant.FLURRY_KEY);
 		super.onCreate();
+	}
+	public void quit(){
+		dbHelper.close();
+		//FlurryAgent.onEndSession(this);
 	}
 	public int getScreen_w() {
 		if(!reverseOrientation)
@@ -85,10 +97,16 @@ public class DiaryApplication extends Application {
 	}
 	
 	public void setBitmap(Integer resid,Bitmap bitmap){
-		bitmapCache.put(resid, bitmap);
+		SoftReference<Bitmap> softBitmap=new SoftReference<Bitmap>(bitmap);
+		bitmapCache.put(resid, softBitmap);
 	}
 	public Bitmap getBitmap(Integer resid){
-		return (Bitmap)bitmapCache.get(resid);
+		SoftReference<Bitmap> softBitmap=bitmapCache.get(resid);
+		if(softBitmap!=null){
+			Bitmap bitmap=softBitmap.get();
+			return bitmap;
+		}
+		return null;
 	}
 	
 	public void setOrientation(int o){

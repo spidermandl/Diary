@@ -64,16 +64,18 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 */
 	public static final String DIARY_TRACK_TABLENAME = "diary_track";
 	public static final String[] DIARY_TRACK_COLUMNS = {
-		"_id","create_time", "update_time" , "type", "category","text"
+		"_id","create_time", "update_time" , "type", "category","category_name","category_type","text"
 	};
 	public static final String CREATE_DIARY_TRACK = 
 			"CREATE TABLE IF NOT EXISTS " +  DIARY_TRACK_TABLENAME + "("
-			+ DIARY_TRACK_COLUMNS[0] + " integer primary key autoincrement,"//	
+			+ DIARY_TRACK_COLUMNS[0] + " integer primary key autoincrement,"//
 			+ DIARY_TRACK_COLUMNS[1] + " datetime,"	//create time
 			+ DIARY_TRACK_COLUMNS[2] + " datetime,"	//edit time
 			+ DIARY_TRACK_COLUMNS[3] + " integer,"	//sudo type
 			+ DIARY_TRACK_COLUMNS[4] + " integer,"	//category
-			+ DIARY_TRACK_COLUMNS[5] + " text"	//diary text
+			+ DIARY_TRACK_COLUMNS[5] + " text,"	//category name
+			+ DIARY_TRACK_COLUMNS[6] + " integer,"	//category type
+			+ DIARY_TRACK_COLUMNS[7] + " text"	//content
 			+ ")";
 	public static final String DROP_DIARY_TRACK = "DROP TABLE IF EXISTS " + DIARY_TRACK_TABLENAME+" ";
 	

@@ -230,7 +230,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 
 			mTouchState = mScroller.isFinished() ? TOUCH_STATE_REST
 					: TOUCH_STATE_SCROLLING;
-			Log.e("ViewFlow onInterceptTouchEvent", "action_down");
+			Log.e("view flow onInterceptTouchEvent", "ACTION_down");
 			break;
 
 		case MotionEvent.ACTION_MOVE:
@@ -264,9 +264,10 @@ public class ViewFlow extends AdapterView<Adapter> {
 						scrollBy(Math.min(availableToScroll, deltaX), 0);
 					}
 				}
+				Log.e("view flow onInterceptTouchEvent", "ACTION_MOVE true");
 				return true;
 			}
-			Log.e("ViewFlow onInterceptTouchEvent", "action_move false");
+			Log.e("view flow onInterceptTouchEvent", "ACTION_MOVE false");
 			break;
 
 		case MotionEvent.ACTION_UP:
@@ -297,8 +298,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 			}
 
 			mTouchState = TOUCH_STATE_REST;
-			Log.e("ViewFlow onInterceptTouchEvent", "action_up");
-
+			Log.e("view flow onInterceptTouchEvent", "ACTION_up");
 			break;
 		case MotionEvent.ACTION_CANCEL:
 			mTouchState = TOUCH_STATE_REST;
@@ -335,7 +335,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 
 			mTouchState = mScroller.isFinished() ? TOUCH_STATE_REST
 					: TOUCH_STATE_SCROLLING;
-			Log.e("ViewFlow onTouchEvent", "action_down");
+            Log.e("Viewflow onTouchEvent", "ACTION_DOWN");
 			break;
 
 		case MotionEvent.ACTION_MOVE:
@@ -353,7 +353,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 
 			if (mTouchState == TOUCH_STATE_SCROLLING) {
 				// Scroll to follow the motion event
-
+				Log.e("Viewflow onTouchEvent", "ACTION_Move true");
 				mLastMotionX = x;
 
 				final int scrollX = getScrollX();
@@ -371,7 +371,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 				}
 				return true;
 			}
-			Log.e("ViewFlow onTouchEvent", "action_move");
+			Log.e("Viewflow onTouchEvent", "ACTION_Move false");
 			break;
 
 		case MotionEvent.ACTION_UP:
@@ -402,7 +402,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 			}
 
 			mTouchState = TOUCH_STATE_REST;
-			Log.e("ViewFlow onTouchEvent", "action_up");
+			Log.e("Viewflow onTouchEvent", "ACTION_up");
 			break;
 		case MotionEvent.ACTION_CANCEL:
 			snapToDestination();

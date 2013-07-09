@@ -1,95 +1,145 @@
 {
     "work":[
         {
-            "category1":1
+            "index":1,
+            "type":2,
+            "name":"category1"
         },
         {
-            "category2":2
-         }
+            "index":2,
+            "type":2,
+            "name":"category2"
+         },
         ],
      "social":[
         {
-            "category1":1
+            "index":1,
+            "type":2,
+            "name":"category1"
         },
         {
-            "category2":2
+            "index":2,
+            "type":2,
+            "name":"category2"
          },
         {
-            "category3":3
-         }
+            "index":3,
+            "type":2,
+            "name":"category3"
+         },
         ],
      "family":[
         {
-            "category1":1
+            "index":1,
+            "type":2,
+            "name":"category1"
         },
         {
-            "category2":2
+            "index":2,
+            "type":2,
+            "name":"category2"
          },
         {
-            "category3":3
+            "index":3,
+            "type":2,
+            "name":"category3"
          },
         {
-            "category4":4
-         }
+            "index":4,
+            "type":2,
+            "name":"category4"
+         },
         ],
      "finance":[
         {
-            "category1":1
+            "index":1,
+            "type":2,
+            "name":"category1"
         },
         {
-            "category2":2
+            "index":2,
+            "type":2,
+            "name":"category2"
          }
         ],
      "date":[
         {
-            "category1":1
+            "index":1,
+            "type":2,
+            "name":"category1"
         },
         {
-            "category2":2
+            "index":2,
+            "type":2,
+            "name":"category2"
          }
         ],
-     "square_6":[
+     "other":[
         {
-            "category1":1
+            "index":1,
+            "type":2,
+            "name":"category1"
         },
         {
-            "category2":2
+            "index":2,
+            "type":2,
+            "name":"category2"
          }
         ],
      "healthy":[
         {
-            "category1":1
+            "index":1,
+            "type":1,
+            "name":"running"
         },
         {
-            "category2":2
+            "index":2,
+            "type":2,
+            "name":"category2"
          },
         {
-            "category3":3
+            "index":3,
+            "type":2,
+            "name":"category3"
          },
         {
-            "category4":4
+            "index":4,
+            "type":2,
+            "name":"category4"
          },
         {
-            "category5":5
+            "index":5,
+            "type":2,
+            "name":"category5"
          },
         {
-            "category6":6
+            "index":6,
+            "type":2,
+            "name":"category6"
          }
         ],
-     "square_8":[
+     "personal":[
         {
-            "category1":1
+            "index":1,
+            "type":2,
+            "name":"category1"
         },
         {
-            "category2":2
+            "index":2,
+            "type":2,
+            "name":"category2"
          }
         ],
-     "square_9":[
+     "soul":[
         {
-            "category1":1
+            "index":1,
+            "type":3,
+            "name":"five achievements"
         },
         {
-            "category2":2
+            "index":2,
+            "type":2,
+            "name":"thoughts on achievements"
          }
         ]
 }

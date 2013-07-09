@@ -58,13 +58,13 @@ public class PanelView_5 extends PanelView {
 		int action=event.getAction();
 		switch (action) {
 		case MotionEvent.ACTION_DOWN:
-			Log.e("PanelView_5 onTouchEvent", "action_down");
+			Log.e("PanelView_5", "ACTION_down");
 			return false;
 		case MotionEvent.ACTION_MOVE:
-			Log.e("PanelView_5 onTouchEvent", "action_move");
+			Log.e("PanelView_5", "ACTION_move");
 			return false;
 		case MotionEvent.ACTION_UP:
-			Log.e("PanelView_5 onTouchEvent", "action_up");
+			Log.e("PanelView_5", "ACTION_UP");
 			return false;
 		}
 		return false;

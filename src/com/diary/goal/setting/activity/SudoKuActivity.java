@@ -2,7 +2,6 @@ package com.diary.goal.setting.activity;
 
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 
 import com.diary.goal.setting.DiaryApplication;
@@ -13,6 +12,7 @@ import com.diary.goal.setting.listener.FlipPathListener;
 import com.diary.goal.setting.model.DateModel;
 import com.diary.goal.setting.model.PanelDateModel;
 import com.diary.goal.setting.tools.Constant;
+import com.diary.goal.setting.view.FlipView;
 import com.diary.goal.setting.view.ViewFlow;
 
 import android.app.Activity;
@@ -23,6 +23,7 @@ import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.Window;
 import android.widget.Toast;
 
 public class SudoKuActivity extends Activity implements OnTouchListener,OnGestureListener{
@@ -34,6 +35,7 @@ public class SudoKuActivity extends Activity implements OnTouchListener,OnGestur
 	protected void onCreate(Bundle savedInstanceState) {
 		DiaryApplication.getInstance().setOrientation(
 				this.getResources().getConfiguration().orientation);
+		
 		init();
 		ViewFlow viewFlow=new ViewFlow(this);
 		viewFlow.setAdapter(new NinePanelAdapter(this));
@@ -50,13 +52,18 @@ public class SudoKuActivity extends Activity implements OnTouchListener,OnGestur
 		});
 		setContentView(viewFlow);
 		//setContentView(R.layout.nine_panel_frame);
+		//setContentView(R.layout.flip_frame);
 		super.onCreate(savedInstanceState);
+		
 	}
 	
 	private void init(){
 		getPanelCache();
 	}
-	
+	/**
+	 * init date link
+	 * get current day status
+	 */
 	private void getPanelCache(){
 		HashMap<Integer, PanelDateModel> panelStatus=DiaryApplication.getInstance().getPanelCache();
 		int position=DiaryApplication.getInstance().getDateCursor();
@@ -80,10 +87,10 @@ public class SudoKuActivity extends Activity implements OnTouchListener,OnGestur
 			status.put(Constant.SudoType.FAMILY, false);
 			status.put(Constant.SudoType.FINANCE, false);
 			status.put(Constant.SudoType.DATE, false);
-			status.put(Constant.SudoType.SQUARE_6, false);
+			status.put(Constant.SudoType.OTHER, false);
 			status.put(Constant.SudoType.HEALTHY, false);
-			status.put(Constant.SudoType.SQUARE_8, false);
-			status.put(Constant.SudoType.SQUARE_9, false);
+			status.put(Constant.SudoType.PERSONAL, false);
+			status.put(Constant.SudoType.SOUL, false);
 			if (c != null) {
 				while (c.moveToNext()) {
 					status.put(Constant.SudoType.getSudoType(c.getInt(0)), true);
@@ -96,6 +103,12 @@ public class SudoKuActivity extends Activity implements OnTouchListener,OnGestur
 			DiaryApplication.getInstance().setPadStatus(panelModel);
 			panelStatus.put(position, panelModel);
 		}
+	}
+	
+	@Override
+	protected void onDestroy() {
+		DiaryApplication.getInstance().quit();
+		super.onDestroy();
 	}
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
