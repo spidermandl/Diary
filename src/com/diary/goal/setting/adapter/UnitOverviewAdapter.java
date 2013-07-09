@@ -3,7 +3,6 @@ package com.diary.goal.setting.adapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map.Entry;
 
 import org.json.JSONArray;
@@ -31,6 +30,7 @@ import android.widget.BaseAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class UnitOverviewAdapter extends BaseExpandableListAdapter {
@@ -142,13 +142,13 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 			convertView = m_inflater.inflate(R.layout.essay_overview, null);
 			ViewHolder viewHolder=new ViewHolder();
 			viewHolder.showType=TYPE_CHECKBOX;
-			viewHolder.type_1=(LinearLayout)convertView.findViewById(R.id.category_type_1);
+			viewHolder.type_1=(RelativeLayout)convertView.findViewById(R.id.category_type_1);
 			viewHolder.title_type_1=(TextView)convertView.findViewById(R.id.title_type_1);
 			viewHolder.checkBox=(CheckBox)convertView.findViewById(R.id.check_type_1);
-			viewHolder.type_2=(LinearLayout)convertView.findViewById(R.id.category_type_2);
+			viewHolder.type_2=(RelativeLayout)convertView.findViewById(R.id.category_type_2);
 			viewHolder.title_type_2=(TextView)convertView.findViewById(R.id.title_type_2);
 			viewHolder.content=(TextView)convertView.findViewById(R.id.content_type_2);
-			viewHolder.type_3=(LinearLayout)convertView.findViewById(R.id.category_type_3);
+			viewHolder.type_3=(RelativeLayout)convertView.findViewById(R.id.category_type_3);
 			viewHolder.title_type_3=(TextView)convertView.findViewById(R.id.title_type_3);
 			convertView.setTag(viewHolder);
 		}
@@ -167,11 +167,11 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 			holder.type_2.setVisibility(View.VISIBLE);
 			holder.type_3.setVisibility(View.INVISIBLE);
 			TextView content=holder.content;
-			Bitmap bitmap=BitmapCustomize.customizePicture(context, R.drawable.quote, 0, 0, false);
-			int[] pads = new int[]{content.getPaddingLeft(), content.getPaddingTop(), content.getPaddingRight(), content.getPaddingBottom()};
-			content.setBackgroundDrawable(new NinePatchDrawable(context.getResources(), 
-					bitmap, bitmap.getNinePatchChunk(), new Rect(), null));	
-			content.setPadding(pads[0], pads[1], pads[2], pads[3]);
+//			Bitmap bitmap=BitmapCustomize.customizePicture(context, R.drawable.quote, 0, 0, false);
+//			int[] pads = new int[]{content.getPaddingLeft(), content.getPaddingTop(), content.getPaddingRight(), content.getPaddingBottom()};
+//			content.setBackgroundDrawable(new NinePatchDrawable(context.getResources(), 
+//					bitmap, bitmap.getNinePatchChunk(), new Rect(), null));	
+//			content.setPadding(pads[0], pads[1], pads[2], pads[3]);
 			String text=categorys.get(indexs.get(groupPosition));
 			content.setText(text==null?"N/A":text);
 			final int index=groupPosition;
@@ -217,7 +217,7 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 	
 	class ViewHolder{
 		int showType;
-		LinearLayout type_1,type_2,type_3;
+		RelativeLayout type_1,type_2,type_3;
 		TextView title_type_1,title_type_2,title_type_3;
 		TextView content;
 		CheckBox checkBox;

@@ -4,32 +4,50 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <LinearLayout 
+    <RelativeLayout 
         android:id="@+id/category_type_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:background="#FF00FF4D">
+        <View android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:background="@drawable/dash_line"
+            android:id="@+id/line_h_type_1"/>
         <TextView 
             android:id="@+id/title_type_1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_below="@id/line_h_type_1"/>
 
         <CheckBox
             android:id="@+id/check_type_1"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content" 
+            android:layout_toRightOf="@id/title_type_1"
+            android:layout_alignTop="@id/title_type_1"/>
+        
+        <View android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:background="@drawable/dash_line"
+            android:layout_alignTop="@id/check_type_1"
+            android:layout_alignBottom="@id/check_type_1"
+            android:layout_toLeftOf="@id/check_type_1"/>
 
-    </LinearLayout>
-    <LinearLayout
+    </RelativeLayout>
+    <RelativeLayout
         android:id="@+id/category_type_2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
+        android:layout_height="wrap_content" 
+        android:background="#FF00FF4D">
+        <View android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:background="@drawable/dash_line"
+            android:id="@+id/line_h_type_2"/>
         <TextView
             android:id="@+id/title_type_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/line_h_type_2"
             android:textSize="16sp" />
 
         <TextView
@@ -40,24 +58,33 @@
             android:paddingLeft="@dimen/brief_edit_paddingleft"
             android:paddingRight="@dimen/brief_edit_paddingright"
             android:paddingTop="@dimen/brief_edit_paddingtop"
+            android:layout_toRightOf="@id/title_type_2"
+            android:layout_below="@id/line_h_type_2"
             android:textColor="#FF000000" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dip"
-            android:background="#FFFFFFFF" />
-    </LinearLayout>
+        <View android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:background="@drawable/dash_line"
+            android:layout_alignTop="@id/content_type_2"
+            android:layout_alignBottom="@id/content_type_2"
+            android:layout_toLeftOf="@id/content_type_2"/>
+    </RelativeLayout>
     
-    <LinearLayout 
+    <RelativeLayout 
         android:id="@+id/category_type_3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:background="#FF00FF4D">
+        <View android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:background="@drawable/dash_line"
+            android:id="@+id/line_h_type_3"/>
         <TextView 
             android:id="@+id/title_type_3"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_below="@id/line_h_type_3"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </FrameLayout>
