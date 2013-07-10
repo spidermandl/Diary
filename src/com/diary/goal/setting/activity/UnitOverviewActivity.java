@@ -16,6 +16,7 @@ public class UnitOverviewActivity extends Activity {
 		ExpandableListView listview = new ExpandableListView(this);
 		listview.setGroupIndicator(null);
 		//listview.setIndicatorBounds(100, 110);
+		listview.setDividerHeight(0);
 		mAdapter=new UnitOverviewAdapter(this);
 		listview.setAdapter(mAdapter);
 		setContentView(listview);

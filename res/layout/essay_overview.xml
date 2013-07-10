@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dash="http://schemas.android.com/apk/res/com.diary.goal.setting"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
@@ -9,15 +10,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FF00FF4D">
-        <View android:layout_height="wrap_content"
+        <com.diary.goal.setting.view.DashLineView 
+            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:background="@drawable/dash_line"
-            android:id="@+id/line_h_type_1"/>
+            android:id="@+id/line_h_type_1"
+            dash:orientation="0"/>
         <TextView 
             android:id="@+id/title_type_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/line_h_type_1"/>
+            android:layout_below="@id/line_h_type_1"
+            android:layout_centerVertical="true"
+            android:singleLine="true"/>
 
         <CheckBox
             android:id="@+id/check_type_1"
@@ -26,12 +30,14 @@
             android:layout_toRightOf="@id/title_type_1"
             android:layout_alignTop="@id/title_type_1"/>
         
-        <View android:layout_height="wrap_content"
+        <com.diary.goal.setting.view.DashLineView
+            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:background="@drawable/dash_line"
             android:layout_alignTop="@id/check_type_1"
             android:layout_alignBottom="@id/check_type_1"
-            android:layout_toLeftOf="@id/check_type_1"/>
+            android:layout_toLeftOf="@id/check_type_1"
+            android:background="@drawable/vertical_dash_line"
+            dash:orientation="1"/>
 
     </RelativeLayout>
     <RelativeLayout
@@ -39,15 +45,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" 
         android:background="#FF00FF4D">
-        <View android:layout_height="wrap_content"
+        <com.diary.goal.setting.view.DashLineView 
+            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:background="@drawable/dash_line"
-            android:id="@+id/line_h_type_2"/>
+            android:background="@drawable/horizontal_dash_line"
+            android:id="@+id/line_h_type_2"
+            dash:orientation="0"/>
         <TextView
             android:id="@+id/title_type_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/line_h_type_2"
+            android:layout_centerVertical="true"
             android:textSize="16sp" />
 
         <TextView
@@ -62,12 +71,14 @@
             android:layout_below="@id/line_h_type_2"
             android:textColor="#FF000000" />
 
-        <View android:layout_height="wrap_content"
+        <com.diary.goal.setting.view.DashLineView 
+            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:background="@drawable/dash_line"
             android:layout_alignTop="@id/content_type_2"
             android:layout_alignBottom="@id/content_type_2"
-            android:layout_toLeftOf="@id/content_type_2"/>
+            android:layout_toLeftOf="@id/content_type_2"
+            android:background="@drawable/vertical_dash_line"
+            dash:orientation="1"/>
     </RelativeLayout>
     
     <RelativeLayout 
@@ -75,13 +86,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FF00FF4D">
-        <View android:layout_height="wrap_content"
+        <com.diary.goal.setting.view.DashLineView 
+            android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:background="@drawable/dash_line"
-            android:id="@+id/line_h_type_3"/>
+            android:id="@+id/line_h_type_3"
+            dash:orientation="0"/>
         <TextView 
             android:id="@+id/title_type_3"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/line_h_type_3"/>
 

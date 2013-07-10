@@ -158,20 +158,21 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 		case TYPE_CHECKBOX:
 			holder.title_type_1.setText(configs.get(indexs.get(groupPosition))[0]);
 			holder.type_1.setVisibility(View.VISIBLE);
-			holder.type_2.setVisibility(View.INVISIBLE);
-			holder.type_3.setVisibility(View.INVISIBLE);
+			holder.type_2.setVisibility(View.GONE);
+			holder.type_3.setVisibility(View.GONE);
 			break;
 		case TYPE_CONVENTIONAL_EDIT:
 			holder.title_type_2.setText(configs.get(indexs.get(groupPosition))[0]);
-			holder.type_1.setVisibility(View.INVISIBLE);
+			holder.type_1.setVisibility(View.GONE);
 			holder.type_2.setVisibility(View.VISIBLE);
-			holder.type_3.setVisibility(View.INVISIBLE);
+			holder.type_3.setVisibility(View.GONE);
 			TextView content=holder.content;
 //			Bitmap bitmap=BitmapCustomize.customizePicture(context, R.drawable.quote, 0, 0, false);
 //			int[] pads = new int[]{content.getPaddingLeft(), content.getPaddingTop(), content.getPaddingRight(), content.getPaddingBottom()};
 //			content.setBackgroundDrawable(new NinePatchDrawable(context.getResources(), 
 //					bitmap, bitmap.getNinePatchChunk(), new Rect(), null));	
 //			content.setPadding(pads[0], pads[1], pads[2], pads[3]);
+			
 			String text=categorys.get(indexs.get(groupPosition));
 			content.setText(text==null?"N/A":text);
 			final int index=groupPosition;
@@ -191,8 +192,8 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 			break;
 		case TYPE_LIST:
 			holder.title_type_3.setText(configs.get(indexs.get(groupPosition))[0]);
-			holder.type_1.setVisibility(View.INVISIBLE);
-			holder.type_2.setVisibility(View.INVISIBLE);
+			holder.type_1.setVisibility(View.GONE);
+			holder.type_2.setVisibility(View.GONE);
 			holder.type_3.setVisibility(View.VISIBLE);
 			break;
 

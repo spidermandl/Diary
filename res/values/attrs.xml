@@ -24,5 +24,10 @@
      <!-- The number of horizontal cells in the CellLayout -->
      <attr name="cellCountX" format="integer"/>
      <!-- The number of vertical cells in the CellLayout -->
-     <attr name="cellCountY" format="integer"/></declare-styleable>
+     <attr name="cellCountY" format="integer"/>
+    </declare-styleable>
+    
+    <declare-styleable name="DashLineView">
+        <attr name="orientation" format="integer"></attr>
+    </declare-styleable>
 </resources>

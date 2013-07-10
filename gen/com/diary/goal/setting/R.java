@@ -405,6 +405,14 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 </table>
          */
         public static final int navigationMode=0x7f010049;
+        /** <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int orientation=0x7f010066;
         /** <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
@@ -883,7 +891,7 @@ containing a value of this type.
         public static final int abs__textfield_searchview_right_holo_dark=0x7f02006d;
         public static final int abs__textfield_searchview_right_holo_light=0x7f02006e;
         public static final int abs__toast_frame=0x7f02006f;
-        public static final int dash_line=0x7f020070;
+        public static final int horizontal_dash_line=0x7f020070;
         public static final int ic_action_search=0x7f020071;
         public static final int ic_launcher=0x7f020072;
         public static final int launcher_arrow_next=0x7f020073;
@@ -893,6 +901,7 @@ containing a value of this type.
         public static final int ptg_btn_find_prev=0x7f020077;
         public static final int quote=0x7f020078;
         public static final int save=0x7f020079;
+        public static final int vertical_dash_line=0x7f02007a;
     }
     public static final class id {
         public static final int abs__action_bar=0x7f040020;
@@ -1185,6 +1194,33 @@ containing a value of this type.
         public static final int Widget_Sherlock_TextView_SpinnerItem=0x7f0a0032;
     }
     public static final class styleable {
+        /** Attributes that can be used with a DashLineView.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #DashLineView_orientation com.diary.goal.setting:orientation}</code></td><td></td></tr>
+           </table>
+           @see #DashLineView_orientation
+         */
+        public static final int[] DashLineView = {
+            0x7f010066
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.diary.goal.setting.R.attr#orientation}
+          attribute's value can be found in the {@link #DashLineView} array.
+
+
+          <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:orientation
+        */
+        public static final int DashLineView_orientation = 0;
         /** Attributes that can be used with a Flipview.
            <p>Includes the following attributes:</p>
            <table>
