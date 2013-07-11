@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dash="http://schemas.android.com/apk/res/com.diary.goal.setting"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFDDFDDB" >
+    <!--  
+      _________________________________________
+      |                |                       |
+      |    TextView    |      CheckBox         |
+      |________________|_______________________|
+      
+    -->
+    <RelativeLayout
+        android:id="@+id/category_type_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <com.diary.goal.setting.view.DashLineView
+            android:id="@+id/line_h_type_1"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            dash:orientation="0" />
+
+        <LinearLayout
+            android:id="@+id/frame_type_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/line_h_type_1"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/title_type_1"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingBottom="@dimen/brief_edit_paddingbottom"
+                android:paddingLeft="@dimen/brief_edit_paddingleft"
+                android:paddingRight="@dimen/brief_edit_paddingright"
+                android:paddingTop="@dimen/brief_edit_paddingtop"
+                android:singleLine="true"
+                android:textColor="#FF704214"
+                android:textSize="16sp" />
+
+            <com.diary.goal.setting.view.DashLineView
+                android:layout_width="3dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                dash:orientation="1" />
+
+            <CheckBox
+                android:id="@+id/check_type_1"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="2" />
+        </LinearLayout>
+    </RelativeLayout>
+    <!--  
+      _________________________________________
+      |                |                       |
+      |    TextView    |      TextView         |
+      |________________|_______________________|
+      
+    -->
+    <RelativeLayout
+        android:id="@+id/category_type_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <com.diary.goal.setting.view.DashLineView
+            android:id="@+id/line_h_type_2"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            dash:orientation="0" />
+
+        <LinearLayout
+            android:id="@+id/frame_type_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/line_h_type_2"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/title_type_2"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingBottom="@dimen/brief_edit_paddingbottom"
+                android:paddingLeft="@dimen/brief_edit_paddingleft"
+                android:paddingRight="@dimen/brief_edit_paddingright"
+                android:paddingTop="@dimen/brief_edit_paddingtop"
+                android:textColor="#FF704214"
+                android:textSize="16sp" />
+
+            <com.diary.goal.setting.view.DashLineView
+                android:layout_width="3dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                dash:orientation="1" />
+
+            <TextView
+                android:id="@+id/content_type_2"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:paddingBottom="@dimen/brief_edit_paddingbottom"
+                android:paddingLeft="@dimen/brief_edit_paddingleft"
+                android:paddingRight="@dimen/brief_edit_paddingright"
+                android:paddingTop="@dimen/brief_edit_paddingtop"
+                android:textColor="#FF000000" />
+        </LinearLayout>
+    </RelativeLayout>
+    <!--  
+      _________________________________________
+      |                                       |
+      |              TextView                 |
+      |_______________________________________|
+      
+    -->
+    <RelativeLayout
+        android:id="@+id/category_type_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <com.diary.goal.setting.view.DashLineView
+            android:id="@+id/line_h_type_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            dash:orientation="0" />
+
+        <TextView
+            android:id="@+id/title_type_3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/line_h_type_3"
+            android:paddingBottom="@dimen/brief_edit_paddingbottom"
+            android:paddingLeft="@dimen/brief_edit_paddingleft"
+            android:paddingRight="@dimen/brief_edit_paddingright"
+            android:paddingTop="@dimen/brief_edit_paddingtop"
+            android:textColor="#FF704214"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+</FrameLayout>
