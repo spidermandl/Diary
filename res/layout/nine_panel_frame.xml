@@ -78,6 +78,12 @@
         android:layout_alignBottom="@id/panel_7"
         android:layout_toRightOf="@id/panel_2"
         android:background="#FF7F7F7F"/>
+    <View android:layout_width="1dip"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/panel_1"
+        android:layout_alignBottom="@id/panel_7"
+        android:layout_alignRight="@id/panel_3"
+        android:background="#FF7F7F7F"/>
     <View android:layout_width="wrap_content"
         android:layout_height="1dip"
         android:layout_alignLeft="@id/panel_1"

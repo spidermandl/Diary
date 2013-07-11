@@ -139,7 +139,7 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 	public View getGroupView(int groupPosition, boolean isExpanded,
 			View convertView, ViewGroup parent) {
 		if(convertView==null){
-			convertView = m_inflater.inflate(R.layout.essay_overview, null);
+			convertView = m_inflater.inflate(R.layout.essay_overview_item, null);
 			ViewHolder viewHolder=new ViewHolder();
 			viewHolder.showType=TYPE_CHECKBOX;
 			viewHolder.type_1=(RelativeLayout)convertView.findViewById(R.id.category_type_1);
