@@ -11,7 +11,7 @@
             "name":"category2"
          },
         ],
-     "social":[
+     "finance":[
         {
             "index":1,
             "type":2,
@@ -50,7 +50,7 @@
             "name":"category4"
          },
         ],
-     "finance":[
+     "innovation":[
         {
             "index":1,
             "type":2,
@@ -74,7 +74,7 @@
             "name":"category2"
          }
         ],
-     "other":[
+     "mit":[
         {
             "index":1,
             "type":2,

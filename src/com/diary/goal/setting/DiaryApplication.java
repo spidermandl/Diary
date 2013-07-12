@@ -3,11 +3,15 @@ package com.diary.goal.setting;
 import java.io.IOException;
 import java.lang.ref.SoftReference;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.diary.goal.setting.database.DiaryHelper;
+import com.diary.goal.setting.database.DiaryHelper.DiaryConfigColumn;
+import com.diary.goal.setting.database.DiaryHelper.Tables;
+import com.diary.goal.setting.model.CategoryModel;
 import com.diary.goal.setting.model.DateModel;
 import com.diary.goal.setting.model.PanelDateModel;
 import com.diary.goal.setting.thread.UEHandler;
@@ -17,6 +21,7 @@ import com.flurry.android.FlurryAgent;
 
 import android.app.Application;
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
@@ -40,6 +45,7 @@ public class DiaryApplication extends Application {
 	 */
 	private HashMap<Integer, PanelDateModel> panelCache;
 	private DateModel dateModel;
+	private HashMap<String,HashMap<Integer, Object>> tableCaches;
 	private int dateCursor=0;
 	private int screen_width;
 	private int screen_height;
@@ -56,8 +62,25 @@ public class DiaryApplication extends Application {
 	 */
 	HashMap<Integer,SoftReference<Bitmap>> bitmapCache=new HashMap<Integer, SoftReference<Bitmap>>();
 
-	
 	UEHandler ueHandler;
+	
+	private void setTableCaches(){
+		Cursor c=dbHelper.getDateDiaryAll();
+		if(c!=null){
+			HashMap<Integer, Object> map=new HashMap<Integer, Object>();
+			while(c.moveToNext()){
+				CategoryModel model=new CategoryModel();
+				model.setCategoryIndex(c.getInt(c.getColumnIndex(DiaryConfigColumn._CATEGORY_INDEX)));
+				model.setCategoryName(c.getString(c.getColumnIndex(DiaryConfigColumn._CATEGORY_NAME)));
+				model.setCategoryType(c.getInt(c.getColumnIndex(DiaryConfigColumn._CATEGORY_TYPE)));
+				model.setSudoType(c.getInt(c.getColumnIndex(DiaryConfigColumn._SUDO_TYPE)));
+				map.put(c.getInt(c.getColumnIndex(DiaryConfigColumn._ID)), model);
+			}
+			tableCaches.put(Tables.DIARY_CONFIG, map);
+			c.close();
+		}
+	}
+	
 	public static DiaryApplication getInstance(){
 		return instance;
 	}
@@ -71,8 +94,10 @@ public class DiaryApplication extends Application {
 		screen_width=displaymetrics.widthPixels;
 		screen_height=displaymetrics.heightPixels;
 		initialOrientation=this.getResources().getConfiguration().orientation;
+		tableCaches=new HashMap<String, HashMap<Integer,Object>>();
 		dbHelper=new DiaryHelper(this);
 		
+		setTableCaches();
 		//ueHandler = new UEHandler(this); 
         //Thread.setDefaultUncaughtExceptionHandler(ueHandler); 
 		//FlurryAgent.onStartSession(this, Constant.FLURRY_KEY);
@@ -167,5 +192,13 @@ public class DiaryApplication extends Application {
 
 	public void setDateCursor(int dateCursor) {
 		this.dateCursor = dateCursor;
+	}
+	
+	public Object getTableCacheElement(String table_name,Integer _id){
+		HashMap<Integer,Object> map = tableCaches.get(table_name);
+		if(map!=null){
+			return map.get(_id);
+		}
+		return null;
 	}
 }

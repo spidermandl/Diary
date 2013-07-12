@@ -1,8 +1,11 @@
 package com.diary.goal.setting.view;
 
+import com.diary.goal.setting.R;
+import com.diary.goal.setting.tools.BitmapCustomize;
 import com.diary.goal.setting.tools.Constant.SudoType;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
@@ -24,15 +27,18 @@ public class PanelView_7 extends PanelView {
 
 	@Override
 	void init() {
-		sudoType=SudoType.HEALTHY;
+		sudoType=SudoType.SUDO_7;
 		bgColor=0xFFC0C0C0;
 		super.init();
 	}
 	
 	@Override
-	void selfDraw(Canvas canvas) {
-		mPaint.setColor(0xFF000000);
-		canvas.drawText(SudoType.getTypeString(sudoType), this.getMeasuredWidth()/2, this.getMeasuredHeight()/2, mPaint);
-		
+	void selfDraw(Canvas canvas,boolean activated) {
+//		mPaint.setColor(0xFF000000);
+//		canvas.drawText(SudoType.getTypeString(sudoType), this.getMeasuredWidth()/2, this.getMeasuredHeight()/2, mPaint);
+		Bitmap temp=BitmapCustomize.customizePicture(context, activated?R.drawable.health_activated:R.drawable.health_null,
+		this.getWidth(),
+		this.getHeight(),false);
+		canvas.drawBitmap(temp, zoomBitmap(temp, this.getWidth(), this.getHeight()), mPaint);
 	}
 }

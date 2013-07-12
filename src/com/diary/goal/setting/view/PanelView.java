@@ -24,7 +24,7 @@ import android.view.View;
 public abstract class PanelView extends View implements View.OnClickListener{
 
 	protected Context context;
-	protected Constant.SudoType sudoType=SudoType.NO_TYPE;
+	protected Constant.SudoType sudoType=SudoType.SUDO_0;
 	protected Paint mPaint;
 	protected int bgColor;
 	
@@ -64,24 +64,20 @@ public abstract class PanelView extends View implements View.OnClickListener{
 
 	@Override
 	protected void onDraw(Canvas canvas) {
-		if(!DiaryApplication.getInstance().getPadStatus().getPadStatus().get(sudoType)){
-			Bitmap temp=BitmapCustomize.customizePicture(context, R.drawable.null_edit,
-    				this.getWidth(),
-    				this.getHeight(),false);
-			canvas.drawBitmap(temp, zoomBitmap(temp, this.getWidth(), this.getHeight()), mPaint);
-//		this.setBackgroundDrawable(new BitmapDrawable(
-//	    		BitmapCustomize.customizePicture(context, R.drawable.null_edit,
-//	    				this.getWidth(),
-//	    				this.getHeight())));
-		}
-		else{
-			canvas.drawColor(bgColor);
-		}
-		selfDraw(canvas);
+//		if(!DiaryApplication.getInstance().getPadStatus().getPadStatus().get(sudoType)){
+//			Bitmap temp=BitmapCustomize.customizePicture(context, R.drawable.null_edit,
+//    				this.getWidth(),
+//    				this.getHeight(),false);
+//			canvas.drawBitmap(temp, zoomBitmap(temp, this.getWidth(), this.getHeight()), mPaint);
+//		}
+//		else{
+//			canvas.drawColor(bgColor);
+//		}
+		selfDraw(canvas,DiaryApplication.getInstance().getPadStatus().getPadStatus().get(sudoType));
 		super.onDraw(canvas);
 	}
 	
-	abstract void selfDraw(Canvas canvas);
+	abstract void selfDraw(Canvas canvas,boolean activated);
 	
 	@Override
 	public void onClick(View v) {
@@ -92,7 +88,7 @@ public abstract class PanelView extends View implements View.OnClickListener{
 		
 	}
 	
-	private Matrix zoomBitmap(Bitmap bitmap, int width, int height) {
+	protected Matrix zoomBitmap(Bitmap bitmap, int width, int height) {
 		int w = bitmap.getWidth();
 		int h = bitmap.getHeight();
 		Matrix matrix = new Matrix();

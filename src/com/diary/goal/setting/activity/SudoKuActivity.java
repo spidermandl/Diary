@@ -81,16 +81,16 @@ public class SudoKuActivity extends Activity implements OnTouchListener,OnGestur
 			DiaryApplication.getInstance().setDateModel(model);
 			Cursor c = DiaryApplication.getInstance().getDbHelper().getTodayPad(model.getDate());
 			HashMap<Constant.SudoType, Boolean> status = new HashMap<Constant.SudoType, Boolean>();
-			status.put(Constant.SudoType.NO_TYPE, false);
-			status.put(Constant.SudoType.WORK, false);
-			status.put(Constant.SudoType.SOCIAL, false);
-			status.put(Constant.SudoType.FAMILY, false);
-			status.put(Constant.SudoType.FINANCE, false);
-			status.put(Constant.SudoType.DATE, false);
-			status.put(Constant.SudoType.OTHER, false);
-			status.put(Constant.SudoType.HEALTHY, false);
-			status.put(Constant.SudoType.PERSONAL, false);
-			status.put(Constant.SudoType.SOUL, false);
+			status.put(Constant.SudoType.SUDO_0, false);
+			status.put(Constant.SudoType.SUDO_1, false);
+			status.put(Constant.SudoType.SUDO_2, false);
+			status.put(Constant.SudoType.SUDO_3, false);
+			status.put(Constant.SudoType.SUDO_4, false);
+			status.put(Constant.SudoType.SUDO_5, false);
+			status.put(Constant.SudoType.SUDO_6, false);
+			status.put(Constant.SudoType.SUDO_7, false);
+			status.put(Constant.SudoType.SUDO_8, false);
+			status.put(Constant.SudoType.SUDO_9, false);
 			if (c != null) {
 				while (c.moveToNext()) {
 					status.put(Constant.SudoType.getSudoType(c.getInt(0)), true);

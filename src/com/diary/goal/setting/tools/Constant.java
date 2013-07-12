@@ -8,16 +8,16 @@ public class Constant {
 	 * 
 	 */
 	public static enum SudoType {
-		NO_TYPE(0),
-		WORK(1), 
-		SOCIAL(2), 
-		FAMILY(3), 
-		FINANCE(4), 
-		DATE(5), 
-		OTHER(6), 
-		HEALTHY(7), 
-		PERSONAL(8), 
-		SOUL(9);
+		SUDO_0(0),
+		SUDO_1(1), 
+		SUDO_2(2), 
+		SUDO_3(3), 
+		SUDO_4(4), 
+		SUDO_5(5), 
+		SUDO_6(6), 
+		SUDO_7(7), 
+		SUDO_8(8), 
+		SUDO_9(9);
 
 		int sudo_type = 0;
 
@@ -32,50 +32,53 @@ public class Constant {
 		public static SudoType getSudoType(int type){
 			switch(type){
 			case 1:
-				return WORK;
+				return SUDO_1;
 			case 2:
-				return SOCIAL;
+				return SUDO_2;
 			case 3:
-				return FAMILY;
+				return SUDO_3;
 			case 4:
-				return FINANCE;
+				return SUDO_4;
 			case 5:
-				return DATE;
+				return SUDO_5;
 			case 6:
-				return OTHER;
+				return SUDO_6;
 			case 7:
-				return HEALTHY;
+				return SUDO_7;
 			case 8:
-				return PERSONAL;
+				return SUDO_8;
 			case 9:
-				return SOUL;
+				return SUDO_9;
 			default:
-				return NO_TYPE;
+				return SUDO_0;
 			}
 		}
 		public static String getTypeString(SudoType type){
-			if(type==WORK){
+			if(type==SUDO_1){
 				return "WORK";
 			}
-			if(type==SOCIAL){
-				return "SOCIAL";
-			}
-			if(type==FAMILY){
-				return "FAMILY";
-			}
-			if(type==FINANCE){
+			if(type==SUDO_2){
 				return "FINANCE";
 			}
-			if(type==OTHER){
-				return "OTHER";
+			if(type==SUDO_3){
+				return "FAMILY";
 			}
-			if(type==HEALTHY){
-				return "HEALTHY";
+			if(type==SUDO_4){
+				return "INNOVATION";
 			}
-			if(type==PERSONAL){
+			if(type==SUDO_5){
+				return "DATE";
+			}
+			if(type==SUDO_6){
+				return "MIT";
+			}
+			if(type==SUDO_7){
+				return "HEALTH";
+			}
+			if(type==SUDO_8){
 				return "PERSONAL";
 			}
-			if(type==SOUL){
+			if(type==SUDO_9){
 				return "SOUL";
 			}
 			return "";
@@ -83,34 +86,34 @@ public class Constant {
 		
 		public static SudoType forTypeValue(String type) {
 			if (type == null) {
-				return NO_TYPE;
+				return SUDO_0;
 			}
 			if ("WORK".equalsIgnoreCase(type)) {
-				return WORK;
-			}
-			if ("SOCIAL".equalsIgnoreCase(type)) {
-				return SOCIAL;
-			}
-			if ("FAMILY".equalsIgnoreCase(type)) {
-				return FAMILY;
+				return SUDO_1;
 			}
 			if ("FINANCE".equalsIgnoreCase(type)) {
-				return FINANCE;
+				return SUDO_2;
+			}
+			if ("FAMILY".equalsIgnoreCase(type)) {
+				return SUDO_3;
+			}
+			if ("INNOVATION".equalsIgnoreCase(type)) {
+				return SUDO_4;
 			}
 			if ("DATE".equalsIgnoreCase(type)) {
-				return DATE;
+				return SUDO_5;
 			}
 			if ("OTHER".equalsIgnoreCase(type)) {
-				return OTHER;
+				return SUDO_6;
 			}
 			if ("HEALTHY".equalsIgnoreCase(type)) {
-				return HEALTHY;
+				return SUDO_7;
 			}
 			if ("PERSONAL".equalsIgnoreCase(type)) {
-				return PERSONAL;
+				return SUDO_8;
 			}
 			if ("SOUL".equalsIgnoreCase(type)) {
-				return SOUL;
+				return SUDO_9;
 			}
 			throw new IllegalArgumentException(type);
 		}

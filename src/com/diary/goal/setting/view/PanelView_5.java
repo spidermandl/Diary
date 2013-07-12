@@ -39,7 +39,7 @@ public class PanelView_5 extends PanelView {
 	}
 	
 	@Override
-	void selfDraw(Canvas canvas) {
+	void selfDraw(Canvas canvas,boolean activated) {
 		Log.e("55555555555", "55555555555");
 		
 	}
