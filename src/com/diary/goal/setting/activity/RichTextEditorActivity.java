@@ -39,6 +39,9 @@ public class RichTextEditorActivity extends SherlockActivity {
     // set defaults for logo & home up
     ab.setDisplayHomeAsUpEnabled(true);
     ab.setDisplayUseLogoEnabled(false);
+    ab.setDisplayShowHomeEnabled(false);
+    ab.setTitle(R.string.edit_back);
+    //ab.setDisplayOptions(options, mask)
     
     editor=(RichEditText)findViewById(R.id.editor);
     editor.enableActionModes(true);
@@ -51,6 +54,9 @@ public class RichTextEditorActivity extends SherlockActivity {
   public boolean onOptionsItemSelected(MenuItem item) {
       //This uses the imported MenuItem from ActionBarSherlock
 	  switch(item.getItemId()){
+	  case android.R.id.home:
+		  this.finish();
+		  break;
 	  case 1:
 		  DateModel model=DiaryApplication.getInstance().getDateModel();
 		  DiaryHelper helper=DiaryApplication.getInstance().getDbHelper();
@@ -70,7 +76,7 @@ public class RichTextEditorActivity extends SherlockActivity {
   
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-      menu.add(0, 1, 1, "Save")//add("Save")
+      menu.add(0, 1, 1,R.string.edit_save)//add("Save")
           .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 
       return true;

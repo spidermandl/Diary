@@ -40,7 +40,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	}
 
 	public interface DiaryConfigColumn{
-		public static final String _ID = Tables.DIARY_CONFIG+"_id";
+		public static final String _ID = "_id";
 		public static final String _SUDO_TYPE = "type";
 		public static final String _CATEGORY_INDEX = "category_index";
 		public static final String _CATEGORY_NAME = "category_name";
@@ -48,14 +48,14 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	}
 	
 	public interface DiaryTrackColumn{
-		public static final String _ID = Tables.DIARY_TRACK+"_id";
+		public static final String _ID = "_id";
 		public static final String _CREATE_TIME = "create_time";
 		public static final String _UPDATE_TIME = "update_time";
-		public static final String _CONFIG_ID = DiaryConfigColumn._ID;
+		public static final String _CONFIG_ID = "config"+DiaryConfigColumn._ID;
 		public static final String _TEXT = "text";
 	}
 	
-	public static final String CREATE_DIARY_CONFIG = 
+	public static final String CREATE_DIARY_TRACK = 
 			"CREATE TABLE IF NOT EXISTS " +  Tables.DIARY_TRACK + "("
 			+ DiaryTrackColumn._ID + " integer primary key autoincrement,"//
 			+ DiaryTrackColumn._CREATE_TIME + " datetime,"	//create time
@@ -63,8 +63,8 @@ public class DiaryHelper extends SQLiteOpenHelper{
 			+ DiaryTrackColumn._CONFIG_ID + " integer,"	//id in table of diary_config
 			+ DiaryTrackColumn._TEXT + " text"	//content
 			+ ")";
-	public static final String CREATE_DIARY_TRACK = 
-			"CREATE TABLE IF NOT EXISTS " +  Tables.DIARY_TRACK + "("
+	public static final String CREATE_DIARY_CONFIG = 
+			"CREATE TABLE IF NOT EXISTS " +  Tables.DIARY_CONFIG + "("
 			+ DiaryConfigColumn._ID + " integer primary key autoincrement,"//
 			+ DiaryConfigColumn._SUDO_TYPE + " integer,"	//sudo type
 			+ DiaryConfigColumn._CATEGORY_INDEX + " integer,"	//index of category
@@ -72,17 +72,17 @@ public class DiaryHelper extends SQLiteOpenHelper{
 			+ DiaryConfigColumn._CATEGORY_TYPE + " integer"	//type of category
 			+ ")";
 	public static final String CREATE_VIEW_TRACK_CONFIG ="CREATE VIEW "+Views.TRACK_CONFIG_ALL+" AS "
-			 +" SELECT "+DiaryTrackColumn._ID+", "
-			         +DiaryTrackColumn._CREATE_TIME+", "
-			         +DiaryTrackColumn._UPDATE_TIME+", "
-			         +DiaryTrackColumn._CONFIG_ID+", "
-			         +DiaryTrackColumn._TEXT+", "
-			         +DiaryConfigColumn._SUDO_TYPE+", "
-			         +DiaryConfigColumn._CATEGORY_INDEX+", "
-			         +DiaryConfigColumn._CATEGORY_NAME+", "
-			         +DiaryConfigColumn._CATEGORY_TYPE
-			  +" FROM "+Tables.DIARY_CONFIG+", "+Tables.DIARY_TRACK
-              +" WHERE "+DiaryTrackColumn._CONFIG_ID+" = "+DiaryConfigColumn._ID;
+			 +" SELECT "+Tables.DIARY_TRACK+"."+DiaryTrackColumn._ID+" AS _id, "
+			            +Tables.DIARY_TRACK+"."+DiaryTrackColumn._CREATE_TIME+", "
+			            +Tables.DIARY_TRACK+"."+DiaryTrackColumn._UPDATE_TIME+", "
+			            +Tables.DIARY_TRACK+"."+DiaryTrackColumn._CONFIG_ID+", "
+			            +Tables.DIARY_TRACK+"."+DiaryTrackColumn._TEXT+", "
+			            +Tables.DIARY_CONFIG+"."+DiaryConfigColumn._SUDO_TYPE+", "
+			            +Tables.DIARY_CONFIG+"."+DiaryConfigColumn._CATEGORY_INDEX+", "
+			            +Tables.DIARY_CONFIG+"."+DiaryConfigColumn._CATEGORY_NAME+", "
+			            +Tables.DIARY_CONFIG+"."+DiaryConfigColumn._CATEGORY_TYPE
+			  +" FROM "+Tables.DIARY_TRACK+ " JOIN " + Tables.DIARY_CONFIG + " ON "
+              +Tables.DIARY_TRACK+"."+DiaryTrackColumn._CONFIG_ID + " = " + Tables.DIARY_CONFIG+"."+DiaryConfigColumn._ID;
 	
 	public static final String DROP_DIARY_TRACK = "DROP TABLE IF EXISTS " + Tables.DIARY_TRACK+" ";
 	public static final String DROP_DIRAY_CONFIG = "DROP TABLE IF EXISTS " + Tables.DIARY_CONFIG+" ";
@@ -114,10 +114,10 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		
 		db.execSQL(CREATE_DIARY_TRACK);
 		db.execSQL(CREATE_DIARY_CONFIG);
+		
+		initDiaryConfig(db);
 		db.execSQL(CREATE_VIEW_TRACK_CONFIG);
-		
-		initDiaryConfig();
-		
+	    
 		db.setTransactionSuccessful();
 		db.endTransaction();
 		
@@ -139,17 +139,19 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	/**
 	 * init table of diary config
 	 */
-	private void initDiaryConfig(){
+	private void initDiaryConfig(SQLiteDatabase db){
 		JSONObject json=DiaryApplication.getInstance().getSudoConfig();
+		int sudotype=0;
 		for(Iterator iter = json.keys(); iter.hasNext();){
+			sudotype++;
 			try {
 				JSONArray array=json.getJSONArray((String)iter.next());
 				for (int i = 0; i < array.length(); i++) {
 					JSONObject jo = (JSONObject) array.get(i);
 					ContentValues values=new ContentValues();
-					values.put(DiaryConfigColumn._SUDO_TYPE, i);
+					values.put(DiaryConfigColumn._SUDO_TYPE,sudotype);
 					values.put(DiaryConfigColumn._CATEGORY_INDEX, jo.getInt("index"));
-					values.put(DiaryConfigColumn._CATEGORY_NAME, jo.getInt("name"));
+					values.put(DiaryConfigColumn._CATEGORY_NAME, jo.getString("name"));
 					values.put(DiaryConfigColumn._CATEGORY_TYPE, jo.getInt("type"));
 					db.insertOrThrow(Tables.DIARY_CONFIG, DiaryConfigColumn._ID, values);
 				}
@@ -209,29 +211,25 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		values.put(DiaryTrackColumn._CREATE_TIME, format.format(model.getDate()));
 		values.put(DiaryTrackColumn._UPDATE_TIME, format.format(model.getDate()));
-		values.put(DIARY_TRACK_COLUMNS[3], model.getType().getType());
-		values.put(DIARY_TRACK_COLUMNS[4], model.getCategory());
-		values.put(DIARY_TRACK_COLUMNS[5], text);
+		values.put(DiaryTrackColumn._CONFIG_ID, model.getConfigId());
+		values.put(DiaryTrackColumn._TEXT, text);
 		
-		db.insertOrThrow(DIARY_TRACK_TABLENAME, DIARY_TRACK_COLUMNS[0], values);
+		db.insertOrThrow(Tables.DIARY_TRACK, DiaryTrackColumn._ID, values);
 	}
 	
 	public void updateDiaryContent(DateModel model,String text){
 		ContentValues values=new ContentValues();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		values.put(DIARY_TRACK_COLUMNS[2], format.format(model.getDate()));
-		values.put(DIARY_TRACK_COLUMNS[5], text);
+		values.put(DiaryTrackColumn._UPDATE_TIME, format.format(model.getDate()));
+		values.put(DiaryTrackColumn._TEXT, text);
 		
 		format = new SimpleDateFormat("yyyy-MM-dd");
 		String date=format.format(model.getDate());
-		int type=model.getType().getType();
-		int category=model.getCategory();
-		db.update(DIARY_TRACK_TABLENAME, values,
-				DIARY_TRACK_COLUMNS[1]+" between '"+date+" 00:00:00' and '"+date+" 23:59:59' " +
+		int config_id=model.getConfigId();
+		db.update(Tables.DIARY_TRACK, values,
+				DiaryTrackColumn._CREATE_TIME+" between '"+date+" 00:00:00' and '"+date+" 23:59:59' " +
 				      " and "
-		           +DIARY_TRACK_COLUMNS[3]+ " = "+type+
-		              " and "
-		           +DIARY_TRACK_COLUMNS[4]+ " = "+category,
+		           +DiaryTrackColumn._CONFIG_ID+ " = "+config_id,
 		        null);
 	}
 

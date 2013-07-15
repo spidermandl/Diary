@@ -2,34 +2,30 @@ package com.diary.goal.setting.adapter;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map.Entry;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.activity.RichTextEditorActivity;
+import com.diary.goal.setting.database.DiaryHelper.Tables;
+import com.diary.goal.setting.model.CategoryModel;
 import com.diary.goal.setting.model.DateModel;
-import com.diary.goal.setting.tools.BitmapCustomize;
 import com.diary.goal.setting.tools.Constant.SudoType;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.Rect;
-import android.graphics.drawable.NinePatchDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -38,8 +34,9 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 	private Context context;
 	private LayoutInflater m_inflater;
 	private HashMap<Integer, String> categorys;
-	private HashMap<Integer, String[]>configs;
+	//private HashMap<Integer, String[]>configs;
 	private ArrayList<Integer> indexs;
+	private HashMap<Integer, CategoryModel> configTables;
 	
 	private final static int TYPE_CHECKBOX=1;
 	private final static int TYPE_CONVENTIONAL_EDIT=2;
@@ -49,42 +46,34 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 		this.context=con;
 		m_inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		categorys=new HashMap<Integer, String>();
-		configs=new HashMap<Integer, String[]>();
 		indexs=new ArrayList<Integer>();
 		loadData();
 	}
 	private void loadData(){
 		DateModel model=DiaryApplication.getInstance().getDateModel();
-		JSONObject json=DiaryApplication.getInstance().getSudoConfig();
-		try {
-			JSONArray array=json.getJSONArray(SudoType.getTypeString(model.getType()).toLowerCase());
-			for (int i=0;i<array.length();i++){
-				JSONObject o=array.optJSONObject(i);
-				int category=o.getInt("index");
-				String name=o.getString("name");
-				int type=o.getInt("type");
-				indexs.add(category);
-				configs.put(category, new String[]{name,String.valueOf(type)});
-				Cursor c=DiaryApplication.getInstance().getDbHelper().getCategory(model.getDate(),model.getType().getType(),category);
+		configTables=(HashMap<Integer,CategoryModel>)DiaryApplication.getInstance().getTableCacheElement(Tables.DIARY_CONFIG, 0);
+		for(Iterator<Integer> keys = configTables.keySet().iterator(); keys.hasNext();){
+			int _id=keys.next();
+			if(SudoType.getSudoType(configTables.get(_id).getSudoType())==model.getType()){
+				indexs.add(_id);
+				Cursor c=DiaryApplication.getInstance().getDbHelper().getCategory(model.getDate(),model.getType().getType(),configTables.get(_id).getCategoryIndex());
 				if(c!=null&&c.getCount()!=0){
 					c.moveToFirst();
-					categorys.put(c.getInt(0),c.getString(1));
+					categorys.put(_id,c.getString(1));
 				}
 				else
-					categorys.put(category, null);
+					categorys.put(_id, null);
 				if(c!=null)
 					c.close();
 			}
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
+		Collections.sort(indexs, new CategoryPriority());
+		
 	}
 	
 	@Override
 	public void notifyDataSetChanged() {
 		categorys.clear();
-		configs.clear();
 		indexs.clear();
 		loadData();
 		
@@ -153,16 +142,17 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 			convertView.setTag(viewHolder);
 		}
 		ViewHolder holder=(ViewHolder)convertView.getTag();
-		holder.showType=Integer.valueOf(configs.get(indexs.get(groupPosition))[1]);
+		CategoryModel categoryModel=configTables.get(indexs.get(groupPosition));
+		holder.showType=Integer.valueOf(categoryModel.getCategoryType());
 		switch (holder.showType) {
 		case TYPE_CHECKBOX:
-			holder.title_type_1.setText(configs.get(indexs.get(groupPosition))[0]);
+			holder.title_type_1.setText(categoryModel.getCategoryName());
 			holder.type_1.setVisibility(View.VISIBLE);
 			holder.type_2.setVisibility(View.GONE);
 			holder.type_3.setVisibility(View.GONE);
 			break;
 		case TYPE_CONVENTIONAL_EDIT:
-			holder.title_type_2.setText(configs.get(indexs.get(groupPosition))[0]);
+			holder.title_type_2.setText(categoryModel.getCategoryName());
 			holder.type_1.setVisibility(View.GONE);
 			holder.type_2.setVisibility(View.VISIBLE);
 			holder.type_3.setVisibility(View.GONE);
@@ -180,8 +170,10 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 				
 				@Override
 				public void onClick(View v) {
-					DiaryApplication.getInstance().getDateModel().setCategory(indexs.get(index));
-					DiaryApplication.getInstance().getDateModel().setText(categorys.get(indexs.get(index)));
+					DateModel model=DiaryApplication.getInstance().getDateModel();
+					model.setCategory(indexs.get(index));
+					model.setText(categorys.get(indexs.get(index)));
+					model.setConfigId(indexs.get(index));
 					Intent intent=new Intent();
 					intent.setClass(context, RichTextEditorActivity.class);
 					((Activity)context).startActivityForResult(intent, 0);
@@ -191,7 +183,7 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 			});
 			break;
 		case TYPE_LIST:
-			holder.title_type_3.setText(configs.get(indexs.get(groupPosition))[0]);
+			holder.title_type_3.setText(categoryModel.getCategoryName());
 			holder.type_1.setVisibility(View.GONE);
 			holder.type_2.setVisibility(View.GONE);
 			holder.type_3.setVisibility(View.VISIBLE);
@@ -224,6 +216,20 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 		CheckBox checkBox;
 	}
     
+	class CategoryPriority implements Comparator<Integer>{
+
+		@Override
+		public int compare(Integer lhs, Integer rhs) {
+		
+			if(configTables.get(lhs).getCategoryIndex()<configTables.get(rhs).getCategoryIndex())
+				return -1;
+			else if (configTables.get(lhs).getCategoryIndex()==configTables.get(rhs).getCategoryIndex())
+				return 0;
+			else
+				return 1;
+		}
+		
+	}
 //	
 //	public BitmapHolder BITMAP_FILE(String key)
 //	{

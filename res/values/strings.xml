@@ -23,4 +23,6 @@
 	<string name="center">Center</string>
 	<string name="opposite">Opposite</string>
 
+	<string name="edit_save">SAVE</string>
+	<string name="edit_back">BACK</string>
 </resources>

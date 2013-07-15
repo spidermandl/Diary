@@ -2,8 +2,9 @@ package com.diary.goal.setting;
 
 import java.io.IOException;
 import java.lang.ref.SoftReference;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,10 +20,13 @@ import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.tools.Function;
 import com.flurry.android.FlurryAgent;
 
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
@@ -94,10 +98,8 @@ public class DiaryApplication extends Application {
 		screen_width=displaymetrics.widthPixels;
 		screen_height=displaymetrics.heightPixels;
 		initialOrientation=this.getResources().getConfiguration().orientation;
-		tableCaches=new HashMap<String, HashMap<Integer,Object>>();
 		dbHelper=new DiaryHelper(this);
 		
-		setTableCaches();
 		//ueHandler = new UEHandler(this); 
         //Thread.setDefaultUncaughtExceptionHandler(ueHandler); 
 		//FlurryAgent.onStartSession(this, Constant.FLURRY_KEY);
@@ -106,6 +108,26 @@ public class DiaryApplication extends Application {
 	public void quit(){
 		dbHelper.close();
 		//FlurryAgent.onEndSession(this);
+    	ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE); 
+    	if (Build.VERSION.SDK_INT < 8){
+    		am.restartPackage(getPackageName());
+    	}
+    	else{
+			Method method;
+			try {
+				method = am.getClass().getMethod("killBackgroundProcesses",new Class[] {String.class });
+				method.invoke(am,"com.diary.goal.setting");
+	   		} catch (NoSuchMethodException e) {
+				e.printStackTrace();
+			}catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			}	
+    		//am.killBackgroundProcesses("com.diary.goal.setting"); 
+    	}
 	}
 	public int getScreen_w() {
 		if(!reverseOrientation)
@@ -195,8 +217,14 @@ public class DiaryApplication extends Application {
 	}
 	
 	public Object getTableCacheElement(String table_name,Integer _id){
+		if(tableCaches==null){
+			tableCaches=new HashMap<String, HashMap<Integer,Object>>();
+			setTableCaches();
+		}
 		HashMap<Integer,Object> map = tableCaches.get(table_name);
 		if(map!=null){
+			if(_id==0)
+				return map;
 			return map.get(_id);
 		}
 		return null;

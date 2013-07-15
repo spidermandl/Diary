@@ -1102,6 +1102,8 @@ containing a value of this type.
          */
         public static final int bold=0x7f090011;
         public static final int center=0x7f09001f;
+        public static final int edit_back=0x7f090022;
+        public static final int edit_save=0x7f090021;
         public static final int effects=0x7f09001a;
         public static final int fonts=0x7f09001b;
         public static final int format=0x7f09001c;
