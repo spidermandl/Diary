@@ -103,7 +103,7 @@ public class Constant {
 			if ("DATE".equalsIgnoreCase(type)) {
 				return SUDO_5;
 			}
-			if ("OTHER".equalsIgnoreCase(type)) {
+			if ("MIT".equalsIgnoreCase(type)) {
 				return SUDO_6;
 			}
 			if ("HEALTHY".equalsIgnoreCase(type)) {

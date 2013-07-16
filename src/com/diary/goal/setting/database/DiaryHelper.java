@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.model.DateModel;
+import com.diary.goal.setting.tools.Constant.SudoType;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -143,9 +144,10 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		JSONObject json=DiaryApplication.getInstance().getSudoConfig();
 		int sudotype=0;
 		for(Iterator iter = json.keys(); iter.hasNext();){
-			sudotype++;
 			try {
-				JSONArray array=json.getJSONArray((String)iter.next());
+				String type_str=(String)iter.next();
+				JSONArray array=json.getJSONArray(type_str);
+				sudotype=SudoType.forTypeValue(type_str).getType();
 				for (int i = 0; i < array.length(); i++) {
 					JSONObject jo = (JSONObject) array.get(i);
 					ContentValues values=new ContentValues();
