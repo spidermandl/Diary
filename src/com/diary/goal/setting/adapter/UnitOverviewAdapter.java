@@ -12,9 +12,11 @@ import java.util.Map.Entry;
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.activity.RichTextEditorActivity;
+import com.diary.goal.setting.database.DiaryHelper;
 import com.diary.goal.setting.database.DiaryHelper.Tables;
 import com.diary.goal.setting.model.CategoryModel;
 import com.diary.goal.setting.model.DateModel;
+import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.tools.Constant.SudoType;
 
 import android.app.Activity;
@@ -26,6 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -144,15 +147,38 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 		ViewHolder holder=(ViewHolder)convertView.getTag();
 		CategoryModel categoryModel=configTables.get(indexs.get(groupPosition));
 		holder.showType=Integer.valueOf(categoryModel.getCategoryType());
+		final int index=groupPosition;
+		String text;
 		switch (holder.showType) {
 		case TYPE_CHECKBOX:
-			holder.title_type_1.setText(categoryModel.getCategoryName());
+			holder.title_type_1.setText(switchLanguage(categoryModel.getCategoryName()));
 			holder.type_1.setVisibility(View.VISIBLE);
 			holder.type_2.setVisibility(View.GONE);
 			holder.type_3.setVisibility(View.GONE);
+			CheckBox choice=holder.checkBox;
+			text=categorys.get(indexs.get(groupPosition));
+			choice.setChecked(text!=null&&Boolean.valueOf(text));
+			choice.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+				
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					  DateModel model=DiaryApplication.getInstance().getDateModel();
+					  model.setCategory(configTables.get(indexs.get(index)).getCategoryIndex());
+					  model.setConfigId(indexs.get(index));
+					  DiaryHelper helper=DiaryApplication.getInstance().getDbHelper();
+					  Cursor c=helper.getCategory(model);
+					  if(c!=null&&c.getCount()!=0)
+						  helper.updateDiaryContent(model, isChecked?"true":"false");
+					  else
+						  helper.insertDiaryContent(model, isChecked?"true":"false");
+					  if(c!=null)
+						  c.close();
+					  DiaryApplication.getInstance().getPadStatus().getPadStatus().put(model.getType(), true);
+				}
+			});
 			break;
 		case TYPE_CONVENTIONAL_EDIT:
-			holder.title_type_2.setText(categoryModel.getCategoryName());
+			holder.title_type_2.setText(switchLanguage(categoryModel.getCategoryName()));
 			holder.type_1.setVisibility(View.GONE);
 			holder.type_2.setVisibility(View.VISIBLE);
 			holder.type_3.setVisibility(View.GONE);
@@ -163,15 +189,14 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 //					bitmap, bitmap.getNinePatchChunk(), new Rect(), null));	
 //			content.setPadding(pads[0], pads[1], pads[2], pads[3]);
 			
-			String text=categorys.get(indexs.get(groupPosition));
-			content.setText(text==null?"N/A":text);
-			final int index=groupPosition;
+			text=categorys.get(indexs.get(groupPosition));
+			content.setText(text==null?"N/A":switchLanguage(text));
 			content.setOnClickListener(new View.OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
 					DateModel model=DiaryApplication.getInstance().getDateModel();
-					model.setCategory(indexs.get(index));
+					model.setCategory(configTables.get(indexs.get(index)).getCategoryIndex());
 					model.setText(categorys.get(indexs.get(index)));
 					model.setConfigId(indexs.get(index));
 					Intent intent=new Intent();
@@ -183,7 +208,7 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 			});
 			break;
 		case TYPE_LIST:
-			holder.title_type_3.setText(categoryModel.getCategoryName());
+			holder.title_type_3.setText(switchLanguage(categoryModel.getCategoryName()));
 			holder.type_1.setVisibility(View.GONE);
 			holder.type_2.setVisibility(View.GONE);
 			holder.type_3.setVisibility(View.VISIBLE);
@@ -229,6 +254,11 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 				return 1;
 		}
 		
+	}
+	
+	private String switchLanguage(String key){
+		Integer value=Constant.stringDict.get(key);
+		return value==null?key:context.getResources().getString(value);
 	}
 //	
 //	public BitmapHolder BITMAP_FILE(String key)

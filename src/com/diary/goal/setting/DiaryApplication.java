@@ -17,6 +17,7 @@ import com.diary.goal.setting.model.DateModel;
 import com.diary.goal.setting.model.PanelDateModel;
 import com.diary.goal.setting.thread.UEHandler;
 import com.diary.goal.setting.tools.Constant;
+import com.diary.goal.setting.tools.Constant.SudoType;
 import com.diary.goal.setting.tools.Function;
 import com.flurry.android.FlurryAgent;
 

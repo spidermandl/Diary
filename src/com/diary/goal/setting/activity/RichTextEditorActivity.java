@@ -60,7 +60,7 @@ public class RichTextEditorActivity extends SherlockActivity {
 	  case 1:
 		  DateModel model=DiaryApplication.getInstance().getDateModel();
 		  DiaryHelper helper=DiaryApplication.getInstance().getDbHelper();
-		  Cursor c=DiaryApplication.getInstance().getDbHelper().getCategory(model);
+		  Cursor c=helper.getCategory(model);
 		  if(c!=null&&c.getCount()!=0)
 			  helper.updateDiaryContent(model, editor.getEditableText().toString());
 		  else

@@ -1038,16 +1038,15 @@ containing a value of this type.
         public static final int abs__search_dropdown_item_icons_2line=0x7f030012;
         public static final int abs__search_view=0x7f030013;
         public static final int abs__simple_dropdown_hint=0x7f030014;
-        public static final int activity_main=0x7f030015;
-        public static final int circle_layout=0x7f030016;
-        public static final int edit_panal=0x7f030017;
-        public static final int essay_overview=0x7f030018;
-        public static final int essay_overview_item=0x7f030019;
-        public static final int flip_frame=0x7f03001a;
-        public static final int flip_tape=0x7f03001b;
-        public static final int nine_panel_frame=0x7f03001c;
-        public static final int sherlock_spinner_dropdown_item=0x7f03001d;
-        public static final int sherlock_spinner_item=0x7f03001e;
+        public static final int circle_layout=0x7f030015;
+        public static final int edit_panal=0x7f030016;
+        public static final int essay_overview=0x7f030017;
+        public static final int essay_overview_item=0x7f030018;
+        public static final int flip_frame=0x7f030019;
+        public static final int flip_tape=0x7f03001a;
+        public static final int nine_panel_frame=0x7f03001b;
+        public static final int sherlock_spinner_dropdown_item=0x7f03001c;
+        public static final int sherlock_spinner_item=0x7f03001d;
     }
     public static final class menu {
         public static final int activity_main=0x7f0b0000;
@@ -1058,6 +1057,7 @@ containing a value of this type.
         public static final int cwac_richedittext_main=0x7f0b0005;
     }
     public static final class string {
+        public static final int abnormal_on_health=0x7f09003c;
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
          */
         public static final int abs__action_bar_home_description=0x7f090000;
@@ -1097,30 +1097,66 @@ containing a value of this type.
         /**  Description of a share target (both in the list of such or the default share button) in a ShareActionProvider (share UI). [CHAR LIMIT=NONE] 
          */
         public static final int abs__shareactionprovider_share_with_application=0x7f090007;
+        public static final int accounts_on_finance=0x7f090034;
         public static final int app_name=0x7f09000d;
         /**  strings for richedit controller
+ strings for richedit controller
          */
-        public static final int bold=0x7f090011;
-        public static final int center=0x7f09001f;
-        public static final int edit_back=0x7f090022;
-        public static final int edit_save=0x7f090021;
-        public static final int effects=0x7f09001a;
-        public static final int fonts=0x7f09001b;
-        public static final int format=0x7f09001c;
-        public static final int hello_world=0x7f09000e;
-        public static final int italic=0x7f090012;
-        public static final int lines=0x7f09001d;
-        public static final int menu_settings=0x7f09000f;
-        public static final int mono=0x7f090019;
-        public static final int normal=0x7f09001e;
-        public static final int opposite=0x7f090020;
-        public static final int sans=0x7f090017;
-        public static final int serif=0x7f090018;
-        public static final int strikethrough=0x7f090014;
-        public static final int subscript=0x7f090016;
-        public static final int superscript=0x7f090015;
-        public static final int title_activity_main=0x7f090010;
-        public static final int underline=0x7f090013;
+        public static final int bold=0x7f090010;
+        public static final int category1=0x7f09002b;
+        public static final int category2=0x7f09002c;
+        public static final int category3=0x7f09002d;
+        public static final int category4=0x7f09002e;
+        public static final int category5=0x7f09002f;
+        public static final int category6=0x7f090030;
+        public static final int center=0x7f09001e;
+        public static final int date=0x7f090026;
+        public static final int diet_on_health=0x7f09003f;
+        public static final int edit_back=0x7f090021;
+        public static final int edit_save=0x7f090020;
+        public static final int effects=0x7f090019;
+        public static final int excercise_on_health=0x7f09003d;
+        public static final int excretion_on_health=0x7f09003e;
+        public static final int family=0x7f090024;
+        public static final int finance=0x7f090023;
+        public static final int five_achievements_on_soul=0x7f090042;
+        public static final int fonts=0x7f09001a;
+        public static final int format=0x7f09001b;
+        public static final int friends_on_family=0x7f090036;
+        public static final int healthy=0x7f090028;
+        public static final int idea_on_personal=0x7f090040;
+        public static final int improvments_on_work=0x7f090031;
+        public static final int innovation=0x7f090025;
+        public static final int italic=0x7f090011;
+        public static final int lack_on_work=0x7f090032;
+        public static final int lines=0x7f09001c;
+        public static final int menu_settings=0x7f09000e;
+        public static final int mit=0x7f090027;
+        public static final int mono=0x7f090018;
+        public static final int normal=0x7f09001d;
+        public static final int opposite=0x7f09001f;
+        public static final int personal=0x7f090029;
+        public static final int physiological_cycle_on_health=0x7f09003b;
+        public static final int read_on_finance=0x7f090033;
+        public static final int relationship_on_family=0x7f090037;
+        public static final int relatives_on_family=0x7f090035;
+        public static final int sans=0x7f090016;
+        public static final int serif=0x7f090017;
+        public static final int soul=0x7f09002a;
+        public static final int strikethrough=0x7f090013;
+        public static final int subscript=0x7f090015;
+        public static final int superscript=0x7f090014;
+        public static final int thinking_on_innovation=0x7f09003a;
+        public static final int thoughts_on_achievements_on_soul=0x7f090043;
+        public static final int time_management_on_innovation=0x7f090039;
+        public static final int title_activity_main=0x7f09000f;
+        public static final int tmc_on_personal=0x7f090041;
+        public static final int treasure_on_innovation=0x7f090038;
+        public static final int underline=0x7f090012;
+        /**  config string 
+ config string 
+         */
+        public static final int work=0x7f090022;
     }
     public static final class style {
         public static final int AppTheme=0x7f0a0059;

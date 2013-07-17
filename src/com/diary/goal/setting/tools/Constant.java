@@ -1,12 +1,12 @@
 package com.diary.goal.setting.tools;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.diary.goal.setting.R;
+
 public class Constant {
 
-	/**
-	 * 
-	 * @author duanlei
-	 * 
-	 */
 	public static enum SudoType {
 		SUDO_0(0),
 		SUDO_1(1), 
@@ -120,6 +120,46 @@ public class Constant {
 	}
 	
 	public static String FLURRY_KEY="YMY4T7WMFCYVP3R5SS7H";
-	// public static HashMap<Integer, String> SudoIndex=new HashMap<Integer,
-	// String>(map)
+	/**string Dic*/
+	public final static  Map<String, Integer> stringDict=new HashMap<String, Integer>(){{
+		put(SudoType.getTypeString(SudoType.SUDO_1), R.string.work);
+		put(SudoType.getTypeString(SudoType.SUDO_2), R.string.finance);
+		put(SudoType.getTypeString(SudoType.SUDO_3), R.string.family);
+		put(SudoType.getTypeString(SudoType.SUDO_4), R.string.innovation);
+		put(SudoType.getTypeString(SudoType.SUDO_5), R.string.date);
+		put(SudoType.getTypeString(SudoType.SUDO_6), R.string.mit);
+		put(SudoType.getTypeString(SudoType.SUDO_7), R.string.healthy);
+		put(SudoType.getTypeString(SudoType.SUDO_8), R.string.personal);
+		put(SudoType.getTypeString(SudoType.SUDO_9), R.string.soul);
+		
+		put("category1", R.string.category1);
+		put("category2", R.string.category2);
+		put("category3", R.string.category3);
+		put("category4", R.string.category4);
+		put("category5", R.string.category5);
+		put("category6", R.string.category6);
+		
+		put("improvements on work", R.string.improvments_on_work);
+		put("need to be improved", R.string.lack_on_work);
+		put("finance reading", R.string.read_on_finance);
+		put("finace accounting", R.string.accounts_on_finance);
+		put("relatives", R.string.relatives_on_family);
+		put("friends", R.string.friends_on_family);
+		put("relationship", R.string.relationship_on_family);
+		put("treasure management", R.string.treasure_on_innovation);
+		put("time management", R.string.time_management_on_innovation);
+		put("thinking pattern", R.string.thinking_on_innovation);
+		put("physiological cycle", R.string.physiological_cycle_on_health);
+		put("health abnormal", R.string.abnormal_on_health);
+		put("excercise", R.string.excercise_on_health);
+		put("exceretion", R.string.excretion_on_health);
+		put("diet", R.string.diet_on_health);
+		put("new concept", R.string.idea_on_personal);
+		put("TMC", R.string.tmc_on_personal);
+		put("five achievements", R.string.five_achievements_on_soul);
+		put("thoughts on achievements", R.string.thoughts_on_achievements_on_soul);
+	}
+	};
+	
+	
 }

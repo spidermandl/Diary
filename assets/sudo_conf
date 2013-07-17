@@ -3,63 +3,58 @@
         {
             "index":1,
             "type":2,
-            "name":"category1"
+            "name":"improvements on work"
         },
         {
             "index":2,
             "type":2,
-            "name":"category2"
+            "name":"need to be improved"
          },
         ],
      "finance":[
         {
             "index":1,
             "type":2,
-            "name":"category1"
+            "name":"finance reading"
         },
         {
             "index":2,
-            "type":2,
-            "name":"category2"
-         },
-        {
-            "index":3,
-            "type":2,
-            "name":"category3"
+            "type":1,
+            "name":"finace accounting"
          },
         ],
      "family":[
         {
             "index":1,
             "type":2,
-            "name":"category1"
+            "name":"relatives"
         },
         {
             "index":2,
             "type":2,
-            "name":"category2"
+            "name":"friends"
          },
         {
             "index":3,
             "type":2,
-            "name":"category3"
-         },
-        {
-            "index":4,
-            "type":2,
-            "name":"category4"
+            "name":"relationship"
          },
         ],
      "innovation":[
         {
             "index":1,
             "type":2,
-            "name":"category1"
+            "name":"treasure management"
         },
         {
             "index":2,
             "type":2,
-            "name":"category2"
+            "name":"time management"
+         },
+         {
+            "index":2,
+            "type":2,
+            "name":"thinking pattern"
          }
         ],
      "date":[
@@ -95,39 +90,39 @@
         {
             "index":2,
             "type":2,
-            "name":"category2"
-         },
+            "name":"physiological cycle"
+        },
         {
             "index":3,
             "type":2,
-            "name":"category3"
+            "name":"health abnormal"
          },
         {
             "index":4,
             "type":2,
-            "name":"category4"
+            "name":"excercise"
          },
         {
             "index":5,
             "type":2,
-            "name":"category5"
+            "name":"exceretion"
          },
         {
             "index":6,
             "type":2,
-            "name":"category6"
-         }
+            "name":"diet"
+         },
         ],
      "personal":[
         {
             "index":1,
             "type":2,
-            "name":"category1"
+            "name":"new concept"
         },
         {
             "index":2,
             "type":2,
-            "name":"category2"
+            "name":"TMC"
          }
         ],
      "soul":[
