@@ -17,11 +17,9 @@ import com.diary.goal.setting.model.DateModel;
 import com.diary.goal.setting.model.PanelDateModel;
 import com.diary.goal.setting.thread.UEHandler;
 import com.diary.goal.setting.tools.Constant;
-import com.diary.goal.setting.tools.Constant.SudoType;
 import com.diary.goal.setting.tools.Function;
 import com.flurry.android.FlurryAgent;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
@@ -101,8 +99,8 @@ public class DiaryApplication extends Application {
 		initialOrientation=this.getResources().getConfiguration().orientation;
 		dbHelper=new DiaryHelper(this);
 		
-		//ueHandler = new UEHandler(this); 
-        //Thread.setDefaultUncaughtExceptionHandler(ueHandler); 
+		ueHandler = new UEHandler(this); 
+        Thread.setDefaultUncaughtExceptionHandler(ueHandler); 
 		//FlurryAgent.onStartSession(this, Constant.FLURRY_KEY);
 		super.onCreate();
 	}
