@@ -1,5 +1,7 @@
 package com.diary.goal.setting.activity;
 
+import com.diary.goal.setting.DiaryApplication;
+import com.diary.goal.setting.R;
 import com.diary.goal.setting.adapter.UnitOverviewAdapter;
 
 import android.app.Activity;
@@ -15,10 +17,12 @@ public class UnitOverviewActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		ExpandableListView listview = new ExpandableListView(this);
 		listview.setGroupIndicator(null);
-		//listview.setIndicatorBounds(100, 110);
+		//listview.setGroupIndicator(this.getResources().getDrawable(R.drawable.group_icon_selector));
+		//listview.setIndicatorBounds(DiaryApplication.getInstance().getScreen_w()-20, DiaryApplication.getInstance().getScreen_w()-10);
 		listview.setDividerHeight(0);
 		mAdapter=new UnitOverviewAdapter(this);
 		listview.setAdapter(mAdapter);
+		//listview.addHeaderView(v);
 		setContentView(listview);
 		super.onCreate(savedInstanceState);
 	}

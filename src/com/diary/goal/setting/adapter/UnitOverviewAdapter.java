@@ -44,6 +44,7 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 	private final static int TYPE_CHECKBOX=1;
 	private final static int TYPE_CONVENTIONAL_EDIT=2;
 	private final static int TYPE_LIST=3;
+	private final static int TYPE_TITLE=4;
 	
 	public UnitOverviewAdapter(Context con) {
 		this.context=con;
