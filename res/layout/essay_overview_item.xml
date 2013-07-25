@@ -139,6 +139,13 @@
             android:paddingTop="@dimen/brief_edit_paddingtop"
             android:textColor="#FF704214"
             android:textSize="16sp" />
+        
+        <ImageView android:id="@+id/expandable_type_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dip"/>
     </RelativeLayout>
 
 </FrameLayout>

@@ -16,6 +16,7 @@ import com.diary.goal.setting.database.DiaryHelper;
 import com.diary.goal.setting.database.DiaryHelper.Tables;
 import com.diary.goal.setting.model.CategoryModel;
 import com.diary.goal.setting.model.DateModel;
+import com.diary.goal.setting.tools.BitmapCustomize;
 import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.tools.Constant.SudoType;
 
@@ -23,12 +24,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -143,6 +146,7 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 			viewHolder.content=(TextView)convertView.findViewById(R.id.content_type_2);
 			viewHolder.type_3=(RelativeLayout)convertView.findViewById(R.id.category_type_3);
 			viewHolder.title_type_3=(TextView)convertView.findViewById(R.id.title_type_3);
+			viewHolder.jump=(ImageView)convertView.findViewById(R.id.expandable_type_3);
 			convertView.setTag(viewHolder);
 		}
 		ViewHolder holder=(ViewHolder)convertView.getTag();
@@ -189,7 +193,6 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 //			content.setBackgroundDrawable(new NinePatchDrawable(context.getResources(), 
 //					bitmap, bitmap.getNinePatchChunk(), new Rect(), null));	
 //			content.setPadding(pads[0], pads[1], pads[2], pads[3]);
-			
 			text=categorys.get(indexs.get(groupPosition));
 			content.setText(text==null?"N/A":switchLanguage(text));
 			content.setOnClickListener(new View.OnClickListener() {
@@ -210,6 +213,14 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 			break;
 		case TYPE_LIST:
 			holder.title_type_3.setText(switchLanguage(categoryModel.getCategoryName()));
+			//holder.title_type_3.setBackgroundResource(R.drawable.group_icon_selector);
+			if(isExpanded)
+				holder.jump.setBackgroundDrawable(new BitmapDrawable(
+						BitmapCustomize.customizePicture(context, R.drawable.jump_down, 0, 0, false)));
+			else{
+				holder.jump.setBackgroundDrawable(new BitmapDrawable(
+						BitmapCustomize.customizePicture(context, R.drawable.jump_right, 0, 0, false)));
+			}
 			holder.type_1.setVisibility(View.GONE);
 			holder.type_2.setVisibility(View.GONE);
 			holder.type_3.setVisibility(View.VISIBLE);
@@ -240,6 +251,7 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 		TextView title_type_1,title_type_2,title_type_3;
 		TextView content;
 		CheckBox checkBox;
+		ImageView jump;
 	}
     
 	class CategoryPriority implements Comparator<Integer>{

@@ -101,12 +101,12 @@ public class DiaryApplication extends Application {
 		
 		ueHandler = new UEHandler(this); 
         Thread.setDefaultUncaughtExceptionHandler(ueHandler); 
-		//FlurryAgent.onStartSession(this, Constant.FLURRY_KEY);
+		FlurryAgent.onStartSession(this, Constant.FLURRY_KEY);
 		super.onCreate();
 	}
 	public void quit(){
 		dbHelper.close();
-		//FlurryAgent.onEndSession(this);
+		FlurryAgent.onEndSession(this);
     	ActivityManager am = (ActivityManager) getSystemService(ACTIVITY_SERVICE); 
     	if (Build.VERSION.SDK_INT < 8){
     		am.restartPackage(getPackageName());
