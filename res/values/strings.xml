@@ -63,4 +63,12 @@
 	<string name="five_achievements_on_soul">five achievements</string>
 	<string name="thoughts_on_achievements_on_soul">thoughts on achievements</string>
 	
+	<string name="week_1">Sunday</string>
+	<string name="week_2">Monday</string>
+	<string name="week_3">Tuesday</string>
+	<string name="week_4">Wednesday</string>
+	<string name="week_5">Thursday</string>
+	<string name="week_6">Friday</string>
+	<string name="week_7">Saturday</string>
+	
 </resources>

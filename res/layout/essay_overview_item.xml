@@ -125,7 +125,7 @@
         <com.diary.goal.setting.view.DashLineView
             android:id="@+id/line_h_type_3"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="3dp"
             dash:orientation="0" />
 
         <TextView
@@ -146,6 +146,7 @@
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dip"/>
+        
     </RelativeLayout>
 
 </FrameLayout>

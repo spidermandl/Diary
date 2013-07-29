@@ -161,5 +161,26 @@ public class Constant {
 	}
 	};
 	
+	public static final int getWeekDay(int weekDay){
+		switch(weekDay){
+		case 1:
+			return R.string.week_1;
+		case 2:
+			return R.string.week_2;
+		case 3:
+			return R.string.week_3;
+		case 4:
+			return R.string.week_4;
+		case 5:
+			return R.string.week_5;
+		case 6:
+			return R.string.week_6;
+		case 7:
+			return R.string.week_7;
+		default:
+			return R.string.week_1;
+		}
+	}
+	
 	
 }
