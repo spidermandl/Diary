@@ -230,7 +230,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 
 			mTouchState = mScroller.isFinished() ? TOUCH_STATE_REST
 					: TOUCH_STATE_SCROLLING;
-			Log.e("view flow onInterceptTouchEvent", "ACTION_down");
+			//Log.e("view flow onInterceptTouchEvent", "ACTION_down");
 			break;
 
 		case MotionEvent.ACTION_MOVE:
@@ -248,7 +248,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 
 			if (mTouchState == TOUCH_STATE_SCROLLING) {
 				// Scroll to follow the motion event
-				Log.e("ViewFlow onInterceptTouchEvent", "action_move true");
+				//Log.e("ViewFlow onInterceptTouchEvent", "action_move true");
 				mLastMotionX = x;
 
 				final int scrollX = getScrollX();
@@ -264,10 +264,10 @@ public class ViewFlow extends AdapterView<Adapter> {
 						scrollBy(Math.min(availableToScroll, deltaX), 0);
 					}
 				}
-				Log.e("view flow onInterceptTouchEvent", "ACTION_MOVE true");
+				//Log.e("view flow onInterceptTouchEvent", "ACTION_MOVE true");
 				return true;
 			}
-			Log.e("view flow onInterceptTouchEvent", "ACTION_MOVE false");
+			//Log.e("view flow onInterceptTouchEvent", "ACTION_MOVE false");
 			break;
 
 		case MotionEvent.ACTION_UP:
@@ -298,11 +298,11 @@ public class ViewFlow extends AdapterView<Adapter> {
 			}
 
 			mTouchState = TOUCH_STATE_REST;
-			Log.e("view flow onInterceptTouchEvent", "ACTION_up");
+			//Log.e("view flow onInterceptTouchEvent", "ACTION_up");
 			break;
 		case MotionEvent.ACTION_CANCEL:
 			mTouchState = TOUCH_STATE_REST;
-			Log.e("ViewFlow onInterceptTouchEvent", "action_cancel");
+			//Log.e("ViewFlow onInterceptTouchEvent", "action_cancel");
 		}
 		return false;
 	}
@@ -335,7 +335,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 
 			mTouchState = mScroller.isFinished() ? TOUCH_STATE_REST
 					: TOUCH_STATE_SCROLLING;
-            Log.e("Viewflow onTouchEvent", "ACTION_DOWN");
+            //Log.e("Viewflow onTouchEvent", "ACTION_DOWN");
 			break;
 
 		case MotionEvent.ACTION_MOVE:
@@ -353,7 +353,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 
 			if (mTouchState == TOUCH_STATE_SCROLLING) {
 				// Scroll to follow the motion event
-				Log.e("Viewflow onTouchEvent", "ACTION_Move true");
+				//Log.e("Viewflow onTouchEvent", "ACTION_Move true");
 				mLastMotionX = x;
 
 				final int scrollX = getScrollX();
@@ -371,7 +371,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 				}
 				return true;
 			}
-			Log.e("Viewflow onTouchEvent", "ACTION_Move false");
+			//Log.e("Viewflow onTouchEvent", "ACTION_Move false");
 			break;
 
 		case MotionEvent.ACTION_UP:
@@ -402,12 +402,12 @@ public class ViewFlow extends AdapterView<Adapter> {
 			}
 
 			mTouchState = TOUCH_STATE_REST;
-			Log.e("Viewflow onTouchEvent", "ACTION_up");
+			//Log.e("Viewflow onTouchEvent", "ACTION_up");
 			break;
 		case MotionEvent.ACTION_CANCEL:
 			snapToDestination();
 			mTouchState = TOUCH_STATE_REST;
-			Log.e("ViewFlow onTouchEvent", "action_cancel");
+			//Log.e("ViewFlow onTouchEvent", "action_cancel");
 		}
 		return true;
 	}
@@ -451,7 +451,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 	}
 
 	private void snapToScreen(int whichScreen) {
-		Log.e("CurrentScreen", mCurrentScreen+"");
+		//Log.e("CurrentScreen", mCurrentScreen+"");
 		mLastScrollDirection = whichScreen - mCurrentScreen;
 		if (!mScroller.isFinished())
 			return;
@@ -761,5 +761,8 @@ public class ViewFlow extends AdapterView<Adapter> {
 	
 	public void setFlipListener(FlipPathListener mFlipListener) {
 		this.mFlipListener = mFlipListener;
+	}
+	public void scrollScreen(int delta){
+		snapToScreen(mCurrentScreen+delta);
 	}
 }

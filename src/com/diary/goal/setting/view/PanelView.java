@@ -1,23 +1,17 @@
 package com.diary.goal.setting.view;
 
 import com.diary.goal.setting.DiaryApplication;
-import com.diary.goal.setting.R;
-import com.diary.goal.setting.activity.RichTextEditorActivity;
 import com.diary.goal.setting.activity.UnitOverviewActivity;
-import com.diary.goal.setting.model.DateModel;
-import com.diary.goal.setting.richedit.RichEditText;
-import com.diary.goal.setting.tools.BitmapCustomize;
 import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.tools.Constant.SudoType;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -81,10 +75,12 @@ public abstract class PanelView extends View implements View.OnClickListener{
 	
 	@Override
 	public void onClick(View v) {
-		DiaryApplication.getInstance().getDateModel().setType(sudoType);
-		Intent intent=new Intent();
-		intent.setClass(context, UnitOverviewActivity.class);
-		context.startActivity(intent);
+		if(DiaryApplication.getInstance().getDateCursor()<=0){
+			DiaryApplication.getInstance().getDateModel().setType(sudoType);
+			Intent intent=new Intent();
+			intent.setClass(context, UnitOverviewActivity.class);
+			((Activity)context).startActivityForResult(intent, 0);
+		}
 		
 	}
 	

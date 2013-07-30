@@ -5,17 +5,15 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 import com.diary.goal.setting.DiaryApplication;
-import com.diary.goal.setting.R;
 import com.diary.goal.setting.adapter.NinePanelAdapter;
-import com.diary.goal.setting.adapter.UnitOverviewAdapter;
 import com.diary.goal.setting.listener.FlipPathListener;
 import com.diary.goal.setting.model.DateModel;
 import com.diary.goal.setting.model.PanelDateModel;
 import com.diary.goal.setting.tools.Constant;
-import com.diary.goal.setting.view.FlipView;
 import com.diary.goal.setting.view.ViewFlow;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -23,7 +21,6 @@ import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import android.view.Window;
 import android.widget.Toast;
 
 public class SudoKuActivity extends Activity implements OnTouchListener,OnGestureListener{
@@ -31,19 +28,22 @@ public class SudoKuActivity extends Activity implements OnTouchListener,OnGestur
 	private int verticalMinDistance = 20;  
 	private int minVelocity         = 0;  
 	
+	private ViewFlow viewFlow;
+	private int position;//record current page of sudo view
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		DiaryApplication.getInstance().setOrientation(
 				this.getResources().getConfiguration().orientation);
 		
 		init();
-		ViewFlow viewFlow=new ViewFlow(this);
+		viewFlow=new ViewFlow(this);
 		viewFlow.setAdapter(new NinePanelAdapter(this));
 		viewFlow.setFlipListener(new FlipPathListener() {
 			
 			@Override
 			public void track(int steps) {
-				int position=DiaryApplication.getInstance().getDateCursor();
+				position=DiaryApplication.getInstance().getDateCursor();
 				position+=steps;
 				DiaryApplication.getInstance().setDateCursor(position);
 				getPanelCache();
@@ -54,7 +54,6 @@ public class SudoKuActivity extends Activity implements OnTouchListener,OnGestur
 		//setContentView(R.layout.nine_panel_frame);
 		//setContentView(R.layout.flip_frame);
 		super.onCreate(savedInstanceState);
-		
 	}
 	
 	private void init(){
@@ -66,7 +65,7 @@ public class SudoKuActivity extends Activity implements OnTouchListener,OnGestur
 	 */
 	private void getPanelCache(){
 		HashMap<Integer, PanelDateModel> panelStatus=DiaryApplication.getInstance().getPanelCache();
-		int position=DiaryApplication.getInstance().getDateCursor();
+		position=DiaryApplication.getInstance().getDateCursor();
 		if(panelStatus.containsKey(position)){
 			DiaryApplication.getInstance().setPadStatus((PanelDateModel)panelStatus.get(position));
 			DateModel model = new DateModel();
@@ -116,6 +115,13 @@ public class SudoKuActivity extends Activity implements OnTouchListener,OnGestur
 		super.onConfigurationChanged(newConfig);
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		viewFlow.scrollScreen(DiaryApplication.getInstance().getDateCursor()-position);
+		getPanelCache();
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+	
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		// TODO Auto-generated method stub

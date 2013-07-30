@@ -176,6 +176,28 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		return c;
 	}
 	/**
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public Cursor getDataInSingleDay(Date date){
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		String d=format.format(date);
+		Cursor c=db.query(true, Views.TRACK_CONFIG_ALL, 
+				new String[]{
+				        DiaryTrackColumn._CONFIG_ID,
+			            DiaryTrackColumn._TEXT,
+			            DiaryConfigColumn._SUDO_TYPE,
+			            DiaryConfigColumn._CATEGORY_INDEX,
+			            DiaryConfigColumn._CATEGORY_NAME,
+			            DiaryConfigColumn._CATEGORY_TYPE
+			            },
+				DiaryTrackColumn._CREATE_TIME+" between '"+d+" 00:00:00' and '"+d+" 23:59:59'",
+				null, null, null, null, null);
+		
+		return c;
+	}
+	/**
 	 * get records existence of each day
 	 * @return
 	 */
@@ -207,7 +229,11 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		
 		return c;
 	}
-	
+	/**
+	 * insert diary content
+	 * @param model
+	 * @param text
+	 */
 	public void insertDiaryContent(DateModel model,String text){
 		ContentValues values=new ContentValues();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -218,7 +244,11 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		
 		db.insertOrThrow(Tables.DIARY_TRACK, DiaryTrackColumn._ID, values);
 	}
-	
+	/**
+	 * update diary content
+	 * @param model
+	 * @param text
+	 */
 	public void updateDiaryContent(DateModel model,String text){
 		ContentValues values=new ContentValues();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

@@ -1,11 +1,14 @@
 package com.diary.goal.setting.adapter;
 
+import java.util.Calendar;
+
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.adapter.UnitOverviewAdapter.ViewHolder;
 import com.diary.goal.setting.tools.Constant;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +18,7 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class OverviewStrollAdapter extends BaseAdapter {
 
@@ -31,7 +35,7 @@ public class OverviewStrollAdapter extends BaseAdapter {
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return Integer.MAX_VALUE;
+		return Integer.MAX_VALUE/2;
 	}
 
 	@Override
@@ -65,7 +69,10 @@ public class OverviewStrollAdapter extends BaseAdapter {
 //		
 		}
 		ViewHolder holder=(ViewHolder)convertView.getTag();
-		holder.title.setText(Constant.stringDict.get(Constant.SudoType.getTypeString(DiaryApplication.getInstance().getDateModel().getType())));
+		String text=
+				context.getResources().getString(Constant.stringDict.get(Constant.SudoType.getTypeString(DiaryApplication.getInstance().getDateModel().getType())));
+		//text+="("+getMonthString()+")";
+		holder.title.setText(text);
 		mAdapter.notifyDataSetChanged();
 		return convertView;
 		
@@ -74,6 +81,23 @@ public class OverviewStrollAdapter extends BaseAdapter {
 	class ViewHolder{
 		TextView title;
 		ExpandableListView listview;
+	}
+	
+	/**
+	 * construct string with month and day
+	 * @return
+	 */
+	private String getMonthString(){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(DiaryApplication.getInstance().getDateModel().getDate());
+		int month=calendar.get(Calendar.MONTH)+1;
+		int day=calendar.get(Calendar.DAY_OF_MONTH);
+		Log.e("getMonthString month", month+"");
+		Log.e("getMonthString day", day+"");
+		return month>9?"":"0"+month+"."+(day>9?"":"0")+day;
+	}
+	public void refresh(){
+		mAdapter.notifyDataSetChanged();
 	}
 
 }

@@ -1,45 +1,46 @@
 package com.diary.goal.setting.activity;
 
+import java.util.Calendar;
+
 import com.diary.goal.setting.DiaryApplication;
-import com.diary.goal.setting.R;
-import com.diary.goal.setting.adapter.NinePanelAdapter;
 import com.diary.goal.setting.adapter.OverviewStrollAdapter;
-import com.diary.goal.setting.adapter.UnitOverviewAdapter;
 import com.diary.goal.setting.listener.FlipPathListener;
+import com.diary.goal.setting.model.DateModel;
 import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.view.ViewFlow;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 public class UnitOverviewActivity extends Activity {
 
-	private UnitOverviewAdapter mAdapter;
+	private OverviewStrollAdapter mAdapter;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
-		//listview.addHeaderView(v);
-//		setContentView(R.layout.essay_overview);
-//		ExpandableListView listview=(ExpandableListView)this.findViewById(R.id.overview_list);
-//		//listview.setGroupIndicator(null);
-//		//listview.setGroupIndicator(this.getResources().getDrawable(R.drawable.group_icon_selector));
-//		//listview.setIndicatorBounds(DiaryApplication.getInstance().getScreen_w()-20, DiaryApplication.getInstance().getScreen_w()-10);
-//		listview.setDividerHeight(0);
-//		mAdapter=new UnitOverviewAdapter(this);
-//		listview.setAdapter(mAdapter);
-//		TextView title=(TextView)this.findViewById(R.id.overview_title);
-//		title.setText(Constant.stringDict.get(Constant.SudoType.getTypeString(DiaryApplication.getInstance().getDateModel().getType())));
-		
 		ViewFlow viewFlow=new ViewFlow(this);
-		viewFlow.setAdapter(new OverviewStrollAdapter(this),Integer.MAX_VALUE);
+		mAdapter=new OverviewStrollAdapter(this);
+		viewFlow.setAdapter(mAdapter,mAdapter.getCount()-1+DiaryApplication.getInstance().getDateCursor());
 		viewFlow.setFlipListener(new FlipPathListener() {
 			
 			@Override
 			public void track(int steps) {
-				
+				int position=DiaryApplication.getInstance().getDateCursor();
+				position+=steps;
+				DiaryApplication.getInstance().setDateCursor(position);
+				Calendar date = Calendar.getInstance();
+				DateModel model = DiaryApplication.getInstance().getDateModel();
+				date.setTime(model.getDate());
+				date.add(Calendar.DAY_OF_MONTH, steps);
+//				Log.e("position",position+"");
+//				Log.e("month", date.get(Calendar.MONTH)+1+"");
+//				Log.e("day", date.get(Calendar.DAY_OF_MONTH)+"");
+				model.setDate(date.getTime());
+			    mAdapter.refresh();
 			}
 		});
 		setContentView(viewFlow);
@@ -48,7 +49,7 @@ public class UnitOverviewActivity extends Activity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		mAdapter.notifyDataSetChanged();
+		mAdapter.refresh();
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 }

@@ -49,7 +49,7 @@ public class NinePanelAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if(convertView==null){                                                                                                        
-			Log.e("create View", "null "+position);
+			//Log.e("create View", "null "+position);
 			convertView = m_inflater.inflate(R.layout.nine_panel_frame, null);
 		}
 		return convertView;

@@ -99,8 +99,8 @@ public class DiaryApplication extends Application {
 		initialOrientation=this.getResources().getConfiguration().orientation;
 		dbHelper=new DiaryHelper(this);
 		
-		ueHandler = new UEHandler(this); 
-        Thread.setDefaultUncaughtExceptionHandler(ueHandler); 
+		//ueHandler = new UEHandler(this); 
+        //Thread.setDefaultUncaughtExceptionHandler(ueHandler); 
 		FlurryAgent.onStartSession(this, Constant.FLURRY_KEY);
 		super.onCreate();
 	}
@@ -214,7 +214,13 @@ public class DiaryApplication extends Application {
 	public void setDateCursor(int dateCursor) {
 		this.dateCursor = dateCursor;
 	}
-	
+	/**
+	 * get info of static table.
+	 * return the entire table or a specific row with _id provided
+	 * @param table_name
+	 * @param _id
+	 * @return
+	 */
 	public Object getTableCacheElement(String table_name,Integer _id){
 		if(tableCaches==null){
 			tableCaches=new HashMap<String, HashMap<Integer,Object>>();
