@@ -10,7 +10,7 @@
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
   limitations under the License.
-*/    
+ */
 
 package com.diary.goal.setting.activity;
 
@@ -28,59 +28,62 @@ import com.diary.goal.setting.model.DateModel;
 import com.diary.goal.setting.richedit.RichEditText;
 
 public class RichTextEditorActivity extends SherlockActivity {
-  RichEditText editor=null;
-  
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.edit_panal);
-    final ActionBar ab = getSupportActionBar();
+	RichEditText editor = null;
 
-    // set defaults for logo & home up
-    ab.setDisplayHomeAsUpEnabled(true);
-    ab.setDisplayUseLogoEnabled(false);
-    ab.setDisplayShowHomeEnabled(false);
-    ab.setTitle(R.string.edit_back);
-    //ab.setDisplayOptions(options, mask)
-    
-    editor=(RichEditText)findViewById(R.id.editor);
-    editor.enableActionModes(true);
-    
-    DateModel model=DiaryApplication.getInstance().getDateModel();
-    editor.setText(model.getText()==null?"":model.getText());
-  }
-  
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-      //This uses the imported MenuItem from ActionBarSherlock
-	  switch(item.getItemId()){
-	  case android.R.id.home:
-		  this.finish();
-		  break;
-	  case 1:
-		  DateModel model=DiaryApplication.getInstance().getDateModel();
-		  DiaryHelper helper=DiaryApplication.getInstance().getDbHelper();
-		  Cursor c=helper.getCategory(model);
-		  if(c!=null&&c.getCount()!=0)
-			  helper.updateDiaryContent(model, editor.getEditableText().toString());
-		  else
-			  helper.insertDiaryContent(model, editor.getEditableText().toString());
-		  if(c!=null)
-			  c.close();
-		  break;
-	  default:
-		  break;
-	  }
-      return true;
-  }
-  
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-      menu.add(0, 1, 1,R.string.edit_save)//add("Save")
-          .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.edit_panal);
+		final ActionBar ab = getSupportActionBar();
 
-      return true;
-  }
-  
+		// set defaults for logo & home up
+		ab.setDisplayHomeAsUpEnabled(true);
+		ab.setDisplayUseLogoEnabled(false);
+		ab.setDisplayShowHomeEnabled(false);
+		ab.setTitle(R.string.edit_back);
+		// ab.setDisplayOptions(options, mask)
+
+		editor = (RichEditText) findViewById(R.id.editor);
+		editor.enableActionModes(true);
+
+		DateModel model = DiaryApplication.getInstance().getDateModel();
+		editor.setText(model.getText() == null ? "" : model.getText());
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// This uses the imported MenuItem from ActionBarSherlock
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			this.finish();
+			break;
+		case 1:
+			DateModel model = DiaryApplication.getInstance().getDateModel();
+			DiaryHelper helper = DiaryApplication.getInstance().getDbHelper();
+			Cursor c = helper.getCategory(model);
+			if (c != null && c.getCount() != 0)
+				helper.updateDiaryContent(model, editor.getEditableText()
+						.toString());
+			else
+				helper.insertDiaryContent(model, editor.getEditableText()
+						.toString());
+			if (c != null)
+				c.close();
+			break;
+		default:
+			break;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, 1, 1, R.string.edit_save)// add("Save")
+				.setShowAsAction(
+						MenuItem.SHOW_AS_ACTION_IF_ROOM
+								| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+
+		return true;
+	}
 
 }

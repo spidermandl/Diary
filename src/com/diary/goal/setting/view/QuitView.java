@@ -13,6 +13,8 @@ import android.database.Cursor;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.FontMetrics;
+import android.graphics.Paint.Style;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.widget.TextView;
@@ -21,7 +23,10 @@ public class QuitView extends TextView {
 
 	Context context;
 	HashMap<Integer,ArrayList<String>> content;
-    private Paint mPaint;
+	ArrayList<String> lines;
+	FontMetrics fontMetrics;
+	
+    private Paint linePaint,wordPaint;
     private Rect mRect; 
     private float mult = 1.5f; 
     private float add = 2.0f; 
@@ -43,8 +48,11 @@ public class QuitView extends TextView {
 	}
 	
 	void init(){
-		setBackgroundColor(0x00000000);
+		
 		content=new HashMap<Integer, ArrayList<String>>();
+		lines=new ArrayList<String>();
+        fontMetrics = this.getPaint().getFontMetrics(); 
+        
 		Cursor c=DiaryApplication.getInstance().getDbHelper().getDataInSingleDay(DiaryApplication.getInstance().getDateModel().getDate());
 		if(c!=null){
 			while (c.moveToNext()) {
@@ -62,31 +70,44 @@ public class QuitView extends TextView {
 		if(c!=null)
 			c.close();
 		
-        StringBuilder builder = new StringBuilder();
         for (Entry<Integer, ArrayList<String>> entry:content.entrySet()) {
-        	builder.append(this.getResources().getString(entry.getKey())).append(":\n\n");
+        	lines.add(this.getResources().getString(entry.getKey()));
             for (String category : entry.getValue()) {
-                  builder.append("  ").append(category).append("\n\n");
+            	lines.add("  "+category);
             }
         }
-        setText(builder.toString());
+//        setText(builder.toString());
+//        this.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         
         mRect = new Rect();
-        mPaint = new Paint();
-        mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setColor(Color.GRAY);
-        mPaint.setAntiAlias(true);
+        linePaint = new Paint();
+//        linePaint.setStyle(Paint.Style.STROKE);
+//        linePaint.setStrokeWidth(1);
+        linePaint.setColor(Color.GRAY);
+        //linePaint.setAntiAlias(true);
         this.setLineSpacing(add, mult); 
+        
+		wordPaint=new Paint();
+		wordPaint.setColor(0xFF000000);
+		wordPaint.setStyle(Style.STROKE);
+		wordPaint.setAntiAlias(true); // Ïû³ý¾â³Ý   
+		wordPaint.setFlags(Paint.ANTI_ALIAS_FLAG); // Ïû³ý¾â³Ý 
+        wordPaint.setTextSize(-fontMetrics.ascent);
 	}
 	
 	@Override
 	protected void onDraw(Canvas canvas) {
-        int count = getLineCount(); 
+        int count = lines.size(); 
         for (int i = 0; i < count; i++) { 
             getLineBounds(i, mRect); 
             int baseline = (i + 1) * getLineHeight(); 
-            canvas.drawLine(mRect.left, baseline, mRect.right, baseline, mPaint); 
+            canvas.drawLine(mRect.left, baseline, mRect.right, baseline, linePaint);
+            canvas.drawText(lines.get(i), 0, baseline-fontMetrics.descent, wordPaint);
         } 
+        while((count++)*getLineHeight()<this.getHeight()){
+        	int baseline = count * getLineHeight(); 
+            canvas.drawLine(mRect.left, baseline, mRect.right, baseline, linePaint);
+        }
         super.onDraw(canvas); 
 	}
 

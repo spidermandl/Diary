@@ -7,6 +7,7 @@ import com.diary.goal.setting.view.QuitView;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Bundle;
 import android.view.Gravity;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
@@ -19,7 +20,15 @@ public class OverviewDialog extends Dialog {
 	public OverviewDialog(Context context, int theme) {
 		super(context, theme);
 		this.context=context;
-		
+	}
+
+	public OverviewDialog(Context context) {
+        super(context,R.style.Dialog_Fullscreen);
+		this.context=context;
+	}
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
         Window dialogWindow = this.getWindow();
         WindowManager.LayoutParams lp = dialogWindow.getAttributes();
         dialogWindow.setGravity(Gravity.CENTER);
@@ -28,22 +37,8 @@ public class OverviewDialog extends Dialog {
         dialogWindow.setAttributes(lp);
         
         setContentView(new QuitView(context),new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-	}
 
-	public OverviewDialog(Context context) {
-		//super(context,R.style.Dialog_Fullscreen);
-		super(context);
-		this.context=context;
-		
-        Window dialogWindow = this.getWindow();
-        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
-        dialogWindow.setGravity(Gravity.CENTER);
-        lp.width = 95*DiaryApplication.getInstance().getScreen_w()/100; 
-        lp.height = 72*DiaryApplication.getInstance().getScreen_h()/100;
-        dialogWindow.setAttributes(lp);
-        
-        setContentView(new QuitView(context));
-
+		super.onCreate(savedInstanceState);
 	}
 	
 	

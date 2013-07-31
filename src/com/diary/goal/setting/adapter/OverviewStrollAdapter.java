@@ -1,6 +1,7 @@
 package com.diary.goal.setting.adapter;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
@@ -60,8 +61,8 @@ public class OverviewStrollAdapter extends BaseAdapter {
 			viewHolder.title=(TextView)convertView.findViewById(R.id.overview_title);
 			viewHolder.listview.setAdapter(mAdapter);
 			convertView.setTag(viewHolder);
-		
-//			listview.setDividerHeight(0);
+			
+//		listview.setDividerHeight(0);
 //		mAdapter=new UnitOverviewAdapter(this);
 //		listview.setAdapter(mAdapter);
 //		TextView title=(TextView)this.findViewById(R.id.overview_title);
@@ -71,7 +72,7 @@ public class OverviewStrollAdapter extends BaseAdapter {
 		ViewHolder holder=(ViewHolder)convertView.getTag();
 		String text=
 				context.getResources().getString(Constant.stringDict.get(Constant.SudoType.getTypeString(DiaryApplication.getInstance().getDateModel().getType())));
-		//text+="("+getMonthString()+")";
+		text+="("+getMonthString(position)+")";
 		holder.title.setText(text);
 		mAdapter.notifyDataSetChanged();
 		return convertView;
@@ -87,13 +88,14 @@ public class OverviewStrollAdapter extends BaseAdapter {
 	 * construct string with month and day
 	 * @return
 	 */
-	private String getMonthString(){
+	private String getMonthString(int position){
 		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(DiaryApplication.getInstance().getDateModel().getDate());
+		calendar.setTime(new Date());
+		calendar.add(Calendar.DAY_OF_MONTH, position-(this.getCount()-1));
 		int month=calendar.get(Calendar.MONTH)+1;
 		int day=calendar.get(Calendar.DAY_OF_MONTH);
-		Log.e("getMonthString month", month+"");
-		Log.e("getMonthString day", day+"");
+//		Log.e("getMonthString month", month+"");
+//		Log.e("getMonthString day", day+"");
 		return month>9?"":"0"+month+"."+(day>9?"":"0")+day;
 	}
 	public void refresh(){

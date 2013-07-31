@@ -29,7 +29,9 @@
         </activity>
         <activity 
             android:name=".activity.UnitOverviewActivity">
-            
+        </activity>
+        <activity
+            android:name=".activity.PaperOverviewActivity">
         </activity>
         <activity 
             android:theme="@style/Theme.Sherlock.Light"

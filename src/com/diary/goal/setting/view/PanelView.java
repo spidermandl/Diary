@@ -1,6 +1,7 @@
 package com.diary.goal.setting.view;
 
 import com.diary.goal.setting.DiaryApplication;
+import com.diary.goal.setting.activity.SudoKuActivity;
 import com.diary.goal.setting.activity.UnitOverviewActivity;
 import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.tools.Constant.SudoType;
@@ -79,7 +80,7 @@ public abstract class PanelView extends View implements View.OnClickListener{
 			DiaryApplication.getInstance().getDateModel().setType(sudoType);
 			Intent intent=new Intent();
 			intent.setClass(context, UnitOverviewActivity.class);
-			((Activity)context).startActivityForResult(intent, 0);
+			((Activity)context).startActivityForResult(intent, SudoKuActivity.REQUEST_UNITOVERVIEW);
 		}
 		
 	}

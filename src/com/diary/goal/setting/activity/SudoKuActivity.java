@@ -31,6 +31,12 @@ public class SudoKuActivity extends Activity implements OnTouchListener,OnGestur
 	private ViewFlow viewFlow;
 	private int position;//record current page of sudo view
 	
+	/**
+	 * request code of an activty
+	 */
+	public final static int REQUEST_UNITOVERVIEW=1;
+	public final static int REQUEST_PAPEROVERVIEW=2;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		DiaryApplication.getInstance().setOrientation(
@@ -117,9 +123,17 @@ public class SudoKuActivity extends Activity implements OnTouchListener,OnGestur
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		viewFlow.scrollScreen(DiaryApplication.getInstance().getDateCursor()-position);
-		getPanelCache();
-		super.onActivityResult(requestCode, resultCode, data);
+		switch (requestCode) {
+		case REQUEST_UNITOVERVIEW:
+			viewFlow.scrollScreen(DiaryApplication.getInstance().getDateCursor()-position);
+			getPanelCache();
+			super.onActivityResult(requestCode, resultCode, data);
+			break;
+		case REQUEST_PAPEROVERVIEW:
+			break;
+		default:
+			break;
+		}
 	}
 	
 	@Override

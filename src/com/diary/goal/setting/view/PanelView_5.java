@@ -7,11 +7,16 @@ import java.util.Date;
 
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
+import com.diary.goal.setting.activity.PaperOverviewActivity;
+import com.diary.goal.setting.activity.SudoKuActivity;
+import com.diary.goal.setting.activity.UnitOverviewActivity;
 import com.diary.goal.setting.dialog.OverviewDialog;
 import com.diary.goal.setting.tools.BitmapCustomize;
 import com.diary.goal.setting.tools.Constant;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -114,8 +119,8 @@ public class PanelView_5 extends PanelView {
 		case MotionEvent.ACTION_UP:
 			Log.e("PanelView_5", "ACTION_up");
 			if(x<=icon_width&&y<=icon_height&&overview_taped){
-				new OverviewDialog(context).show();
 				overview_taped=false;
+				callPaperOverview();
 				return true;
 			}
 			overview_taped=false;
@@ -124,50 +129,6 @@ public class PanelView_5 extends PanelView {
 		return false;
 	}
 	
-//	@Override
-//    public boolean onTouchEvent(MotionEvent event) {
-//        float x = event.getX() - CENTER_X;
-//        float y = event.getY() - CENTER_Y;
-//        boolean inCenter = java.lang.Math.sqrt(x*x + y*y) <= CENTER_RADIUS;
-//
-//        switch (event.getAction()) {
-//            case MotionEvent.ACTION_DOWN:
-//                mTrackingCenter = inCenter;
-//                if (inCenter) {
-//                    mHighlightCenter = true;
-//                    invalidate();
-//                    break;
-//                }
-//            case MotionEvent.ACTION_MOVE:
-//                if (mTrackingCenter) {
-//                    if (mHighlightCenter != inCenter) {
-//                        mHighlightCenter = inCenter;
-//                        invalidate();
-//                    }
-//                } else {
-//                    float angle = (float)java.lang.Math.atan2(y, x);
-//                    // need to turn angle [-PI ... PI] into unit [0....1]
-//                    float unit = angle/(2*PI);
-//                    if (unit < 0) {
-//                        unit += 1;
-//                    }
-//                    mCenterPaint.setColor(interpColor(mColors, unit));
-//                    invalidate();
-//                }
-//                break;
-//            case MotionEvent.ACTION_UP:
-//                if (mTrackingCenter) {
-//                    if (inCenter) {
-//                        mListener.colorChanged(mCenterPaint.getColor());
-//                    }
-//                    mTrackingCenter = false;    // so we draw w/o halo
-//                    invalidate();
-//                }
-//                break;
-//        }
-//        return true;
-//    }
-//}
 	
 	private String getDate(Calendar cal) {
 		SimpleDateFormat ft = new SimpleDateFormat("yyyy/MM/dd");
@@ -187,5 +148,11 @@ public class PanelView_5 extends PanelView {
 			e.printStackTrace();
 		}
 		return quot;
+	}
+	
+	private void callPaperOverview(){
+		Intent intent=new Intent();
+		intent.setClass(context, PaperOverviewActivity.class);
+		((Activity)context).startActivityForResult(intent, SudoKuActivity.REQUEST_PAPEROVERVIEW);
 	}
 }

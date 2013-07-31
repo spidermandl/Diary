@@ -1058,8 +1058,9 @@ containing a value of this type.
         public static final int flip_frame=0x7f030019;
         public static final int flip_tape=0x7f03001a;
         public static final int nine_panel_frame=0x7f03001b;
-        public static final int sherlock_spinner_dropdown_item=0x7f03001c;
-        public static final int sherlock_spinner_item=0x7f03001d;
+        public static final int paper_overview=0x7f03001c;
+        public static final int sherlock_spinner_dropdown_item=0x7f03001d;
+        public static final int sherlock_spinner_item=0x7f03001e;
     }
     public static final class menu {
         public static final int activity_main=0x7f0c0000;
