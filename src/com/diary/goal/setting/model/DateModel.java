@@ -9,8 +9,8 @@ public class DateModel {
 	private Date date;
 	private SudoType type;
 	private int category;
-	private String category_type;
-	private int category_name;
+	private int category_type;
+	private String category_name;
 	private String text;
 	private int configId;
 	
@@ -38,16 +38,16 @@ public class DateModel {
 	public void setText(String text) {
 		this.text = text;
 	}
-	public String getCategory_type() {
+	public int getCategory_type() {
 		return category_type;
 	}
-	public void setCategory_type(String category_type) {
+	public void setCategory_type(int category_type) {
 		this.category_type = category_type;
 	}
-	public int getCategory_name() {
+	public String getCategory_name() {
 		return category_name;
 	}
-	public void setCategory_name(int category_name) {
+	public void setCategory_name(String category_name) {
 		this.category_name = category_name;
 	}
 	public int getConfigId() {

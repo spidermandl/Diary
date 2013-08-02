@@ -14,10 +14,15 @@
 
 package com.diary.goal.setting.activity;
 
+import java.util.ArrayList;
+
 import android.database.Cursor;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 
 import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -26,14 +31,20 @@ import com.diary.goal.setting.R;
 import com.diary.goal.setting.database.DiaryHelper;
 import com.diary.goal.setting.model.DateModel;
 import com.diary.goal.setting.richedit.RichEditText;
+import com.diary.goal.setting.tools.BitmapCustomize;
+import com.diary.goal.setting.tools.Constant;
 
-public class RichTextEditorActivity extends SherlockActivity {
+public class RichTextEditorActivity extends SherlockActivity implements OnNavigationListener{
 	RichEditText editor = null;
+	ArrayList<CharSequence> titleSwitch = new ArrayList<CharSequence>();
+	int initialPosition=0;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.edit_panal);
+		dataInit();
+		
 		final ActionBar ab = getSupportActionBar();
 
 		// set defaults for logo & home up
@@ -41,8 +52,14 @@ public class RichTextEditorActivity extends SherlockActivity {
 		ab.setDisplayUseLogoEnabled(false);
 		ab.setDisplayShowHomeEnabled(false);
 		ab.setTitle(R.string.edit_back);
+		
 		// ab.setDisplayOptions(options, mask)
-
+		ArrayAdapter<CharSequence> list = new ArrayAdapter(this, R.layout.sherlock_spinner_item, titleSwitch);
+		list.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
+        getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+        getSupportActionBar().setSelectedNavigationItem(initialPosition);
+        getSupportActionBar().setListNavigationCallbacks(list, this);
+        
 		editor = (RichEditText) findViewById(R.id.editor);
 		editor.enableActionModes(true);
 
@@ -79,11 +96,37 @@ public class RichTextEditorActivity extends SherlockActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, 1, 1, R.string.edit_save)// add("Save")
-				.setShowAsAction(
-						MenuItem.SHOW_AS_ACTION_IF_ROOM
-								| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		    .setIcon(R.drawable.save)//new BitmapDrawable(BitmapCustomize.customizePicture(this, R.drawable.save,0,0,false)))
+		    .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 
 		return true;
+	}
+
+	@Override
+	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	void dataInit(){
+		Cursor c=DiaryApplication.getInstance().getDbHelper().getStaticCategoryDetail(DiaryApplication.getInstance().getDateModel());
+		if(c!=null){
+			while(c.moveToNext()){
+				titleSwitch.add(switchLanguage(c.getString(1)));
+			}
+		}
+		if(c!=null){
+			c.close();
+		}
+	}
+	
+	private String switchLanguage(String key){
+		DateModel model=DiaryApplication.getInstance().getDateModel();
+		if(model.getCategory_name().equals(key)){
+			//initialPosition
+		}
+		Integer value=Constant.stringDict.get(key);
+		return value==null?key:this.getResources().getString(value);
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 
 import com.diary.goal.setting.DiaryApplication;
+import com.diary.goal.setting.R;
 import com.diary.goal.setting.adapter.NinePanelAdapter;
 import com.diary.goal.setting.listener.FlipPathListener;
 import com.diary.goal.setting.model.DateModel;
@@ -17,6 +18,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
@@ -31,6 +33,13 @@ public class SudoKuActivity extends Activity implements OnTouchListener,OnGestur
 	private ViewFlow viewFlow;
 	private int position;//record current page of sudo view
 	
+	NinePanelAdapter mAdapter;
+	Handler UIhandler=new Handler(){
+		public void handleMessage(android.os.Message msg) {
+			viewFlow.invalidate();
+		};
+	};
+	
 	/**
 	 * request code of an activty
 	 */
@@ -39,12 +48,11 @@ public class SudoKuActivity extends Activity implements OnTouchListener,OnGestur
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		DiaryApplication.getInstance().setOrientation(
-				this.getResources().getConfiguration().orientation);
 		
 		init();
 		viewFlow=new ViewFlow(this);
-		viewFlow.setAdapter(new NinePanelAdapter(this));
+		mAdapter=new NinePanelAdapter(this);
+		viewFlow.setAdapter(mAdapter);
 		viewFlow.setFlipListener(new FlipPathListener() {
 			
 			@Override
@@ -52,7 +60,15 @@ public class SudoKuActivity extends Activity implements OnTouchListener,OnGestur
 				position=DiaryApplication.getInstance().getDateCursor();
 				position+=steps;
 				DiaryApplication.getInstance().setDateCursor(position);
-				getPanelCache();
+				
+				UIhandler.post(new Runnable() {
+					
+					@Override
+					public void run() {
+						getPanelCache();	
+						UIhandler.sendEmptyMessage(0);
+					}
+				});
 				
 			}
 		});
@@ -63,13 +79,15 @@ public class SudoKuActivity extends Activity implements OnTouchListener,OnGestur
 	}
 	
 	private void init(){
+		DiaryApplication.getInstance().setOrientation(
+					this.getResources().getConfiguration().orientation);
 		getPanelCache();
 	}
 	/**
 	 * init date link
 	 * get current day status
 	 */
-	private void getPanelCache(){
+	private synchronized void getPanelCache(){
 		HashMap<Integer, PanelDateModel> panelStatus=DiaryApplication.getInstance().getPanelCache();
 		position=DiaryApplication.getInstance().getDateCursor();
 		if(panelStatus.containsKey(position)){
@@ -117,7 +135,9 @@ public class SudoKuActivity extends Activity implements OnTouchListener,OnGestur
 	}
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
-		//if(newConfig.orientation==Configuration)
+		DiaryApplication.getInstance().setOrientation(
+				this.getResources().getConfiguration().orientation);
+		clearSudoBitmapCache();
 		super.onConfigurationChanged(newConfig);
 	}
 
@@ -136,6 +156,27 @@ public class SudoKuActivity extends Activity implements OnTouchListener,OnGestur
 		}
 	}
 	
+	private void clearSudoBitmapCache(){
+		DiaryApplication app=DiaryApplication.getInstance();
+		app.clearbitmap(R.drawable.family_activated);
+		app.clearbitmap(R.drawable.family_null);
+		app.clearbitmap(R.drawable.finance_activated);
+		app.clearbitmap(R.drawable.finance_null);
+		app.clearbitmap(R.drawable.health_activated);
+		app.clearbitmap(R.drawable.health_null);
+		app.clearbitmap(R.drawable.innovation_activated);
+		app.clearbitmap(R.drawable.innovation_null);
+		app.clearbitmap(R.drawable.mit_activated);
+		app.clearbitmap(R.drawable.mit_null);
+		app.clearbitmap(R.drawable.personal_activated);
+		app.clearbitmap(R.drawable.personal_null);
+		app.clearbitmap(R.drawable.soul_activated);
+		app.clearbitmap(R.drawable.soul_null);
+		app.clearbitmap(R.drawable.work_activited);
+		app.clearbitmap(R.drawable.work_null);
+		app.clearbitmap(R.drawable.date_activated);
+		app.clearbitmap(R.drawable.date_null);
+	}
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		// TODO Auto-generated method stub

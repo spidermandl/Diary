@@ -154,12 +154,20 @@ public class DiaryApplication extends Application {
 		}
 		return null;
 	}
-	
+	public void clearbitmap(Integer resid){
+		SoftReference<Bitmap> softBitmap=bitmapCache.get(resid);
+		if(softBitmap!=null){
+			softBitmap.clear();
+		}
+	}
 	public void setOrientation(int o){
 		if(initialOrientation!=o)
 			reverseOrientation=true;
 		else
 			reverseOrientation=false;
+	}
+	public int getOrientation(){
+		return initialOrientation;
 	}
 	public JSONObject getSudoConfig(){
 		if(sudoConfig==null){

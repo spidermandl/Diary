@@ -203,6 +203,8 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 					model.setCategory(configTables.get(indexs.get(index)).getCategoryIndex());
 					model.setText(categorys.get(indexs.get(index)));
 					model.setConfigId(indexs.get(index));
+					model.setCategory_type(configTables.get(indexs.get(index)).getCategoryType());
+					model.setCategory_name(configTables.get(indexs.get(index)).getCategoryName());
 					Intent intent=new Intent();
 					intent.setClass(context, RichTextEditorActivity.class);
 					((Activity)context).startActivityForResult(intent, 0);

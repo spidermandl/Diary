@@ -923,11 +923,12 @@ containing a value of this type.
         public static final int ptg_btn_find_prev=0x7f020089;
         public static final int quote=0x7f02008a;
         public static final int save=0x7f02008b;
-        public static final int soul_activated=0x7f02008c;
-        public static final int soul_null=0x7f02008d;
-        public static final int vertical_dash_line=0x7f02008e;
-        public static final int work_activited=0x7f02008f;
-        public static final int work_null=0x7f020090;
+        public static final int saved=0x7f02008c;
+        public static final int soul_activated=0x7f02008d;
+        public static final int soul_null=0x7f02008e;
+        public static final int vertical_dash_line=0x7f02008f;
+        public static final int work_activited=0x7f020090;
+        public static final int work_null=0x7f020091;
     }
     public static final class id {
         public static final int abs__action_bar=0x7f050020;

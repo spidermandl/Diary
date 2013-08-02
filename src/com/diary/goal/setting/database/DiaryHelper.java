@@ -230,6 +230,18 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		return c;
 	}
 	/**
+	 * get category info by laws of sudoType
+	 * @param model
+	 * @return
+	 */
+	public Cursor getStaticCategoryDetail(DateModel model){
+		Cursor c=db.query(true, Tables.DIARY_CONFIG, new String[]{DiaryConfigColumn._CATEGORY_INDEX,DiaryConfigColumn._CATEGORY_NAME,DiaryConfigColumn._CATEGORY_TYPE},
+				DiaryConfigColumn._SUDO_TYPE+ " = "+model.getType().getType(),
+				null, null, null, null, null);
+		
+		return c;
+	}
+	/**
 	 * insert diary content
 	 * @param model
 	 * @param text
