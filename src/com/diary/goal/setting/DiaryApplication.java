@@ -99,8 +99,8 @@ public class DiaryApplication extends Application {
 		initialOrientation=this.getResources().getConfiguration().orientation;
 		dbHelper=new DiaryHelper(this);
 		
-		//ueHandler = new UEHandler(this); 
-        //Thread.setDefaultUncaughtExceptionHandler(ueHandler); 
+//		ueHandler = new UEHandler(this); 
+//        Thread.setDefaultUncaughtExceptionHandler(ueHandler); 
 		FlurryAgent.onStartSession(this, Constant.FLURRY_KEY);
 		super.onCreate();
 	}

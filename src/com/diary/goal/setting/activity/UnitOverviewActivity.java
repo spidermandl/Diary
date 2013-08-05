@@ -17,6 +17,11 @@ import android.util.Log;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+/**
+ * overview on each sudotype
+ * @author duanlei
+ *
+ */
 public class UnitOverviewActivity extends Activity {
 
 	private OverviewStrollAdapter mAdapter;

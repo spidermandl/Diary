@@ -15,10 +15,13 @@
 package com.diary.goal.setting.activity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 
+import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -29,15 +32,27 @@ import com.actionbarsherlock.view.MenuItem;
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.database.DiaryHelper;
+import com.diary.goal.setting.database.DiaryHelper.Tables;
+import com.diary.goal.setting.model.CategoryModel;
 import com.diary.goal.setting.model.DateModel;
 import com.diary.goal.setting.richedit.RichEditText;
 import com.diary.goal.setting.tools.BitmapCustomize;
 import com.diary.goal.setting.tools.Constant;
+import com.diary.goal.setting.tools.Constant.SudoType;
 
 public class RichTextEditorActivity extends SherlockActivity implements OnNavigationListener{
 	RichEditText editor = null;
 	ArrayList<CharSequence> titleSwitch = new ArrayList<CharSequence>();
+	ArrayList<Integer> indexs=new ArrayList<Integer>();
+	HashMap<Integer, CategoryModel> configTables;
+	/**
+	 * loadin item of navigation
+	 */
 	int initialPosition=0;
+	/**
+	 * initial text
+	 */
+	String initText;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -57,16 +72,18 @@ public class RichTextEditorActivity extends SherlockActivity implements OnNaviga
 		ArrayAdapter<CharSequence> list = new ArrayAdapter(this, R.layout.sherlock_spinner_item, titleSwitch);
 		list.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        getSupportActionBar().setSelectedNavigationItem(initialPosition);
         getSupportActionBar().setListNavigationCallbacks(list, this);
+        getSupportActionBar().setSelectedNavigationItem(initialPosition);
         
 		editor = (RichEditText) findViewById(R.id.editor);
 		editor.enableActionModes(true);
 
 		DateModel model = DiaryApplication.getInstance().getDateModel();
-		editor.setText(model.getText() == null ? "" : model.getText());
+		initText=model.getText() == null ? "" : model.getText();
+		editor.setText(initText);
 	}
 
+	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// This uses the imported MenuItem from ActionBarSherlock
@@ -75,17 +92,8 @@ public class RichTextEditorActivity extends SherlockActivity implements OnNaviga
 			this.finish();
 			break;
 		case 1:
-			DateModel model = DiaryApplication.getInstance().getDateModel();
-			DiaryHelper helper = DiaryApplication.getInstance().getDbHelper();
-			Cursor c = helper.getCategory(model);
-			if (c != null && c.getCount() != 0)
-				helper.updateDiaryContent(model, editor.getEditableText()
-						.toString());
-			else
-				helper.insertDiaryContent(model, editor.getEditableText()
-						.toString());
-			if (c != null)
-				c.close();
+			saveEdit();
+			this.finish();
 			break;
 		default:
 			break;
@@ -93,6 +101,27 @@ public class RichTextEditorActivity extends SherlockActivity implements OnNaviga
 		return true;
 	}
 
+	/**
+	 * save text content
+	 */
+	private void saveEdit(){
+		if(!editor.getEditableText().toString().equals(initText)){
+			DateModel model = DiaryApplication.getInstance().getDateModel();
+			DiaryHelper helper = DiaryApplication.getInstance().getDbHelper();
+			Cursor c = helper.getCategory(model);
+
+			if (c != null && c.getCount() != 0)
+				helper.updateDiaryContent(model, editor.getEditableText()
+						.toString());
+			else
+				helper.insertDiaryContent(model, editor.getEditableText()
+						.toString());
+			Log.e("saveEdit", model.getCategory()+" "+model.getCategory_name()+" "+editor.getEditableText()
+					.toString());
+			if (c != null)
+				c.close();
+		}
+	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, 1, 1, R.string.edit_save)// add("Save")
@@ -104,27 +133,49 @@ public class RichTextEditorActivity extends SherlockActivity implements OnNaviga
 
 	@Override
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
-		// TODO Auto-generated method stub
-		return false;
+		saveEdit();
+
+		DateModel model = DiaryApplication.getInstance().getDateModel();
+		CategoryModel category=configTables.get(indexs.get(itemPosition));
+		model.setCategory(category.getCategoryIndex());
+		model.setCategory_type(category.getCategoryType());
+		model.setCategory_name(category.getCategoryName());
+		Cursor c=DiaryApplication.getInstance().getDbHelper().getCategory(model.getDate(),model.getType().getType(),model.getCategory());
+		if(c!=null&&c.getCount()!=0){
+			c.moveToFirst();
+			model.setText(c.getString(1));
+		}
+		else
+			model.setText("");
+		if(c!=null)
+			c.close();
+		initialPosition=itemPosition;
+		initText=model.getText() == null ? "" : model.getText();
+		editor.setText(initText);
+		Log.e("onNavigationItemSelected", model.getCategory()+" "+model.getCategory_name()+" "+model.getText());
+		return true;
 	}
 	
 	void dataInit(){
-		Cursor c=DiaryApplication.getInstance().getDbHelper().getStaticCategoryDetail(DiaryApplication.getInstance().getDateModel());
-		if(c!=null){
-			while(c.moveToNext()){
-				titleSwitch.add(switchLanguage(c.getString(1)));
+		configTables=(HashMap<Integer,CategoryModel>)DiaryApplication.getInstance().getTableCacheElement(Tables.DIARY_CONFIG, 0);
+		DateModel model=DiaryApplication.getInstance().getDateModel();
+		int index=0;
+		for(Iterator<Integer> keys = configTables.keySet().iterator(); keys.hasNext();){
+			int _id=keys.next();
+			if(SudoType.getSudoType(configTables.get(_id).getSudoType())==model.getType()){
+				indexs.add(_id);
+				String name=configTables.get(_id).getCategoryName();
+				titleSwitch.add(switchLanguage(name));
+				if(model.getCategory_name().equals(name)){
+					initialPosition=index;
+				}
+				index++;
 			}
 		}
-		if(c!=null){
-			c.close();
-		}
+		
 	}
 	
 	private String switchLanguage(String key){
-		DateModel model=DiaryApplication.getInstance().getDateModel();
-		if(model.getCategory_name().equals(key)){
-			//initialPosition
-		}
 		Integer value=Constant.stringDict.get(key);
 		return value==null?key:this.getResources().getString(value);
 	}
