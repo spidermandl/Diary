@@ -13,6 +13,7 @@ import com.diary.goal.setting.activity.UnitOverviewActivity;
 import com.diary.goal.setting.dialog.OverviewDialog;
 import com.diary.goal.setting.tools.BitmapCustomize;
 import com.diary.goal.setting.tools.Constant;
+import com.diary.goal.setting.tools.Constant.SudoType;
 
 import android.app.Activity;
 import android.content.Context;
@@ -52,7 +53,7 @@ public class PanelView_5 extends PanelView {
 	void init() {
 		// TODO Auto-generated method stub
 		super.init();
-		
+		sudoType=SudoType.SUDO_5;
 		paint=new Paint();
 		paint.setColor(0xFFFFFFFF);
 		paint.setStyle(Style.STROKE);
@@ -74,7 +75,7 @@ public class PanelView_5 extends PanelView {
 		boolean activated=true;
 		if(getQuot(getDate(calendar), getDate(today))>0)
 			activated=false;
-		Bitmap temp=BitmapCustomize.customizePicture(context, activated?R.drawable.date_activated:R.drawable.date_null,
+		Bitmap temp=BitmapCustomize.customizePicture(context, sudoType.getResDrawable(activated),
 				this.getWidth(),
 				this.getHeight(),false);
 		canvas.drawBitmap(temp, zoomBitmap(temp, this.getWidth(), this.getHeight()), mPaint);

@@ -38,10 +38,9 @@ public class PanelView_1 extends PanelView {
 	
 	@Override
 	void selfDraw(Canvas canvas,boolean activated) {
-		Log.e("selfDraw", "selfDraw_1");
 //		mPaint.setColor(0xFF000000);
 //		canvas.drawText(SudoType.getTypeString(sudoType), this.getMeasuredWidth()/2, this.getMeasuredHeight()/2, mPaint);
-		Bitmap temp=BitmapCustomize.customizePicture(context, activated?R.drawable.work_activited:R.drawable.work_null,
+		Bitmap temp=BitmapCustomize.customizePicture(context, sudoType.getResDrawable(activated),
 		this.getWidth(),
 		this.getHeight(),false);
 		canvas.drawBitmap(temp, zoomBitmap(temp, this.getWidth(), this.getHeight()), mPaint);

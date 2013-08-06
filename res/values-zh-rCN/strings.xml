@@ -36,32 +36,8 @@
 	<string name="personal">修养</string>
 	<string name="soul">心灵</string>
 	
-	<string name="category1">条目1</string>
-	<string name="category2">条目2</string>
-	<string name="category3">条目3</string>
-	<string name="category4">条目4</string>
-	<string name="category5">条目5</string>
-	<string name="category6">条目6</string>
-	
-	<string name="improvments_on_work">工作的进步</string>
-	<string name="lack_on_work">工作的不足</string>
-	<string name="read_on_finance">财富阅读</string>
-	<string name="accounts_on_finance">记账了吗</string>
-	<string name="relatives_on_family">家人</string>
-	<string name="friends_on_family">朋友们</string>
-	<string name="relationship_on_family">情感收获</string>
-	<string name="treasure_on_innovation">财富</string>
-	<string name="time_management_on_innovation">时间</string>
-	<string name="thinking_on_innovation">思维</string>
-	<string name="physiological_cycle_on_health">生理周期</string>
-	<string name="abnormal_on_health">身体异样</string>
-	<string name="excercise_on_health">锻炼项目</string>
-	<string name="excretion_on_health">排便</string>
-	<string name="diet_on_health">饮食</string>
-	<string name="idea_on_personal">新概念</string>
-	<string name="tmc_on_personal">TMC</string>
-	<string name="five_achievements_on_soul">成功的五件事</string>
-	<string name="thoughts_on_achievements_on_soul">成功感言</string>
+	<string name="config_file">sudo_conf_CN</string>
+	<string name="config_coding">gbk</string>
 	
 	<string name="week_1">星期日</string>
 	<string name="week_2">星期一</string>

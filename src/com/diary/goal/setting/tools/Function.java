@@ -12,6 +12,10 @@ import java.io.Reader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.http.util.EncodingUtils;
+
+import com.diary.goal.setting.R;
+
 public class Function {
 
 	public static String fillStr(final String rough,final String pattern,final String[] args){
@@ -50,8 +54,9 @@ public class Function {
         }  
         return laststr.toString();  
     }
+
 	
-	public static String ReadInputStream(InputStream inputStream) { 
+	public static String ReadInputStream(InputStream inputStream) {
         BufferedReader reader = null;  
         StringBuffer laststr = new StringBuffer();  
         try {  

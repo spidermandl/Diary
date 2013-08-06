@@ -31,6 +31,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
+import com.diary.goal.setting.adapter.UnitOverviewAdapter;
 import com.diary.goal.setting.database.DiaryHelper;
 import com.diary.goal.setting.database.DiaryHelper.Tables;
 import com.diary.goal.setting.model.CategoryModel;
@@ -42,7 +43,13 @@ import com.diary.goal.setting.tools.Constant.SudoType;
 
 public class RichTextEditorActivity extends SherlockActivity implements OnNavigationListener{
 	RichEditText editor = null;
+	/**
+	 * siwtching name of each category
+	 */
 	ArrayList<CharSequence> titleSwitch = new ArrayList<CharSequence>();
+	/**
+	 * premiary key of configTable
+	 */
 	ArrayList<Integer> indexs=new ArrayList<Integer>();
 	HashMap<Integer, CategoryModel> configTables;
 	/**
@@ -137,9 +144,12 @@ public class RichTextEditorActivity extends SherlockActivity implements OnNaviga
 
 		DateModel model = DiaryApplication.getInstance().getDateModel();
 		CategoryModel category=configTables.get(indexs.get(itemPosition));
+		/*******************************switch date model*************************************/
+		model.setConfigId(indexs.get(itemPosition));
 		model.setCategory(category.getCategoryIndex());
 		model.setCategory_type(category.getCategoryType());
 		model.setCategory_name(category.getCategoryName());
+		/********************************************************************/
 		Cursor c=DiaryApplication.getInstance().getDbHelper().getCategory(model.getDate(),model.getType().getType(),model.getCategory());
 		if(c!=null&&c.getCount()!=0){
 			c.moveToFirst();
@@ -162,7 +172,7 @@ public class RichTextEditorActivity extends SherlockActivity implements OnNaviga
 		int index=0;
 		for(Iterator<Integer> keys = configTables.keySet().iterator(); keys.hasNext();){
 			int _id=keys.next();
-			if(SudoType.getSudoType(configTables.get(_id).getSudoType())==model.getType()){
+			if(SudoType.getSudoType(configTables.get(_id).getSudoType())==model.getType()&&configTables.get(_id).getCategoryType()==UnitOverviewAdapter.TYPE_CONVENTIONAL_EDIT){
 				indexs.add(_id);
 				String name=configTables.get(_id).getCategoryName();
 				titleSwitch.add(switchLanguage(name));

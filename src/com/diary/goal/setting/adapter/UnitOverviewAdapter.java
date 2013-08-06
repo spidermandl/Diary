@@ -32,6 +32,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -43,11 +44,11 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 	//private HashMap<Integer, String[]>configs;
 	private ArrayList<Integer> indexs;
 	private HashMap<Integer, CategoryModel> configTables;
-	
-	private final static int TYPE_CHECKBOX=1;
-	private final static int TYPE_CONVENTIONAL_EDIT=2;
-	private final static int TYPE_LIST=3;
-	private final static int TYPE_TITLE=4;
+
+	public final static int TYPE_RATING=0;
+	public final static int TYPE_CHECKBOX=1;
+	public final static int TYPE_CONVENTIONAL_EDIT=2;
+	public final static int TYPE_LIST=3;
 	
 	public UnitOverviewAdapter(Context con) {
 		this.context=con;
@@ -138,6 +139,9 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 			convertView = m_inflater.inflate(R.layout.essay_overview_item, null);
 			ViewHolder viewHolder=new ViewHolder();
 			viewHolder.showType=TYPE_CHECKBOX;
+			viewHolder.type_0=(RelativeLayout)convertView.findViewById(R.id.category_type_0);
+			viewHolder.title_type_0=(TextView)convertView.findViewById(R.id.title_type_0);
+			viewHolder.ratingStar=(RatingBar)convertView.findViewById(R.id.star_type_0);
 			viewHolder.type_1=(RelativeLayout)convertView.findViewById(R.id.category_type_1);
 			viewHolder.title_type_1=(TextView)convertView.findViewById(R.id.title_type_1);
 			viewHolder.checkBox=(CheckBox)convertView.findViewById(R.id.check_type_1);
@@ -155,8 +159,34 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 		final int index=groupPosition;
 		String text;
 		switch (holder.showType) {
+		case TYPE_RATING:
+			holder.title_type_0.setText(switchLanguage(categoryModel.getCategoryName()));
+			holder.type_0.setVisibility(View.VISIBLE);
+			holder.type_1.setVisibility(View.GONE);
+			holder.type_2.setVisibility(View.GONE);
+			holder.type_3.setVisibility(View.GONE);
+
+			holder.ratingStar.setStepSize(0.5f);
+			holder.ratingStar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+				
+				@Override
+				public void onRatingChanged(RatingBar ratingBar, float rating,
+						boolean fromUser) {
+					if(fromUser){
+//						float minus=rating-(int)rating;
+//						if(minus<0.5){
+//							ratingBar.setRating((float)((int)rating+0.5));
+//						}else{
+//							ratingBar.setRating((float)((int)rating+1));
+//						}
+					}
+					
+				}
+			});
+			break;
 		case TYPE_CHECKBOX:
 			holder.title_type_1.setText(switchLanguage(categoryModel.getCategoryName()));
+			holder.type_0.setVisibility(View.GONE);
 			holder.type_1.setVisibility(View.VISIBLE);
 			holder.type_2.setVisibility(View.GONE);
 			holder.type_3.setVisibility(View.GONE);
@@ -168,8 +198,10 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 					  DateModel model=DiaryApplication.getInstance().getDateModel();
+					  /*******************************set date model*************************************/
 					  model.setCategory(configTables.get(indexs.get(index)).getCategoryIndex());
 					  model.setConfigId(indexs.get(index));
+					  /********************************************************************/
 					  DiaryHelper helper=DiaryApplication.getInstance().getDbHelper();
 					  Cursor c=helper.getCategory(model);
 					  if(c!=null&&c.getCount()!=0)
@@ -184,6 +216,7 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 			break;
 		case TYPE_CONVENTIONAL_EDIT:
 			holder.title_type_2.setText(switchLanguage(categoryModel.getCategoryName()));
+			holder.type_0.setVisibility(View.GONE);
 			holder.type_1.setVisibility(View.GONE);
 			holder.type_2.setVisibility(View.VISIBLE);
 			holder.type_3.setVisibility(View.GONE);
@@ -200,11 +233,13 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 				@Override
 				public void onClick(View v) {
 					DateModel model=DiaryApplication.getInstance().getDateModel();
+					/*******************************set date model*************************************/
 					model.setCategory(configTables.get(indexs.get(index)).getCategoryIndex());
 					model.setText(categorys.get(indexs.get(index)));
 					model.setConfigId(indexs.get(index));
 					model.setCategory_type(configTables.get(indexs.get(index)).getCategoryType());
 					model.setCategory_name(configTables.get(indexs.get(index)).getCategoryName());
+					/********************************************************************/
 					Intent intent=new Intent();
 					intent.setClass(context, RichTextEditorActivity.class);
 					((Activity)context).startActivityForResult(intent, 0);
@@ -223,6 +258,7 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 				holder.jump.setBackgroundDrawable(new BitmapDrawable(
 						BitmapCustomize.customizePicture(context, R.drawable.jump_right, 0, 0, false)));
 			}
+			holder.type_0.setVisibility(View.GONE);
 			holder.type_1.setVisibility(View.GONE);
 			holder.type_2.setVisibility(View.GONE);
 			holder.type_3.setVisibility(View.VISIBLE);
@@ -249,8 +285,9 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 	
 	class ViewHolder{
 		int showType;
-		RelativeLayout type_1,type_2,type_3;
-		TextView title_type_1,title_type_2,title_type_3;
+		RatingBar ratingStar;
+		RelativeLayout type_0,type_1,type_2,type_3;
+		TextView title_type_0,title_type_1,title_type_2,title_type_3;
 		TextView content;
 		CheckBox checkBox;
 		ImageView jump;

@@ -36,32 +36,8 @@
 	<string name="personal">personal</string>
 	<string name="soul">soul</string>
 	
-	<string name="category1">category1</string>
-	<string name="category2">category2</string>
-	<string name="category3">category3</string>
-	<string name="category4">category4</string>
-	<string name="category5">category5</string>
-	<string name="category6">category6</string>
-	
-	<string name="improvments_on_work">improvements on work</string>
-	<string name="lack_on_work">need to be improved</string>
-	<string name="read_on_finance">finance reading</string>
-	<string name="accounts_on_finance">finace accounting</string>
-	<string name="relatives_on_family">relatives</string>
-	<string name="friends_on_family">friends</string>
-	<string name="relationship_on_family">relationship</string>
-	<string name="treasure_on_innovation">treasure management</string>
-	<string name="time_management_on_innovation">time management</string>
-	<string name="thinking_on_innovation">thinking pattern</string>
-	<string name="physiological_cycle_on_health">physiological cycle</string>
-	<string name="abnormal_on_health">health abnormal</string>
-	<string name="excercise_on_health">excercise</string>
-	<string name="excretion_on_health">exceretion</string>
-	<string name="diet_on_health">diet</string>
-	<string name="idea_on_personal">new concept</string>
-	<string name="tmc_on_personal">TMC</string>
-	<string name="five_achievements_on_soul">five achievements</string>
-	<string name="thoughts_on_achievements_on_soul">thoughts on achievements</string>
+	<string name="config_file">sudo_conf_EN</string>
+	<string name="config_coding">utf-8</string>
 	
 	<string name="week_1">Sunday</string>
 	<string name="week_2">Monday</string>

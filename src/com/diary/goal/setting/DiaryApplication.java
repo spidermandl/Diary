@@ -1,11 +1,13 @@
 package com.diary.goal.setting;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.ref.SoftReference;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
+import org.apache.http.util.EncodingUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -47,6 +49,9 @@ public class DiaryApplication extends Application {
 	 * days link
 	 */
 	private HashMap<Integer, PanelDateModel> panelCache;
+	/**
+	 * the data model tracking the date users are dealing with
+	 */
 	private DateModel dateModel;
 	private HashMap<String,HashMap<Integer, Object>> tableCaches;
 	private int dateCursor=0;
@@ -172,7 +177,8 @@ public class DiaryApplication extends Application {
 	public JSONObject getSudoConfig(){
 		if(sudoConfig==null){
 			try {
-				sudoConfig=new JSONObject(Function.ReadInputStream(this.getAssets().open("sudo_conf")));
+				sudoConfig=new JSONObject(inputStreamReader(this.getAssets().open(
+						         this.getResources().getString(R.string.config_file))));
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -184,6 +190,17 @@ public class DiaryApplication extends Application {
 		return sudoConfig; 
 	}
 	
+	private String inputStreamReader(InputStream is){
+		byte[] buffer;
+		try {
+			buffer = new byte[is.available()];
+	        is.read(buffer);  
+	        String newStr = EncodingUtils.getString(buffer, this.getResources().getString(R.string.config_coding));
+	        return newStr;
+		} catch (IOException e) {
+			return null;
+		}  
+	}
 	public DiaryHelper getDbHelper() {
 		return dbHelper;
 	}

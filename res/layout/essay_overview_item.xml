@@ -4,6 +4,58 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#FFDDFDDB" >
+        <!--  
+      _________________________________________
+      |                |                       |
+      |    TextView    |      *****            |
+      |________________|_______________________|
+      
+    -->
+    <RelativeLayout
+        android:id="@+id/category_type_0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <com.diary.goal.setting.view.DashLineView
+            android:id="@+id/line_h_type_0"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            dash:orientation="0" />
+
+        <LinearLayout
+            android:id="@+id/frame_type_0"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/line_h_type_0"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/title_type_0"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:paddingBottom="@dimen/brief_edit_paddingbottom"
+                android:paddingLeft="@dimen/brief_edit_paddingleft"
+                android:paddingRight="@dimen/brief_edit_paddingright"
+                android:paddingTop="@dimen/brief_edit_paddingtop"
+                android:singleLine="true"
+                android:textColor="#FF704214"
+                android:textSize="16sp" />
+
+            <com.diary.goal.setting.view.DashLineView
+                android:layout_width="3dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0"
+                dash:orientation="1" />
+            
+            <RatingBar android:id="@+id/star_type_0"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:stepSize="0.5"
+                android:numStars="5"/>
+        </LinearLayout>
+    </RelativeLayout>
     <!--  
       _________________________________________
       |                |                       |
@@ -89,6 +141,7 @@
                 android:paddingLeft="@dimen/brief_edit_paddingleft"
                 android:paddingRight="@dimen/brief_edit_paddingright"
                 android:paddingTop="@dimen/brief_edit_paddingtop"
+                android:singleLine="true"
                 android:textColor="#FF704214"
                 android:textSize="16sp" />
 
