@@ -19,6 +19,7 @@ import com.diary.goal.setting.model.DateModel;
 import com.diary.goal.setting.tools.BitmapCustomize;
 import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.tools.Constant.SudoType;
+import com.diary.goal.setting.view.PentagramView;
 
 import android.app.Activity;
 import android.content.Context;
@@ -141,7 +142,7 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 			viewHolder.showType=TYPE_CHECKBOX;
 			viewHolder.type_0=(RelativeLayout)convertView.findViewById(R.id.category_type_0);
 			viewHolder.title_type_0=(TextView)convertView.findViewById(R.id.title_type_0);
-			viewHolder.ratingStar=(RatingBar)convertView.findViewById(R.id.star_type_0);
+			viewHolder.ratingStar=(PentagramView)convertView.findViewById(R.id.star_type_0);
 			viewHolder.type_1=(RelativeLayout)convertView.findViewById(R.id.category_type_1);
 			viewHolder.title_type_1=(TextView)convertView.findViewById(R.id.title_type_1);
 			viewHolder.checkBox=(CheckBox)convertView.findViewById(R.id.check_type_1);
@@ -166,23 +167,23 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 			holder.type_2.setVisibility(View.GONE);
 			holder.type_3.setVisibility(View.GONE);
 
-			holder.ratingStar.setStepSize(0.5f);
-			holder.ratingStar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-				
-				@Override
-				public void onRatingChanged(RatingBar ratingBar, float rating,
-						boolean fromUser) {
-					if(fromUser){
-//						float minus=rating-(int)rating;
-//						if(minus<0.5){
-//							ratingBar.setRating((float)((int)rating+0.5));
-//						}else{
-//							ratingBar.setRating((float)((int)rating+1));
-//						}
-					}
-					
-				}
-			});
+			//holder.ratingStar.setStepSize(0.5f);
+//			holder.ratingStar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+//				
+//				@Override
+//				public void onRatingChanged(RatingBar ratingBar, float rating,
+//						boolean fromUser) {
+//					if(fromUser){
+////						float minus=rating-(int)rating;
+////						if(minus<0.5){
+////							ratingBar.setRating((float)((int)rating+0.5));
+////						}else{
+////							ratingBar.setRating((float)((int)rating+1));
+////						}
+//					}
+//					
+//				}
+//			});
 			break;
 		case TYPE_CHECKBOX:
 			holder.title_type_1.setText(switchLanguage(categoryModel.getCategoryName()));
@@ -285,7 +286,7 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 	
 	class ViewHolder{
 		int showType;
-		RatingBar ratingStar;
+		PentagramView ratingStar;
 		RelativeLayout type_0,type_1,type_2,type_3;
 		TextView title_type_0,title_type_1,title_type_2,title_type_3;
 		TextView content;
