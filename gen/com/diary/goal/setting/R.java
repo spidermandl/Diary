@@ -537,6 +537,14 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
          */
         public static final int spinnerItemStyle=0x7f010022;
+        /** <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int starNum=0x7f010067;
         /**  Specifies subtitle text used for navigationMode="normal" 
          <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
 <p>This may also be a reference to a resource (in the form
@@ -1349,6 +1357,33 @@ containing a value of this type.
           @attr name android:defaultScreen
         */
         public static final int Flipview_defaultScreen = 0;
+        /** Attributes that can be used with a RatingPentagramView.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #RatingPentagramView_starNum com.diary.goal.setting:starNum}</code></td><td></td></tr>
+           </table>
+           @see #RatingPentagramView_starNum
+         */
+        public static final int[] RatingPentagramView = {
+            0x7f010067
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.diary.goal.setting.R.attr#starNum}
+          attribute's value can be found in the {@link #RatingPentagramView} array.
+
+
+          <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:starNum
+        */
+        public static final int RatingPentagramView_starNum = 0;
         /**  Attributes used to style the Action Bar. 
            <p>Includes the following attributes:</p>
            <table>

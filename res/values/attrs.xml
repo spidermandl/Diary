@@ -30,4 +30,8 @@
     <declare-styleable name="DashLineView">
         <attr name="orientation" format="integer"></attr>
     </declare-styleable>
+    
+    <declare-styleable name="RatingPentagramView">
+        <attr name="starNum" format="integer"></attr>
+    </declare-styleable>
 </resources>

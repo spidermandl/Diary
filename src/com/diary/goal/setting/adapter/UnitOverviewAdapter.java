@@ -19,7 +19,7 @@ import com.diary.goal.setting.model.DateModel;
 import com.diary.goal.setting.tools.BitmapCustomize;
 import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.tools.Constant.SudoType;
-import com.diary.goal.setting.view.PentagramView;
+import com.diary.goal.setting.view.RatingPentagramView;
 
 import android.app.Activity;
 import android.content.Context;
@@ -142,7 +142,7 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 			viewHolder.showType=TYPE_CHECKBOX;
 			viewHolder.type_0=(RelativeLayout)convertView.findViewById(R.id.category_type_0);
 			viewHolder.title_type_0=(TextView)convertView.findViewById(R.id.title_type_0);
-			viewHolder.ratingStar=(PentagramView)convertView.findViewById(R.id.star_type_0);
+			viewHolder.ratingStar=(RatingPentagramView)convertView.findViewById(R.id.star_type_0);
 			viewHolder.type_1=(RelativeLayout)convertView.findViewById(R.id.category_type_1);
 			viewHolder.title_type_1=(TextView)convertView.findViewById(R.id.title_type_1);
 			viewHolder.checkBox=(CheckBox)convertView.findViewById(R.id.check_type_1);
@@ -286,7 +286,7 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 	
 	class ViewHolder{
 		int showType;
-		PentagramView ratingStar;
+		RatingPentagramView ratingStar;
 		RelativeLayout type_0,type_1,type_2,type_3;
 		TextView title_type_0,title_type_1,title_type_2,title_type_3;
 		TextView content;

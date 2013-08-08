@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:dash="http://schemas.android.com/apk/res/com.diary.goal.setting"
+    xmlns:rate="http://schemas.android.com/apk/res/com.diary.goal.setting"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#FFDDFDDB" >
@@ -48,14 +49,12 @@
                 android:layout_weight="0"
                 dash:orientation="1" />
             
-            <LinearLayout android:layout_width="0dip"
-                android:layout_height="wrap_content"
-                android:layout_weight="2">
-                
-                <com.diary.goal.setting.view.PentagramView android:id="@+id/star_type_0"
-                android:layout_width="50dip"
-                android:layout_height="50dip"/>
-            </LinearLayout>
+           <com.diary.goal.setting.view.RatingPentagramView android:id="@+id/star_type_0"
+                android:layout_width="0dip"
+                android:layout_height="50dip"
+                android:layout_weight="2"
+                rate:starNum="5"/>
+           
         </LinearLayout>
     </RelativeLayout>
     <!--  
