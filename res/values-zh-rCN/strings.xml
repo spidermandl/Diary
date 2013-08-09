@@ -46,4 +46,18 @@
 	<string name="week_5">星期四</string>
 	<string name="week_6">星期五</string>
 	<string name="week_7">星期六</string>
+	
+	<string name="Jan">1月</string>
+	<string name="Feb">2月</string>
+	<string name="Mar">3月</string>
+	<string name="Apr">4月</string>
+	<string name="May">5月</string>
+	<string name="Jun">6月</string>
+	<string name="Jul">7月</string>
+	<string name="Aug">8月</string>
+	<string name="Sep">9月</string>
+	<string name="Oct">10月</string>
+	<string name="Nov">11月</string>
+	<string name="Dec">12月</string>
+	<string name="day">日</string>
 </resources>

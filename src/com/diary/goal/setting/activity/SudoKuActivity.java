@@ -17,6 +17,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.GestureDetector.OnGestureListener;
@@ -48,7 +49,6 @@ public class SudoKuActivity extends Activity implements OnTouchListener,OnGestur
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		
 		init();
 		viewFlow=new ViewFlow(this);
 		mAdapter=new NinePanelAdapter(this);
@@ -172,7 +172,7 @@ public class SudoKuActivity extends Activity implements OnTouchListener,OnGestur
 		app.clearbitmap(R.drawable.personal_null);
 		app.clearbitmap(R.drawable.soul_activated);
 		app.clearbitmap(R.drawable.soul_null);
-		app.clearbitmap(R.drawable.work_activited);
+		app.clearbitmap(R.drawable.work_activated);
 		app.clearbitmap(R.drawable.work_null);
 		app.clearbitmap(R.drawable.date_activated);
 		app.clearbitmap(R.drawable.date_null);

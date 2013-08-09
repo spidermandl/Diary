@@ -935,7 +935,7 @@ containing a value of this type.
         public static final int soul_activated=0x7f02008d;
         public static final int soul_null=0x7f02008e;
         public static final int vertical_dash_line=0x7f02008f;
-        public static final int work_activited=0x7f020090;
+        public static final int work_activated=0x7f020090;
         public static final int work_null=0x7f020091;
     }
     public static final class id {
@@ -1085,6 +1085,18 @@ containing a value of this type.
         public static final int cwac_richedittext_main=0x7f0c0005;
     }
     public static final class string {
+        public static final int Apr=0x7f0a0037;
+        public static final int Aug=0x7f0a003b;
+        public static final int Dec=0x7f0a003f;
+        public static final int Feb=0x7f0a0035;
+        public static final int Jan=0x7f0a0034;
+        public static final int Jul=0x7f0a003a;
+        public static final int Jun=0x7f0a0039;
+        public static final int Mar=0x7f0a0036;
+        public static final int May=0x7f0a0038;
+        public static final int Nov=0x7f0a003e;
+        public static final int Oct=0x7f0a003d;
+        public static final int Sep=0x7f0a003c;
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
          */
         public static final int abs__action_bar_home_description=0x7f0a0000;
@@ -1133,6 +1145,7 @@ containing a value of this type.
         public static final int config_coding=0x7f0a002c;
         public static final int config_file=0x7f0a002b;
         public static final int date=0x7f0a0026;
+        public static final int day=0x7f0a0040;
         public static final int edit_back=0x7f0a0021;
         public static final int edit_save=0x7f0a0020;
         public static final int effects=0x7f0a0019;

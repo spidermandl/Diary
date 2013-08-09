@@ -104,7 +104,7 @@ public class Constant {
 					return R.drawable.soul_null;
 			case 4:
 				if(bool)
-					return R.drawable.work_activited;
+					return R.drawable.work_activated;
 				else
 					return R.drawable.work_null;
 			case 5:

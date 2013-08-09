@@ -85,11 +85,28 @@ public class RatingPentagramView extends View {
 				r=height/starNum>width?width/2:height/2/starNum;
 			}
 		}
-		/**
-		 * draw pentagrams half by half
-		 */
-		for(int i=0;i<starNum;i++){
-			//Log.e("coordinate", last_x+"  "+(i+1)*2*r+"");
+		int interval=(int)(last_x/r);
+		interval=interval>(2*starNum)?10:interval;
+		int i;
+		for(i=0;i<interval/2;i++){
+			mPath.reset();
+			mPath.moveTo((float)(i*2*r)+(float)(0+r), (float)(r*per+r));
+			mPath.lineTo((float)(i*2*r)+(float)(-r*cos54+r), (float)(r*sin54+r));
+			mPath.lineTo((float)(i*2*r)+(float)(-r*per*cos18+r), (float)(r*per*sin18+r));
+			mPath.lineTo((float)(i*2*r)+(float)(-r*cos18+r), (float)(-r*sin18+r));
+			mPath.lineTo((float)(i*2*r)+(float)(-r*per*cos54+r), (float)(-r*per*sin54+r));
+			mPath.lineTo((float)(i*2*r)+(float)(0+r), (float)(-r+r));
+			mPath.lineTo((float)(i*2*r)+(float)(r*per*cos54+r), (float)(-r*per*sin54+r));
+			mPath.lineTo((float)(i*2*r)+(float)(r*cos18+r), (float)(-r*sin18+r));
+			mPath.lineTo((float)(i*2*r)+(float)(r*per*cos18+r), (float)(r*per*sin18+r));
+			mPath.lineTo((float)(i*2*r)+(float)(r*cos54+r), (float)(r*sin54+r));
+			mPath.close();
+			canvas.drawPath(mPath, activePaint);
+		}
+		if(interval%2!=0){
+			/**
+			 * draw pentagrams half by half
+			 */
 			mPath.reset();
 			mPath.moveTo((float)(i*2*r)+(float)(0+r), (float)(r*per+r));
 			mPath.lineTo((float)(i*2*r)+(float)(-r*cos54+r), (float)(r*sin54+r));
@@ -98,7 +115,7 @@ public class RatingPentagramView extends View {
 			mPath.lineTo((float)(i*2*r)+(float)(-r*per*cos54+r), (float)(-r*per*sin54+r));
 			mPath.lineTo((float)(i*2*r)+(float)(0+r), (float)(-r+r));
 			mPath.close();
-			canvas.drawPath(mPath,last_x>(i*2*r)?activePaint:nullPaint);
+			canvas.drawPath(mPath,activePaint);
 			
 			mPath.reset();
 			mPath.moveTo((float)(i*2*r)+(float)(0+r), (float)(-r+r));
@@ -108,7 +125,25 @@ public class RatingPentagramView extends View {
 			mPath.lineTo((float)(i*2*r)+(float)(r*cos54+r), (float)(r*sin54+r));
 			mPath.lineTo((float)(i*2*r)+(float)(0+r), (float)(r*per+r));
 			mPath.close();
-			canvas.drawPath(mPath, last_x>((2*i+1)*r)?activePaint:nullPaint);
+			canvas.drawPath(mPath, nullPaint);
+			i++;
+		}
+		
+		for(i=i;i<starNum;i++){
+			//Log.e("coordinate", last_x+"  "+(i+1)*2*r+"");
+			mPath.reset();
+			mPath.moveTo((float)(i*2*r)+(float)(0+r), (float)(r*per+r));
+			mPath.lineTo((float)(i*2*r)+(float)(-r*cos54+r), (float)(r*sin54+r));
+			mPath.lineTo((float)(i*2*r)+(float)(-r*per*cos18+r), (float)(r*per*sin18+r));
+			mPath.lineTo((float)(i*2*r)+(float)(-r*cos18+r), (float)(-r*sin18+r));
+			mPath.lineTo((float)(i*2*r)+(float)(-r*per*cos54+r), (float)(-r*per*sin54+r));
+			mPath.lineTo((float)(i*2*r)+(float)(0+r), (float)(-r+r));
+			mPath.lineTo((float)(i*2*r)+(float)(r*per*cos54+r), (float)(-r*per*sin54+r));
+			mPath.lineTo((float)(i*2*r)+(float)(r*cos18+r), (float)(-r*sin18+r));
+			mPath.lineTo((float)(i*2*r)+(float)(r*per*cos18+r), (float)(r*per*sin18+r));
+			mPath.lineTo((float)(i*2*r)+(float)(r*cos54+r), (float)(r*sin54+r));
+			mPath.close();
+			canvas.drawPath(mPath, nullPaint);
 		}
 	}
 	@Override
@@ -124,7 +159,9 @@ public class RatingPentagramView extends View {
 		case MotionEvent.ACTION_UP:
 			
 			last_x=x;
-			invalidate();
+			int interval=r!=0?(int)(last_x/r):0;
+			if(interval<=(2*starNum))
+				invalidate();
 			break;
 		}
 		return true;

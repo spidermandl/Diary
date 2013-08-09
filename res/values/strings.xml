@@ -47,4 +47,18 @@
 	<string name="week_6">Friday</string>
 	<string name="week_7">Saturday</string>
 	
+	<string name="Jan">Jun\u0020</string>
+	<string name="Feb">Feb\u0020</string>
+	<string name="Mar">Mar\u0020</string>
+	<string name="Apr">Apr\u0020</string>
+	<string name="May">May\u0020</string>
+	<string name="Jun">Jun\u0020</string>
+	<string name="Jul">Jul\u0020</string>
+	<string name="Aug">Aug\u0020</string>
+	<string name="Sep">Sep\u0020</string>
+	<string name="Oct">Oct\u0020</string>
+	<string name="Nov">Nov\u0020</string>
+	<string name="Dec">Dec\u0020</string>
+	<string name="day"></string>
+	
 </resources>

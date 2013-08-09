@@ -96,10 +96,41 @@ public class OverviewStrollAdapter extends BaseAdapter {
 		int day=calendar.get(Calendar.DAY_OF_MONTH);
 //		Log.e("getMonthString month", month+"");
 //		Log.e("getMonthString day", day+"");
-		return month>9?"":"0"+month+"."+(day>9?"":"0")+day;
+		return getAbbrMonth(month)+day+context.getResources().getString(R.string.day);
 	}
 	public void refresh(){
 		mAdapter.notifyDataSetChanged();
 	}
 
+	private String getAbbrMonth(int month){
+		switch (month) {
+		case 1:
+			return context.getResources().getString(R.string.Jan);
+		case 2:
+			return context.getResources().getString(R.string.Feb);
+		case 3:
+			return context.getResources().getString(R.string.Mar);
+		case 4:
+			return context.getResources().getString(R.string.Apr);
+		case 5:
+			return context.getResources().getString(R.string.May);
+		case 6:
+			return context.getResources().getString(R.string.Jun);
+		case 7:
+			return context.getResources().getString(R.string.Jul);
+		case 8:
+			return context.getResources().getString(R.string.Aug);
+		case 9:
+			return context.getResources().getString(R.string.Sep);
+		case 10:
+			return context.getResources().getString(R.string.Oct);
+		case 11:
+			return context.getResources().getString(R.string.Nov);
+		case 12:
+			return context.getResources().getString(R.string.Dec);
+	
+		default:
+			return context.getResources().getString(R.string.Jan);
+		}
+	}
 }
