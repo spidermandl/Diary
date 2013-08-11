@@ -24,6 +24,7 @@
 
 	<string name="edit_save">SAVE</string>
 	<string name="edit_back">BACK</string>
+	<string name="start_jounery">Click to Enter</string>
 	
 	<!-- config string -->
 	<string name="work">work</string>

@@ -24,6 +24,7 @@
 
 	<string name="edit_save">保存</string>
 	<string name="edit_back">返回</string>
+	<string name="start_jounery">点击进入</string>
 	
 	<!-- config string -->
 	<string name="work">工作</string>
