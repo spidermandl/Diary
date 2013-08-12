@@ -22,16 +22,16 @@
         <activity 
             android:name=".activity.FrontPageActivity"
             android:configChanges="orientation|keyboardHidden">
-            
-        </activity>
-        <activity
-            android:name=".activity.SudoKuActivity"
-            android:configChanges="orientation|keyboardHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            
+        </activity>
+        <activity
+            android:name=".activity.SudoKuActivity"
+            android:configChanges="orientation|keyboardHidden" >
         </activity>
         <activity 
             android:name=".activity.UnitOverviewActivity"

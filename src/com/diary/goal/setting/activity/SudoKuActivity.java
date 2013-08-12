@@ -55,7 +55,7 @@ public class SudoKuActivity extends Activity implements OnTouchListener,OnGestur
 		viewFlow.setAdapter(mAdapter);
 		viewFlow.setFlipListener(new FlipPathListener() {
 			
-			@Override
+			//@Override
 			public void track(int steps) {
 				position=DiaryApplication.getInstance().getDateCursor();
 				position+=steps;
@@ -63,7 +63,7 @@ public class SudoKuActivity extends Activity implements OnTouchListener,OnGestur
 				
 				UIhandler.post(new Runnable() {
 					
-					@Override
+					//@Override
 					public void run() {
 						getPanelCache();	
 						UIhandler.sendEmptyMessage(0);
@@ -177,44 +177,44 @@ public class SudoKuActivity extends Activity implements OnTouchListener,OnGestur
 		app.clearbitmap(R.drawable.date_activated);
 		app.clearbitmap(R.drawable.date_null);
 	}
-	@Override
+	//@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
+	//@Override
 	public boolean onDown(MotionEvent e) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
+	//@Override
 	public void onShowPress(MotionEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
+	//@Override
 	public boolean onSingleTapUp(MotionEvent e) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
+	//@Override
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
 			float distanceY) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
+	//@Override
 	public void onLongPress(MotionEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
+	//@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY) {
 		if (e1.getX() - e2.getX() > verticalMinDistance

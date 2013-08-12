@@ -83,7 +83,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 
 	private OnGlobalLayoutListener orientationChangeListener = new OnGlobalLayoutListener() {
 
-		@Override
+		//@Override
 		public void onGlobalLayout() {
 			getViewTreeObserver().removeGlobalOnLayoutListener(
 					orientationChangeListener);

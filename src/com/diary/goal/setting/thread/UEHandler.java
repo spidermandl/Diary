@@ -23,7 +23,7 @@ public class UEHandler implements Thread.UncaughtExceptionHandler {
 			fileErrorLog = new File(path);
 	}
 
-	@Override
+	//@Override
 	public void uncaughtException(Thread thread, Throwable ex) {
 		// fetch Excpetion Info
 		String info = null;

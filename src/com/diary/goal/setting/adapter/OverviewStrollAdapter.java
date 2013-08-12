@@ -33,25 +33,25 @@ public class OverviewStrollAdapter extends BaseAdapter {
 		mAdapter=new UnitOverviewAdapter(context);
 	}
 	
-	@Override
+	//@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
 		return Integer.MAX_VALUE/2;
 	}
 
-	@Override
+	//@Override
 	public Object getItem(int position) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+	//@Override
 	public long getItemId(int position) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
+	//@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if(convertView==null){
 			convertView = m_inflater.inflate(R.layout.essay_overview, null);

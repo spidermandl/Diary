@@ -351,13 +351,13 @@ public class ScrollingTabContainerView extends NineHorizontalScrollView
         }
     }
 
-    @Override
+    //@Override
     public void onItemSelected(IcsAdapterView<?> parent, View view, int position, long id) {
         TabView tabView = (TabView) view;
         tabView.getTab().select();
     }
 
-    @Override
+    //@Override
     public void onNothingSelected(IcsAdapterView<?> parent) {
     }
 
@@ -472,22 +472,22 @@ public class ScrollingTabContainerView extends NineHorizontalScrollView
     }
 
     private class TabAdapter extends BaseAdapter {
-        @Override
+        //@Override
         public int getCount() {
             return mTabLayout.getChildCount();
         }
 
-        @Override
+        //@Override
         public Object getItem(int position) {
             return ((TabView) mTabLayout.getChildAt(position)).getTab();
         }
 
-        @Override
+        //@Override
         public long getItemId(int position) {
             return position;
         }
 
-        @Override
+        //@Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
                 convertView = createTabView((ActionBar.Tab) getItem(position), true);
@@ -519,14 +519,14 @@ public class ScrollingTabContainerView extends NineHorizontalScrollView
             return this;
         }
 
-        @Override
+        //@Override
         public void onAnimationStart(Animator animation) {
             setVisibility(VISIBLE);
             mVisibilityAnim = animation;
             mCanceled = false;
         }
 
-        @Override
+        //@Override
         public void onAnimationEnd(Animator animation) {
             if (mCanceled) return;
 
@@ -534,12 +534,12 @@ public class ScrollingTabContainerView extends NineHorizontalScrollView
             setVisibility(mFinalVisibility);
         }
 
-        @Override
+        //@Override
         public void onAnimationCancel(Animator animation) {
             mCanceled = true;
         }
 
-        @Override
+        //@Override
         public void onAnimationRepeat(Animator animation) {
         }
     }

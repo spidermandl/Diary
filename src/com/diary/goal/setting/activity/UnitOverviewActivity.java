@@ -33,7 +33,7 @@ public class UnitOverviewActivity extends Activity {
 		viewFlow.setAdapter(mAdapter,mAdapter.getCount()-1+DiaryApplication.getInstance().getDateCursor());
 		viewFlow.setFlipListener(new FlipPathListener() {
 			
-			@Override
+			//@Override
 			public void track(int steps) {
 				int position=DiaryApplication.getInstance().getDateCursor();
 				position+=steps;

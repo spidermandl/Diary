@@ -262,14 +262,14 @@ public abstract class AbsActionBarView extends NineViewGroup {
             return this;
         }
 
-        @Override
+        //@Override
         public void onAnimationStart(Animator animation) {
             setVisibility(VISIBLE);
             mVisibilityAnim = animation;
             mCanceled = false;
         }
 
-        @Override
+        //@Override
         public void onAnimationEnd(Animator animation) {
             if (mCanceled) return;
 
@@ -280,12 +280,12 @@ public abstract class AbsActionBarView extends NineViewGroup {
             }
         }
 
-        @Override
+        //@Override
         public void onAnimationCancel(Animator animation) {
             mCanceled = true;
         }
 
-        @Override
+        //@Override
         public void onAnimationRepeat(Animator animation) {
         }
     }

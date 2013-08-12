@@ -36,7 +36,7 @@ public abstract class Watson extends FragmentActivity implements OnCreatePanelMe
     // Sherlock menu handling
     ///////////////////////////////////////////////////////////////////////////
 
-    @Override
+    //@Override
     public boolean onCreatePanelMenu(int featureId, Menu menu) {
         if (BuildConfig.DEBUG) Log.d(TAG, "[onCreatePanelMenu] featureId: " + featureId + ", menu: " + menu);
 
@@ -81,7 +81,7 @@ public abstract class Watson extends FragmentActivity implements OnCreatePanelMe
         return false;
     }
 
-    @Override
+    //@Override
     public boolean onPreparePanel(int featureId, View view, Menu menu) {
         if (BuildConfig.DEBUG) Log.d(TAG, "[onPreparePanel] featureId: " + featureId + ", view: " + view + " menu: " + menu);
 
@@ -110,7 +110,7 @@ public abstract class Watson extends FragmentActivity implements OnCreatePanelMe
         return false;
     }
 
-    @Override
+    //@Override
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         if (BuildConfig.DEBUG) Log.d(TAG, "[onMenuItemSelected] featureId: " + featureId + ", item: " + item);
 

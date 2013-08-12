@@ -337,7 +337,7 @@ public class SearchView extends LinearLayout implements CollapsibleActionView {
         if (mDropDownAnchor != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                 mDropDownAnchor.addOnLayoutChangeListener(new OnLayoutChangeListener() {
-                    @Override
+                    //@Override
                     public void onLayoutChange(View v, int left, int top, int right, int bottom,
                                                                          int oldLeft, int oldTop, int oldRight, int oldBottom) {
                         adjustDropDownSizeAndPosition();
@@ -345,7 +345,8 @@ public class SearchView extends LinearLayout implements CollapsibleActionView {
                 });
             } else {
                 mDropDownAnchor.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-                    @Override public void onGlobalLayout() {
+                    //@Override 
+                    public void onGlobalLayout() {
                         adjustDropDownSizeAndPosition();
                     }
                 });
@@ -1268,7 +1269,7 @@ public class SearchView extends LinearLayout implements CollapsibleActionView {
     /**
      * {@inheritDoc}
      */
-    @Override
+    //@Override
     public void onActionViewCollapsed() {
         clearFocus();
         updateViewsVisibility(true);
@@ -1279,7 +1280,7 @@ public class SearchView extends LinearLayout implements CollapsibleActionView {
     /**
      * {@inheritDoc}
      */
-    @Override
+    //@Override
     public void onActionViewExpanded() {
         if (mExpandedInActionView) return;
 

@@ -272,7 +272,7 @@ public class ShareActionProvider extends ActionProvider {
      * Reusable listener for handling share item clicks.
      */
     private class ShareMenuItemOnMenuItemClickListener implements OnMenuItemClickListener {
-        @Override
+        //@Override
         public boolean onMenuItemClick(MenuItem item) {
             ActivityChooserModel dataModel = ActivityChooserModel.get(mContext,
                     mShareHistoryFileName);
@@ -304,7 +304,7 @@ public class ShareActionProvider extends ActionProvider {
      * Policy that delegates to the {@link OnShareTargetSelectedListener}, if such.
      */
     private class ShareAcitivityChooserModelPolicy implements OnChooseActivityListener {
-        @Override
+        //@Override
         public boolean onChooseActivity(ActivityChooserModel host, Intent intent) {
             if (mOnShareTargetSelectedListener != null) {
                 return mOnShareTargetSelectedListener.onShareTargetSelected(

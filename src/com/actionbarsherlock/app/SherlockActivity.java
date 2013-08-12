@@ -41,10 +41,10 @@ public abstract class SherlockActivity extends Activity implements OnCreatePanel
         return getSherlock().startActionMode(callback);
     }
 
-    @Override
+    //@Override
     public void onActionModeStarted(ActionMode mode) {}
 
-    @Override
+    //@Override
     public void onActionModeFinished(ActionMode mode) {}
 
 
@@ -178,7 +178,7 @@ public abstract class SherlockActivity extends Activity implements OnCreatePanel
     // Sherlock menu handling
     ///////////////////////////////////////////////////////////////////////////
 
-    @Override
+    //@Override
     public boolean onCreatePanelMenu(int featureId, Menu menu) {
         if (featureId == Window.FEATURE_OPTIONS_PANEL) {
             return onCreateOptionsMenu(menu);
@@ -190,7 +190,7 @@ public abstract class SherlockActivity extends Activity implements OnCreatePanel
         return true;
     }
 
-    @Override
+    //@Override
     public boolean onPreparePanel(int featureId, View view, Menu menu) {
         if (featureId == Window.FEATURE_OPTIONS_PANEL) {
             return onPrepareOptionsMenu(menu);
@@ -202,7 +202,7 @@ public abstract class SherlockActivity extends Activity implements OnCreatePanel
         return true;
     }
 
-    @Override
+    //@Override
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         if (featureId == Window.FEATURE_OPTIONS_PANEL) {
             return onOptionsItemSelected(item);

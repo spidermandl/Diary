@@ -74,7 +74,7 @@ public abstract class PanelView extends View implements View.OnClickListener{
 	
 	abstract void selfDraw(Canvas canvas,boolean activated);
 	
-	@Override
+	//@Override
 	public void onClick(View v) {
 		if(DiaryApplication.getInstance().getDateCursor()<=0){
 			DiaryApplication.getInstance().getDateModel().setType(sudoType);

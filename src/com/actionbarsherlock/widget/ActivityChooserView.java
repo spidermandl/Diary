@@ -137,7 +137,7 @@ class ActivityChooserView extends ViewGroup implements ActivityChooserModelClien
     };
 
     private final OnGlobalLayoutListener mOnGlobalLayoutListener = new OnGlobalLayoutListener() {
-        @Override
+        //@Override
         public void onGlobalLayout() {
             if (isShowingPopup()) {
                 if (!isShown()) {
@@ -597,7 +597,7 @@ class ActivityChooserView extends ViewGroup implements ActivityChooserModelClien
         }
 
         // OnLongClickListener#onLongClick
-        @Override
+        //@Override
         public boolean onLongClick(View view) {
             if (view == mDefaultActivityButton) {
                 if (mAdapter.getCount() > 0) {

@@ -59,7 +59,7 @@ public class EditorActionModeCallback {
       this.host=host;
     }
 
-    @Override
+    //@Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
       MenuInflater inflater=mode.getMenuInflater();
 
@@ -69,7 +69,7 @@ public class EditorActionModeCallback {
       return(true);
     }
 
-    @Override
+    //@Override
     public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
       if (selection != null) {
         selection.apply(editor);
@@ -78,12 +78,12 @@ public class EditorActionModeCallback {
       return(false);
     }
 
-    @Override
+    //@Override
     public void onDestroyActionMode(ActionMode mode) {
       listener.setIsShowing(false);
     }
 
-    @Override
+    //@Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
       EditorActionModeCallback next=chains.get(item.getItemId());
 
@@ -111,7 +111,7 @@ public class EditorActionModeCallback {
       this.host=host;
     }
 
-    @Override
+    //@Override
     public boolean onCreateActionMode(com.actionbarsherlock.view.ActionMode mode,
                                       com.actionbarsherlock.view.Menu menu) {
       com.actionbarsherlock.view.MenuInflater inflater=
@@ -123,7 +123,7 @@ public class EditorActionModeCallback {
       return(true);
     }
 
-    @Override
+    //@Override
     public boolean onPrepareActionMode(com.actionbarsherlock.view.ActionMode mode,
                                        com.actionbarsherlock.view.Menu menu) {
       if (selection != null) {
@@ -133,12 +133,12 @@ public class EditorActionModeCallback {
       return(false);
     }
 
-    @Override
+    //@Override
     public void onDestroyActionMode(com.actionbarsherlock.view.ActionMode mode) {
       listener.setIsShowing(false);
     }
 
-    @Override
+    //@Override
     public boolean onActionItemClicked(com.actionbarsherlock.view.ActionMode mode,
                                        com.actionbarsherlock.view.MenuItem item) {
       EditorActionModeCallback next=chains.get(item.getItemId());

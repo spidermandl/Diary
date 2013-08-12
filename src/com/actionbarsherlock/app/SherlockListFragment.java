@@ -40,7 +40,7 @@ public class SherlockListFragment extends ListFragment implements OnCreateOption
         onCreateOptionsMenu(new MenuWrapper(menu), mActivity.getSupportMenuInflater());
     }
 
-    @Override
+    //@Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         //Nothing to see here.
     }
@@ -50,7 +50,7 @@ public class SherlockListFragment extends ListFragment implements OnCreateOption
         onPrepareOptionsMenu(new MenuWrapper(menu));
     }
 
-    @Override
+    //@Override
     public void onPrepareOptionsMenu(Menu menu) {
         //Nothing to see here.
     }
@@ -60,7 +60,7 @@ public class SherlockListFragment extends ListFragment implements OnCreateOption
         return onOptionsItemSelected(new MenuItemWrapper(item));
     }
 
-    @Override
+    //@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         //Nothing to see here.
         return false;

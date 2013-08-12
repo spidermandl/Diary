@@ -28,25 +28,25 @@ public class NinePanelAdapter extends BaseAdapter {
 		this.context=con;
 		m_inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
-	@Override
+	//@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
 		return Integer.MAX_VALUE;
 	}
 
-	@Override
+	//@Override
 	public Object getItem(int position) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+	//@Override
 	public long getItemId(int position) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
+	//@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if(convertView==null){                                                                                                        
 			//Log.e("create View", "null "+position);

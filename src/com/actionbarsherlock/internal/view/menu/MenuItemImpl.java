@@ -588,13 +588,13 @@ public final class MenuItemImpl implements MenuItem {
         return this;
     }
 
-    @Override
+    //@Override
     public MenuItem setShowAsActionFlags(int actionEnum) {
         setShowAsAction(actionEnum);
         return this;
     }
 
-    @Override
+    //@Override
     public boolean expandActionView() {
         if ((mShowAsAction & SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW) == 0 || mActionView == null) {
             return false;
@@ -608,7 +608,7 @@ public final class MenuItemImpl implements MenuItem {
         return false;
     }
 
-    @Override
+    //@Override
     public boolean collapseActionView() {
         if ((mShowAsAction & SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW) == 0) {
             return false;
@@ -626,7 +626,7 @@ public final class MenuItemImpl implements MenuItem {
         return false;
     }
 
-    @Override
+    //@Override
     public MenuItem setOnActionExpandListener(OnActionExpandListener listener) {
         mOnActionExpandListener = listener;
         return this;

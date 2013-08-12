@@ -269,7 +269,7 @@ public class RichEditText extends EditText implements
     }
   }
 
-  @Override
+  //@Override
   public boolean doAction(int itemId) {
     if (itemId == R.id.cwac_richedittext_underline) {
       toggleEffect(RichEditText.UNDERLINE);
@@ -343,7 +343,7 @@ public class RichEditText extends EditText implements
     return(false);
   }
 
-  @Override
+  //@Override
   public void setIsShowing(boolean isShowing) {
     actionModeIsShowing=isShowing;
   }

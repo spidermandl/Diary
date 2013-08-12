@@ -138,7 +138,7 @@ public class RichTextEditorActivity extends SherlockActivity implements OnNaviga
 		return true;
 	}
 
-	@Override
+	//@Override
 	public boolean onNavigationItemSelected(int itemPosition, long itemId) {
 		saveEdit();
 

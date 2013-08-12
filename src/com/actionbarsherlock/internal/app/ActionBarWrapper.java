@@ -91,7 +91,7 @@ public class ActionBarWrapper extends ActionBar implements android.app.ActionBar
         mActionBar.setListNavigationCallbacks(adapter, (callback != null) ? this : null);
     }
 
-    @Override
+    //@Override
     public boolean onNavigationItemSelected(int itemPosition, long itemId) {
         //This should never be a NullPointerException since we only set
         //ourselves as the listener when the callback is not null.
@@ -327,7 +327,7 @@ public class ActionBarWrapper extends ActionBar implements android.app.ActionBar
             return mNativeTab.getContentDescription();
         }
 
-        @Override
+        //@Override
         public void onTabReselected(android.app.ActionBar.Tab tab, android.app.FragmentTransaction ft) {
             if (mListener != null) {
                 FragmentTransaction trans = null;
@@ -344,7 +344,7 @@ public class ActionBarWrapper extends ActionBar implements android.app.ActionBar
             }
         }
 
-        @Override
+        //@Override
         public void onTabSelected(android.app.ActionBar.Tab tab, android.app.FragmentTransaction ft) {
             if (mListener != null) {
 
@@ -364,7 +364,7 @@ public class ActionBarWrapper extends ActionBar implements android.app.ActionBar
             }
         }
 
-        @Override
+        //@Override
         public void onTabUnselected(android.app.ActionBar.Tab tab, android.app.FragmentTransaction ft) {
             if (mListener != null) {
                 FragmentTransaction trans = null;
@@ -471,7 +471,7 @@ public class ActionBarWrapper extends ActionBar implements android.app.ActionBar
         mMenuVisibilityListeners.remove(listener);
     }
 
-    @Override
+    //@Override
     public void onMenuVisibilityChanged(boolean isVisible) {
         for (OnMenuVisibilityListener listener : mMenuVisibilityListeners) {
             listener.onMenuVisibilityChanged(isVisible);
