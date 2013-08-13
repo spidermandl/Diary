@@ -12,8 +12,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Paint.Style;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.widget.TextView;
 
 public class PanelView_1 extends PanelView {
 

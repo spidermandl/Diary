@@ -6,12 +6,25 @@
     
     <TextView android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dip"
+        android:gravity="left"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="@string/journery_description"
+        android:textColor="#FF0000FF"/>
+    
+    <TextView android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/start_journey"
         android:background="@drawable/default_button_bg"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="50dip"
         android:gravity="center"
+        android:paddingLeft="20dip"
+        android:paddingRight="20dip"
         android:text="@string/start_jounery"
         android:textColor="#FF000000"/>
 

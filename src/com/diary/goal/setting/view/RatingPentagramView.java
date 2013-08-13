@@ -1,6 +1,7 @@
 package com.diary.goal.setting.view;
 
 import com.diary.goal.setting.R;
+import com.diary.goal.setting.listener.OnRatingPentagramTouchUp;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -14,6 +15,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.RatingBar.OnRatingBarChangeListener;
 /**
  * redesign rating bar
  * @author duanlei
@@ -34,6 +36,7 @@ public class RatingPentagramView extends View {
 	double sin18=Math.sin(18*2*Math.PI/360);
 	double sin54=Math.sin(54*2*Math.PI/360);
 
+	OnRatingPentagramTouchUp listener;
 	
 	public RatingPentagramView(Context context, AttributeSet attrs) {
 		this(context, attrs,1);
@@ -47,6 +50,10 @@ public class RatingPentagramView extends View {
 		init();
 	}
 
+	public void setOnTouchUpListener(OnRatingPentagramTouchUp l){
+		this.listener=l;
+	}
+	
 	void init(){
 		mPath=new Path();
 		nullPaint=new Paint();
@@ -85,8 +92,9 @@ public class RatingPentagramView extends View {
 				r=height/starNum>width?width/2:height/2/starNum;
 			}
 		}
-		int interval=(int)(last_x/r);
+		int interval=(int)(last_x/r)+1;
 		interval=interval>(2*starNum)?10:interval;
+		interval=last_x==0?0:interval;
 		int i;
 		for(i=0;i<interval/2;i++){
 			mPath.reset();
@@ -157,13 +165,29 @@ public class RatingPentagramView extends View {
 		case MotionEvent.ACTION_MOVE:
 			break;
 		case MotionEvent.ACTION_UP:
-			
-			last_x=x;
+			if(last_x<=r&&last_x>0&&x<=r){
+				/**
+				 * touching the very first half pentagram can clear all 
+				 * if the previous first half was activited
+				 */
+				last_x=0;
+			}else{
+				last_x=x;
+			}
 			int interval=r!=0?(int)(last_x/r):0;
-			if(interval<=(2*starNum))
+			if(interval<=(2*starNum)){
 				invalidate();
+				if(listener!=null){
+					listener.touchUp((float)(interval+(last_x-interval)>0.5?0.5:0));
+				}
+			}
 			break;
 		}
 		return true;
+	}
+
+	public void setRate(float rating) {
+		// TODO Auto-generated method stub
+		
 	}
 }

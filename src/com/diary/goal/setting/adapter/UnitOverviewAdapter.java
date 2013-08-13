@@ -14,6 +14,7 @@ import com.diary.goal.setting.R;
 import com.diary.goal.setting.activity.RichTextEditorActivity;
 import com.diary.goal.setting.database.DiaryHelper;
 import com.diary.goal.setting.database.DiaryHelper.Tables;
+import com.diary.goal.setting.listener.OnRatingPentagramTouchUp;
 import com.diary.goal.setting.model.CategoryModel;
 import com.diary.goal.setting.model.DateModel;
 import com.diary.goal.setting.tools.BitmapCustomize;
@@ -167,23 +168,29 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 			holder.type_2.setVisibility(View.GONE);
 			holder.type_3.setVisibility(View.GONE);
 
-			//holder.ratingStar.setStepSize(0.5f);
-//			holder.ratingStar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-//				
-//				@Override
-//				public void onRatingChanged(RatingBar ratingBar, float rating,
-//						boolean fromUser) {
-//					if(fromUser){
-////						float minus=rating-(int)rating;
-////						if(minus<0.5){
-////							ratingBar.setRating((float)((int)rating+0.5));
-////						}else{
-////							ratingBar.setRating((float)((int)rating+1));
-////						}
-//					}
-//					
-//				}
-//			});
+			RatingPentagramView rating=holder.ratingStar;
+			text=categorys.get(indexs.get(groupPosition));
+			rating.setRate(text!=null?Float.valueOf(text):0f);
+			rating.setOnTouchUpListener(new OnRatingPentagramTouchUp() {
+				
+				public void touchUp(float rating) {
+					  DateModel model=DiaryApplication.getInstance().getDateModel();
+					  /*******************************set date model*************************************/
+					  model.setCategory(configTables.get(indexs.get(index)).getCategoryIndex());
+					  model.setConfigId(indexs.get(index));
+					  /********************************************************************/
+					  DiaryHelper helper=DiaryApplication.getInstance().getDbHelper();
+					  Cursor c=helper.getCategory(model);
+					  if(c!=null&&c.getCount()!=0)
+						  helper.updateDiaryContent(model, String.valueOf(rating));
+					  else
+						  helper.insertDiaryContent(model, String.valueOf(rating));
+					  if(c!=null)
+						  c.close();
+					  DiaryApplication.getInstance().getPadStatus().getPadStatus().put(model.getType(), true);
+					
+				}
+			});
 			break;
 		case TYPE_CHECKBOX:
 			holder.title_type_1.setText(switchLanguage(categoryModel.getCategoryName()));

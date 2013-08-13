@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Paint.Style;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -20,7 +21,7 @@ public abstract class PanelView extends View implements View.OnClickListener{
 
 	protected Context context;
 	protected Constant.SudoType sudoType=SudoType.SUDO_0;
-	protected Paint mPaint;
+	protected Paint mPaint,cPaint;
 	protected int bgColor;
 	
 	public PanelView(Context context) {
@@ -48,6 +49,15 @@ public abstract class PanelView extends View implements View.OnClickListener{
 	void init(){
 		this.setOnClickListener(this);
 		mPaint=new Paint();
+
+		cPaint=new Paint();
+		cPaint.setColor(0xFFFFFFFF);
+		cPaint.setStyle(Style.STROKE);
+		//cPaint.setTextScaleX(1.5f);
+		cPaint.setTextSize(40);
+		cPaint.setStrokeWidth(1);
+		cPaint.setAntiAlias(true); 
+		cPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
 	}
 	
 	@Override
@@ -69,6 +79,8 @@ public abstract class PanelView extends View implements View.OnClickListener{
 //			canvas.drawColor(bgColor);
 //		}
 		selfDraw(canvas,DiaryApplication.getInstance().getPadStatus().getPadStatus().get(sudoType));
+		String text=context.getResources().getString(sudoType.getResString());
+		canvas.drawText(text, (this.getWidth()-cPaint.measureText(text))/2, this.getHeight()*3/4, cPaint);
 		super.onDraw(canvas);
 	}
 	

@@ -1161,6 +1161,7 @@ containing a value of this type.
         public static final int healthy=0x7f0a0029;
         public static final int innovation=0x7f0a0026;
         public static final int italic=0x7f0a0011;
+        public static final int journery_description=0x7f0a0042;
         public static final int lines=0x7f0a001c;
         public static final int menu_settings=0x7f0a000e;
         public static final int mit=0x7f0a0028;
