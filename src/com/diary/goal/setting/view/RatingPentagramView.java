@@ -37,6 +37,7 @@ public class RatingPentagramView extends View {
 	double sin54=Math.sin(54*2*Math.PI/360);
 
 	OnRatingPentagramTouchUp listener;
+	float rating=0;
 	
 	public RatingPentagramView(Context context, AttributeSet attrs) {
 		this(context, attrs,1);
@@ -91,6 +92,8 @@ public class RatingPentagramView extends View {
 			}else{
 				r=height/starNum>width?width/2:height/2/starNum;
 			}
+			if(rating!=0)
+				last_x=(float)(r*rating);
 		}
 		int interval=(int)(last_x/r)+1;
 		interval=interval>(2*starNum)?10:interval;
@@ -176,10 +179,10 @@ public class RatingPentagramView extends View {
 			}
 			int interval=r!=0?(int)(last_x/r):0;
 			if(interval<=(2*starNum)){
-				invalidate();
 				if(listener!=null){
-					listener.touchUp((float)(interval+(last_x-interval)>0.5?0.5:0));
+					listener.touchUp((float)interval+(float)((last_x/r-interval)>0.5?0.5:0));
 				}
+				invalidate();
 			}
 			break;
 		}
@@ -187,7 +190,9 @@ public class RatingPentagramView extends View {
 	}
 
 	public void setRate(float rating) {
-		// TODO Auto-generated method stub
-		
+		this.rating=rating;
+		if(r!=0){
+			last_x=(float)(r*rating);
+		}
 	}
 }

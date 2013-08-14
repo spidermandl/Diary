@@ -3,7 +3,7 @@ package com.diary.goal.setting.dialog;
 
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
-import com.diary.goal.setting.view.QuitView;
+import com.diary.goal.setting.view.QuickView;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -13,6 +13,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
 
+@Deprecated
 public class OverviewDialog extends Dialog {
 
 	Context context;
@@ -36,7 +37,7 @@ public class OverviewDialog extends Dialog {
         lp.height = 72*DiaryApplication.getInstance().getScreen_h()/100;
         dialogWindow.setAttributes(lp);
         
-        setContentView(new QuitView(context),new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        setContentView(new QuickView(context),new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 
 		super.onCreate(savedInstanceState);
 	}

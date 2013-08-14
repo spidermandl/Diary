@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#FFDDFDDB" >
-        <!--  
+    <!--  
       _________________________________________
       |                |                       |
       |    TextView    |      *****            |
@@ -20,7 +20,7 @@
         <com.diary.goal.setting.view.DashLineView
             android:id="@+id/line_h_type_0"
             android:layout_width="match_parent"
-            android:layout_height="3dp"
+            android:layout_height="2dp"
             dash:orientation="0" />
 
         <LinearLayout
@@ -30,10 +30,10 @@
             android:layout_below="@id/line_h_type_0"
             android:orientation="horizontal" >
 
-            <TextView
+            <com.diary.goal.setting.view.CategoryTextView
                 android:id="@+id/title_type_0"
                 android:layout_width="0dip"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:paddingBottom="@dimen/brief_edit_paddingbottom"
                 android:paddingLeft="@dimen/brief_edit_paddingleft"
@@ -41,15 +41,17 @@
                 android:paddingTop="@dimen/brief_edit_paddingtop"
                 android:singleLine="true"
                 android:textColor="#FF704214"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:gravity="center_vertical"/>
 
             <com.diary.goal.setting.view.DashLineView
-                android:layout_width="3dp"
+                android:layout_width="2dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0"
                 dash:orientation="1" />
             
-           <com.diary.goal.setting.view.RatingPentagramView android:id="@+id/star_type_0"
+           <com.diary.goal.setting.view.RatingPentagramView 
+                android:id="@+id/star_type_0"
                 android:layout_width="0dip"
                 android:layout_height="50dip"
                 android:layout_weight="2"
@@ -72,7 +74,7 @@
         <com.diary.goal.setting.view.DashLineView
             android:id="@+id/line_h_type_1"
             android:layout_width="match_parent"
-            android:layout_height="3dp"
+            android:layout_height="2dp"
             dash:orientation="0" />
 
         <LinearLayout
@@ -82,10 +84,10 @@
             android:layout_below="@id/line_h_type_1"
             android:orientation="horizontal" >
 
-            <TextView
+            <com.diary.goal.setting.view.CategoryTextView
                 android:id="@+id/title_type_1"
                 android:layout_width="0dip"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:paddingBottom="@dimen/brief_edit_paddingbottom"
                 android:paddingLeft="@dimen/brief_edit_paddingleft"
@@ -93,10 +95,11 @@
                 android:paddingTop="@dimen/brief_edit_paddingtop"
                 android:singleLine="true"
                 android:textColor="#FF704214"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:gravity="center_vertical" />
 
             <com.diary.goal.setting.view.DashLineView
-                android:layout_width="3dp"
+                android:layout_width="2dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0"
                 dash:orientation="1" />
@@ -123,7 +126,7 @@
         <com.diary.goal.setting.view.DashLineView
             android:id="@+id/line_h_type_2"
             android:layout_width="match_parent"
-            android:layout_height="3dp"
+            android:layout_height="2dp"
             dash:orientation="0" />
 
         <LinearLayout
@@ -133,7 +136,7 @@
             android:layout_below="@id/line_h_type_2"
             android:orientation="horizontal" >
 
-            <TextView
+            <com.diary.goal.setting.view.CategoryTextView
                 android:id="@+id/title_type_2"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
@@ -147,7 +150,7 @@
                 android:textSize="16sp" />
 
             <com.diary.goal.setting.view.DashLineView
-                android:layout_width="3dp"
+                android:layout_width="2dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0"
                 dash:orientation="1" />
@@ -179,10 +182,10 @@
         <com.diary.goal.setting.view.DashLineView
             android:id="@+id/line_h_type_3"
             android:layout_width="match_parent"
-            android:layout_height="3dp"
+            android:layout_height="2dp"
             dash:orientation="0" />
 
-        <TextView
+        <com.diary.goal.setting.view.CategoryTextView
             android:id="@+id/title_type_3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

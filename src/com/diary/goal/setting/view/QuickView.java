@@ -19,7 +19,7 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-public class QuitView extends TextView {
+public class QuickView extends TextView {
 
 	Context context;
 	HashMap<Integer,ArrayList<String>> content;
@@ -31,17 +31,17 @@ public class QuitView extends TextView {
     private float mult = 1.5f; 
     private float add = 2.0f; 
 	
-	public QuitView(Context context) {
+	public QuickView(Context context) {
 		super(context);
 		this.context=context;
 		init();
 	}
-	public QuitView(Context context, AttributeSet attrs) {
+	public QuickView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		this.context=context;
 		init();
 	}
-	public QuitView(Context context, AttributeSet attrs, int defStyle) {
+	public QuickView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		this.context=context;
 		init();
@@ -98,7 +98,7 @@ public class QuitView extends TextView {
 	@Override
 	protected void onDraw(Canvas canvas) {
         int count = lines.size(); 
-        for (int i = 0; i < count; i++) { 
+        for (int i = 0; i < count; i++) {
             getLineBounds(i, mRect); 
             int baseline = (i + 1) * getLineHeight(); 
             canvas.drawLine(mRect.left, baseline, mRect.right, baseline, linePaint);

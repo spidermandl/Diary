@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
-    android:background="#FFE4E9E9">
+    android:layout_height="match_parent"
+    android:id="@+id/paper_scroll">"
     
-    <com.diary.goal.setting.view.QuitView
+    <com.diary.goal.setting.view.QuickView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="#00000000">
         
-    </com.diary.goal.setting.view.QuitView>
-    
+    </com.diary.goal.setting.view.QuickView>
 
-</RelativeLayout>
+</ScrollView>

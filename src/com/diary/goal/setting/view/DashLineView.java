@@ -14,6 +14,11 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+/**
+ * dash line that breaking up between views 
+ * @author DuanLei
+ *
+ */
 public class DashLineView extends View {
 
 	int mOrientation;
@@ -29,9 +34,11 @@ public class DashLineView extends View {
         a.recycle();
         
         fgPaintSel = new Paint();
-        fgPaintSel.setStrokeWidth((float)4.0);
         fgPaintSel.setColor(Color.BLACK);
 		fgPaintSel.setStyle(Style.STROKE);
+        fgPaintSel.setStrokeWidth((float)4.0);
+        fgPaintSel.setAntiAlias(true); 
+        fgPaintSel.setFlags(Paint.ANTI_ALIAS_FLAG);
 		fgPaintSel.setPathEffect(new DashPathEffect(new float[] {2,3}, 0));
 	}
 

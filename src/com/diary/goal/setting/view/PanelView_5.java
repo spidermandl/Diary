@@ -9,8 +9,6 @@ import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.activity.PaperOverviewActivity;
 import com.diary.goal.setting.activity.SudoKuActivity;
-import com.diary.goal.setting.activity.UnitOverviewActivity;
-import com.diary.goal.setting.dialog.OverviewDialog;
 import com.diary.goal.setting.tools.BitmapCustomize;
 import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.tools.Constant.SudoType;
@@ -26,7 +24,6 @@ import android.graphics.Paint.Style;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.widget.Toast;
 
 public class PanelView_5 extends PanelView {
 	Calendar calendar;
