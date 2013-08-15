@@ -28,6 +28,7 @@
 	<string name="journery_description">记录,回顾,自省\t\n每天五分钟,平衡人生\t\n一步步实现梦想\t\n
 	    \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
 	    \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020-晨间日记圆梦</string>
+	<string name="edit_dismiss">舍弃</string>
 	
 	<!-- config string -->
 	<string name="work">工作</string>

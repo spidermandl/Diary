@@ -25,6 +25,10 @@
 	<string name="edit_save">SAVE</string>
 	<string name="edit_back">BACK</string>
 	<string name="start_jounery">Click to Enter</string>
+		<string name="journery_description">Record,Review and Awareness\t\nBalence the life within only 5 minutes\t\nsteadily concrete the dream\t\n
+	    \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
+	    \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020-Journey from Daybreak Diary</string>
+	<string name="edit_dismiss">Discard</string>
 	
 	<!-- config string -->
 	<string name="work">work</string>

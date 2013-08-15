@@ -19,8 +19,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
-import android.provider.BaseColumns;
-import android.provider.ContactsContract;
 
 public class DiaryHelper extends SQLiteOpenHelper{
 
@@ -164,7 +162,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		}
 		
 	}
-	
+
 	public Cursor getDateDiaryAll(){
 		Cursor c=db.query(Tables.DIARY_CONFIG, 
 				new String[]{DiaryConfigColumn._ID,
@@ -175,6 +173,19 @@ public class DiaryHelper extends SQLiteOpenHelper{
 				null, null, null, null, null);
 		return c;
 	}
+	
+	/**
+	 * edit category name of config table
+	 */
+	public void updateConfigCategoryName(DateModel model){
+		ContentValues values=new ContentValues();
+		values.put(DiaryConfigColumn._CATEGORY_NAME, model.getCategory_name());
+		
+		db.update(Tables.DIARY_CONFIG, values,
+				DiaryConfigColumn._ID+ " = "+model.getConfigId(),
+		        null);
+	}
+	
 	/**
 	 * 
 	 * @param date

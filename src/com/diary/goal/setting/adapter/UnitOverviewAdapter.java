@@ -14,14 +14,18 @@ import com.diary.goal.setting.R;
 import com.diary.goal.setting.activity.RichTextEditorActivity;
 import com.diary.goal.setting.database.DiaryHelper;
 import com.diary.goal.setting.database.DiaryHelper.Tables;
+import com.diary.goal.setting.dialog.CategoryEditDialog;
+import com.diary.goal.setting.listener.OnCategoryChange;
 import com.diary.goal.setting.listener.OnRatingPentagramTouchUp;
 import com.diary.goal.setting.model.CategoryModel;
 import com.diary.goal.setting.model.DateModel;
 import com.diary.goal.setting.tools.BitmapCustomize;
 import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.tools.Constant.SudoType;
+import com.diary.goal.setting.view.CategoryTextView;
 import com.diary.goal.setting.view.RatingPentagramView;
 
+import android.R.integer;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -142,16 +146,16 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 			ViewHolder viewHolder=new ViewHolder();
 			viewHolder.showType=TYPE_CHECKBOX;
 			viewHolder.type_0=(RelativeLayout)convertView.findViewById(R.id.category_type_0);
-			viewHolder.title_type_0=(TextView)convertView.findViewById(R.id.title_type_0);
+			viewHolder.title_type_0=(CategoryTextView)convertView.findViewById(R.id.title_type_0);
 			viewHolder.ratingStar=(RatingPentagramView)convertView.findViewById(R.id.star_type_0);
 			viewHolder.type_1=(RelativeLayout)convertView.findViewById(R.id.category_type_1);
-			viewHolder.title_type_1=(TextView)convertView.findViewById(R.id.title_type_1);
+			viewHolder.title_type_1=(CategoryTextView)convertView.findViewById(R.id.title_type_1);
 			viewHolder.checkBox=(CheckBox)convertView.findViewById(R.id.check_type_1);
 			viewHolder.type_2=(RelativeLayout)convertView.findViewById(R.id.category_type_2);
-			viewHolder.title_type_2=(TextView)convertView.findViewById(R.id.title_type_2);
+			viewHolder.title_type_2=(CategoryTextView)convertView.findViewById(R.id.title_type_2);
 			viewHolder.content=(TextView)convertView.findViewById(R.id.content_type_2);
 			viewHolder.type_3=(RelativeLayout)convertView.findViewById(R.id.category_type_3);
-			viewHolder.title_type_3=(TextView)convertView.findViewById(R.id.title_type_3);
+			viewHolder.title_type_3=(CategoryTextView)convertView.findViewById(R.id.title_type_3);
 			viewHolder.jump=(ImageView)convertView.findViewById(R.id.expandable_type_3);
 			convertView.setTag(viewHolder);
 		}
@@ -159,15 +163,46 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 		CategoryModel categoryModel=configTables.get(indexs.get(groupPosition));
 		holder.showType=Integer.valueOf(categoryModel.getCategoryType());
 		final int index=groupPosition;
+		View.OnLongClickListener category_listener=new View.OnLongClickListener() {
+			
+			public boolean onLongClick(View v) {
+				DateModel model=DiaryApplication.getInstance().getDateModel();
+				/*******************************set date model*************************************/
+				model.setCategory(configTables.get(indexs.get(index)).getCategoryIndex());
+				model.setText(categorys.get(indexs.get(index)));
+				model.setConfigId(indexs.get(index));
+				model.setCategory_type(configTables.get(indexs.get(index)).getCategoryType());
+				model.setCategory_name(configTables.get(indexs.get(index)).getCategoryName());
+				/*******************************show edit dialog************************/
+				CategoryEditDialog dialog=new CategoryEditDialog(context);
+				dialog.setOnCategoryChangeListener(new OnCategoryChange() {
+					
+					public void changeCategoryName(String name) {
+						DateModel model=DiaryApplication.getInstance().getDateModel();
+						model.setCategory_name(name);
+						DiaryApplication.getInstance().getDbHelper().updateConfigCategoryName(model);
+						DiaryApplication.getInstance().clearTableCacheElement(DiaryHelper.Tables.DIARY_CONFIG);
+						notifyDataSetChanged();
+					}
+				});
+				dialog.create().show();
+				return false;
+			}
+		};
 		String text;
+		/**
+		 * switch items
+		 */
 		switch (holder.showType) {
 		case TYPE_RATING:
-			holder.title_type_0.setText(switchLanguage(categoryModel.getCategoryName()));
 			holder.type_0.setVisibility(View.VISIBLE);
 			holder.type_1.setVisibility(View.GONE);
 			holder.type_2.setVisibility(View.GONE);
 			holder.type_3.setVisibility(View.GONE);
-
+			
+			CategoryTextView cTextView=holder.title_type_0;
+			cTextView.setText(switchLanguage(categoryModel.getCategoryName()));
+			cTextView.setOnLongClickListener(category_listener);
 			RatingPentagramView rating=holder.ratingStar;
 			text=categorys.get(indexs.get(groupPosition));
 			rating.setRate(text!=null?Float.valueOf(text):0f);
@@ -193,11 +228,14 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 			});
 			break;
 		case TYPE_CHECKBOX:
-			holder.title_type_1.setText(switchLanguage(categoryModel.getCategoryName()));
 			holder.type_0.setVisibility(View.GONE);
 			holder.type_1.setVisibility(View.VISIBLE);
 			holder.type_2.setVisibility(View.GONE);
 			holder.type_3.setVisibility(View.GONE);
+			
+			cTextView=holder.title_type_1;
+			cTextView.setText(switchLanguage(categoryModel.getCategoryName()));
+			cTextView.setOnLongClickListener(category_listener);
 			CheckBox choice=holder.checkBox;
 			text=categorys.get(indexs.get(groupPosition));
 			choice.setChecked(text!=null&&Boolean.valueOf(text));
@@ -223,11 +261,13 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 			});
 			break;
 		case TYPE_CONVENTIONAL_EDIT:
-			holder.title_type_2.setText(switchLanguage(categoryModel.getCategoryName()));
 			holder.type_0.setVisibility(View.GONE);
 			holder.type_1.setVisibility(View.GONE);
 			holder.type_2.setVisibility(View.VISIBLE);
 			holder.type_3.setVisibility(View.GONE);
+			cTextView=holder.title_type_2;
+			cTextView.setText(switchLanguage(categoryModel.getCategoryName()));
+			cTextView.setOnLongClickListener(category_listener);
 			TextView content=holder.content;
 //			Bitmap bitmap=BitmapCustomize.customizePicture(context, R.drawable.quote, 0, 0, false);
 //			int[] pads = new int[]{content.getPaddingLeft(), content.getPaddingTop(), content.getPaddingRight(), content.getPaddingBottom()};
@@ -257,7 +297,14 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 			});
 			break;
 		case TYPE_LIST:
-			holder.title_type_3.setText(switchLanguage(categoryModel.getCategoryName()));
+			holder.type_0.setVisibility(View.GONE);
+			holder.type_1.setVisibility(View.GONE);
+			holder.type_2.setVisibility(View.GONE);
+			holder.type_3.setVisibility(View.VISIBLE);
+
+			cTextView=holder.title_type_3;
+			cTextView.setText(switchLanguage(categoryModel.getCategoryName()));
+			cTextView.setOnLongClickListener(category_listener);
 			//holder.title_type_3.setBackgroundResource(R.drawable.group_icon_selector);
 			if(isExpanded)
 				holder.jump.setBackgroundDrawable(new BitmapDrawable(
@@ -266,10 +313,6 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 				holder.jump.setBackgroundDrawable(new BitmapDrawable(
 						BitmapCustomize.customizePicture(context, R.drawable.jump_right, 0, 0, false)));
 			}
-			holder.type_0.setVisibility(View.GONE);
-			holder.type_1.setVisibility(View.GONE);
-			holder.type_2.setVisibility(View.GONE);
-			holder.type_3.setVisibility(View.VISIBLE);
 			break;
 
 		default:
@@ -295,7 +338,7 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 		int showType;
 		RatingPentagramView ratingStar;
 		RelativeLayout type_0,type_1,type_2,type_3;
-		TextView title_type_0,title_type_1,title_type_2,title_type_3;
+		CategoryTextView title_type_0,title_type_1,title_type_2,title_type_3;
 		TextView content;
 		CheckBox checkBox;
 		ImageView jump;

@@ -2,32 +2,38 @@ package com.diary.goal.setting.view;
 
 import com.diary.goal.setting.R;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
-public class CategoryTextView extends TextView implements View.OnLongClickListener{
+public class CategoryTextView extends TextView{
 
+	private Context context;
 	public CategoryTextView(Context context) {
 		super(context);
+		this.context=context;
 		init();
 	}
 	
 	public CategoryTextView(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		this.context=context;
 		init();
 	}
 	
 	public CategoryTextView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
+		this.context=context;
 		init();
 	}
 	
 	void init(){
-		this.setOnLongClickListener(this);
 		this.setBackgroundResource(R.drawable.category_selector);
 	}
 //	@Override
@@ -53,10 +59,6 @@ public class CategoryTextView extends TextView implements View.OnLongClickListen
 //			return false;
 //		}
 //	}
-	
-	public boolean onLongClick(View v) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+
 
 }

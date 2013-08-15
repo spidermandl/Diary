@@ -7,6 +7,7 @@ import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.adapter.UnitOverviewAdapter.ViewHolder;
 import com.diary.goal.setting.tools.Constant;
+import com.diary.goal.setting.tools.Function;
 
 import android.content.Context;
 import android.util.Log;
@@ -66,8 +67,7 @@ public class OverviewStrollAdapter extends BaseAdapter {
 //		mAdapter=new UnitOverviewAdapter(this);
 //		listview.setAdapter(mAdapter);
 //		TextView title=(TextView)this.findViewById(R.id.overview_title);
-//		title.setText(Constant.stringDict.get(Constant.SudoType.getTypeString(DiaryApplication.getInstance().getDateModel().getType())));
-//		
+//		title.setText(Constant.stringDict.get(Constant.SudoType.getTypeString(DiaryApplication.getInstance().getDateModel().getType())));		
 		}
 		ViewHolder holder=(ViewHolder)convertView.getTag();
 		String text=
@@ -96,41 +96,11 @@ public class OverviewStrollAdapter extends BaseAdapter {
 		int day=calendar.get(Calendar.DAY_OF_MONTH);
 //		Log.e("getMonthString month", month+"");
 //		Log.e("getMonthString day", day+"");
-		return getAbbrMonth(month)+day+context.getResources().getString(R.string.day);
+		return Function.getAbbrMonth(this.context,month)+day+context.getResources().getString(R.string.day);
 	}
 	public void refresh(){
 		mAdapter.notifyDataSetChanged();
 	}
 
-	private String getAbbrMonth(int month){
-		switch (month) {
-		case 1:
-			return context.getResources().getString(R.string.Jan);
-		case 2:
-			return context.getResources().getString(R.string.Feb);
-		case 3:
-			return context.getResources().getString(R.string.Mar);
-		case 4:
-			return context.getResources().getString(R.string.Apr);
-		case 5:
-			return context.getResources().getString(R.string.May);
-		case 6:
-			return context.getResources().getString(R.string.Jun);
-		case 7:
-			return context.getResources().getString(R.string.Jul);
-		case 8:
-			return context.getResources().getString(R.string.Aug);
-		case 9:
-			return context.getResources().getString(R.string.Sep);
-		case 10:
-			return context.getResources().getString(R.string.Oct);
-		case 11:
-			return context.getResources().getString(R.string.Nov);
-		case 12:
-			return context.getResources().getString(R.string.Dec);
-	
-		default:
-			return context.getResources().getString(R.string.Jan);
-		}
-	}
+
 }

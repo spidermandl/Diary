@@ -259,4 +259,7 @@ public class DiaryApplication extends Application {
 		}
 		return null;
 	}
+	public void clearTableCacheElement(String table_name){
+		tableCaches=null;
+	}
 }

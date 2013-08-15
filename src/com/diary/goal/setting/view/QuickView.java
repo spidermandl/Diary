@@ -1,11 +1,16 @@
 package com.diary.goal.setting.view;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
 import com.diary.goal.setting.DiaryApplication;
+import com.diary.goal.setting.R;
+import com.diary.goal.setting.model.DateModel;
 import com.diary.goal.setting.tools.Constant;
+import com.diary.goal.setting.tools.Function;
 import com.diary.goal.setting.tools.Constant.SudoType;
 
 import android.content.Context;
@@ -69,7 +74,7 @@ public class QuickView extends TextView {
 		}
 		if(c!=null)
 			c.close();
-		
+		lines.add(getDiaryFirstLine());
         for (Entry<Integer, ArrayList<String>> entry:content.entrySet()) {
         	lines.add(this.getResources().getString(entry.getKey()));
             for (String category : entry.getValue()) {
@@ -96,19 +101,46 @@ public class QuickView extends TextView {
 	}
 	
 	@Override
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		//MeasureSpec.getMode(heightMeasureSpec);
+		if(lines.size()*this.getLineHeight()<DiaryApplication.getInstance().getScreen_h()){
+			int measuredHeight=MeasureSpec.makeMeasureSpec(DiaryApplication.getInstance().getScreen_h(), MeasureSpec.EXACTLY);
+			super.onMeasure(widthMeasureSpec, measuredHeight);
+			return;
+		}
+		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+	}
+	
+	@Override
 	protected void onDraw(Canvas canvas) {
-        int count = lines.size(); 
+		int width=DiaryApplication.getInstance().getScreen_w();
+        int count = lines.size();
+        
         for (int i = 0; i < count; i++) {
             getLineBounds(i, mRect); 
             int baseline = (i + 1) * getLineHeight(); 
             canvas.drawLine(mRect.left, baseline, mRect.right, baseline, linePaint);
-            canvas.drawText(lines.get(i), 0, baseline-fontMetrics.descent, wordPaint);
+            String text=lines.get(i);
+            canvas.drawText(text, (width-wordPaint.measureText(text))/2, baseline-fontMetrics.descent, wordPaint);
         } 
         while((count++)*getLineHeight()<this.getHeight()){
         	int baseline = count * getLineHeight(); 
             canvas.drawLine(mRect.left, baseline, mRect.right, baseline, linePaint);
         }
         super.onDraw(canvas); 
+	}
+	
+	private String getDiaryFirstLine(){
+		DateModel model=DiaryApplication.getInstance().getDateModel();
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(model.getDate());
+		int month=calendar.get(Calendar.MONTH)+1;
+		int day=calendar.get(Calendar.DAY_OF_MONTH);
+		int day_of_week=calendar.get(Calendar.DAY_OF_WEEK);
+//		Log.e("getMonthString month", month+"");
+//		Log.e("getMonthString day", day+"");
+		return Function.getAbbrMonth(context,month)+day+context.getResources().getString(R.string.day)+"     "
+				+context.getResources().getString(Constant.getWeekDay(day_of_week));
 	}
 
 }

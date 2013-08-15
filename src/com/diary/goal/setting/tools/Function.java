@@ -14,6 +14,8 @@ import java.util.regex.Pattern;
 
 import org.apache.http.util.EncodingUtils;
 
+import android.content.Context;
+
 import com.diary.goal.setting.R;
 
 public class Function {
@@ -97,5 +99,37 @@ public class Function {
 			dest = m.replaceAll("");
 		}
 		return dest;
+	}
+	
+	public static String getAbbrMonth(Context context,int month){
+		switch (month) {
+		case 1:
+			return context.getResources().getString(R.string.Jan);
+		case 2:
+			return context.getResources().getString(R.string.Feb);
+		case 3:
+			return context.getResources().getString(R.string.Mar);
+		case 4:
+			return context.getResources().getString(R.string.Apr);
+		case 5:
+			return context.getResources().getString(R.string.May);
+		case 6:
+			return context.getResources().getString(R.string.Jun);
+		case 7:
+			return context.getResources().getString(R.string.Jul);
+		case 8:
+			return context.getResources().getString(R.string.Aug);
+		case 9:
+			return context.getResources().getString(R.string.Sep);
+		case 10:
+			return context.getResources().getString(R.string.Oct);
+		case 11:
+			return context.getResources().getString(R.string.Nov);
+		case 12:
+			return context.getResources().getString(R.string.Dec);
+	
+		default:
+			return context.getResources().getString(R.string.Jan);
+		}
 	}
 }

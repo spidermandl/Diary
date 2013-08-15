@@ -1094,18 +1094,18 @@ containing a value of this type.
         public static final int cwac_richedittext_main=0x7f0c0005;
     }
     public static final class string {
-        public static final int Apr=0x7f0a0038;
-        public static final int Aug=0x7f0a003c;
-        public static final int Dec=0x7f0a0040;
-        public static final int Feb=0x7f0a0036;
-        public static final int Jan=0x7f0a0035;
-        public static final int Jul=0x7f0a003b;
-        public static final int Jun=0x7f0a003a;
-        public static final int Mar=0x7f0a0037;
-        public static final int May=0x7f0a0039;
-        public static final int Nov=0x7f0a003f;
-        public static final int Oct=0x7f0a003e;
-        public static final int Sep=0x7f0a003d;
+        public static final int Apr=0x7f0a003a;
+        public static final int Aug=0x7f0a003e;
+        public static final int Dec=0x7f0a0042;
+        public static final int Feb=0x7f0a0038;
+        public static final int Jan=0x7f0a0037;
+        public static final int Jul=0x7f0a003d;
+        public static final int Jun=0x7f0a003c;
+        public static final int Mar=0x7f0a0039;
+        public static final int May=0x7f0a003b;
+        public static final int Nov=0x7f0a0041;
+        public static final int Oct=0x7f0a0040;
+        public static final int Sep=0x7f0a003f;
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
          */
         public static final int abs__action_bar_home_description=0x7f0a0000;
@@ -1151,48 +1151,49 @@ containing a value of this type.
          */
         public static final int bold=0x7f0a0010;
         public static final int center=0x7f0a001e;
-        public static final int config_coding=0x7f0a002d;
-        public static final int config_file=0x7f0a002c;
-        public static final int date=0x7f0a0027;
-        public static final int day=0x7f0a0041;
+        public static final int config_coding=0x7f0a002f;
+        public static final int config_file=0x7f0a002e;
+        public static final int date=0x7f0a0029;
+        public static final int day=0x7f0a0043;
         public static final int edit_back=0x7f0a0021;
+        public static final int edit_dismiss=0x7f0a0024;
         public static final int edit_save=0x7f0a0020;
         public static final int effects=0x7f0a0019;
-        public static final int family=0x7f0a0025;
-        public static final int finance=0x7f0a0024;
+        public static final int family=0x7f0a0027;
+        public static final int finance=0x7f0a0026;
         public static final int fonts=0x7f0a001a;
         public static final int format=0x7f0a001b;
-        public static final int healthy=0x7f0a0029;
-        public static final int innovation=0x7f0a0026;
+        public static final int healthy=0x7f0a002b;
+        public static final int innovation=0x7f0a0028;
         public static final int italic=0x7f0a0011;
-        public static final int journery_description=0x7f0a0042;
+        public static final int journery_description=0x7f0a0023;
         public static final int lines=0x7f0a001c;
         public static final int menu_settings=0x7f0a000e;
-        public static final int mit=0x7f0a0028;
+        public static final int mit=0x7f0a002a;
         public static final int mono=0x7f0a0018;
         public static final int normal=0x7f0a001d;
         public static final int opposite=0x7f0a001f;
-        public static final int personal=0x7f0a002a;
+        public static final int personal=0x7f0a002c;
         public static final int sans=0x7f0a0016;
         public static final int serif=0x7f0a0017;
-        public static final int soul=0x7f0a002b;
+        public static final int soul=0x7f0a002d;
         public static final int start_jounery=0x7f0a0022;
         public static final int strikethrough=0x7f0a0013;
         public static final int subscript=0x7f0a0015;
         public static final int superscript=0x7f0a0014;
         public static final int title_activity_main=0x7f0a000f;
         public static final int underline=0x7f0a0012;
-        public static final int week_1=0x7f0a002e;
-        public static final int week_2=0x7f0a002f;
-        public static final int week_3=0x7f0a0030;
-        public static final int week_4=0x7f0a0031;
-        public static final int week_5=0x7f0a0032;
-        public static final int week_6=0x7f0a0033;
-        public static final int week_7=0x7f0a0034;
+        public static final int week_1=0x7f0a0030;
+        public static final int week_2=0x7f0a0031;
+        public static final int week_3=0x7f0a0032;
+        public static final int week_4=0x7f0a0033;
+        public static final int week_5=0x7f0a0034;
+        public static final int week_6=0x7f0a0035;
+        public static final int week_7=0x7f0a0036;
         /**  config string 
  config string 
          */
-        public static final int work=0x7f0a0023;
+        public static final int work=0x7f0a0025;
     }
     public static final class style {
         public static final int AppTheme=0x7f0b0059;

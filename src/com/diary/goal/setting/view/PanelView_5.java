@@ -86,7 +86,7 @@ public class PanelView_5 extends PanelView {
 		paint.setTextSize(28);
 		canvas.drawText(text, (this.getWidth()-paint.measureText(text))/2, this.getHeight()*2/3, paint);
 		text=this.getResources().getString(Constant.getWeekDay(calendar.get(Calendar.DAY_OF_WEEK)));
-		FontMetrics fontMetrics = paint.getFontMetrics();  
+		FontMetrics fontMetrics = paint.getFontMetrics();
 		paint.setTextSize(20);
 		canvas.drawText(text, (this.getWidth()-paint.measureText(text))/2, this.getHeight()*23/30+fontMetrics.bottom, paint);
 		
