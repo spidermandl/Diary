@@ -18,10 +18,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -29,6 +29,7 @@ import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.Window;
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.adapter.UnitOverviewAdapter;
@@ -64,6 +65,11 @@ public class RichTextEditorActivity extends SherlockActivity implements OnNaviga
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+        //ÎÞtitle            
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
+           //È«ÆÁ            
+        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN ,WindowManager.LayoutParams. FLAG_FULLSCREEN); 
+        
 		setContentView(R.layout.edit_panal);
 		dataInit();
 		
@@ -78,9 +84,9 @@ public class RichTextEditorActivity extends SherlockActivity implements OnNaviga
 		// ab.setDisplayOptions(options, mask)
 		ArrayAdapter<CharSequence> list = new ArrayAdapter(this, R.layout.sherlock_spinner_item, titleSwitch);
 		list.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
-        getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        getSupportActionBar().setListNavigationCallbacks(list, this);
-        getSupportActionBar().setSelectedNavigationItem(initialPosition);
+        ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+        ab.setListNavigationCallbacks(list, this);
+        ab.setSelectedNavigationItem(initialPosition);
         
 		editor = (RichEditText) findViewById(R.id.editor);
 		editor.enableActionModes(true);
@@ -97,6 +103,7 @@ public class RichTextEditorActivity extends SherlockActivity implements OnNaviga
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			this.finish();
+			this.overridePendingTransition(R.anim.left_enter, R.anim.right_exit);
 			break;
 		case 1:
 			saveEdit();

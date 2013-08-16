@@ -4,7 +4,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="4"
+        android:minSdkVersion="5"
         android:targetSdkVersion="15" />
     
     <uses-permission android:name="android.permission.INTERNET" />
@@ -21,7 +21,8 @@
         android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
         <activity 
             android:name=".activity.FrontPageActivity"
-            android:configChanges="orientation|keyboardHidden">
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,7 +44,7 @@
             android:launchMode="singleTop">
         </activity>
         <activity 
-            android:theme="@style/Theme.Sherlock.Light"
+            android:theme="@style/Theme.Sherlock.Light.Notitle"
             android:name=".activity.RichTextEditorActivity"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop">

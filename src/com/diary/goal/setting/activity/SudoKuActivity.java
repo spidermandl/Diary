@@ -25,7 +25,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Toast;
-
+/**
+ * diary main UI panel
+ * nine square sudo panel style
+ * @author DuanLei
+ *
+ */
 public class SudoKuActivity extends Activity implements OnTouchListener,OnGestureListener{
 	
 	private int verticalMinDistance = 20;  
@@ -130,9 +135,17 @@ public class SudoKuActivity extends Activity implements OnTouchListener,OnGestur
 	
 	@Override
 	protected void onDestroy() {
-		DiaryApplication.getInstance().quit();
 		super.onDestroy();
 	}
+	
+	@Override
+	public void onBackPressed() {
+		Intent intent = new Intent();
+		intent.setClass(SudoKuActivity.this, FrontPageActivity.class); // B为你按退出按钮所在的activity
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // 最关键是这句
+		startActivity(intent);
+	}
+	
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		DiaryApplication.getInstance().setOrientation(

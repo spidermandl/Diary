@@ -291,6 +291,7 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 					Intent intent=new Intent();
 					intent.setClass(context, RichTextEditorActivity.class);
 					((Activity)context).startActivityForResult(intent, 0);
+					((Activity)context).overridePendingTransition(R.anim.right_enter,R.anim.left_exit);
 					//context.startActivity(intent);
 					
 				}

@@ -8,6 +8,7 @@ import com.diary.goal.setting.R;
 import com.diary.goal.setting.adapter.UnitOverviewAdapter.ViewHolder;
 import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.tools.Function;
+import com.diary.goal.setting.view.DashLineView;
 
 import android.content.Context;
 import android.util.Log;

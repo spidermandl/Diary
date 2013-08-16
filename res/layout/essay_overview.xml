@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:dash="http://schemas.android.com/apk/res/com.diary.goal.setting"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content" 
+    android:background="#FFDDFDDB">
 
     <TextView
         android:id="@+id/overview_title"
@@ -26,10 +27,16 @@
     </ExpandableListView>
     
     <com.diary.goal.setting.view.DashLineView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        dash:orientation="0" 
+        android:layout_below="@id/overview_list"/>
+    
+    <com.diary.goal.setting.view.DashLineView
         android:layout_width="3dp"
         android:layout_height="wrap_content"
         dash:orientation="1" 
         android:layout_alignTop="@id/overview_title"
-        android:layout_alignBottom="@id/overview_list"/>
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

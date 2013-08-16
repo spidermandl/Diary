@@ -24,6 +24,7 @@ public class DashLineView extends View {
 	int mOrientation;
 	Paint fgPaintSel;
 	
+	
 	public DashLineView(Context context, AttributeSet attrs) {
 		this(context, attrs, 0);
 	}
@@ -33,6 +34,10 @@ public class DashLineView extends View {
         mOrientation = a.getInt(R.styleable.DashLineView_orientation, 1);
         a.recycle();
         
+        init();
+	}
+
+	void init(){
         fgPaintSel = new Paint();
         fgPaintSel.setColor(Color.BLACK);
 		fgPaintSel.setStyle(Style.STROKE);
@@ -41,7 +46,6 @@ public class DashLineView extends View {
         fgPaintSel.setFlags(Paint.ANTI_ALIAS_FLAG);
 		fgPaintSel.setPathEffect(new DashPathEffect(new float[] {2,3}, 0));
 	}
-
 	@Override
 	protected void onDraw(Canvas canvas) {
 		if(mOrientation==0){
