@@ -1,36 +1,9 @@
-/***
-  Copyright (c) 2012 CommonsWare, LLC
-  
-  Licensed under the Apache License, Version 2.0 (the "License"); you may
-  not use this file except in compliance with the License. You may obtain
-  a copy of the License at
-    http://www.apache.org/licenses/LICENSE-2.0
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
- */
-
 package com.diary.goal.setting.activity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import android.annotation.SuppressLint;
-import android.database.Cursor;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-
-import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.ActionBar.OnNavigationListener;
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.Window;
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.adapter.UnitOverviewAdapter;
@@ -39,11 +12,25 @@ import com.diary.goal.setting.database.DiaryHelper.Tables;
 import com.diary.goal.setting.model.CategoryModel;
 import com.diary.goal.setting.model.DateModel;
 import com.diary.goal.setting.richedit.RichEditText;
-import com.diary.goal.setting.tools.BitmapCustomize;
 import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.tools.Constant.SudoType;
 
-public class RichTextEditorActivity extends SherlockActivity implements OnNavigationListener{
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.app.ActionBar;
+import android.app.ActionBar.OnNavigationListener;
+import android.app.Activity;
+import android.database.Cursor;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.ArrayAdapter;
+
+@TargetApi(11)
+public class RichTextEditor4_0Activity extends Activity implements OnNavigationListener{
 	RichEditText editor = null;
 	/**
 	 * siwtching name of each category
@@ -67,15 +54,20 @@ public class RichTextEditorActivity extends SherlockActivity implements OnNaviga
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN ,WindowManager.LayoutParams. FLAG_FULLSCREEN); 
+		//this.setTheme(R.)
+
         //ÎÞtitle            
         //requestWindowFeature(Window.FEATURE_NO_TITLE);
            //È«ÆÁ            
         //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN ,WindowManager.LayoutParams. FLAG_FULLSCREEN); 
         
 		setContentView(R.layout.edit_panal);
+		android.app.ActionBar bar=this.getActionBar();
 		dataInit();
 		
-		final ActionBar ab = getSupportActionBar();
+		final ActionBar ab = this.getActionBar();
 
 		// set defaults for logo & home up
 		ab.setDisplayHomeAsUpEnabled(true);
@@ -85,7 +77,7 @@ public class RichTextEditorActivity extends SherlockActivity implements OnNaviga
 		
 		// ab.setDisplayOptions(options, mask)
 		ArrayAdapter<CharSequence> list = new ArrayAdapter(this, R.layout.sherlock_spinner_item, titleSwitch);
-		list.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
+		//list.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
         ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
         ab.setListNavigationCallbacks(list, this);
         ab.setSelectedNavigationItem(initialPosition);

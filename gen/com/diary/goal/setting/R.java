@@ -1200,9 +1200,9 @@ containing a value of this type.
         public static final int work=0x7f0a0025;
     }
     public static final class style {
-        public static final int AppTheme=0x7f0b005a;
-        public static final int Dialog_Anim=0x7f0b005c;
-        public static final int Dialog_Fullscreen=0x7f0b005b;
+        public static final int AppTheme=0x7f0b005b;
+        public static final int Dialog_Anim=0x7f0b005d;
+        public static final int Dialog_Fullscreen=0x7f0b005c;
         public static final int Sherlock___TextAppearance_Small=0x7f0b0046;
         public static final int Sherlock___Theme=0x7f0b0051;
         public static final int Sherlock___Theme_DarkActionBar=0x7f0b0053;
@@ -1242,10 +1242,11 @@ containing a value of this type.
         public static final int TextAppearance_Sherlock_Widget_TextView_SpinnerItem=0x7f0b0044;
         public static final int Theme_Sherlock=0x7f0b0054;
         public static final int Theme_Sherlock_Light=0x7f0b0055;
-        public static final int Theme_Sherlock_Light_DarkActionBar=0x7f0b0057;
-        public static final int Theme_Sherlock_Light_NoActionBar=0x7f0b0059;
+        public static final int Theme_Sherlock_Light_DarkActionBar=0x7f0b0058;
+        public static final int Theme_Sherlock_Light_NoActionBar=0x7f0b005a;
         public static final int Theme_Sherlock_Light_Notitle=0x7f0b0056;
-        public static final int Theme_Sherlock_NoActionBar=0x7f0b0058;
+        public static final int Theme_Sherlock_Light_Title=0x7f0b0057;
+        public static final int Theme_Sherlock_NoActionBar=0x7f0b0059;
         public static final int Widget=0x7f0b0000;
         public static final int Widget_Sherlock_ActionBar=0x7f0b0002;
         public static final int Widget_Sherlock_ActionBar_Solid=0x7f0b0003;

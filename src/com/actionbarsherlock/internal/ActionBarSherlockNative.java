@@ -40,6 +40,7 @@ public class ActionBarSherlockNative extends ActionBarSherlock {
     }
 
     private void initActionBar() {
+    	Log.e("mActivity.getActionBar()", mActivity.getActionBar()==null?"null":"not null");
         if (mActionBar != null || mActivity.getActionBar() == null) {
             return;
         }

@@ -11,6 +11,7 @@ import java.util.Map.Entry;
 
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
+import com.diary.goal.setting.activity.RichTextEditor4_0Activity;
 import com.diary.goal.setting.activity.RichTextEditorActivity;
 import com.diary.goal.setting.database.DiaryHelper;
 import com.diary.goal.setting.database.DiaryHelper.Tables;
@@ -23,6 +24,7 @@ import com.diary.goal.setting.tools.BitmapCustomize;
 import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.tools.Constant.SudoType;
 import com.diary.goal.setting.view.CategoryTextView;
+import com.diary.goal.setting.view.GroupTextView;
 import com.diary.goal.setting.view.RatingPentagramView;
 
 import android.R.integer;
@@ -31,6 +33,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,8 +113,12 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 	}
 	//@Override
 	public int getChildrenCount(int groupPosition) {
-		// TODO Auto-generated method stub
-		return 0;
+		CategoryModel model=configTables.get(indexs.get(groupPosition));
+		if(model.getCategoryType()==TYPE_LIST){
+			return 1;
+		}else
+			return 0;
+		//return 1;
 	}
 	//@Override
 	public Object getGroup(int groupPosition) {
@@ -289,7 +296,10 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 					model.setCategory_name(configTables.get(indexs.get(index)).getCategoryName());
 					/********************************************************************/
 					Intent intent=new Intent();
-					intent.setClass(context, RichTextEditorActivity.class);
+					if (Build.VERSION.SDK_INT < 14)
+						intent.setClass(context, RichTextEditorActivity.class);
+					else
+						intent.setClass(context, RichTextEditor4_0Activity.class);
 					((Activity)context).startActivityForResult(intent, 0);
 					((Activity)context).overridePendingTransition(R.anim.right_enter,R.anim.left_exit);
 					//context.startActivity(intent);
@@ -326,8 +336,17 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 	//@Override
 	public View getChildView(int groupPosition, int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
+		CategoryModel model=configTables.get(indexs.get(groupPosition));
+		if(model.getCategoryType()==TYPE_LIST){
+			if(convertView==null){
+				convertView=new GroupTextView(context);
+			}
+			return convertView;
+		}
 		return null;
+//		convertView=new TextView(context);
+//		((TextView)convertView).setText("aaa");
+//		return convertView;
 	}
 	//@Override
 	public boolean isChildSelectable(int groupPosition, int childPosition) {
@@ -345,6 +364,9 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 		ImageView jump;
 	}
     
+	class GroupViewHolder{
+		TextView text;
+	}
 	class CategoryPriority implements Comparator<Integer>{
 
 		//@Override
