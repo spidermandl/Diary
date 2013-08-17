@@ -6,13 +6,14 @@ import com.diary.goal.setting.tools.Constant.SudoType;
 
 public class DateModel {
 
-	private Date date;
-	private SudoType type;
-	private int category;
-	private int category_type;
-	private String category_name;
-	private String text;
-	private int configId;
+	private Date date;//current date
+	private SudoType type;//9 sudo main type
+	private int category;//category index
+	private int category_type;//category visual type
+	private String category_name;//category name
+	private String text;//content of the record
+	private int configId;//static id of config table
+	private int categorySubIndex;//sub content of the category,-1 if there is no sub list 
 	
 	public Date getDate() {
 		return date;
@@ -55,6 +56,12 @@ public class DateModel {
 	}
 	public void setConfigId(int configId) {
 		this.configId = configId;
+	}
+	public int getCategorySubIndex() {
+		return categorySubIndex;
+	}
+	public void setCategorySubIndex(int categorySubIndex) {
+		this.categorySubIndex = categorySubIndex;
 	}
 	
 }

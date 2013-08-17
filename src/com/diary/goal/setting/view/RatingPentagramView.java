@@ -177,10 +177,12 @@ public class RatingPentagramView extends View {
 			}else{
 				last_x=x;
 			}
-			int interval=r!=0?(int)(last_x/r):0;
+			int interval=r!=0?(int)(last_x/r)+1:0;
 			if(interval<=(2*starNum)){
 				if(listener!=null){
-					listener.touchUp((float)interval+(float)((last_x/r-interval)>0.5?0.5:0));
+					int integer=interval/2;
+					float value=((float)interval)/2;
+					listener.touchUp((float)integer+(float)((value-integer)>=0.5?0.5:0));
 				}
 				invalidate();
 			}
@@ -190,9 +192,9 @@ public class RatingPentagramView extends View {
 	}
 
 	public void setRate(float rating) {
-		this.rating=rating;
+		this.rating=2*rating-1;
 		if(r!=0){
-			last_x=(float)(r*rating);
+			last_x=(float)(r*this.rating);
 		}
 	}
 }

@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
@@ -24,10 +27,8 @@ import com.diary.goal.setting.tools.BitmapCustomize;
 import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.tools.Constant.SudoType;
 import com.diary.goal.setting.view.CategoryTextView;
-import com.diary.goal.setting.view.GroupTextView;
 import com.diary.goal.setting.view.RatingPentagramView;
 
-import android.R.integer;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -37,11 +38,13 @@ import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -49,21 +52,24 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 
 	private Context context;
 	private LayoutInflater m_inflater;
-	private HashMap<Integer, String> categorys;
-	//private HashMap<Integer, String[]>configs;
+
 	private ArrayList<Integer> indexs;
-	private HashMap<Integer, CategoryModel> configTables;
+	private HashMap<Integer, String> categorys;//the key is correspond to the values in indexs declared above
+	private HashMap<Integer, CategoryModel> configTables;//the key is correspond to the values in indexs declared above
+	private HashMap<Integer, JSONObject> listCategorys;//the key is correspond to the values in indexs declared above
 
 	public final static int TYPE_RATING=0;
 	public final static int TYPE_CHECKBOX=1;
 	public final static int TYPE_CONVENTIONAL_EDIT=2;
 	public final static int TYPE_LIST=3;
 	
+	
 	public UnitOverviewAdapter(Context con) {
 		this.context=con;
 		m_inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		categorys=new HashMap<Integer, String>();
 		indexs=new ArrayList<Integer>();
+		listCategorys=new HashMap<Integer, JSONObject>();
 		loadData();
 	}
 	private void loadData(){
@@ -76,7 +82,16 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 				Cursor c=DiaryApplication.getInstance().getDbHelper().getCategory(model.getDate(),model.getType().getType(),configTables.get(_id).getCategoryIndex());
 				if(c!=null&&c.getCount()!=0){
 					c.moveToFirst();
-					categorys.put(_id,c.getString(1));
+					String text=c.getString(1);
+					categorys.put(_id,text);
+					JSONObject json;
+					try {
+						json = new JSONObject(text);
+						listCategorys.put(_id, json);
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 				else
 					categorys.put(_id, null);
@@ -112,10 +127,17 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 		return indexs.size();
 	}
 	//@Override
-	public int getChildrenCount(int groupPosition) {
-		CategoryModel model=configTables.get(indexs.get(groupPosition));
+	public int getChildrenCount(int groupPosition) {;
+		int index=indexs.get(groupPosition);
+		CategoryModel model=configTables.get(index);
 		if(model.getCategoryType()==TYPE_LIST){
-			return 1;
+			JSONObject json=listCategorys.get(index);
+			if(json==null){
+				return 1;
+			}else{
+				return json.length()==0?0:json.length();
+			}
+			
 		}else
 			return 0;
 		//return 1;
@@ -173,27 +195,8 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 		View.OnLongClickListener category_listener=new View.OnLongClickListener() {
 			
 			public boolean onLongClick(View v) {
-				DateModel model=DiaryApplication.getInstance().getDateModel();
-				/*******************************set date model*************************************/
-				model.setCategory(configTables.get(indexs.get(index)).getCategoryIndex());
-				model.setText(categorys.get(indexs.get(index)));
-				model.setConfigId(indexs.get(index));
-				model.setCategory_type(configTables.get(indexs.get(index)).getCategoryType());
-				model.setCategory_name(configTables.get(indexs.get(index)).getCategoryName());
-				/*******************************show edit dialog************************/
-				CategoryEditDialog dialog=new CategoryEditDialog(context);
-				dialog.setOnCategoryChangeListener(new OnCategoryChange() {
-					
-					public void changeCategoryName(String name) {
-						DateModel model=DiaryApplication.getInstance().getDateModel();
-						model.setCategory_name(name);
-						DiaryApplication.getInstance().getDbHelper().updateConfigCategoryName(model);
-						DiaryApplication.getInstance().clearTableCacheElement(DiaryHelper.Tables.DIARY_CONFIG);
-						notifyDataSetChanged();
-					}
-				});
-				dialog.create().show();
-				return false;
+				editCategoryName(index);
+				return true;
 			}
 		};
 		String text;
@@ -206,7 +209,7 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 			holder.type_1.setVisibility(View.GONE);
 			holder.type_2.setVisibility(View.GONE);
 			holder.type_3.setVisibility(View.GONE);
-			
+
 			CategoryTextView cTextView=holder.title_type_0;
 			cTextView.setText(switchLanguage(categoryModel.getCategoryName()));
 			cTextView.setOnLongClickListener(category_listener);
@@ -294,6 +297,7 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 					model.setConfigId(indexs.get(index));
 					model.setCategory_type(configTables.get(indexs.get(index)).getCategoryType());
 					model.setCategory_name(configTables.get(indexs.get(index)).getCategoryName());
+					model.setCategorySubIndex(-1);
 					/********************************************************************/
 					Intent intent=new Intent();
 					if (Build.VERSION.SDK_INT < 14)
@@ -315,7 +319,7 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 
 			cTextView=holder.title_type_3;
 			cTextView.setText(switchLanguage(categoryModel.getCategoryName()));
-			cTextView.setOnLongClickListener(category_listener);
+			//cTextView.setOnLongClickListener(category_listener);
 			//holder.title_type_3.setBackgroundResource(R.drawable.group_icon_selector);
 			if(isExpanded)
 				holder.jump.setBackgroundDrawable(new BitmapDrawable(
@@ -336,17 +340,53 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 	//@Override
 	public View getChildView(int groupPosition, int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent) {
-		CategoryModel model=configTables.get(indexs.get(groupPosition));
+		final int index=indexs.get(groupPosition);
+		final int subIndex=childPosition;
+		CategoryModel model=configTables.get(index);
 		if(model.getCategoryType()==TYPE_LIST){
+			ChildViewHolder holder;
 			if(convertView==null){
-				convertView=new GroupTextView(context);
+				holder=new ChildViewHolder();
+				convertView=m_inflater.inflate(R.layout.essay_overview_child_item, null);
+				holder.text=(TextView)convertView.findViewById(R.id.child_text);
+				convertView.setTag(holder);
 			}
+			holder=(ChildViewHolder)convertView.getTag();
+			JSONObject json=listCategorys.get(index);
+			String text="N/A";
+			if(json!=null){
+				try {
+					text=json.getString(String.valueOf(childPosition));
+				} catch (JSONException e) {
+				}
+			}
+			holder.text.setText(text);
+			holder.text.setOnClickListener(new View.OnClickListener() {
+				
+				public void onClick(View v) {
+					DateModel model=DiaryApplication.getInstance().getDateModel();
+					/*******************************set date model*************************************/
+					model.setCategory(configTables.get(index).getCategoryIndex());
+					model.setText(categorys.get(index));
+					model.setConfigId(index);
+					model.setCategory_type(configTables.get(index).getCategoryType());
+					model.setCategory_name(configTables.get(index).getCategoryName());
+					model.setCategorySubIndex(subIndex);
+					/********************************************************************//********************************************************************/
+					Intent intent=new Intent();
+					if (Build.VERSION.SDK_INT < 14)
+						intent.setClass(context, RichTextEditorActivity.class);
+					else
+						intent.setClass(context, RichTextEditor4_0Activity.class);
+					((Activity)context).startActivityForResult(intent, 0);
+					((Activity)context).overridePendingTransition(R.anim.right_enter,R.anim.left_exit);
+					//context.startActivity(intent);
+					
+				}
+			});
 			return convertView;
 		}
 		return null;
-//		convertView=new TextView(context);
-//		((TextView)convertView).setText("aaa");
-//		return convertView;
 	}
 	//@Override
 	public boolean isChildSelectable(int groupPosition, int childPosition) {
@@ -364,7 +404,7 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 		ImageView jump;
 	}
     
-	class GroupViewHolder{
+	class ChildViewHolder{
 		TextView text;
 	}
 	class CategoryPriority implements Comparator<Integer>{
@@ -386,7 +426,48 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 		Integer value=Constant.stringDict.get(key);
 		return value==null?key:context.getResources().getString(value);
 	}
-//	
+	
+	private void editCategoryName(int index){
+		DateModel model=DiaryApplication.getInstance().getDateModel();
+		/*******************************set date model*************************************/
+		model.setCategory(configTables.get(indexs.get(index)).getCategoryIndex());
+		model.setText(categorys.get(indexs.get(index)));
+		model.setConfigId(indexs.get(index));
+		model.setCategory_type(configTables.get(indexs.get(index)).getCategoryType());
+		model.setCategory_name(configTables.get(indexs.get(index)).getCategoryName());
+		/*******************************show edit dialog************************/
+		CategoryEditDialog dialog=new CategoryEditDialog(context);
+		dialog.setOnCategoryChangeListener(new OnCategoryChange() {
+			
+			public void changeCategoryName(String name) {
+				DateModel model=DiaryApplication.getInstance().getDateModel();
+				model.setCategory_name(name);
+				DiaryApplication.getInstance().getDbHelper().updateConfigCategoryName(model);
+				DiaryApplication.getInstance().clearTableCacheElement(DiaryHelper.Tables.DIARY_CONFIG);
+				notifyDataSetChanged();
+			}
+		});
+		dialog.create().show();
+	}
+	
+	OnItemLongClickListener itemLongClickListener=new AdapterView.OnItemLongClickListener() {
+
+		public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+				int arg2, long arg3) {
+			CategoryModel model=configTables.get(indexs.get(arg2));
+			if(model.getCategoryType()==TYPE_LIST){
+				editCategoryName(arg2);
+			}
+			return false;
+		}
+	};
+	
+	
+	
+	public void setListener(ExpandableListView listView){
+		listView.setOnItemLongClickListener(itemLongClickListener);
+	}
+	
 //	public BitmapHolder BITMAP_FILE(String key)
 //	{
 //		//先从cache中取，取不到，再从preload中取，再取不到，再加载

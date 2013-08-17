@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -62,6 +63,7 @@ public class OverviewStrollAdapter extends BaseAdapter {
 			//viewHolder.listview.setDividerHeight(0);
 			viewHolder.title=(TextView)convertView.findViewById(R.id.overview_title);
 			viewHolder.listview.setAdapter(mAdapter);
+			mAdapter.setListener(viewHolder.listview);
 			convertView.setTag(viewHolder);
 			
 //		listview.setDividerHeight(0);

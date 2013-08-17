@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -62,39 +65,46 @@ public class RichTextEditorActivity extends SherlockActivity implements OnNaviga
 	 * initial text
 	 */
 	String initText;
+	boolean isChildText=true;
+	JSONObject childText;
 
-	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-        //ÎÞtitle            
-        //requestWindowFeature(Window.FEATURE_NO_TITLE);
-           //È«ÆÁ            
-        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN ,WindowManager.LayoutParams. FLAG_FULLSCREEN); 
         
 		setContentView(R.layout.edit_panal);
-		dataInit();
 		
 		final ActionBar ab = getSupportActionBar();
-
+		
 		// set defaults for logo & home up
 		ab.setDisplayHomeAsUpEnabled(true);
 		ab.setDisplayUseLogoEnabled(false);
 		ab.setDisplayShowHomeEnabled(false);
 		ab.setTitle(R.string.edit_back);
-		
-		// ab.setDisplayOptions(options, mask)
-		ArrayAdapter<CharSequence> list = new ArrayAdapter(this, R.layout.sherlock_spinner_item, titleSwitch);
-		list.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
-        ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        ab.setListNavigationCallbacks(list, this);
-        ab.setSelectedNavigationItem(initialPosition);
-        
+
+		DateModel model = DiaryApplication.getInstance().getDateModel();
+		if(model.getCategorySubIndex()==-1){
+			isChildText=false;
+			dataInit();
+			// ab.setDisplayOptions(options, mask)
+			ArrayAdapter<CharSequence> list = new ArrayAdapter(this, R.layout.sherlock_spinner_item, titleSwitch);
+			list.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
+	        ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+	        ab.setListNavigationCallbacks(list, this);
+	        ab.setSelectedNavigationItem(initialPosition);
+		}
 		editor = (RichEditText) findViewById(R.id.editor);
 		editor.enableActionModes(true);
 
-		DateModel model = DiaryApplication.getInstance().getDateModel();
 		initText=model.getText() == null ? "" : model.getText();
+		if(isChildText){
+			try {
+				childText=new JSONObject(initText);
+				initText=childText.getString(String.valueOf(model.getCategorySubIndex()));
+			} catch (JSONException e) {
+				childText=new JSONObject();
+			}
+		}
 		editor.setText(initText);
 	}
 
@@ -126,14 +136,33 @@ public class RichTextEditorActivity extends SherlockActivity implements OnNaviga
 			DiaryHelper helper = DiaryApplication.getInstance().getDbHelper();
 			Cursor c = helper.getCategory(model);
 
-			if (c != null && c.getCount() != 0)
-				helper.updateDiaryContent(model, editor.getEditableText()
-						.toString());
-			else
-				helper.insertDiaryContent(model, editor.getEditableText()
-						.toString());
-			Log.e("saveEdit", model.getCategory()+" "+model.getCategory_name()+" "+editor.getEditableText()
-					.toString());
+			if (c != null && c.getCount() != 0){
+				if(!isChildText)
+					helper.updateDiaryContent(model, editor.getEditableText().toString());
+				else{
+					try {
+						childText.put(String.valueOf(model.getCategorySubIndex()),editor.getEditableText().toString());
+						helper.updateDiaryContent(model, childText.toString());
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+			else{
+				if(!isChildText)
+					helper.insertDiaryContent(model, editor.getEditableText().toString());
+				else{
+					try {
+						childText.put(String.valueOf(model.getCategorySubIndex()),editor.getEditableText().toString());
+						helper.insertDiaryContent(model, childText.toString());
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+			
 			if (c != null)
 				c.close();
 		}
