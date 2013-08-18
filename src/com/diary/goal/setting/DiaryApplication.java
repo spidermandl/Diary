@@ -263,3 +263,8 @@ public class DiaryApplication extends Application {
 		tableCaches=null;
 	}
 }
+
+
+
+
+
