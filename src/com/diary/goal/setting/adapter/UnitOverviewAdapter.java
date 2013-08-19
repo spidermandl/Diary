@@ -30,7 +30,9 @@ import com.diary.goal.setting.view.CategoryTextView;
 import com.diary.goal.setting.view.RatingPentagramView;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.BitmapDrawable;
@@ -38,6 +40,7 @@ import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnLongClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseExpandableListAdapter;
@@ -84,13 +87,15 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 					c.moveToFirst();
 					String text=c.getString(1);
 					categorys.put(_id,text);
-					JSONObject json;
-					try {
-						json = new JSONObject(text);
-						listCategorys.put(_id, json);
-					} catch (JSONException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+					if(configTables.get(_id).getCategoryType()==TYPE_LIST){
+						JSONObject json;
+						try {
+							json = new JSONObject(text);
+							listCategorys.put(_id, json);
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				}
 				else
@@ -127,7 +132,7 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 		return indexs.size();
 	}
 	//@Override
-	public int getChildrenCount(int groupPosition) {;
+	public int getChildrenCount(int groupPosition) {
 		int index=indexs.get(groupPosition);
 		CategoryModel model=configTables.get(index);
 		if(model.getCategoryType()==TYPE_LIST){
@@ -285,29 +290,12 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 //					bitmap, bitmap.getNinePatchChunk(), new Rect(), null));	
 //			content.setPadding(pads[0], pads[1], pads[2], pads[3]);
 			text=categorys.get(indexs.get(groupPosition));
-			content.setText(text==null?"N/A":switchLanguage(text));
+			content.setText(text==null||text.equals("")?"N/A":switchLanguage(text));
 			content.setOnClickListener(new View.OnClickListener() {
 				
 				//@Override
 				public void onClick(View v) {
-					DateModel model=DiaryApplication.getInstance().getDateModel();
-					/*******************************set date model*************************************/
-					model.setCategory(configTables.get(indexs.get(index)).getCategoryIndex());
-					model.setText(categorys.get(indexs.get(index)));
-					model.setConfigId(indexs.get(index));
-					model.setCategory_type(configTables.get(indexs.get(index)).getCategoryType());
-					model.setCategory_name(configTables.get(indexs.get(index)).getCategoryName());
-					model.setCategorySubIndex(-1);
-					/********************************************************************/
-					Intent intent=new Intent();
-					if (Build.VERSION.SDK_INT < 14)
-						intent.setClass(context, RichTextEditorActivity.class);
-					else
-						intent.setClass(context, RichTextEditor4_0Activity.class);
-					((Activity)context).startActivityForResult(intent, 0);
-					((Activity)context).overridePendingTransition(R.anim.right_enter,R.anim.left_exit);
-					//context.startActivity(intent);
-					
+					enterRichTextEdit(indexs.get(index), -1);
 				}
 			});
 			break;
@@ -357,36 +345,103 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 			if(json!=null){
 				try {
 					text=json.getString(String.valueOf(childPosition));
+					text=text.equals("")?"N/A":text;
 				} catch (JSONException e) {
+					text="N/A";
 				}
 			}
 			holder.text.setText(text);
 			holder.text.setOnClickListener(new View.OnClickListener() {
 				
 				public void onClick(View v) {
-					DateModel model=DiaryApplication.getInstance().getDateModel();
-					/*******************************set date model*************************************/
-					model.setCategory(configTables.get(index).getCategoryIndex());
-					model.setText(categorys.get(index));
-					model.setConfigId(index);
-					model.setCategory_type(configTables.get(index).getCategoryType());
-					model.setCategory_name(configTables.get(index).getCategoryName());
-					model.setCategorySubIndex(subIndex);
-					/********************************************************************//********************************************************************/
-					Intent intent=new Intent();
-					if (Build.VERSION.SDK_INT < 14)
-						intent.setClass(context, RichTextEditorActivity.class);
-					else
-						intent.setClass(context, RichTextEditor4_0Activity.class);
-					((Activity)context).startActivityForResult(intent, 0);
-					((Activity)context).overridePendingTransition(R.anim.right_enter,R.anim.left_exit);
+					enterRichTextEdit(index, subIndex);
 					//context.startActivity(intent);
 					
 				}
 			});
+			holder.text.setOnLongClickListener(new View.OnLongClickListener() {
+				
+				public boolean onLongClick(View v) {
+					new AlertDialog.Builder(context)
+		            .setTitle(R.string.sub_category_operation)
+		            .setItems(R.array.sub_category_operation, new DialogInterface.OnClickListener() {
+		                public void onClick(DialogInterface dialog, int which) {
+		                	switch (which) {
+							case 0://add
+								JSONObject json=listCategorys.get(index);
+								try {
+									boolean isInsert=false;
+									if(json==null){
+										json=new JSONObject();
+										json.put("0", "");
+										listCategorys.put(index, json);
+										isInsert=true;
+									}
+									json.put(String.valueOf(json.length()), "");
+									DateModel model=DiaryApplication.getInstance().getDateModel();
+									/*******************************set date model*************************************/
+									model.setCategory(configTables.get(index).getCategoryIndex());
+									model.setText(categorys.get(index));
+									model.setConfigId(index);
+									model.setCategory_type(configTables.get(index).getCategoryType());
+									model.setCategory_name(configTables.get(index).getCategoryName());
+									model.setCategorySubIndex(subIndex);
+									/********************************************************************/
+									if(isInsert)
+										DiaryApplication.getInstance().getDbHelper().insertDiaryContent(model, json.toString());
+									else
+										DiaryApplication.getInstance().getDbHelper().updateDiaryContent(model, json.toString());
+									UnitOverviewAdapter.this.notifyDataSetChanged();
+								} catch (JSONException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								break;
+							case 1://edit
+								enterRichTextEdit(index, subIndex);
+								dialog.dismiss();
+								break;
+							case 2://delete
+								json=listCategorys.get(index);
+								try {
+									if(json!=null||json.length()!=1){
+										int length=json.length();
+										for(int i=0;i<length-index;i++){
+											json.put(String.valueOf(index+i), json.get(String.valueOf(index+i+1)));
+										}
+										json.remove(String.valueOf(length-1));
+										DateModel model=DiaryApplication.getInstance().getDateModel();
+										/*******************************set date model*************************************/
+										model.setCategory(configTables.get(index).getCategoryIndex());
+										model.setText(categorys.get(index));
+										model.setConfigId(index);
+										model.setCategory_type(configTables.get(index).getCategoryType());
+										model.setCategory_name(configTables.get(index).getCategoryName());
+										model.setCategorySubIndex(subIndex);
+										/********************************************************************/
+										DiaryApplication.getInstance().getDbHelper().updateDiaryContent(model, json.toString());
+										UnitOverviewAdapter.this.notifyDataSetChanged();
+									}
+								    
+									json.put(String.valueOf(json.length()), "");
+								} catch (JSONException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								break;
+							default:
+								break;
+							}
+		                }
+		            })
+		            .create()
+		            .show();
+					return true;
+				}
+			});
 			return convertView;
-		}
-		return null;
+		}else
+			return null;
 	}
 	//@Override
 	public boolean isChildSelectable(int groupPosition, int childPosition) {
@@ -420,6 +475,31 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 				return 1;
 		}
 		
+	}
+	/**
+	 * switch to RichTextEditorActivity
+	 * @param categoryIndex 
+	 *        main index of the category
+	 * @param subCategoryIndex
+	 *        sub index of the category with list type
+	 */
+	private void enterRichTextEdit(int categoryIndex,int subCategoryIndex){
+		DateModel model=DiaryApplication.getInstance().getDateModel();
+		/*******************************set date model*************************************/
+		model.setCategory(configTables.get(categoryIndex).getCategoryIndex());
+		model.setText(categorys.get(categoryIndex));
+		model.setConfigId(categoryIndex);
+		model.setCategory_type(configTables.get(categoryIndex).getCategoryType());
+		model.setCategory_name(configTables.get(categoryIndex).getCategoryName());
+		model.setCategorySubIndex(subCategoryIndex);
+		/********************************************************************//********************************************************************/
+		Intent intent=new Intent();
+		if (Build.VERSION.SDK_INT < 14)
+			intent.setClass(context, RichTextEditorActivity.class);
+		else
+			intent.setClass(context, RichTextEditor4_0Activity.class);
+		((Activity)context).startActivityForResult(intent, 0);
+		((Activity)context).overridePendingTransition(R.anim.right_enter,R.anim.left_exit);
 	}
 	
 	private String switchLanguage(String key){
@@ -458,7 +538,7 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 			if(model.getCategoryType()==TYPE_LIST){
 				editCategoryName(arg2);
 			}
-			return false;
+			return true;
 		}
 	};
 	

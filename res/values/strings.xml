@@ -29,6 +29,7 @@
 	    \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
 	    \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020-Journey from Daybreak Diary</string>
 	<string name="edit_dismiss">Discard</string>
+	<string name="sub_category_operation">operation</string>
 	
 	<!-- config string -->
 	<string name="work">work</string>

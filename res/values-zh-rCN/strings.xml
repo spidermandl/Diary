@@ -29,6 +29,7 @@
 	    \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020
 	    \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020-晨间日记圆梦</string>
 	<string name="edit_dismiss">舍弃</string>
+	<string name="sub_category_operation">操作</string>
 	
 	<!-- config string -->
 	<string name="work">工作</string>
