@@ -10,12 +10,11 @@
         android:layout_height="wrap_content"
         android:background="@android:drawable/divider_horizontal_bright" />
 
-    <TextView
+    <com.diary.goal.setting.view.CategoryTextView
         android:id="@+id/child_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/divider"
-        android:background="#00000000"
         android:paddingBottom="@dimen/brief_edit_paddingbottom"
         android:paddingLeft="@dimen/brief_edit_paddingdeepleft"
         android:paddingRight="@dimen/brief_edit_paddingright"

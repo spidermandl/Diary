@@ -8,21 +8,14 @@ import com.diary.goal.setting.R;
 import com.diary.goal.setting.adapter.UnitOverviewAdapter.ViewHolder;
 import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.tools.Function;
-import com.diary.goal.setting.view.DashLineView;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.ExpandableListView;
-import android.widget.ExpandableListView.OnChildClickListener;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class OverviewStrollAdapter extends BaseAdapter {
 

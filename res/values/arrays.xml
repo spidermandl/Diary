@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sub_category_operation">
+        <item>add line</item>
+        <item>edit line</item>
+        <item>delete line</item>
+    </string-array>
+</resources>
