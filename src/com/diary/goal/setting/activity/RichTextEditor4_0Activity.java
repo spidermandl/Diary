@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.adapter.UnitOverviewAdapter;
@@ -49,6 +52,8 @@ public class RichTextEditor4_0Activity extends Activity implements OnNavigationL
 	 * initial text
 	 */
 	String initText;
+	boolean isChildText=true;
+	JSONObject childText;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -75,18 +80,30 @@ public class RichTextEditor4_0Activity extends Activity implements OnNavigationL
 		ab.setDisplayShowHomeEnabled(false);
 		ab.setTitle(R.string.edit_back);
 		
-		// ab.setDisplayOptions(options, mask)
-		ArrayAdapter<CharSequence> list = new ArrayAdapter(this, R.layout.sherlock_spinner_item, titleSwitch);
-		//list.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
-        ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-        ab.setListNavigationCallbacks(list, this);
-        ab.setSelectedNavigationItem(initialPosition);
         
+		DateModel model = DiaryApplication.getInstance().getDateModel();
+		if(model.getCategorySubIndex()==-1){
+			isChildText=false;
+			dataInit();
+			// ab.setDisplayOptions(options, mask)
+			ArrayAdapter<CharSequence> list = new ArrayAdapter(this, R.layout.sherlock_spinner_item, titleSwitch);
+			list.setDropDownViewResource(R.layout.sherlock_spinner_dropdown_item);
+	        ab.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+	        ab.setListNavigationCallbacks(list, this);
+	        ab.setSelectedNavigationItem(initialPosition);
+		}
 		editor = (RichEditText) findViewById(R.id.editor);
 		editor.enableActionModes(true);
 
-		DateModel model = DiaryApplication.getInstance().getDateModel();
 		initText=model.getText() == null ? "" : model.getText();
+		if(isChildText){
+			try {
+				childText=new JSONObject(initText);
+				initText=childText.getString(String.valueOf(model.getCategorySubIndex()));
+			} catch (JSONException e) {
+				childText=new JSONObject();
+			}
+		}
 		editor.setText(initText);
 	}
 

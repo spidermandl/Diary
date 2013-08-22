@@ -6,6 +6,7 @@ public class CategoryModel {
 	private int categoryIndex;
 	private String categoryName;
 	private int categoryType;
+	private String hint;
 	public int getSudoType() {
 		return sudoType;
 	}
@@ -29,5 +30,11 @@ public class CategoryModel {
 	}
 	public void setCategoryType(int categoryType) {
 		this.categoryType = categoryType;
+	}
+	public String getHint() {
+		return hint;
+	}
+	public void setHint(String hint) {
+		this.hint = hint;
 	}
 }

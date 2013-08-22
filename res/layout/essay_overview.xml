@@ -5,23 +5,10 @@
     android:layout_height="wrap_content" 
     android:background="#FFDDFDDB">
 
-    <TextView
-        android:id="@+id/overview_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FF44C2FF"
-        android:gravity="center" 
-        android:paddingBottom="@dimen/brief_edit_paddingbottom"
-        android:paddingTop="@dimen/brief_edit_paddingtop"
-        android:singleLine="true"
-        android:textColor="#FF000000"
-        android:textSize="16sp"/>
-
     <ExpandableListView
         android:id="@+id/overview_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/overview_title"
         android:groupIndicator="@null" 
         android:divider="@null">
     </ExpandableListView>
@@ -36,7 +23,7 @@
         android:layout_width="3dp"
         android:layout_height="wrap_content"
         dash:orientation="1" 
-        android:layout_alignTop="@id/overview_title"
+        android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

@@ -44,6 +44,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		public static final String _CATEGORY_INDEX = "category_index";
 		public static final String _CATEGORY_NAME = "category_name";
 		public static final String _CATEGORY_TYPE = "category_type";
+		public static final String _CATEGORY_HINT = "category_hint";
 	}
 	
 	public interface DiaryTrackColumn{
@@ -68,7 +69,8 @@ public class DiaryHelper extends SQLiteOpenHelper{
 			+ DiaryConfigColumn._SUDO_TYPE + " integer,"	//sudo type
 			+ DiaryConfigColumn._CATEGORY_INDEX + " integer,"	//index of category
 			+ DiaryConfigColumn._CATEGORY_NAME + " text,"	//name of category
-			+ DiaryConfigColumn._CATEGORY_TYPE + " integer"	//type of category
+			+ DiaryConfigColumn._CATEGORY_TYPE + " integer,"	//type of category
+			+ DiaryConfigColumn._CATEGORY_HINT + " text"   //text hint of category
 			+ ")";
 	public static final String CREATE_VIEW_TRACK_CONFIG ="CREATE VIEW "+Views.TRACK_CONFIG_ALL+" AS "
 			 +" SELECT "+Tables.DIARY_TRACK+"."+DiaryTrackColumn._ID+" AS _id, "
@@ -79,7 +81,8 @@ public class DiaryHelper extends SQLiteOpenHelper{
 			            +Tables.DIARY_CONFIG+"."+DiaryConfigColumn._SUDO_TYPE+", "
 			            +Tables.DIARY_CONFIG+"."+DiaryConfigColumn._CATEGORY_INDEX+", "
 			            +Tables.DIARY_CONFIG+"."+DiaryConfigColumn._CATEGORY_NAME+", "
-			            +Tables.DIARY_CONFIG+"."+DiaryConfigColumn._CATEGORY_TYPE
+			            +Tables.DIARY_CONFIG+"."+DiaryConfigColumn._CATEGORY_TYPE+", "
+			            +Tables.DIARY_CONFIG+"."+DiaryConfigColumn._CATEGORY_HINT
 			  +" FROM "+Tables.DIARY_TRACK+ " JOIN " + Tables.DIARY_CONFIG + " ON "
               +Tables.DIARY_TRACK+"."+DiaryTrackColumn._CONFIG_ID + " = " + Tables.DIARY_CONFIG+"."+DiaryConfigColumn._ID;
 	
@@ -153,6 +156,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 					values.put(DiaryConfigColumn._CATEGORY_INDEX, jo.getInt("index"));
 					values.put(DiaryConfigColumn._CATEGORY_NAME, jo.getString("name"));
 					values.put(DiaryConfigColumn._CATEGORY_TYPE, jo.getInt("type"));
+					values.put(DiaryConfigColumn._CATEGORY_HINT, jo.getString("hint"));
 					db.insertOrThrow(Tables.DIARY_CONFIG, DiaryConfigColumn._ID, values);
 				}
 			} catch (JSONException e) {
@@ -169,7 +173,8 @@ public class DiaryHelper extends SQLiteOpenHelper{
 				             DiaryConfigColumn._SUDO_TYPE,
 				             DiaryConfigColumn._CATEGORY_INDEX,
 				             DiaryConfigColumn._CATEGORY_NAME,
-				             DiaryConfigColumn._CATEGORY_TYPE}, 
+				             DiaryConfigColumn._CATEGORY_TYPE,
+				             DiaryConfigColumn._CATEGORY_HINT}, 
 				null, null, null, null, null);
 		return c;
 	}
@@ -201,7 +206,8 @@ public class DiaryHelper extends SQLiteOpenHelper{
 			            DiaryConfigColumn._SUDO_TYPE,
 			            DiaryConfigColumn._CATEGORY_INDEX,
 			            DiaryConfigColumn._CATEGORY_NAME,
-			            DiaryConfigColumn._CATEGORY_TYPE
+			            DiaryConfigColumn._CATEGORY_TYPE,
+			            DiaryConfigColumn._CATEGORY_HINT
 			            },
 				DiaryTrackColumn._CREATE_TIME+" between '"+d+" 00:00:00' and '"+d+" 23:59:59'",
 				null, null, null, null, null);

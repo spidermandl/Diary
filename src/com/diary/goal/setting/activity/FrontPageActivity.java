@@ -62,7 +62,7 @@ public class FrontPageActivity extends Activity {
 				public void run() {
 					handler.sendEmptyMessage(0);	
 				}
-			}, 5000);
+			}, 2000);
 			
 		}else{
 			SharedPreferences.Editor edit=prefs.edit();

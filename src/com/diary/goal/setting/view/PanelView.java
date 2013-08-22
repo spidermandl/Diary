@@ -16,8 +16,9 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 
-public abstract class PanelView extends View implements View.OnClickListener{
+public abstract class PanelView extends ViewGroup implements View.OnClickListener{
 
 	protected Context context;
 	protected Constant.SudoType sudoType=SudoType.SUDO_0;
@@ -47,6 +48,7 @@ public abstract class PanelView extends View implements View.OnClickListener{
 	}
 	
 	void init(){
+		this.setWillNotDraw(false);
 		this.setOnClickListener(this);
 		mPaint=new Paint();
 
@@ -61,10 +63,8 @@ public abstract class PanelView extends View implements View.OnClickListener{
 	}
 	
 	@Override
-	protected void onLayout(boolean changed, int left, int top, int right,
-			int bottom) {
-		// TODO Auto-generated method stub
-		super.onLayout(changed, left, top, right, bottom);
+	protected void onLayout(boolean changed, int l, int t, int r, int b) {
+
 	}
 
 	@Override
