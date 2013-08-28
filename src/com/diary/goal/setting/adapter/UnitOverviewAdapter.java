@@ -2,8 +2,10 @@ package com.diary.goal.setting.adapter;
 
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -25,6 +27,7 @@ import com.diary.goal.setting.model.CategoryModel;
 import com.diary.goal.setting.model.DateModel;
 import com.diary.goal.setting.tools.BitmapCustomize;
 import com.diary.goal.setting.tools.Constant;
+import com.diary.goal.setting.tools.Function;
 import com.diary.goal.setting.tools.Constant.SudoType;
 import com.diary.goal.setting.view.CategoryTextView;
 import com.diary.goal.setting.view.RatingPentagramView;
@@ -39,6 +42,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.View.OnLongClickListener;
 import android.widget.AdapterView;
@@ -61,6 +65,7 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 	private HashMap<Integer, CategoryModel> configTables;//the key is correspond to the values in indexs declared above
 	private HashMap<Integer, JSONObject> listCategorys;//the key is correspond to the values in indexs declared above
 
+	private final static int TYPE_TITLE=-1;
 	public final static int TYPE_RATING=0;
 	public final static int TYPE_CHECKBOX=1;
 	public final static int TYPE_CONVENTIONAL_EDIT=2;
@@ -112,6 +117,7 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 	public void notifyDataSetChanged() {
 		categorys.clear();
 		indexs.clear();
+		listCategorys.clear();
 		loadData();
 		
 		DateModel model=DiaryApplication.getInstance().getDateModel();
@@ -140,7 +146,7 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 			if(json==null){
 				return 1;
 			}else{
-				return json.length()==0?0:json.length();
+				return json.length()==0?1:json.length();
 			}
 			
 		}else
@@ -179,6 +185,10 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 			convertView = m_inflater.inflate(R.layout.essay_overview_item, null);
 			ViewHolder viewHolder=new ViewHolder();
 			viewHolder.showType=TYPE_CHECKBOX;
+			viewHolder.type__1=(RelativeLayout)convertView.findViewById(R.id.category_type__1);
+			viewHolder.title_type__1=(TextView)convertView.findViewById(R.id.overview_title);
+			viewHolder.back=convertView.findViewById(R.id.back_sudo);
+			viewHolder.forward=convertView.findViewById(R.id.forward_sudo);
 			viewHolder.type_0=(RelativeLayout)convertView.findViewById(R.id.category_type_0);
 			viewHolder.title_type_0=(CategoryTextView)convertView.findViewById(R.id.title_type_0);
 			viewHolder.ratingStar=(RatingPentagramView)convertView.findViewById(R.id.star_type_0);
@@ -209,7 +219,23 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 		 * switch items
 		 */
 		switch (holder.showType) {
+		case TYPE_TITLE:
+			holder.type__1.setVisibility(View.VISIBLE);
+			holder.type_0.setVisibility(View.GONE);
+			holder.type_1.setVisibility(View.GONE);
+			holder.type_2.setVisibility(View.GONE);
+			holder.type_3.setVisibility(View.GONE);
+			
+			
+			text=
+					context.getResources().getString(Constant.stringDict.get(Constant.SudoType.getTypeString(DiaryApplication.getInstance().getDateModel().getType())));
+			text+="("+getMonthString(DiaryApplication.getInstance().getDateModel())+")";
+			holder.title_type__1.setText(text);
+			holder.back.setOnClickListener(backAndForthListener);
+			holder.forward.setOnClickListener(backAndForthListener);
+			break;
 		case TYPE_RATING:
+			holder.type__1.setVisibility(View.GONE);
 			holder.type_0.setVisibility(View.VISIBLE);
 			holder.type_1.setVisibility(View.GONE);
 			holder.type_2.setVisibility(View.GONE);
@@ -243,6 +269,7 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 			});
 			break;
 		case TYPE_CHECKBOX:
+			holder.type__1.setVisibility(View.GONE);
 			holder.type_0.setVisibility(View.GONE);
 			holder.type_1.setVisibility(View.VISIBLE);
 			holder.type_2.setVisibility(View.GONE);
@@ -276,6 +303,7 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 			});
 			break;
 		case TYPE_CONVENTIONAL_EDIT:
+			holder.type__1.setVisibility(View.GONE);
 			holder.type_0.setVisibility(View.GONE);
 			holder.type_1.setVisibility(View.GONE);
 			holder.type_2.setVisibility(View.VISIBLE);
@@ -289,8 +317,11 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 //			content.setBackgroundDrawable(new NinePatchDrawable(context.getResources(), 
 //					bitmap, bitmap.getNinePatchChunk(), new Rect(), null));	
 //			content.setPadding(pads[0], pads[1], pads[2], pads[3]);
+			content.setText("");
+			content.setHint(categoryModel.getHint());
 			text=categorys.get(indexs.get(groupPosition));
-			content.setText(text==null||text.equals("")?"N/A":switchLanguage(text));
+			if(text!=null&&!text.equals(""))
+				content.setText(switchLanguage(text));
 			content.setOnClickListener(new View.OnClickListener() {
 				
 				//@Override
@@ -300,6 +331,7 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 			});
 			break;
 		case TYPE_LIST:
+			holder.type__1.setVisibility(View.GONE);
 			holder.type_0.setVisibility(View.GONE);
 			holder.type_1.setVisibility(View.GONE);
 			holder.type_2.setVisibility(View.GONE);
@@ -341,16 +373,19 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 			}
 			holder=(ChildViewHolder)convertView.getTag();
 			JSONObject json=listCategorys.get(index);
-			String text="N/A";
-			if(json!=null){
+			holder.text.setText("");
+			String text=model.getHint();
+			if(json!=null&&json.length()!=0){
 				try {
 					text=json.getString(String.valueOf(childPosition));
 					text=text.equals("")?"N/A":text;
 				} catch (JSONException e) {
 					text="N/A";
 				}
+				holder.text.setText(text);
+			}else{
+				holder.text.setHint(text);
 			}
-			holder.text.setText(text);
 			holder.text.setOnClickListener(new View.OnClickListener() {
 				
 				public void onClick(View v) {
@@ -371,7 +406,7 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 								JSONObject json=listCategorys.get(index);
 								try {
 									boolean isInsert=false;
-									if(json==null){
+									if(json==null||json.length()==0){
 										json=new JSONObject();
 										json.put("0", "");
 										listCategorys.put(index, json);
@@ -452,11 +487,12 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 	class ViewHolder{
 		int showType;
 		RatingPentagramView ratingStar;
-		RelativeLayout type_0,type_1,type_2,type_3;
+		RelativeLayout type__1,type_0,type_1,type_2,type_3;
 		CategoryTextView title_type_0,title_type_1,title_type_2,title_type_3;
-		TextView content;
+		TextView title_type__1,content;
 		CheckBox checkBox;
 		ImageView jump;
+		View back,forward;
 	}
     
 	class ChildViewHolder{
@@ -530,6 +566,33 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 		dialog.create().show();
 	}
 	
+	/**
+	 * construct string with month and day
+	 * @return
+	 */
+	private String getMonthString(DateModel model){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(model.getDate());
+		int month=calendar.get(Calendar.MONTH)+1;
+		int day=calendar.get(Calendar.DAY_OF_MONTH);
+//		Log.e("getMonthString month", month+"");
+//		Log.e("getMonthString day", day+"");
+		return Function.getAbbrMonth(this.context,month)+day+context.getResources().getString(R.string.day);
+	}
+	
+	private void moveSudoStep(int step){
+		DateModel model=DiaryApplication.getInstance().getDateModel();
+		int sudo_type=model.getType().getType();
+		sudo_type=(sudo_type+step)%9;
+		if(sudo_type==5){
+			if(step>0)
+				sudo_type=6;
+			else
+				sudo_type=4;
+		}
+		sudo_type=sudo_type==0?9:sudo_type;
+		model.setType(SudoType.getSudoType(sudo_type));
+	}
 	OnItemLongClickListener itemLongClickListener=new AdapterView.OnItemLongClickListener() {
 
 		public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
@@ -542,6 +605,20 @@ public class UnitOverviewAdapter extends BaseExpandableListAdapter {
 		}
 	};
 	
+	OnClickListener backAndForthListener=new OnClickListener() {
+		
+		public void onClick(View v) {
+			if(v.getId()==R.id.back_sudo){
+				moveSudoStep(-1);
+				notifyDataSetChanged();
+			}
+			if(v.getId()==R.id.forward_sudo){
+				moveSudoStep(1);
+				notifyDataSetChanged();
+			}
+			
+		}
+	};
 	
 	
 	public void setListener(ExpandableListView listView){

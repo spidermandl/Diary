@@ -275,7 +275,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 				final VelocityTracker velocityTracker = mVelocityTracker;
 				velocityTracker.computeCurrentVelocity(1000, mMaximumVelocity);
 				int velocityX = (int) velocityTracker.getXVelocity();
-				Log.e("velocityX", velocityX+"");
+				//Log.e("velocityX", velocityX+"");
 				if (velocityX > SNAP_VELOCITY && mCurrentScreen > 0) {
 					// Fling hard enough to move left
 					snapToScreen(mCurrentScreen - 1);
@@ -387,6 +387,8 @@ public class ViewFlow extends AdapterView<Adapter> {
 						mFlipListener.track(-1);
 				} else if (velocityX < -SNAP_VELOCITY
 						&& mCurrentScreen < getChildCount() - 1) {
+					int a=getChildCount()-1;
+					//Log.e("action_up", "mCurrentScreen = "+mCurrentScreen+" getChildCount =" + a);
 					// Fling hard enough to move right
 				    snapToScreen(mCurrentScreen + 1);
 				    if(mFlipListener!=null)
@@ -475,6 +477,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 		} else if (mNextScreen != INVALID_SCREEN) {
 			mCurrentScreen = Math.max(0,
 					Math.min(mNextScreen, getChildCount() - 1));
+			//Log.e("computeScroll", "mCurrentScreen = "+mCurrentScreen);
 			mNextScreen = INVALID_SCREEN;
 			postViewSwitched(mLastScrollDirection);
 		}
@@ -489,6 +492,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 	private void setVisibleView(int indexInBuffer, boolean uiThread) {
 		mCurrentScreen = Math.max(0,
 				Math.min(indexInBuffer, getChildCount() - 1));
+		//Log.e("setVisibleView", "mCurrentScreen = "+mCurrentScreen);
 		int dx = (mCurrentScreen * getWidth()) - mScroller.getCurrX();
 		mScroller.startScroll(mScroller.getCurrX(), mScroller.getCurrY(), dx,
 				0, 0);
@@ -608,6 +612,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 		}
 
 		mCurrentBufferIndex = mLoadedViews.indexOf(currentView);
+		Log.e("setSelection", "mCurrentAdapterIndex = "+mCurrentAdapterIndex+" position = "+position);
 		mCurrentAdapterIndex = position;
 
 		requestLayout();
@@ -729,6 +734,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 			if (v != null) {
 				for (int index = 0; index < mAdapter.getCount(); index++) {
 					if (v.equals(mAdapter.getItem(index))) {
+						//Log.e("onChanged", "mCurrentAdapterIndex = "+mCurrentAdapterIndex+"  index = "+index);
 						mCurrentAdapterIndex = index;
 						break;
 					}

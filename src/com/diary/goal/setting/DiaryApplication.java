@@ -82,6 +82,7 @@ public class DiaryApplication extends Application {
 				model.setCategoryName(c.getString(c.getColumnIndex(DiaryConfigColumn._CATEGORY_NAME)));
 				model.setCategoryType(c.getInt(c.getColumnIndex(DiaryConfigColumn._CATEGORY_TYPE)));
 				model.setSudoType(c.getInt(c.getColumnIndex(DiaryConfigColumn._SUDO_TYPE)));
+				model.setHint(c.getString(c.getColumnIndex(DiaryConfigColumn._CATEGORY_HINT)));
 				map.put(c.getInt(c.getColumnIndex(DiaryConfigColumn._ID)), model);
 			}
 			tableCaches.put(Tables.DIARY_CONFIG, map);
@@ -104,8 +105,8 @@ public class DiaryApplication extends Application {
 		initialOrientation=this.getResources().getConfiguration().orientation;
 		dbHelper=new DiaryHelper(this);
 		
-//		ueHandler = new UEHandler(this); 
-//        Thread.setDefaultUncaughtExceptionHandler(ueHandler); 
+		ueHandler = new UEHandler(this); 
+        Thread.setDefaultUncaughtExceptionHandler(ueHandler); 
 		FlurryAgent.onStartSession(this, Constant.FLURRY_KEY);
 		super.onCreate();
 	}

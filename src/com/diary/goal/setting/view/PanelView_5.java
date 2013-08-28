@@ -21,11 +21,19 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.FontMetrics;
 import android.graphics.Paint.Style;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
 
 public class PanelView_5 extends PanelView {
+	
+	View overviewTab;
+	
 	Calendar calendar;
 	Paint paint;
 	
@@ -92,40 +100,62 @@ public class PanelView_5 extends PanelView {
 		
 		if(activated){
 			Bitmap cap=BitmapCustomize.customizePicture(context, R.drawable.overview_active,0,0,false);
-			canvas.drawBitmap(cap, 0, 0, mPaint);
+			//canvas.drawBitmap(cap, 0, 0, mPaint);
 			icon_width=cap.getWidth();
 			icon_height=cap.getHeight();
+			if(overviewTab==null){
+				overviewTab=new View(context);
+				overviewTab.setLayoutParams(new LayoutParams(icon_width, icon_height));
+				this.addView(overviewTab);
+		        overviewTab.layout(0, 0, icon_width, icon_height);
+				overviewTab.setBackgroundDrawable(new BitmapDrawable(cap));
+				Animation animation = new AlphaAnimation(1, 0); // Change alpha from fully visible to invisible  
+		        animation.setDuration(500); // duration - half a second  
+		        animation.setInterpolator(new LinearInterpolator()); // do not alter animation rate  
+		        animation.setRepeatCount(10); // Repeat animation with 5 times  
+		        animation.setRepeatMode(Animation.REVERSE); //   
+		        overviewTab.setAnimation(animation); 
+		        overviewTab.setOnClickListener(new OnClickListener() {
+					
+					public void onClick(View v) {
+						callPaperOverview();
+					}
+				});
+			}else{
+				overviewTab.setVisibility(View.VISIBLE);
+			}
+		}else{
+			if(overviewTab!=null)
+				overviewTab.setVisibility(View.GONE);
 		}
 	
 	}
 	
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		int action=event.getAction();
-        float x = event.getX();
-        float y = event.getY();
-		switch (action) {
-		case MotionEvent.ACTION_DOWN:
-			if(x<=icon_width&&y<=icon_height){
-				overview_taped=true;
-				return true;
-			}
-			return false;
-		case MotionEvent.ACTION_MOVE:
-			Log.e("PanelView_5", "ACTION_move");
-			return false;
-		case MotionEvent.ACTION_UP:
-			Log.e("PanelView_5", "ACTION_up");
-			if(x<=icon_width&&y<=icon_height&&overview_taped){
-				overview_taped=false;
-				callPaperOverview();
-				return true;
-			}
-			overview_taped=false;
-			return false;
-		}
-		return false;
-	}
+//	@Override
+//	public boolean onTouchEvent(MotionEvent event) {
+//		int action=event.getAction();
+//        float x = event.getX();
+//        float y = event.getY();
+//		switch (action) {
+//		case MotionEvent.ACTION_DOWN:
+//			if(x<=icon_width&&y<=icon_height){
+//				overview_taped=true;
+//				return true;
+//			}
+//			return false;
+//		case MotionEvent.ACTION_MOVE:
+//			return false;
+//		case MotionEvent.ACTION_UP:
+//			if(x<=icon_width&&y<=icon_height&&overview_taped){
+//				overview_taped=false;
+//				callPaperOverview();
+//				return true;
+//			}
+//			overview_taped=false;
+//			return false;
+//		}
+//		return false;
+//	}
 	
 	
 	private String getDate(Calendar cal) {

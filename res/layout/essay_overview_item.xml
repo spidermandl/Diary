@@ -5,13 +5,53 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#FFDDFDDB" >
-    <!--  
+
+    <RelativeLayout
+        android:id="@+id/category_type__1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/overview_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FF44C2FF"
+            android:gravity="center"
+            android:paddingBottom="@dimen/brief_edit_paddingbottom"
+            android:paddingTop="@dimen/brief_edit_paddingtop"
+            android:singleLine="true"
+            android:textColor="#FF000000"
+            android:textSize="16sp" />
+
+        <View
+            android:id="@+id/back_sudo"
+            android:layout_width="30dip"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/overview_title"
+            android:layout_alignParentLeft="true"
+            android:layout_alignTop="@id/overview_title"
+            android:layout_marginBottom="5dip"
+            android:layout_marginTop="5dip"
+            android:background="@drawable/back_arrow" />
+
+        <View
+            android:id="@+id/forward_sudo"
+            android:layout_width="30dip"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/overview_title"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/overview_title"
+            android:layout_marginBottom="5dip"
+            android:layout_marginTop="5dip"
+            android:background="@drawable/forward_arrow" />
+    </RelativeLayout>
+    <!--
       _________________________________________
       |                |                       |
       |    TextView    |      *****            |
-      |________________|_______________________|
-      
+      |________________|_______________________|
     -->
+
     <RelativeLayout
         android:id="@+id/category_type_0"
         android:layout_width="match_parent"
@@ -35,37 +75,36 @@
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:gravity="center_vertical"
                 android:paddingBottom="@dimen/brief_edit_paddingbottom"
                 android:paddingLeft="@dimen/brief_edit_paddingleft"
                 android:paddingRight="@dimen/brief_edit_paddingright"
                 android:paddingTop="@dimen/brief_edit_paddingtop"
                 android:singleLine="true"
                 android:textColor="#FF704214"
-                android:textSize="16sp"
-                android:gravity="center_vertical"/>
+                android:textSize="16sp" />
 
             <com.diary.goal.setting.view.DashLineView
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0"
                 dash:orientation="1" />
-            
-           <com.diary.goal.setting.view.RatingPentagramView 
+
+            <com.diary.goal.setting.view.RatingPentagramView
                 android:id="@+id/star_type_0"
                 android:layout_width="0dip"
                 android:layout_height="50dip"
                 android:layout_weight="2"
-                rate:starNum="5"/>
-           
+                rate:starNum="5" />
         </LinearLayout>
     </RelativeLayout>
-    <!--  
+    <!--
       _________________________________________
       |                |                       |
       |    TextView    |      CheckBox         |
-      |________________|_______________________|
-      
+      |________________|_______________________|
     -->
+
     <RelativeLayout
         android:id="@+id/category_type_1"
         android:layout_width="match_parent"
@@ -89,14 +128,14 @@
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:gravity="center_vertical"
                 android:paddingBottom="@dimen/brief_edit_paddingbottom"
                 android:paddingLeft="@dimen/brief_edit_paddingleft"
                 android:paddingRight="@dimen/brief_edit_paddingright"
                 android:paddingTop="@dimen/brief_edit_paddingtop"
                 android:singleLine="true"
                 android:textColor="#FF704214"
-                android:textSize="16sp"
-                android:gravity="center_vertical" />
+                android:textSize="16sp" />
 
             <com.diary.goal.setting.view.DashLineView
                 android:layout_width="2dp"
@@ -111,13 +150,13 @@
                 android:layout_weight="2" />
         </LinearLayout>
     </RelativeLayout>
-    <!--  
+    <!--
       _________________________________________
       |                |                       |
       |    TextView    |      TextView         |
-      |________________|_______________________|
-      
+      |________________|_______________________|
     -->
+
     <RelativeLayout
         android:id="@+id/category_type_2"
         android:layout_width="match_parent"
@@ -139,7 +178,7 @@
             <com.diary.goal.setting.view.CategoryTextView
                 android:id="@+id/title_type_2"
                 android:layout_width="0dip"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:paddingBottom="@dimen/brief_edit_paddingbottom"
                 android:paddingLeft="@dimen/brief_edit_paddingleft"
@@ -167,13 +206,13 @@
                 android:textColor="#FF000000" />
         </LinearLayout>
     </RelativeLayout>
-    <!--  
+    <!--
       _________________________________________
       |                                       |
       |              TextView                 |
-      |_______________________________________|
-      
+      |_______________________________________|
     -->
+
     <RelativeLayout
         android:id="@+id/category_type_3"
         android:layout_width="match_parent"
@@ -196,14 +235,14 @@
             android:paddingTop="@dimen/brief_edit_paddingtop"
             android:textColor="#FF704214"
             android:textSize="16sp" />
-        
-        <ImageView android:id="@+id/expandable_type_3"
+
+        <ImageView
+            android:id="@+id/expandable_type_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="10dip"/>
-        
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dip" />
     </RelativeLayout>
 
 </FrameLayout>
