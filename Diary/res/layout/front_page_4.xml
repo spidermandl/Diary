@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/front_page_bg_4">
+    
+    <TextView android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/start_journey"
+        android:background="@drawable/default_button_bg"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dip"
+        android:gravity="center"
+        android:paddingLeft="20dip"
+        android:paddingRight="20dip"
+        android:text="@string/start_jounery"
+        android:textColor="#FF000000"/>
+
+</RelativeLayout>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/com.diary.goal.setting"
+    android:id="@+id/front_page_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <com.diary.goal.setting.view.ViewFlow
+        android:id="@+id/front_main"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+    </com.diary.goal.setting.view.ViewFlow>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="#00000000"
+        android:gravity="center"
+        android:padding="3dip" >
+
+        <com.diary.goal.setting.view.CircleFlowIndicator
+            android:id="@+id/front_indic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|bottom"
+            android:padding="2dip"
+            app:activeColor="#ff0000"
+            app:activeType="fill"
+            app:circleSeparation="20dip"
+            app:inactiveColor="#ffffff"
+            app:inactiveType="fill"
+            app:radius="4dip" >
+        </com.diary.goal.setting.view.CircleFlowIndicator>
+        
+    </LinearLayout>
+
+</FrameLayout>
