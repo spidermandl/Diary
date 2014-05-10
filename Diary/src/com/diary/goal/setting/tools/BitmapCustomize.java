@@ -77,7 +77,7 @@ public class BitmapCustomize {
 	}
 //    /** 
 //     * 最大返回maxNumOfPixels = 1280*1280像素的图片 
-//     *  
+//     * 
 //     */  
 //    public static Bitmap getSuitableBitmap(ContentResolver resolver, Uri uri) throws FileNotFoundException {  
 //        int maxNumOfPixels = 1280*1280;  

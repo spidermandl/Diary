@@ -16,10 +16,10 @@ import org.json.JSONObject;
 
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
-import com.diary.goal.setting.activity.RichTextEditorActivity;
 import com.diary.goal.setting.database.DiaryHelper;
 import com.diary.goal.setting.database.DiaryHelper.Tables;
 import com.diary.goal.setting.dialog.CategoryEditDialog;
+import com.diary.goal.setting.invalid.RichTextEditorActivity;
 import com.diary.goal.setting.listener.OnCategoryChange;
 import com.diary.goal.setting.listener.OnRatingPentagramTouchUp;
 import com.diary.goal.setting.model.CategoryModel;

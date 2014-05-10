@@ -1,6 +1,9 @@
 <resources>
 
-    <style name="AppTheme" parent="android:Theme.Light" />
+    <style name="AppTheme" parent="Theme.Sherlock.Light.DarkActionBar" >
+        <!--  <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>-->
+    </style>
 
     <style name="Dialog_Fullscreen">
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -44,5 +47,9 @@
     <!--  <style name="Theme.Sherlock.Light.Notitle" parent="Theme.Sherlock.Light">
         <item name="android:windowNoTitle">true</item>
     </style>-->
+    
+    <!-- <style name="AppTheme" parent="Theme.Sherlock.Light.DarkActionBar">
+        All customizations that are NOT specific to a particular API-level can go here.
+    </style> -->
 
 </resources>

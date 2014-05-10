@@ -28,7 +28,7 @@ import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.view.ViewFlow;
 
 /**
- * diary main UI panel
+ * 九宫格日记界面
  * nine square sudo panel style
  * @author Desmond
  *
@@ -37,7 +37,6 @@ public class SoduKuFragment extends SherlockFragment {
 	
 	private ViewFlow viewFlow;
 	private int position;//record current page of sudo view
-	
 	NinePanelAdapter mAdapter;
 	Handler UIhandler=new Handler(){
 		public void handleMessage(android.os.Message msg) {

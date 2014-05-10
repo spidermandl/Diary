@@ -156,7 +156,7 @@ public class RichEditText extends EditText implements
         postDelayed(new Runnable() {
           public void run() {
             if (!actionModeIsShowing) {
-              startActionMode(mainMode);
+              //startActionMode(mainMode);
             }
           }
         }, 500);

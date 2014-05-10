@@ -7,6 +7,7 @@ import java.util.HashMap;
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.adapter.NinePanelAdapter;
+import com.diary.goal.setting.invalid.FrontPageActivity;
 import com.diary.goal.setting.listener.FlipPathListener;
 import com.diary.goal.setting.model.DateModel;
 import com.diary.goal.setting.model.PanelDateModel;
