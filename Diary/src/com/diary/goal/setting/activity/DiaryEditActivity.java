@@ -6,7 +6,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.MenuItem;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.richtext.RichTextEditView;
 
@@ -37,6 +39,13 @@ public class DiaryEditActivity extends SherlockActivity {
 	}
 	
 	protected void initViews(){
+		final ActionBar ab = getSupportActionBar();
+		
+		ab.setDisplayHomeAsUpEnabled(true);
+		ab.setDisplayUseLogoEnabled(false);
+		ab.setDisplayShowHomeEnabled(false);
+		ab.setTitle(R.string.edit_back);
+		
 		
 		editViews[0]=(RichTextEditView)findViewById(R.id.diary_content_1);
 		editViews[1]=(RichTextEditView)findViewById(R.id.diary_content_2);
@@ -80,5 +89,23 @@ public class DiaryEditActivity extends SherlockActivity {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// This uses the imported MenuItem from ActionBarSherlock
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			this.finish();
+			this.overridePendingTransition(R.anim.left_enter, R.anim.right_exit);
+			break;
+		case 1:
+			//saveEdit();
+			this.finish();
+			break;
+		default:
+			break;
+		}
+		return true;
 	}
 }

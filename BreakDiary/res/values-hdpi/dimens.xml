@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<dimen name="brief_edit_paddingleft">6dp</dimen>
+	<dimen name="brief_edit_paddingdeepleft">10dp</dimen>
+	<dimen name="brief_edit_paddingtop">8dp</dimen>
+	<dimen name="brief_edit_paddingright">6dp</dimen>
+	<dimen name="brief_edit_paddingbottom">8dp</dimen>
+</resources>
