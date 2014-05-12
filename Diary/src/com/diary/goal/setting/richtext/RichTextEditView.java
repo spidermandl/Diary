@@ -62,7 +62,7 @@ public class RichTextEditView extends RichEditTextField implements
 	private static final int SUB_TITLE=1;//标题模式
 	private static final int PLAIN_TEXT=0;//正文模式
 	private static final int INVALID_POS=-1;//无效模式
-	private static final int COMBINING_SPAN_NUM=2;//span组合数量
+	private static final int COMBINING_SPAN_NUM=3;//span组合数量
 
 	public static final int SUBTITLE_SIZE = 90;//小标题尺寸
 	public static final int SUBTITLE_COLOR = 100;//小标题颜色
@@ -481,28 +481,38 @@ public class RichTextEditView extends RichEditTextField implements
 			if(status==editState.get(i)&&i!=lastPosition){
 				end++;
 			}else{
-				ISpan span;
+				ISpan[] spans;
 				if(status!=editState.get(i)&&i==lastPosition){//最后一个字符，且状态发生改变
-					span=editState.get(i)==SUB_TITLE?makeSpan(SUBTITLE_COLOR, i, i+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE):
-						makeSpan(NORMAL, i, i+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-					if(span!=null){
-			    		editSpans.add(span);
-			    		SpanUtil.reApplySpan(span, this.getText());
+					spans=
+//							editState.get(i)==SUB_TITLE?makeSpan(SUBTITLE_COLOR, i, i+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE):
+//						makeSpan(NORMAL, i, i+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+					createFixedStyleSpans(editState.get(i), i, i+1);
+					if(spans!=null){
+						for(ISpan span:spans){
+				    		editSpans.add(span);
+				    		SpanUtil.reApplySpan(span, this.getText());
+						}
 			    	}
 				}
-				span=null;
+				spans=null;
 				if (status==editState.get(i)&&i==lastPosition){//最后一个字符，状态没有发生改变
-					span=editState.get(end)==SUB_TITLE?makeSpan(SUBTITLE_COLOR, start, end+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE):
-						makeSpan(NORMAL, start, end+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+					spans=
+//							editState.get(end)==SUB_TITLE?makeSpan(SUBTITLE_COLOR, start, end+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE):
+//						makeSpan(NORMAL, start, end+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+						createFixedStyleSpans(editState.get(end), start, end+1);
 				}else if(status!=editState.get(i)){//字符状态发生改变
-					span=editState.get(end-1)==SUB_TITLE?makeSpan(SUBTITLE_COLOR, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE):
-							makeSpan(NORMAL, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+					spans=
+//							editState.get(end-1)==SUB_TITLE?makeSpan(SUBTITLE_COLOR, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE):
+//							makeSpan(NORMAL, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+						createFixedStyleSpans(editState.get(end-1), start, end);
 					start=end;
 				}
 				
-		    	if(span!=null){
-		    		editSpans.add(span);
-		    		SpanUtil.reApplySpan(span, this.getText());
+		    	if(spans!=null){
+		    		for(ISpan span:spans){
+			    		editSpans.add(span);
+			    		SpanUtil.reApplySpan(span, this.getText());
+		    		}
 			    	end++;
 			    	status=editState.get(i);
 		    	}
