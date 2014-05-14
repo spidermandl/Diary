@@ -1,18 +1,10 @@
 package com.diary.goal.setting.view.wheel.adapters;
 
-import java.text.SimpleDateFormat;
-
-import com.diary.goal.setting.R;
-import com.diary.goal.setting.calendar.MonthView;
 
 import android.content.Context;
-import android.graphics.Typeface;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 public abstract class AbstractWheelCalendarAdapter extends AbstractWheelAdapter {
 

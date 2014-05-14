@@ -3,6 +3,7 @@ package com.diary.goal.setting.fragment;
 import java.util.Calendar;
 import java.util.HashMap;
 
+import android.R.raw;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,7 +29,7 @@ import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.view.ViewFlow;
 
 /**
- * ¾Å¹¬¸ñÈÕ¼Ç½çÃæ
+ * ï¿½Å¹ï¿½ï¿½ï¿½ï¿½Õ¼Ç½ï¿½ï¿½ï¿½
  * nine square sudo panel style
  * @author Desmond
  *
@@ -90,7 +91,7 @@ public class SoduKuFragment extends SherlockFragment {
 		ab.setDisplayHomeAsUpEnabled(false);
 		ab.setDisplayUseLogoEnabled(false);
 		ab.setDisplayShowHomeEnabled(false);
-		ab.setTitle("³¿¼äÈÕ¼Ç");
+		ab.setTitle(R.string.app_name);
         /** 
          * Give some text to display if there is no data. In a real
          * application this would come from a resource.

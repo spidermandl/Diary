@@ -63,6 +63,11 @@
             
         </activity>
         <activity 
+            android:name=".activity.CalanderActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity 
             android:name="com.diary.goal.setting.invalid.RichTextEditorActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"

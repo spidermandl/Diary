@@ -30,6 +30,7 @@ import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.TextWatcher;
+import android.text.style.ScaleXSpan;
 import android.util.AttributeSet;
 import android.util.Log;
 
@@ -62,7 +63,7 @@ public class RichTextEditView extends RichEditTextField implements
 	private static final int SUB_TITLE=1;//标题模式
 	private static final int PLAIN_TEXT=0;//正文模式
 	private static final int INVALID_POS=-1;//无效模式
-	private static final int COMBINING_SPAN_NUM=3;//span组合数量
+	private static final int COMBINING_SPAN_NUM=1;//span组合数量
 
 	public static final int SUBTITLE_SIZE = 90;//小标题尺寸
 	public static final int SUBTITLE_COLOR = 100;//小标题颜色
@@ -164,6 +165,8 @@ public class RichTextEditView extends RichEditTextField implements
 	public void afterTextChanged(Editable s) {
 		Log.e("afterTextChanged", "afterTextChanged");
 		//s.clearSpans();
+		//removeSpans();
+		
 	}
 
 	@Override
@@ -266,6 +269,7 @@ public class RichTextEditView extends RichEditTextField implements
 	 * @param repText 替换字符串
 	 */
 	private void paintAnalysis(int start, int end, CharSequence repText,int repStart,int repEnd){
+
 		updateStatus(start, end, repText, repStart, repEnd);
 		Log.e("array and text ", "--------------------------------"+this.getText().toString());
 		String str="";
@@ -524,13 +528,13 @@ public class RichTextEditView extends RichEditTextField implements
 		switch (type) {
 		case SUB_TITLE:
 			spans[0]=makeSpan(SUBTITLE_COLOR, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-			spans[1]=makeSpan(SUBTITLE_SIZE, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-			spans[2]= makeSpan(BOLD, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			//spans[1]=makeSpan(SUBTITLE_SIZE, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			//spans[2]= makeSpan(BOLD, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			break;
 		default:
 			spans[0]=makeSpan(TEXT_COLOR, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-			spans[1]=makeSpan(TEXT_SIZE, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-			spans[2]= makeSpan(NORMAL, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			//spans[1]=makeSpan(TEXT_SIZE, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			//spans[2]= makeSpan(NORMAL, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			break;
 		}
 		
@@ -540,6 +544,7 @@ public class RichTextEditView extends RichEditTextField implements
 	 * 移除字符串所有格式
 	 */
 	private void removeSpans(){
+		
 		for(ISpan span:editSpans){
 			span.removeSpan(this.getText());
 		}

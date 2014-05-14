@@ -7,13 +7,13 @@ import java.util.Date;
 
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
+import com.diary.goal.setting.activity.CalanderActivity;
 import com.diary.goal.setting.activity.PaperOverviewActivity;
 import com.diary.goal.setting.activity.SudoKuActivity;
 import com.diary.goal.setting.tools.BitmapCustomize;
 import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.tools.Constant.SudoType;
 import com.diary.goal.setting.view.wheel.CalendarWheelView;
-import com.diary.goal.setting.view.wheel.adapters.CalendarWheelAdapter;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -63,8 +63,8 @@ public class PanelView_5 extends PanelView {
 		paint=new Paint();
 		paint.setColor(0xFFFFFFFF);
 		paint.setStyle(Style.STROKE);
-		paint.setAntiAlias(true); // Ïû³ý¾â³Ý   
-		paint.setFlags(Paint.ANTI_ALIAS_FLAG); // Ïû³ý¾â³Ý  
+		paint.setAntiAlias(true); // ï¿½ï¿½ï¿½ï¿½ï¿½   
+		paint.setFlags(Paint.ANTI_ALIAS_FLAG); // ï¿½ï¿½ï¿½ï¿½ï¿½  
 		this.setOnClickListener(null);
 	}
 	
@@ -135,28 +135,27 @@ public class PanelView_5 extends PanelView {
 			public void onClick(View v) {
 				Calendar nextYear = Calendar.getInstance();
 				nextYear.add(Calendar.YEAR, 1);
-//				CalendarPickerView dialogView = (CalendarPickerView) ((Activity) context)
-//						.getLayoutInflater().inflate(R.layout.dialog, null,
-//								false);
-//				dialogView.init(new Date(), nextYear.getTime());
-				CalendarWheelView dialogView = new CalendarWheelView(context);
-				CalendarWheelAdapter adapter=new CalendarWheelAdapter(context);
-				dialogView.setCyclic(true);
-				dialogView.setBackground(0);
-				dialogView.setViewAdapter(adapter);
-				dialogView.setCurrentItem(1);
-				dialogView.setVisibleItems(1);
-				new AlertDialog.Builder(context)
-						.setTitle("I'm a dialog!")
-						.setView(dialogView)
-						.setNeutralButton("Dismiss",
-								new DialogInterface.OnClickListener() {
-									public void onClick(
-											DialogInterface dialogInterface,
-											int i) {
-										dialogInterface.dismiss();
-									}
-								}).create().show();
+//				CalendarWheelView dialogView = new CalendarWheelView(context);
+//				CalendarWheelAdapter adapter=new CalendarWheelAdapter(context);
+//				dialogView.setCyclic(true);
+//				dialogView.setBackground(0);
+//				dialogView.setViewAdapter(adapter);
+//				dialogView.setCurrentItem(1);
+//				dialogView.setVisibleItems(1);
+//				new AlertDialog.Builder(context)
+//						.setTitle("I'm a dialog!")
+//						.setView(dialogView)
+//						.setNeutralButton("Dismiss",
+//								new DialogInterface.OnClickListener() {
+//									public void onClick(
+//											DialogInterface dialogInterface,
+//											int i) {
+//										dialogInterface.dismiss();
+//									}
+//								}).create().show();
+				Intent intent=new Intent();
+				intent.setClass(context, CalanderActivity.class);
+				context.startActivity(intent);
 			}
 		});
 	
