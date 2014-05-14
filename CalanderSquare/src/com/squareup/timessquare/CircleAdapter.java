@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
+import android.util.SparseIntArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -16,12 +17,14 @@ public abstract class CircleAdapter<E> extends BaseAdapter {
 	protected int capacity=12;
     protected CircleLinkList dataLinks;
     protected ListIterator<E> dataIterator;
-    protected int currentCursor=capacity/2;//当前游标
+    /**
+     * 数据绑定map，key为显示view的position
+     */
     protected HashMap<Integer, E> dataMap;
     
     public CircleAdapter() {
 		dataLinks=new CircleLinkList();
-		setDataMap(new HashMap<Integer, E>());
+		dataMap=new HashMap<Integer, E>();
 	}
 	public int getCapacity() {
 		return capacity;
@@ -39,14 +42,6 @@ public abstract class CircleAdapter<E> extends BaseAdapter {
 	public void setDataLinks(CircleLinkList dataLinks) {
 		this.dataLinks = dataLinks;
 		this.dataIterator=this.dataLinks.listIterator();
-	}
-	
-	public int getCurrentCursor() {
-		return currentCursor;
-	}
-	
-	public void setCurrentCursor(int currentCursor) {
-		this.currentCursor = currentCursor;
 	}
 	
 	public HashMap<Integer, E> getDataMap() {

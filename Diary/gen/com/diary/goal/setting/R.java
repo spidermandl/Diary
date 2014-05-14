@@ -1076,8 +1076,6 @@ containing a value of this type.
         public static final int abs__primary_text_disable_only_holo_light=0x7f060012;
         public static final int abs__primary_text_holo_dark=0x7f060013;
         public static final int abs__primary_text_holo_light=0x7f060014;
-        /**  calendar color 
-         */
         public static final int calendar_active_month_bg=0x7f060000;
         public static final int calendar_bg=0x7f060001;
         public static final int calendar_divider=0x7f060002;

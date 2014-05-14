@@ -23,7 +23,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Map.Entry;
 
 
@@ -40,7 +39,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 
 public class CalendarAdapter extends CircleAdapter<MonthDescriptor> {
 
@@ -167,7 +165,7 @@ public class CalendarAdapter extends CircleAdapter<MonthDescriptor> {
 	/**
 	 * 赋值capacity个位置的日期
 	 * @param minCal 插入最小日期
-	 * @param position 划屏位置
+	 * @param position 划屏位置 为区间的中心位置
 	 */
 	private void initCalCapacity(Calendar minCal,int position){
 		for (int i=0;i<capacity;i++) {//总共capacity各月份
@@ -706,7 +704,7 @@ public class CalendarAdapter extends CircleAdapter<MonthDescriptor> {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
-		Log.e("getview", "position "+position);
+		//Log.e("getview", "position "+position);
 		MonthView monthView = (MonthView) convertView;
 		if (monthView == null) {
 			monthView = MonthView.create(parent, inflater,
@@ -731,12 +729,12 @@ public class CalendarAdapter extends CircleAdapter<MonthDescriptor> {
 
 	@Override
 	public void addCapacityBlock(int position) {
-		int gap=position-Integer.MAX_VALUE/2+capacity/2;
-		int gapBlock= gap>0?gap/capacity:gap/capacity-1;
+		int gap=position-Integer.MAX_VALUE/2+capacity/2;//距离第一个区间的第一个位置的距离
+		int gapBlock= gap>=0?gap/capacity:gap/capacity-1;//计算第几个区间
 		Calendar minDay=Calendar.getInstance();
 		minDay.setTime(midCal.getTime());
 		minDay.add(MONTH, gapBlock*capacity-capacity/2);
-		initCalCapacity(minDay,gapBlock*capacity);
+		initCalCapacity(minDay,Integer.MAX_VALUE/2+gapBlock*capacity);
 		
 	}
 
