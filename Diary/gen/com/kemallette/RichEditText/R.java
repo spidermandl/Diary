@@ -32,21 +32,21 @@ public final class R {
 		public static final int testType = 0x7f010006;
 	}
 	public static final class color {
-		public static final int dark_grey = 0x7f06000a;
+		public static final int dark_grey = 0x7f06000c;
 	}
 	public static final class dimen {
-		public static final int bar_length = 0x7f07000c;
-		public static final int bar_pointer_halo_radius = 0x7f07000e;
-		public static final int bar_pointer_radius = 0x7f07000d;
-		public static final int bar_thickness = 0x7f07000b;
-		public static final int color_center_halo_radius = 0x7f070007;
-		public static final int color_center_radius = 0x7f070008;
-		public static final int color_picker_hsvHeight = 0x7f070010;
-		public static final int color_picker_hsvWidth = 0x7f07000f;
-		public static final int color_pointer_halo_radius = 0x7f070009;
-		public static final int color_pointer_radius = 0x7f07000a;
-		public static final int color_wheel_radius = 0x7f070005;
-		public static final int color_wheel_thickness = 0x7f070006;
+		public static final int bar_length = 0x7f07000f;
+		public static final int bar_pointer_halo_radius = 0x7f070011;
+		public static final int bar_pointer_radius = 0x7f070010;
+		public static final int bar_thickness = 0x7f07000e;
+		public static final int color_center_halo_radius = 0x7f07000a;
+		public static final int color_center_radius = 0x7f07000b;
+		public static final int color_picker_hsvHeight = 0x7f070013;
+		public static final int color_picker_hsvWidth = 0x7f070012;
+		public static final int color_pointer_halo_radius = 0x7f07000c;
+		public static final int color_pointer_radius = 0x7f07000d;
+		public static final int color_wheel_radius = 0x7f070008;
+		public static final int color_wheel_thickness = 0x7f070009;
 	}
 	public static final class drawable {
 		public static final int color_picker_arrow_down = 0x7f020075;

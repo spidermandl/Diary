@@ -51,7 +51,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity 
-            android:name=".activity.UnitOverviewActivity"
+            android:name="com.diary.goal.setting.invalid.UnitOverviewActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait">
         </activity>

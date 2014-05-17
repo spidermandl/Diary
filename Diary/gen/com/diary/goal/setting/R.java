@@ -1066,16 +1066,16 @@ containing a value of this type.
         public static final int abs__split_action_bar_is_narrow=0x7f0c0001;
     }
     public static final class color {
-        public static final int abs__background_holo_dark=0x7f06000b;
-        public static final int abs__background_holo_light=0x7f06000c;
-        public static final int abs__bright_foreground_disabled_holo_dark=0x7f06000f;
-        public static final int abs__bright_foreground_disabled_holo_light=0x7f060010;
-        public static final int abs__bright_foreground_holo_dark=0x7f06000d;
-        public static final int abs__bright_foreground_holo_light=0x7f06000e;
-        public static final int abs__primary_text_disable_only_holo_dark=0x7f060011;
-        public static final int abs__primary_text_disable_only_holo_light=0x7f060012;
-        public static final int abs__primary_text_holo_dark=0x7f060013;
-        public static final int abs__primary_text_holo_light=0x7f060014;
+        public static final int abs__background_holo_dark=0x7f06000d;
+        public static final int abs__background_holo_light=0x7f06000e;
+        public static final int abs__bright_foreground_disabled_holo_dark=0x7f060011;
+        public static final int abs__bright_foreground_disabled_holo_light=0x7f060012;
+        public static final int abs__bright_foreground_holo_dark=0x7f06000f;
+        public static final int abs__bright_foreground_holo_light=0x7f060010;
+        public static final int abs__primary_text_disable_only_holo_dark=0x7f060013;
+        public static final int abs__primary_text_disable_only_holo_light=0x7f060014;
+        public static final int abs__primary_text_holo_dark=0x7f060015;
+        public static final int abs__primary_text_holo_light=0x7f060016;
         public static final int calendar_active_month_bg=0x7f060000;
         public static final int calendar_bg=0x7f060001;
         public static final int calendar_divider=0x7f060002;
@@ -1085,9 +1085,11 @@ containing a value of this type.
         public static final int calendar_text_active=0x7f060007;
         public static final int calendar_text_inactive=0x7f060006;
         public static final int calendar_text_selected=0x7f060008;
-        public static final int calendar_text_selector=0x7f060015;
-        public static final int calendar_text_unselectable=0x7f060009;
-        public static final int dark_grey=0x7f06000a;
+        public static final int calendar_text_selector=0x7f060017;
+        public static final int calendar_text_title=0x7f06000a;
+        public static final int calendar_text_unselectable=0x7f06000b;
+        public static final int calendar_title_bg=0x7f060009;
+        public static final int dark_grey=0x7f06000c;
     }
     public static final class dimen {
         /**  Default height of an action bar. 
@@ -1099,7 +1101,7 @@ containing a value of this type.
  Default height of an action bar. 
  Default height of an action bar. 
          */
-        public static final int abs__action_bar_default_height=0x7f070012;
+        public static final int abs__action_bar_default_height=0x7f070015;
         /**  Vertical padding around action bar icons. 
  Vertical padding around action bar icons. 
  Vertical padding around action bar icons. 
@@ -1109,7 +1111,7 @@ containing a value of this type.
  Vertical padding around action bar icons. 
  Vertical padding around action bar icons. 
          */
-        public static final int abs__action_bar_icon_vertical_padding=0x7f070013;
+        public static final int abs__action_bar_icon_vertical_padding=0x7f070016;
         /**  Bottom margin for action bar subtitles 
  Bottom margin for action bar subtitles 
  Bottom margin for action bar subtitles 
@@ -1119,7 +1121,7 @@ containing a value of this type.
  Bottom margin for action bar subtitles 
  Bottom margin for action bar subtitles 
          */
-        public static final int abs__action_bar_subtitle_bottom_margin=0x7f070017;
+        public static final int abs__action_bar_subtitle_bottom_margin=0x7f07001a;
         /**  Text size for action bar subtitles 
  Text size for action bar subtitles 
  Text size for action bar subtitles 
@@ -1129,7 +1131,7 @@ containing a value of this type.
  Text size for action bar subtitles 
  Text size for action bar subtitles 
          */
-        public static final int abs__action_bar_subtitle_text_size=0x7f070015;
+        public static final int abs__action_bar_subtitle_text_size=0x7f070018;
         /**  Top margin for action bar subtitles 
  Top margin for action bar subtitles 
  Top margin for action bar subtitles 
@@ -1139,7 +1141,7 @@ containing a value of this type.
  Top margin for action bar subtitles 
  Top margin for action bar subtitles 
          */
-        public static final int abs__action_bar_subtitle_top_margin=0x7f070016;
+        public static final int abs__action_bar_subtitle_top_margin=0x7f070019;
         /**  Text size for action bar titles 
  Text size for action bar titles 
  Text size for action bar titles 
@@ -1149,73 +1151,76 @@ containing a value of this type.
  Text size for action bar titles 
  Text size for action bar titles 
          */
-        public static final int abs__action_bar_title_text_size=0x7f070014;
+        public static final int abs__action_bar_title_text_size=0x7f070017;
         /**  Minimum width for an action button in the menu area of an action bar 
  Minimum width for an action button in the menu area of an action bar 
  Minimum width for an action button in the menu area of an action bar 
  Minimum width for an action button in the menu area of an action bar 
          */
-        public static final int abs__action_button_min_width=0x7f070018;
+        public static final int abs__action_button_min_width=0x7f07001b;
         /**  The maximum width we would prefer dialogs to be.  0 if there is no
          maximum (let them grow as large as the screen).  Actual values are
          specified for -large and -xlarge configurations. 
          */
-        public static final int abs__config_prefDialogWidth=0x7f070011;
+        public static final int abs__config_prefDialogWidth=0x7f070014;
         /**  The platform's desired minimum size for a dialog's width when it
          is along the major axis (that is the screen is landscape).  This may
          be either a fraction or a dimension. 
          */
-        public static final int abs__dialog_min_width_major=0x7f07001e;
+        public static final int abs__dialog_min_width_major=0x7f070021;
         /**  The platform's desired minimum size for a dialog's width when it
          is along the minor axis (that is the screen is portrait).  This may
          be either a fraction or a dimension. 
          */
-        public static final int abs__dialog_min_width_minor=0x7f07001f;
+        public static final int abs__dialog_min_width_minor=0x7f070022;
         /**  Width of the icon in a dropdown list 
          */
-        public static final int abs__dropdownitem_icon_width=0x7f07001b;
+        public static final int abs__dropdownitem_icon_width=0x7f07001e;
         /**  Text padding for dropdown items 
          */
-        public static final int abs__dropdownitem_text_padding_left=0x7f070019;
+        public static final int abs__dropdownitem_text_padding_left=0x7f07001c;
         /**  Text padding for dropdown items 
          */
-        public static final int abs__dropdownitem_text_padding_right=0x7f07001a;
+        public static final int abs__dropdownitem_text_padding_right=0x7f07001d;
         /**  Preferred width of the search view. 
          */
-        public static final int abs__search_view_preferred_width=0x7f07001d;
+        public static final int abs__search_view_preferred_width=0x7f070020;
         /**  Minimum width of the search view text entry area. 
          */
-        public static final int abs__search_view_text_min_width=0x7f07001c;
-        public static final int bar_length=0x7f07000c;
-        public static final int bar_pointer_halo_radius=0x7f07000e;
-        public static final int bar_pointer_radius=0x7f07000d;
+        public static final int abs__search_view_text_min_width=0x7f07001f;
+        public static final int bar_length=0x7f07000f;
+        public static final int bar_pointer_halo_radius=0x7f070011;
+        public static final int bar_pointer_radius=0x7f070010;
         /**  Standart dimens for the bars 
          */
-        public static final int bar_thickness=0x7f07000b;
-        public static final int brief_edit_paddingbottom=0x7f070024;
-        public static final int brief_edit_paddingdeepleft=0x7f070021;
-        public static final int brief_edit_paddingleft=0x7f070020;
-        public static final int brief_edit_paddingright=0x7f070023;
-        public static final int brief_edit_paddingtop=0x7f070022;
-        public static final int calendar_day_headers_paddingbottom=0x7f070000;
-        public static final int calendar_month_title_bottommargin=0x7f070002;
-        public static final int calendar_month_topmargin=0x7f070001;
-        public static final int calendar_text_medium=0x7f070003;
-        public static final int calendar_text_small=0x7f070004;
-        public static final int color_center_halo_radius=0x7f070007;
-        public static final int color_center_radius=0x7f070008;
-        public static final int color_picker_hsvHeight=0x7f070010;
-        public static final int color_picker_hsvWidth=0x7f07000f;
-        public static final int color_pointer_halo_radius=0x7f070009;
-        public static final int color_pointer_radius=0x7f07000a;
+        public static final int bar_thickness=0x7f07000e;
+        public static final int brief_edit_paddingbottom=0x7f070027;
+        public static final int brief_edit_paddingdeepleft=0x7f070024;
+        public static final int brief_edit_paddingleft=0x7f070023;
+        public static final int brief_edit_paddingright=0x7f070026;
+        public static final int brief_edit_paddingtop=0x7f070025;
+        public static final int calendar_day_headers_paddingbottom=0x7f070001;
+        public static final int calendar_day_headers_paddingtop=0x7f070000;
+        public static final int calendar_month_title_bottommargin=0x7f070003;
+        public static final int calendar_month_title_bottompadding=0x7f070004;
+        public static final int calendar_month_title_toppadding=0x7f070005;
+        public static final int calendar_month_topmargin=0x7f070002;
+        public static final int calendar_text_medium=0x7f070006;
+        public static final int calendar_text_small=0x7f070007;
+        public static final int color_center_halo_radius=0x7f07000a;
+        public static final int color_center_radius=0x7f07000b;
+        public static final int color_picker_hsvHeight=0x7f070013;
+        public static final int color_picker_hsvWidth=0x7f070012;
+        public static final int color_pointer_halo_radius=0x7f07000c;
+        public static final int color_pointer_radius=0x7f07000d;
         /**  <dimen name="color_picker_hsvHeight">220dp</dimen> 
  <dimen name="color_picker_hsvWidth">220dp</dimen> 
  <dimen name="color_picker_hueWidth">30dp</dimen> 
  <dimen name="color_picker_spacer">8dp</dimen> 
  Standart dimens for the color wheel 
          */
-        public static final int color_wheel_radius=0x7f070005;
-        public static final int color_wheel_thickness=0x7f070006;
+        public static final int color_wheel_radius=0x7f070008;
+        public static final int color_wheel_thickness=0x7f070009;
     }
     public static final class drawable {
         public static final int abs__ab_bottom_solid_dark_holo=0x7f020000;
@@ -1548,6 +1553,8 @@ containing a value of this type.
         public static final int next=0x7f0b0072;
         public static final int nocheck=0x7f0b000a;
         public static final int normal=0x7f0b000d;
+        public static final int null_paste=0x7f0b00b0;
+        public static final int null_select_all=0x7f0b00af;
         public static final int numeric=0x7f0b0001;
         public static final int opacityBar=0x7f0b0043;
         public static final int ordered=0x7f0b0096;
@@ -1652,20 +1659,22 @@ containing a value of this type.
         public static final int cwac_richedittext_fonts=0x7f0e0002;
         public static final int cwac_richedittext_lines=0x7f0e0003;
         public static final int cwac_richedittext_main=0x7f0e0004;
+        public static final int richedittext_multi_select=0x7f0e0005;
+        public static final int richedittext_null_select=0x7f0e0006;
     }
     public static final class string {
-        public static final int Apr=0x7f080051;
-        public static final int Aug=0x7f080055;
-        public static final int Dec=0x7f080059;
-        public static final int Feb=0x7f08004f;
-        public static final int Jan=0x7f08004e;
-        public static final int Jul=0x7f080054;
-        public static final int Jun=0x7f080053;
-        public static final int Mar=0x7f080050;
-        public static final int May=0x7f080052;
-        public static final int Nov=0x7f080058;
-        public static final int Oct=0x7f080057;
-        public static final int Sep=0x7f080056;
+        public static final int Apr=0x7f080055;
+        public static final int Aug=0x7f080059;
+        public static final int Dec=0x7f08005d;
+        public static final int Feb=0x7f080053;
+        public static final int Jan=0x7f080052;
+        public static final int Jul=0x7f080058;
+        public static final int Jun=0x7f080057;
+        public static final int Mar=0x7f080054;
+        public static final int May=0x7f080056;
+        public static final int Nov=0x7f08005c;
+        public static final int Oct=0x7f08005b;
+        public static final int Sep=0x7f08005a;
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
          */
         public static final int abs__action_bar_home_description=0x7f080014;
@@ -1705,8 +1714,8 @@ containing a value of this type.
         /**  Description of a share target (both in the list of such or the default share button) in a ShareActionProvider (share UI). [CHAR LIMIT=NONE] 
          */
         public static final int abs__shareactionprovider_share_with_application=0x7f08001b;
-        public static final int address_hint=0x7f08007c;
-        public static final int address_label=0x7f08007b;
+        public static final int address_hint=0x7f080080;
+        public static final int address_label=0x7f08007f;
         public static final int app_name=0x7f080003;
         public static final int bgColor=0x7f080012;
         /**  strings for richedit controller
@@ -1716,21 +1725,21 @@ containing a value of this type.
         public static final int center=0x7f08002f;
         public static final int clear=0x7f080006;
         public static final int clear_text_=0x7f080007;
-        public static final int config_coding=0x7f080046;
-        public static final int config_file=0x7f080045;
-        public static final int custom_empty_error_phone=0x7f08006d;
-        public static final int custom_error_regexp=0x7f080070;
-        public static final int custom_test_error_phone=0x7f08006c;
-        public static final int date=0x7f080040;
-        public static final int day=0x7f08005a;
+        public static final int config_coding=0x7f08004a;
+        public static final int config_file=0x7f080049;
+        public static final int custom_empty_error_phone=0x7f080071;
+        public static final int custom_error_regexp=0x7f080074;
+        public static final int custom_test_error_phone=0x7f080070;
+        public static final int date=0x7f080044;
+        public static final int day=0x7f08005e;
         public static final int day_name_format=0x7f080000;
         public static final int edit_back=0x7f080037;
         public static final int edit_dismiss=0x7f08003a;
         public static final int edit_save=0x7f080036;
         public static final int effects=0x7f08002a;
-        public static final int email_hint=0x7f08007f;
-        public static final int email_label=0x7f080080;
-        public static final int emailorcredit_title=0x7f080076;
+        public static final int email_hint=0x7f080083;
+        public static final int email_label=0x7f080084;
+        public static final int emailorcredit_title=0x7f08007a;
         public static final int error_creditcard_number_not_valid=0x7f08000d;
         public static final int error_domain_not_valid=0x7f08000f;
         public static final int error_email_address_not_valid=0x7f08000c;
@@ -1739,64 +1748,68 @@ containing a value of this type.
         public static final int error_only_numeric_digits_allowed=0x7f080008;
         public static final int error_only_standard_letters_are_allowed=0x7f08000a;
         public static final int error_phone_not_valid=0x7f08000e;
-        public static final int error_programmatic=0x7f080073;
+        public static final int error_programmatic=0x7f080077;
         public static final int error_this_field_cannot_contain_special_character=0x7f080009;
         public static final int error_url_not_valid=0x7f080011;
-        public static final int explanation_allow_empty=0x7f08006e;
-        public static final int explanation_alpha=0x7f08005c;
-        public static final int explanation_creditcard=0x7f080060;
-        public static final int explanation_domainname=0x7f080064;
-        public static final int explanation_email=0x7f08005e;
-        public static final int explanation_emailorcredit=0x7f080078;
-        public static final int explanation_ipaddress=0x7f080066;
-        public static final int explanation_nocheck=0x7f08006a;
-        public static final int explanation_numeric=0x7f08005b;
-        public static final int explanation_phone=0x7f080062;
-        public static final int explanation_phone_custommmessages=0x7f08006b;
-        public static final int explanation_programatic=0x7f080074;
-        public static final int explanation_regexp=0x7f080071;
-        public static final int explanation_weburl=0x7f080068;
-        public static final int family=0x7f08003e;
+        public static final int explanation_allow_empty=0x7f080072;
+        public static final int explanation_alpha=0x7f080060;
+        public static final int explanation_creditcard=0x7f080064;
+        public static final int explanation_domainname=0x7f080068;
+        public static final int explanation_email=0x7f080062;
+        public static final int explanation_emailorcredit=0x7f08007c;
+        public static final int explanation_ipaddress=0x7f08006a;
+        public static final int explanation_nocheck=0x7f08006e;
+        public static final int explanation_numeric=0x7f08005f;
+        public static final int explanation_phone=0x7f080066;
+        public static final int explanation_phone_custommmessages=0x7f08006f;
+        public static final int explanation_programatic=0x7f080078;
+        public static final int explanation_regexp=0x7f080075;
+        public static final int explanation_weburl=0x7f08006c;
+        public static final int family=0x7f080042;
         public static final int fgColor=0x7f080013;
-        public static final int finance=0x7f08003d;
+        public static final int finance=0x7f080041;
         public static final int fonts=0x7f08002b;
         public static final int format=0x7f08002c;
-        public static final int full_name=0x7f080079;
-        public static final int full_name_hint=0x7f08007a;
-        public static final int healthy=0x7f080042;
-        public static final int hint_creditcard=0x7f08005f;
-        public static final int hint_domainname=0x7f080063;
-        public static final int hint_email=0x7f08005d;
-        public static final int hint_emailorcredit=0x7f080077;
-        public static final int hint_ipaddress=0x7f080065;
-        public static final int hint_nocheck=0x7f080069;
-        public static final int hint_phone=0x7f080061;
-        public static final int hint_programmatic=0x7f080072;
-        public static final int hint_regexp=0x7f08006f;
-        public static final int hint_weburl=0x7f080067;
-        public static final int innovation=0x7f08003f;
+        public static final int full_name=0x7f08007d;
+        public static final int full_name_hint=0x7f08007e;
+        public static final int healthy=0x7f080046;
+        public static final int hint_creditcard=0x7f080063;
+        public static final int hint_domainname=0x7f080067;
+        public static final int hint_email=0x7f080061;
+        public static final int hint_emailorcredit=0x7f08007b;
+        public static final int hint_ipaddress=0x7f080069;
+        public static final int hint_nocheck=0x7f08006d;
+        public static final int hint_phone=0x7f080065;
+        public static final int hint_programmatic=0x7f080076;
+        public static final int hint_regexp=0x7f080073;
+        public static final int hint_weburl=0x7f08006b;
+        public static final int innovation=0x7f080043;
         public static final int invalid_date=0x7f080001;
-        public static final int invalid_email_message=0x7f080085;
-        public static final int invalid_fullname_message=0x7f080082;
-        public static final int invalid_phoneno_message=0x7f080081;
+        public static final int invalid_email_message=0x7f080089;
+        public static final int invalid_fullname_message=0x7f080086;
+        public static final int invalid_phoneno_message=0x7f080085;
         public static final int italic=0x7f080024;
         public static final int journery_description=0x7f080039;
         public static final int lines=0x7f08002d;
         public static final int menu_settings=0x7f080021;
-        public static final int mit=0x7f080041;
+        public static final int mit=0x7f080045;
         public static final int mono=0x7f080029;
         public static final int month_name_format=0x7f080002;
         public static final int normal=0x7f08002e;
         public static final int opposite=0x7f080030;
-        public static final int personal=0x7f080043;
-        public static final int phone_number_hint=0x7f08007e;
-        public static final int phone_number_label=0x7f08007d;
-        public static final int programmatic_title=0x7f080075;
-        public static final int required_fullname_message=0x7f080084;
-        public static final int required_phoneno_message=0x7f080083;
+        public static final int personal=0x7f080047;
+        public static final int phone_number_hint=0x7f080082;
+        public static final int phone_number_label=0x7f080081;
+        public static final int programmatic_title=0x7f080079;
+        public static final int required_fullname_message=0x7f080088;
+        public static final int required_phoneno_message=0x7f080087;
+        public static final int richtext_copy=0x7f08003e;
+        public static final int richtext_cut=0x7f08003d;
+        public static final int richtext_paste=0x7f08003f;
+        public static final int richtext_select_all=0x7f08003c;
         public static final int sans=0x7f080027;
         public static final int serif=0x7f080028;
-        public static final int soul=0x7f080044;
+        public static final int soul=0x7f080048;
         public static final int start_jounery=0x7f080038;
         public static final int strikethrough=0x7f080026;
         public static final int sub_category_operation=0x7f08003b;
@@ -1812,17 +1825,17 @@ containing a value of this type.
         public static final int tab_host_view=0x7f080033;
         public static final int title_activity_main=0x7f080022;
         public static final int underline=0x7f080025;
-        public static final int week_1=0x7f080047;
-        public static final int week_2=0x7f080048;
-        public static final int week_3=0x7f080049;
-        public static final int week_4=0x7f08004a;
-        public static final int week_5=0x7f08004b;
-        public static final int week_6=0x7f08004c;
-        public static final int week_7=0x7f08004d;
+        public static final int week_1=0x7f08004b;
+        public static final int week_2=0x7f08004c;
+        public static final int week_3=0x7f08004d;
+        public static final int week_4=0x7f08004e;
+        public static final int week_5=0x7f08004f;
+        public static final int week_6=0x7f080050;
+        public static final int week_7=0x7f080051;
         /**  config string 
  config string 
          */
-        public static final int work=0x7f08003c;
+        public static final int work=0x7f080040;
     }
     public static final class style {
         /** 

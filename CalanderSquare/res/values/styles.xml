@@ -2,8 +2,9 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
   <style name="CalendarTitle">
     <item name="android:textSize">@dimen/calendar_text_medium</item>
-    <item name="android:textColor">@color/calendar_text_active</item>
+    <item name="android:textColor">@color/calendar_text_title</item>
     <item name="android:textStyle">bold</item>
+    <item name="android:background">@color/calendar_title_bg</item>
   </style>
 
   <style name="CalendarCell">

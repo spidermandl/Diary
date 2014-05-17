@@ -4,7 +4,9 @@ import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.activity.DiaryEditActivity;
 import com.diary.goal.setting.activity.MainFrameActivity;
 import com.diary.goal.setting.activity.SudoKuActivity;
-import com.diary.goal.setting.activity.UnitOverviewActivity;
+import com.diary.goal.setting.invalid.RichTextEditorActivity;
+import com.diary.goal.setting.invalid.UnitOverviewActivity;
+import com.diary.goal.setting.richtext.RichTextEditView;
 import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.tools.Constant.SudoType;
 
@@ -97,7 +99,7 @@ public abstract class PanelView extends ViewGroup implements View.OnClickListene
 		if(DiaryApplication.getInstance().getDateCursor()<=0){
 			DiaryApplication.getInstance().getDateModel().setType(sudoType);
 			Intent intent=new Intent();
-			//intent.setClass(context, UnitOverviewActivity.class);
+			//intent.setClass(context, RichTextEditorActivity.class);
 			intent.setClass(context, DiaryEditActivity.class);
 			((Activity)context).startActivityForResult(intent, MainFrameActivity.REQUEST_UNITOVERVIEW);
 		}

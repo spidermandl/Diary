@@ -1,4 +1,4 @@
-package com.diary.goal.setting.activity;
+package com.diary.goal.setting.invalid;
 
 import java.util.Calendar;
 

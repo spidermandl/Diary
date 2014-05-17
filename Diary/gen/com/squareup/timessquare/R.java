@@ -25,15 +25,20 @@ public final class R {
 		public static final int calendar_text_active = 0x7f060007;
 		public static final int calendar_text_inactive = 0x7f060006;
 		public static final int calendar_text_selected = 0x7f060008;
-		public static final int calendar_text_selector = 0x7f060015;
-		public static final int calendar_text_unselectable = 0x7f060009;
+		public static final int calendar_text_selector = 0x7f060017;
+		public static final int calendar_text_title = 0x7f06000a;
+		public static final int calendar_text_unselectable = 0x7f06000b;
+		public static final int calendar_title_bg = 0x7f060009;
 	}
 	public static final class dimen {
-		public static final int calendar_day_headers_paddingbottom = 0x7f070000;
-		public static final int calendar_month_title_bottommargin = 0x7f070002;
-		public static final int calendar_month_topmargin = 0x7f070001;
-		public static final int calendar_text_medium = 0x7f070003;
-		public static final int calendar_text_small = 0x7f070004;
+		public static final int calendar_day_headers_paddingbottom = 0x7f070001;
+		public static final int calendar_day_headers_paddingtop = 0x7f070000;
+		public static final int calendar_month_title_bottommargin = 0x7f070003;
+		public static final int calendar_month_title_bottompadding = 0x7f070004;
+		public static final int calendar_month_title_toppadding = 0x7f070005;
+		public static final int calendar_month_topmargin = 0x7f070002;
+		public static final int calendar_text_medium = 0x7f070006;
+		public static final int calendar_text_small = 0x7f070007;
 	}
 	public static final class drawable {
 		public static final int calendar_bg_selector = 0x7f020073;

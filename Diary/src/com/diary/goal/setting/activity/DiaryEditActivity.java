@@ -40,11 +40,12 @@ public class DiaryEditActivity extends SherlockActivity {
 	
 	protected void initViews(){
 		final ActionBar ab = getSupportActionBar();
-		
 		ab.setDisplayHomeAsUpEnabled(true);
-		ab.setDisplayUseLogoEnabled(false);
-		ab.setDisplayShowHomeEnabled(false);
-		ab.setTitle(R.string.edit_back);
+		ab.setDisplayShowTitleEnabled(false);
+//		ab.setDisplayHomeAsUpEnabled(true);
+//		ab.setDisplayUseLogoEnabled(false);
+//		ab.setDisplayShowHomeEnabled(false);
+//		ab.setTitle(R.string.edit_back);
 		
 		
 		editViews[0]=(RichTextEditView)findViewById(R.id.diary_content_1);
@@ -82,6 +83,7 @@ public class DiaryEditActivity extends SherlockActivity {
                 	subtitles.append("\r\n");  
                 }  
                 editViews[main_index].setText(subtitles.toString());
+                //editViews[main_index].enableActionModes(true);
                 main_index++;
             } 
 			
@@ -97,7 +99,7 @@ public class DiaryEditActivity extends SherlockActivity {
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			this.finish();
-			this.overridePendingTransition(R.anim.left_enter, R.anim.right_exit);
+			//this.overridePendingTransition(R.anim.left_enter, R.anim.right_exit);
 			break;
 		case 1:
 			//saveEdit();

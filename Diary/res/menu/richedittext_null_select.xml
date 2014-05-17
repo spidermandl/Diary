@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <item
+    android:id="@+id/null_select_all"
+    android:showAsAction="always|withText"
+    android:title="@string/richtext_select_all">
+  </item>
+
+  <item
+    android:id="@+id/null_paste"
+    android:showAsAction="always|withText"
+    android:title="@string/richtext_paste">
+  </item>
+  
+</menu>

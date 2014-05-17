@@ -1,0 +1,23 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+<!--  <item
+    android:id="@+id/multi_select_all"
+    android:title="@string/richtext_select_all">
+  </item>
+
+  <item
+    android:id="@+id/multi_cut"
+    android:title="@string/richtext_cut">
+  </item>
+
+  <item
+    android:id="@+id/multi_copy"
+    android:title="@string/richtext_copy">
+  </item>
+  
+  <item
+    android:id="@+id/multi_paste"
+    android:title="@string/richtext_paste">
+  </item> -->
+  
+</menu>

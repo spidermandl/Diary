@@ -18,6 +18,7 @@ public class CalanderActivity extends SherlockActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
+		//setTheme(R.style.Theme_Sherlock_Light);
 		super.onCreate(savedInstanceState);
 		
 		viewFlow=new ViewFlow(this);
@@ -30,9 +31,10 @@ public class CalanderActivity extends SherlockActivity {
 		final ActionBar ab = getSupportActionBar();
 		
 		ab.setDisplayHomeAsUpEnabled(true);
-		ab.setDisplayUseLogoEnabled(false);
-		ab.setDisplayShowHomeEnabled(false);
-		ab.setTitle(R.string.edit_back);
+		ab.setDisplayShowTitleEnabled(false);
+//		ab.setDisplayUseLogoEnabled(true);
+//		ab.setDisplayShowHomeEnabled(false);
+		//ab.setTitle(R.string.edit_back);
 	}
 	
 	@Override
@@ -41,7 +43,7 @@ public class CalanderActivity extends SherlockActivity {
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			this.finish();
-			this.overridePendingTransition(R.anim.left_enter, R.anim.right_exit);
+			//this.overridePendingTransition(R.anim.left_enter, R.anim.right_exit);
 			break;
 		case 1:
 			this.finish();

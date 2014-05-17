@@ -38,6 +38,11 @@
 	<string name="edit_dismiss">Discard</string>
 	<string name="sub_category_operation">operation</string>
 	
+	<string name="richtext_select_all">All</string>
+	<string name="richtext_cut">Cut</string>
+	<string name="richtext_copy">Copy</string>
+	<string name="richtext_paste">Paste</string>
+	
 	<!-- config string -->
 	<string name="work">work</string>
 	<string name="finance">finance</string>
