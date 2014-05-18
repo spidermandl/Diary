@@ -1,6 +1,7 @@
 eclipse.preferences.version=1
 encoding//src/com/diary/goal/setting/activity/DiaryEditActivity.java=UTF-8
 encoding//src/com/diary/goal/setting/adapter/FrontPageAdapter.java=UTF-8
+encoding//src/com/diary/goal/setting/richtext/DiaryValidator.java=UTF-8
 encoding//src/com/diary/goal/setting/richtext/RichTextEditView.java=UTF-8
 encoding//src/com/diary/goal/setting/view/CircleFlowIndicator.java=UTF-8
 encoding/<project>=UTF-8

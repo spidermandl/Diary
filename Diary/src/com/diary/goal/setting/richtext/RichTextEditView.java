@@ -19,6 +19,7 @@ import com.kemallette.RichEditText.Text.TextStyleSpan;
 import com.kemallette.RichEditText.Text.TextSubscriptSpan;
 import com.kemallette.RichEditText.Text.TextSuperscriptSpan;
 import com.kemallette.RichEditText.Text.UnderliningSpan;
+import com.kemallette.RichEditText.Validations.Validator;
 import com.kemallette.RichEditText.Widget.DefaultEditTextValidator;
 import com.kemallette.RichEditText.Widget.EditTextValidator;
 import com.kemallette.RichEditText.Widget.RichEditTextField;
@@ -42,6 +43,7 @@ import android.text.style.ScaleXSpan;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.widget.EditText;
 
 public class RichTextEditView extends RichEditTextField implements
 		RichTextWatcher, TextWatcher, SelectionChangeListener, SpanTypes,
@@ -75,7 +77,7 @@ public class RichTextEditView extends RichEditTextField implements
 	private static final int SUB_TITLE = 1;// 标题模式
 	private static final int PLAIN_TEXT = 0;// 正文模式
 	private static final int INVALID_POS = -1;// 无效模式
-	private static final int COMBINING_SPAN_NUM = 1;// span组合数量
+	private static final int COMBINING_SPAN_NUM = 2;// span组合数量
 
 	public static final int SUBTITLE_SIZE = 90;// 小标题尺寸
 	public static final int SUBTITLE_COLOR = 100;// 小标题颜色
@@ -101,6 +103,7 @@ public class RichTextEditView extends RichEditTextField implements
 	public RichTextEditView(Context context, AttributeSet attrs) {
 
 		this(context, attrs, -1);
+		
 
 	}
 
@@ -136,9 +139,39 @@ public class RichTextEditView extends RichEditTextField implements
 
 	}
 
+	/**
+	 * Add a validator to this RichEditText. The validator will be added in the
+	 * queue of the current validators.
+	 * 
+	 * @param theValidator
+	 * @throws IllegalArgumentException
+	 *             if the validator is null
+	 */
+	public void addValidator(Validator theValidator)
+			throws IllegalArgumentException {
+
+		editTextValidator.addValidator(theValidator);
+	}
+
+	public EditTextValidator getEditTextValidator() {
+
+		return editTextValidator;
+	}
+
 	public void setEditTextValidator(EditTextValidator editTextValidator) {
 
 		this.editTextValidator = editTextValidator;
+	}
+	
+	/**
+	 * Calling *isValid()* will cause the EditText to go through
+	 * customValidators and call {@link #Validator.isValid(EditText)}
+	 * 
+	 * @return true if the validity passes false otherwise.
+	 */
+	public boolean isValid() {
+
+		return editTextValidator.isValid();
 	}
 
 	@Override
@@ -217,6 +250,7 @@ public class RichTextEditView extends RichEditTextField implements
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
 			if (forceActionMode && mainMode != null){// && start != end) {
 				postDelayed(new Runnable() {
+					@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 					public void run() {
 						if (!actionModeIsShowing) {
 							startActionMode(mainMode);
@@ -337,12 +371,19 @@ public class RichTextEditView extends RichEditTextField implements
 	 */
 	private void paintAnalysis(int start, int end, CharSequence repText,
 			int repStart, int repEnd) {
-        if(repText!=null&&repText.length()>0){
-			Editable reptEditable=(Editable)repText;
-			//reptEditable.clearSpans();
-			SpanUtil.reApplySpan(makeSpan(SUBTITLE_COLOR, repStart, repEnd,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE), reptEditable);
-			SpanUtil.reApplySpan(makeSpan(NORMAL, repStart, repEnd,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE), reptEditable);
-        }
+//        if(repText!=null&&repText.length()>0&&repText instanceof Editable){
+//			Editable reptEditable=(Editable)repText;
+//			//reptEditable.clearSpans();
+////			ISpan[] spans=createFixedStyleSpans(PLAIN_TEXT, repStart, repEnd);
+////			if (spans != null) {
+////				for (ISpan span : spans) {
+////					editSpans.add(span);
+////					SpanUtil.reApplySpan(span, reptEditable);
+////				}
+////			}
+//        }
+		//SpanUtil.reApplySpan(makeSpan(TEXT_COLOR, start+repStart, start+repEnd,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE),this.getEditableText());
+		//SpanUtil.reApplySpan(makeSpan(NORMAL, start+repStart, start+repEnd,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE), this.getEditableText());
 		
 		updateStatus(start, end, repText, repStart, repEnd);
 		Log.e("array and text ", "--------------------------------"
@@ -619,19 +660,9 @@ public class RichTextEditView extends RichEditTextField implements
 				}
 				spans = null;
 				if (status == editState.get(i) && i == lastPosition) {// 最后一个字符，状态没有发生改变
-					spans =
-					// editState.get(end)==SUB_TITLE?makeSpan(SUBTITLE_COLOR,
-					// start, end+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE):
-					// makeSpan(NORMAL, start, end+1,
-					// Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-					createFixedStyleSpans(editState.get(end), start, end + 1);
+					spans = createFixedStyleSpans(editState.get(end), start, end + 1);
 				} else if (status != editState.get(i)) {// 字符状态发生改变
-					spans =
-					// editState.get(end-1)==SUB_TITLE?makeSpan(SUBTITLE_COLOR,
-					// start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE):
-					// makeSpan(NORMAL, start, end,
-					// Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-					createFixedStyleSpans(editState.get(end - 1), start, end);
+					spans = createFixedStyleSpans(editState.get(end - 1), start, end);
 					start = end;
 				}
 
@@ -647,6 +678,13 @@ public class RichTextEditView extends RichEditTextField implements
 		}
 	}
 
+	/**
+	 * 产生固定样式的字体,如标题样式，正文样式
+	 * @param type
+	 * @param start
+	 * @param end
+	 * @return
+	 */
 	private ISpan[] createFixedStyleSpans(int type, int start, int end) {
 		ISpan[] spans = new ISpan[COMBINING_SPAN_NUM];
 		switch (type) {
@@ -655,16 +693,16 @@ public class RichTextEditView extends RichEditTextField implements
 					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			// spans[1]=makeSpan(SUBTITLE_SIZE, start, end,
 			// Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-			// spans[2]= makeSpan(BOLD, start, end,
-			// Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			 spans[1]= makeSpan(BOLD, start, end,
+			 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			break;
 		default:
 			spans[0] = makeSpan(TEXT_COLOR, start, end,
 					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			// spans[1]=makeSpan(TEXT_SIZE, start, end,
 			// Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-			// spans[2]= makeSpan(NORMAL, start, end,
-			// Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			 spans[1]= makeSpan(NORMAL, start, end,
+			 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			break;
 		}
 
@@ -733,7 +771,9 @@ public class RichTextEditView extends RichEditTextField implements
 
 		return null;
 	}
-
+/*************************************************************************************************
+ * tool bar part
+ *************************************************************************************************/
 	private boolean isSelectionChanging = false;
 	private boolean actionModeIsShowing = false;
 	private EditorActionModeCallback.Native mainMode = null;
