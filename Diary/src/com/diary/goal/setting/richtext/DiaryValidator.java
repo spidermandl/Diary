@@ -1,5 +1,6 @@
 package com.diary.goal.setting.richtext;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -54,10 +55,31 @@ public class DiaryValidator extends PatternValidator {
 		// TODO Auto-generated method stub
 		boolean correct= super.isValid(et);
 		if(this.pattern!=null&&!correct){//将匹配结果分割开
-			Matcher match = this.pattern.matcher(et.getText());
-			boolean at=match.lookingAt();
-			String firstmatch=match.group();
-			DiaryApplication.getInstance().setSyntaxError(this.pattern.split(et.getText(),-10));
+			Matcher matcher = this.pattern.matcher(et.getText());
+			ArrayList<Integer> errors=new ArrayList<Integer>();
+			int count=0;
+			while(matcher.find()) {
+				int start=matcher.start();
+				int end=matcher.end();
+				if(start==end){
+					continue;
+				}
+				if(count!=0&&start!=0){
+					errors.add(start);
+					count++;
+				}
+				if(count==0&&start!=0){
+					errors.add(0);
+					errors.add(start);
+					count=count+2;
+				}
+
+				errors.add(end);
+				count++;
+				
+			}
+			errors.remove(errors.size()-1);
+			DiaryApplication.getInstance().setSyntaxError(errors.toArray(new Integer[0]));
 		}
 		return correct;
 	}

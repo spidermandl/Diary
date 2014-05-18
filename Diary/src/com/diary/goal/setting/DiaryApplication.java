@@ -67,12 +67,13 @@ public class DiaryApplication extends Application {
 	
 	/**
 	 * 日记语法检测的错误信息
+	 * 记录错误字符的位置位置
 	 */
-	private String[] errorArray;
-	public String[] getSyntaxError(){
+	private Integer[] errorArray;
+	public Integer[] getSyntaxError(){
 		return errorArray;
 	}
-	public void setSyntaxError(String[] errors){
+	public void setSyntaxError(Integer[] errors){
 		errorArray=errors;
 	}
 

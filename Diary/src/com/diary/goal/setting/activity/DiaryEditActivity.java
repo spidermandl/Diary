@@ -118,7 +118,8 @@ public class DiaryEditActivity extends SherlockActivity {
 		boolean hasError=false;
 		for (int i=0;i<8;i++){
 			if(!editViews[i].isValid()){
-				String[] errors=DiaryApplication.getInstance().getSyntaxError();
+				Integer[] errors=DiaryApplication.getInstance().getSyntaxError();
+				editViews[i].updateErrorSpans(errors);
 				hasError=true;
 				break;
 			}

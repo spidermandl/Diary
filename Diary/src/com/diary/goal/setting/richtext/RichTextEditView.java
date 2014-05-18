@@ -76,6 +76,7 @@ public class RichTextEditView extends RichEditTextField implements
 
 	private static final int SUB_TITLE = 1;// 标题模式
 	private static final int PLAIN_TEXT = 0;// 正文模式
+	private static final int ERROR_TEXT =2;//语法错误文本背景
 	private static final int INVALID_POS = -1;// 无效模式
 	private static final int COMBINING_SPAN_NUM = 2;// span组合数量
 
@@ -83,6 +84,7 @@ public class RichTextEditView extends RichEditTextField implements
 	public static final int SUBTITLE_COLOR = 100;// 小标题颜色
 	public static final int TEXT_SIZE = 110;// 正文尺寸
 	public static final int TEXT_COLOR = 120;// 正文颜色
+	public static final int ERROR_BACKGROUND_COLOR=130;//
 
 	private static final char SUB_TITLE_LEFT = '[';
 	private static final char SUB_TITLE_RIGHT = ']';
@@ -645,12 +647,7 @@ public class RichTextEditView extends RichEditTextField implements
 			} else {
 				ISpan[] spans;
 				if (status != editState.get(i) && i == lastPosition) {// 最后一个字符，且状态发生改变
-					spans =
-					// editState.get(i)==SUB_TITLE?makeSpan(SUBTITLE_COLOR, i,
-					// i+1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE):
-					// makeSpan(NORMAL, i, i+1,
-					// Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-					createFixedStyleSpans(editState.get(i), i, i + 1);
+					spans = createFixedStyleSpans(editState.get(i), i, i + 1);
 					if (spans != null) {
 						for (ISpan span : spans) {
 							editSpans.add(span);
@@ -677,7 +674,24 @@ public class RichTextEditView extends RichEditTextField implements
 			}
 		}
 	}
-
+    /**
+     * 为语法错误文字加背景标注
+     * @param errorPos
+     */
+	public void updateErrorSpans(Integer[] errorPos){
+		for (int i=0;i<errorPos.length;){
+			ISpan[] spans = createFixedStyleSpans(ERROR_TEXT, errorPos[i],errorPos[i + 1]);
+			i=i+2;
+			if (spans != null) {
+				for (ISpan span : spans) {
+					if(span!=null){
+						editSpans.add(span);
+						SpanUtil.reApplySpan(span, this.getText());
+					}
+				}
+			}
+		}
+	}
 	/**
 	 * 产生固定样式的字体,如标题样式，正文样式
 	 * @param type
@@ -695,6 +709,12 @@ public class RichTextEditView extends RichEditTextField implements
 			// Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			 spans[1]= makeSpan(BOLD, start, end,
 			 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			break;
+		case ERROR_TEXT:
+			spans[0] = makeSpan(TEXT_COLOR, start, end,
+					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			spans[1]=makeSpan(ERROR_BACKGROUND_COLOR, start, end,
+					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			break;
 		default:
 			spans[0] = makeSpan(TEXT_COLOR, start, end,
@@ -715,7 +735,8 @@ public class RichTextEditView extends RichEditTextField implements
 	private void removeSpans() {
 
 		for (ISpan span : editSpans) {
-			span.removeSpan(this.getText());
+			if(span!=null)
+				span.removeSpan(this.getText());
 		}
 		editSpans.clear();
 	}
@@ -765,6 +786,8 @@ public class RichTextEditView extends RichEditTextField implements
 			return new SizeSpan((1.0f), start, end, flag);
 		case TEXT_COLOR:
 			return new TextForgroundColorSpan(start, end, flag, 0xFF000000);
+		case ERROR_BACKGROUND_COLOR:
+			return new TextBackgroundColorSpan(start, end, flag, 0xFFFF0000);//0xFF555555);
 		case OL:
 			break;
 		}
