@@ -11,6 +11,7 @@ import com.diary.goal.setting.R;
  */
 public class Constant {
 
+	public static String FLURRY_KEY="YMY4T7WMFCYVP3R5SS7H";
 	/**
 	 * 9 sudo enum config
 	 */
@@ -203,7 +204,6 @@ public class Constant {
 		}
 	}
 	
-	public static String FLURRY_KEY="YMY4T7WMFCYVP3R5SS7H";
 	/**string Dic*/
 	public final static  Map<String, Integer> stringDict=new HashMap<String, Integer>(){{
 		put(SudoType.getTypeString(SudoType.SUDO_1), SudoType.SUDO_1.getResString());

@@ -8,17 +8,25 @@ import org.json.JSONObject;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
+import com.diary.goal.setting.richtext.DiaryValidator;
 import com.diary.goal.setting.richtext.RichTextEditView;
+import com.diary.goal.setting.tools.Constant.SudoType;
 
+import android.R.string;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
 
 public class DiaryEditActivity extends SherlockActivity {
 
-    private static final String TAMPLATE="{\"健康\":[\"跑步\",\"身体\",\"饮食\",\"感悟\"]," +
+	public static final String SEQUENCE_NAME="title_order";
+    private static final String TAMPLATE="{" +
+    		"\""+SEQUENCE_NAME+"\":[\"健康\",\"修养\",\"心灵\",\"工作\",\"人脉\",\"财富\",\"创意\",\"MIT\"]," +
+    		"\"健康\":[\"跑步\",\"身体\",\"饮食\",\"感悟\"]," +
     		"\"修养\":[\"学习\",\"读书\",\"外语\",\"感悟\"]," +
     		"\"心灵\":[\"感恩\",\"成功\",\"感悟\"]," +
     		"\"工作\":[\"效率\",\"进步\"]," +
@@ -35,9 +43,20 @@ public class DiaryEditActivity extends SherlockActivity {
 		setContentView(R.layout.diary_edit);
 
 		initViews();
+		initFunctionality();
 		super.onCreate(savedInstanceState);
 	}
 	
+	private void initFunctionality() {
+		int type=DiaryApplication.getInstance().getDateModel().getType().getType();
+		editViews[type>5?type-2:type-1].requestFocus();
+		for (int i=0;i<8;i++){
+			editViews[i].addValidator(
+					new DiaryValidator("sytax error", DiaryValidator.getSubTitlePattern()));
+		}
+		
+	}
+
 	protected void initViews(){
 		final ActionBar ab = getSupportActionBar();
 		ab.setDisplayHomeAsUpEnabled(true);
@@ -68,10 +87,10 @@ public class DiaryEditActivity extends SherlockActivity {
 		
 		try {
 			JSONObject tamplate=new JSONObject(TAMPLATE);
-			Iterator<String> it = tamplate.keys();  
+			JSONArray titles=tamplate.getJSONArray(SEQUENCE_NAME);
 			int main_index=0;
-            while(it.hasNext()){//遍历JSONObject  
-            	String mainTitle=it.next();
+            for(int k=0;k<titles.length();k++){//遍历title字段
+            	String mainTitle=titles.getString(k);
             	JSONArray array=tamplate.getJSONArray(mainTitle);
             	mainTitles[main_index].setText("{"+mainTitle+"}");
             	int length = array.length();  
@@ -92,6 +111,31 @@ public class DiaryEditActivity extends SherlockActivity {
 			e.printStackTrace();
 		}
 	}
+	/**
+	 * 检测日记语法，并且保存正确日记
+	 */
+	private void saveDiary(){
+		boolean hasError=false;
+		for (int i=0;i<8;i++){
+			if(!editViews[i].isValid()){
+				Integer[] errors=DiaryApplication.getInstance().getSyntaxError();
+				editViews[i].updateErrorSpans(errors);
+				hasError=true;
+				break;
+			}
+		}
+		if(!hasError){
+			
+		}
+	}
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add(0, R.string.edit_save, 1, R.string.edit_save)// add("Save")
+		    .setIcon(R.drawable.save)//new BitmapDrawable(BitmapCustomize.customizePicture(this, R.drawable.save,0,0,false)))
+		    .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+
+		return true;
+	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -101,10 +145,13 @@ public class DiaryEditActivity extends SherlockActivity {
 			this.finish();
 			//this.overridePendingTransition(R.anim.left_enter, R.anim.right_exit);
 			break;
+		case R.string.edit_save:
+			this.saveDiary();
+			break;
 		case 1:
-			//saveEdit();
 			this.finish();
 			break;
+			
 		default:
 			break;
 		}

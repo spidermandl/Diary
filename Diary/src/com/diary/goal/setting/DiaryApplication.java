@@ -64,6 +64,18 @@ public class DiaryApplication extends Application {
 	 */
 	private boolean reverseOrientation=false;
 	private static DiaryApplication instance;
+	
+	/**
+	 * 日记语法检测的错误信息
+	 * 记录错误字符的位置位置
+	 */
+	private Integer[] errorArray;
+	public Integer[] getSyntaxError(){
+		return errorArray;
+	}
+	public void setSyntaxError(Integer[] errors){
+		errorArray=errors;
+	}
 
 	/**
 	 * store bitmap cache for accessing UI resource
