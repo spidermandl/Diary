@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:id="@+id/relativelayout"
+	>
+	<com.test.MyEditText
+		android:id="@+id/myEditText"
+		android:background="#030303"
+		android:textColor="#FFFFFF"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:text="@string/hello"
+		android:gravity="top|left" />
+	<ImageView
+		android:visibility="gone"
+		android:src="@drawable/imageview_fenxiang_start"
+		android:layout_width="wrap_content"
+		android:id="@+id/imageViewStart"
+		android:layout_height="wrap_content"></ImageView>
+	<ImageView
+		android:visibility="gone"
+		android:src="@drawable/imageview_fenxiang_end"
+		android:layout_width="wrap_content"
+		android:id="@+id/imageViewEnd"
+		android:layout_height="wrap_content"></ImageView>
+</RelativeLayout>

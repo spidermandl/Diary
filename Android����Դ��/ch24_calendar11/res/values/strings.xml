@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="hello">Hello World, Main</string>
+	<string name="recordremind_name">记录信息</string>
+	<string name="remindsetting_name">提醒设置</string>
+
+	<string name="app_name">万年历</string>
+	<string name="about">关于</string>
+	<string-array name="week_name">
+		<item>日</item>
+		<item>一</item>
+		<item>二</item>
+		<item>三</item>
+		<item>四</item>
+		<item>五</item>
+		<item>六</item>
+	</string-array>
+	<string-array name="month_name">
+		<item>一月</item>
+		<item>二月</item>
+		<item>三月</item>
+		<item>四月</item>
+		<item>五月</item>
+		<item>六月</item>
+		<item>七月</item>
+		<item>八月</item>
+		<item>九月</item>
+		<item>十月</item>
+		<item>十一月</item>
+		<item>十二月</item>
+	</string-array>
+</resources>

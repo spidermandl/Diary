@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, MainActivity!Hello World, MainActivity!Hello World, MainActivity!Hello World, MainActivity! Hello World, MainActivity!Hello World, MainActivity!Hello World, MainActivity! Hello World, MainActivity!\n
+    Hello World, MainActivity!
+    Hello World, MainActivity!
+    Hello World, MainActivity!
+    Hello World, MainActivity!\n
+    Hello World, MainActivity!\n
+    Hello World, MainActivity!\n
+    </string>
+    <string name="app_name">110428_1518_自定义EditText以及拖动选择文字</string>
+</resources>

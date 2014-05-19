@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+   <dimen name="margin">10dp</dimen>
+   <dimen name="logo_size">20dp</dimen>
+   
+   <!-- 日历边框 -->
+   <dimen name="calendar_border_margin">1dp</dimen>
+   
+   <!-- 日历周名 -->
+   <dimen name="weekname_size">12dp</dimen>
+   
+   <!-- 日历的高度 -->
+   <dimen name="weekname_margin">1dp</dimen>  
+   
+   <!-- 日期 -->
+   <dimen name="day_size">12dp</dimen>
+   <dimen name="day_top_offset">1dp</dimen>
+   <dimen name="current_day_size">12dp</dimen>  
+</resources>
+    

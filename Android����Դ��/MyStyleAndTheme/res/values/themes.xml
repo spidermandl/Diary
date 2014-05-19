@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<style name="Theme">
+		<item name="android:windowFullscreen">true</item>
+		<item name="android:windowTitleSize">25dip</item>
+		<item name="android:windowBackground">@drawable/flower</item>
+		<item name="android:windowTitleBackgroundStyle">@style/titleBackground</item>
+		
+		<item name="android:textSize">18sp</item>
+		<item name="android:textColor">#aaffff33</item>
+		<item name="android:shadowColor">#f1f2f3</item>
+		<item name="android:shadowRadius">2.0</item>
+	</style>
+	<style name="titleBackground">
+		<item name="android:background">@drawable/title2</item>
+	</style>
+</resources>
