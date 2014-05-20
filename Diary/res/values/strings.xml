@@ -83,6 +83,8 @@
     <string name="invalid_date">Date must be between %1$s and %2$s.</string>
     <string name="month_name_format">MMMM yyyy</string>
     
+    <string name="syntax_error">syntax error</string>
+    
     <string name="explanation_numeric">The numeric field allows only numbers on it. The previous edittext was intentionally configured to accept any kind of input so that you can test the validation.</string>
     <string name="explanation_alpha">The alpha field will check if the field contains only standard letters.</string>
     <string name="hint_email">me@andreabaccega.com</string>

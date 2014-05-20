@@ -1,6 +1,9 @@
 package com.diary.goal.setting.activity;
 
-import java.util.Iterator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,30 +17,22 @@ import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.richtext.DiaryValidator;
 import com.diary.goal.setting.richtext.RichTextEditView;
-import com.diary.goal.setting.tools.Constant.SudoType;
+import com.diary.goal.setting.tools.Constant;
+import com.flurry.org.apache.avro.data.Json;
 
-import android.R.string;
-import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
-
+/**
+ * 编写日记activity
+ * @author desmond.duan
+ *
+ */
 public class DiaryEditActivity extends SherlockActivity {
-
-	public static final String SEQUENCE_NAME="title_order";
-    private static final String TAMPLATE="{" +
-    		"\""+SEQUENCE_NAME+"\":[\"健康\",\"修养\",\"心灵\",\"工作\",\"人脉\",\"财富\",\"创意\",\"MIT\"]," +
-    		"\"健康\":[\"跑步\",\"身体\",\"饮食\",\"感悟\"]," +
-    		"\"修养\":[\"学习\",\"读书\",\"外语\",\"感悟\"]," +
-    		"\"心灵\":[\"感恩\",\"成功\",\"感悟\"]," +
-    		"\"工作\":[\"效率\",\"进步\"]," +
-    		"\"人脉\":[\"朋友\",\"家人\",\"恋人\"]," +
-    		"\"财富\":[\"记账\",\"理财\",\"感悟\"]," +
-    		"\"创意\":[\"想法\",\"行动\"]," +
-    		"\"MIT\":[\"第一件事\",\"第二件事\",\"第三件事\"]}";
-    
+     
     private RichTextEditView[] editViews=new RichTextEditView[8];
     private TextView[] mainTitles=new TextView[8];
-    
+    private JSONObject templete=null;//存储正在编辑的日记模板和内容
+    private boolean isFisrtLoad=true;//是否为第一次进入当天日记编辑
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		setContentView(R.layout.diary_edit);
@@ -48,6 +43,79 @@ public class DiaryEditActivity extends SherlockActivity {
 	}
 	
 	private void initFunctionality() {
+		/**
+		 * 载入模板 和 日记
+		 */
+		String content=DiaryApplication.getInstance().getDbHelper().getDiaryContent(new Date());
+		if(content!=null){//当天日记已经编辑过
+			try {
+				templete=new JSONObject(content);
+				isFisrtLoad=false;
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		if(isFisrtLoad){
+			String latestTemplete=DiaryApplication.getInstance().getDbHelper().getDiaryTemplete(null);
+			if(latestTemplete!=null){//数据库中存在模板
+				try {
+					templete=new JSONObject(latestTemplete);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(templete==null){//使用默认模板
+				try {
+					templete=new JSONObject(Constant.TAMPLATE);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		if(templete!=null){
+			try {
+				JSONArray titles = templete.getJSONArray(Constant.MAIN_SEQUENCE_ORDER);
+				int main_index=0;
+	            for(int k=0;k<titles.length();k++){//遍历title字段
+	            	String mainTitle=titles.getString(k);
+	            	StringBuffer subtitles=new StringBuffer();
+	            	mainTitles[main_index].setText("{"+mainTitle+"}");
+	            	if(isFisrtLoad){//没有正文的text
+		            	JSONArray array=templete.getJSONArray(mainTitle);
+		            	int length = array.length();  
+		                for(int i = 0; i < length; i++){//遍历JSONArray
+		                	subtitles.append('[');
+		                	subtitles.append(array.getString(i));
+		                	subtitles.append(']');
+		                	subtitles.append("\n\n");  
+		                }  
+	            	}else{
+	            		JSONObject texts=templete.getJSONObject(mainTitle);
+	            		JSONArray array=texts.getJSONArray(Constant.SUB_SEQUENCE_ORDER);
+		            	int length = array.length();  
+		                for(int i = 0; i < length; i++){//遍历JSONArray
+		                	subtitles.append('[');
+		                	subtitles.append(array.getString(i));
+		                	subtitles.append(']');
+		                	subtitles.append("\n\n");  
+		                	subtitles.append(texts.getString(array.getString(i)));
+		                }  
+	            	}
+	                editViews[main_index].setText(subtitles.toString());
+	                //editViews[main_index].enableActionModes(true);
+	                main_index++;
+	            } 
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		/**
+		 * 获得焦点焦点控件
+		 */
 		int type=DiaryApplication.getInstance().getDateModel().getType().getType();
 		editViews[type>5?type-2:type-1].requestFocus();
 		for (int i=0;i<8;i++){
@@ -85,38 +153,13 @@ public class DiaryEditActivity extends SherlockActivity {
 		mainTitles[6]=(TextView)findViewById(R.id.main_title_7);
 		mainTitles[7]=(TextView)findViewById(R.id.main_title_8);
 		
-		try {
-			JSONObject tamplate=new JSONObject(TAMPLATE);
-			JSONArray titles=tamplate.getJSONArray(SEQUENCE_NAME);
-			int main_index=0;
-            for(int k=0;k<titles.length();k++){//遍历title字段
-            	String mainTitle=titles.getString(k);
-            	JSONArray array=tamplate.getJSONArray(mainTitle);
-            	mainTitles[main_index].setText("{"+mainTitle+"}");
-            	int length = array.length();  
-            	StringBuffer subtitles=new StringBuffer();
-                for(int i = 0; i < length; i++){//遍历JSONArray
-                	subtitles.append('[');
-                	subtitles.append(array.getString(i));
-                	subtitles.append(']');
-                	subtitles.append("\r\n");  
-                }  
-                editViews[main_index].setText(subtitles.toString());
-                //editViews[main_index].enableActionModes(true);
-                main_index++;
-            } 
-			
-		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	/**
 	 * 检测日记语法，并且保存正确日记
 	 */
 	private void saveDiary(){
 		boolean hasError=false;
-		for (int i=0;i<8;i++){
+		for (int i=0;i<8;i++){//错误检测
 			if(!editViews[i].isValid()){
 				Integer[] errors=DiaryApplication.getInstance().getSyntaxError();
 				editViews[i].updateErrorSpans(errors);
@@ -124,8 +167,25 @@ public class DiaryEditActivity extends SherlockActivity {
 				break;
 			}
 		}
-		if(!hasError){
-			
+		if(!hasError){//日记保存
+			JSONObject restructDiary=new JSONObject();
+			JSONArray array=new JSONArray();
+			try {
+				JSONArray titles = templete.getJSONArray(Constant.MAIN_SEQUENCE_ORDER);
+				restructDiary.put(Constant.MAIN_SEQUENCE_ORDER, array);
+				for (int i=0;i<8;i++){
+					JSONObject subPart=editViews[i].getTextWithJsonFormat();
+					subPart.put(Constant.MAIN_STATUS, 0);
+					restructDiary.put(titles.getString(i), subPart);
+				}
+				if(isFisrtLoad)
+					DiaryApplication.getInstance().getDbHelper().insertDiaryContent(new Date(), restructDiary.toString());
+				else
+					DiaryApplication.getInstance().getDbHelper().updateDiaryContent(new Date(), restructDiary.toString());
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	@Override

@@ -22,6 +22,7 @@ import android.os.Environment;
 
 public class DiaryHelper extends SQLiteOpenHelper{
 
+	
 	private SQLiteDatabase db;
 	
 	private static final String DB_NAME = "diary.db";//DB name
@@ -32,6 +33,19 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		public static final String DIARY_CONFIG = "diary_config";
 		/**@table diary track*/
 		public static final String DIARY_TRACK = "diary_track";
+		/**@table 日记模板*/
+		public static final String DIARY_TEMPLETE = "diary_templete";
+		/**@table 日记内容*/
+		public static final String DIARY_CONTENT = "diary_content";
+	}
+	/**
+	 * 公用字段
+	 *
+	 */
+	public interface CommonColumn{
+		public static final String _ID = "_id";
+		public static final String _CREATE_TIME = "create_time";
+		public static final String _UPDATE_TIME = "update_time";
 	}
 	
 	public interface Views {
@@ -39,7 +53,6 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	}
 
 	public interface DiaryConfigColumn{
-		public static final String _ID = "_id";
 		public static final String _SUDO_TYPE = "type";
 		public static final String _CATEGORY_INDEX = "category_index";
 		public static final String _CATEGORY_NAME = "category_name";
@@ -48,24 +61,34 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	}
 	
 	public interface DiaryTrackColumn{
-		public static final String _ID = "_id";
-		public static final String _CREATE_TIME = "create_time";
-		public static final String _UPDATE_TIME = "update_time";
-		public static final String _CONFIG_ID = "config"+DiaryConfigColumn._ID;
+		public static final String _CONFIG_ID = "config"+CommonColumn._ID;
 		public static final String _TEXT = "text";
+	}
+	
+	/**
+	 * 日记模板表
+	 */
+	public interface DiaryTampleteColumn{
+		public static final String _TAMPLETE = "templete"; //json:{[subtitle,type],[subtile,type]...}
+	}
+	/**
+	 * 日记内容
+	 */
+	public interface DiaryContentColumn{
+		public static final String _CONTENT="_content";
 	}
 	
 	public static final String CREATE_DIARY_TRACK = 
 			"CREATE TABLE IF NOT EXISTS " +  Tables.DIARY_TRACK + "("
-			+ DiaryTrackColumn._ID + " integer primary key autoincrement,"//
-			+ DiaryTrackColumn._CREATE_TIME + " datetime,"	//create time
-			+ DiaryTrackColumn._UPDATE_TIME + " datetime,"	//edit time
+			+ CommonColumn._ID + " integer primary key autoincrement,"//
+			+ CommonColumn._CREATE_TIME + " datetime,"	//create time
+			+ CommonColumn._UPDATE_TIME + " datetime,"	//edit time
 			+ DiaryTrackColumn._CONFIG_ID + " integer,"	//id in table of diary_config
 			+ DiaryTrackColumn._TEXT + " text"	//content
 			+ ")";
 	public static final String CREATE_DIARY_CONFIG = 
 			"CREATE TABLE IF NOT EXISTS " +  Tables.DIARY_CONFIG + "("
-			+ DiaryConfigColumn._ID + " integer primary key autoincrement,"//
+			+ CommonColumn._ID + " integer primary key autoincrement,"//
 			+ DiaryConfigColumn._SUDO_TYPE + " integer,"	//sudo type
 			+ DiaryConfigColumn._CATEGORY_INDEX + " integer,"	//index of category
 			+ DiaryConfigColumn._CATEGORY_NAME + " text,"	//name of category
@@ -73,9 +96,9 @@ public class DiaryHelper extends SQLiteOpenHelper{
 			+ DiaryConfigColumn._CATEGORY_HINT + " text"   //text hint of category
 			+ ")";
 	public static final String CREATE_VIEW_TRACK_CONFIG ="CREATE VIEW "+Views.TRACK_CONFIG_ALL+" AS "
-			 +" SELECT "+Tables.DIARY_TRACK+"."+DiaryTrackColumn._ID+" AS _id, "
-			            +Tables.DIARY_TRACK+"."+DiaryTrackColumn._CREATE_TIME+", "
-			            +Tables.DIARY_TRACK+"."+DiaryTrackColumn._UPDATE_TIME+", "
+			 +" SELECT "+Tables.DIARY_TRACK+"."+CommonColumn._ID+" AS _id, "
+			            +Tables.DIARY_TRACK+"."+CommonColumn._CREATE_TIME+", "
+			            +Tables.DIARY_TRACK+"."+CommonColumn._UPDATE_TIME+", "
 			            +Tables.DIARY_TRACK+"."+DiaryTrackColumn._CONFIG_ID+", "
 			            +Tables.DIARY_TRACK+"."+DiaryTrackColumn._TEXT+", "
 			            +Tables.DIARY_CONFIG+"."+DiaryConfigColumn._SUDO_TYPE+", "
@@ -84,11 +107,54 @@ public class DiaryHelper extends SQLiteOpenHelper{
 			            +Tables.DIARY_CONFIG+"."+DiaryConfigColumn._CATEGORY_TYPE+", "
 			            +Tables.DIARY_CONFIG+"."+DiaryConfigColumn._CATEGORY_HINT
 			  +" FROM "+Tables.DIARY_TRACK+ " JOIN " + Tables.DIARY_CONFIG + " ON "
-              +Tables.DIARY_TRACK+"."+DiaryTrackColumn._CONFIG_ID + " = " + Tables.DIARY_CONFIG+"."+DiaryConfigColumn._ID;
+              +Tables.DIARY_TRACK+"."+DiaryTrackColumn._CONFIG_ID + " = " + Tables.DIARY_CONFIG+"."+CommonColumn._ID;
+	
+	public static final String CREATE_DIARY_TEMPLETE = 
+			"CREATE TABLE IF NOT EXISTS " +  Tables.DIARY_TEMPLETE + "("
+			+ CommonColumn._ID + " integer primary key autoincrement,"//
+			+ CommonColumn._CREATE_TIME + " datetime,"	
+			+ CommonColumn._UPDATE_TIME + " datetime,"	
+			+ DiaryTampleteColumn._TAMPLETE + " text"/** 模板存储json格式
+										             * {
+										             * title_order:[big1,big2,bi3]
+										             * big1:[small1,small2]
+										             * big2:[small1,small2]
+										             * big3:[small1,small2]
+										             * }
+										             **/
+			+ ")";
+	public static final String CREATE_DIARY_CONTENT = 
+			"CREATE TABLE IF NOT EXISTS " +  Tables.DIARY_CONTENT + "("
+			+ CommonColumn._ID + " integer primary key autoincrement,"//
+			+ CommonColumn._CREATE_TIME + " datetime,"	
+			+ CommonColumn._UPDATE_TIME + " datetime,"	
+			+ DiaryContentColumn._CONTENT + " text" /** 日记字串存储json格式
+			                                         * {
+			                                         * main_title_order:[big1,big2,bi3]
+			                                         * big1:{  sub_title_order:[small1,small2]
+			                                         *         small1:xxxxx
+			                                         *         small2:xxxxx
+			                                         *         index:1
+			                                         *       }
+			                                         * big2:{  sub_title_order:[small1,small2]
+			                                         *         small1:xxxxx
+			                                         *         small2:xxxxx
+			                                         *         index:1
+			                                         *       }
+			                                         * big3:{  sub_title_order:[small1,small2]
+			                                         *         small1:xxxxx
+			                                         *         small2:xxxxx
+			                                         *         index:1
+			                                         *       }
+			                                         * }
+			                                         **/
+			+ ")";
 	
 	public static final String DROP_DIARY_TRACK = "DROP TABLE IF EXISTS " + Tables.DIARY_TRACK+" ";
 	public static final String DROP_DIRAY_CONFIG = "DROP TABLE IF EXISTS " + Tables.DIARY_CONFIG+" ";
 	public static final String DROP_VIEW_CONFIG_TRACK = "DROP VIEW IF EXISTS " + Views.TRACK_CONFIG_ALL;
+	public static final String DROP_DIARY_TEMPLETE = "DROP TABLE IF EXISTS" + Tables.DIARY_TEMPLETE+" ";
+	public static final String DROP_DIARY_CONTENT= "DROP TABLE IF EXISTS" + Tables.DIARY_CONTENT+" ";
 	/**
 	 *******************************************************************************************************************************
 	 */
@@ -116,6 +182,8 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		
 		db.execSQL(CREATE_DIARY_TRACK);
 		db.execSQL(CREATE_DIARY_CONFIG);
+		db.execSQL(CREATE_DIARY_TEMPLETE);
+		db.execSQL(CREATE_DIARY_CONTENT);
 		
 		initDiaryConfig(db);
 		db.execSQL(CREATE_VIEW_TRACK_CONFIG);
@@ -132,6 +200,8 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		db.execSQL(DROP_VIEW_CONFIG_TRACK);
 		db.execSQL(DROP_DIARY_TRACK);
 		db.execSQL(DROP_DIRAY_CONFIG);
+		db.execSQL(DROP_DIARY_TEMPLETE);
+		db.execSQL(DROP_DIARY_CONTENT);
 		
 		db.setTransactionSuccessful();
 		db.endTransaction();
@@ -157,7 +227,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 					values.put(DiaryConfigColumn._CATEGORY_NAME, jo.getString("name"));
 					values.put(DiaryConfigColumn._CATEGORY_TYPE, jo.getInt("type"));
 					values.put(DiaryConfigColumn._CATEGORY_HINT, jo.getString("hint"));
-					db.insertOrThrow(Tables.DIARY_CONFIG, DiaryConfigColumn._ID, values);
+					db.insertOrThrow(Tables.DIARY_CONFIG, CommonColumn._ID, values);
 				}
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
@@ -169,7 +239,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 
 	public Cursor getDateDiaryAll(){
 		Cursor c=db.query(Tables.DIARY_CONFIG, 
-				new String[]{DiaryConfigColumn._ID,
+				new String[]{CommonColumn._ID,
 				             DiaryConfigColumn._SUDO_TYPE,
 				             DiaryConfigColumn._CATEGORY_INDEX,
 				             DiaryConfigColumn._CATEGORY_NAME,
@@ -187,7 +257,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		values.put(DiaryConfigColumn._CATEGORY_NAME, model.getCategory_name());
 		
 		db.update(Tables.DIARY_CONFIG, values,
-				DiaryConfigColumn._ID+ " = "+model.getConfigId(),
+				CommonColumn._ID+ " = "+model.getConfigId(),
 		        null);
 	}
 	
@@ -209,7 +279,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 			            DiaryConfigColumn._CATEGORY_TYPE,
 			            DiaryConfigColumn._CATEGORY_HINT
 			            },
-				DiaryTrackColumn._CREATE_TIME+" between '"+d+" 00:00:00' and '"+d+" 23:59:59'",
+			            CommonColumn._CREATE_TIME+" between '"+d+" 00:00:00' and '"+d+" 23:59:59'",
 				null, null, null, null, null);
 		
 		return c;
@@ -223,7 +293,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		String d=format.format(date);
 		Cursor c=db.query(true, Views.TRACK_CONFIG_ALL, new String[]{DiaryConfigColumn._SUDO_TYPE},
-				DiaryTrackColumn._CREATE_TIME+" between '"+d+" 00:00:00' and '"+d+" 23:59:59'",
+				CommonColumn._CREATE_TIME+" between '"+d+" 00:00:00' and '"+d+" 23:59:59'",
 				null, null, null, null, null);
 		
 		return c;
@@ -237,7 +307,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		String d=format.format(date);
 		Cursor c=db.query(true, Views.TRACK_CONFIG_ALL, new String[]{DiaryConfigColumn._CATEGORY_INDEX,DiaryTrackColumn._TEXT},
-				DiaryTrackColumn._CREATE_TIME+" between '"+d+" 00:00:00' and '"+d+" 23:59:59' " +
+				CommonColumn._CREATE_TIME+" between '"+d+" 00:00:00' and '"+d+" 23:59:59' " +
 						" and "
 				+DiaryConfigColumn._SUDO_TYPE+ " = "+type+
 				        " and "
@@ -246,21 +316,55 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		
 		return c;
 	}
-//	/**
-//	 * get category info by laws of sudoType
-//	 * @param model
-//	 * @return
-//	 */
-//	public Cursor getStaticCategoryDetail(DateModel model){
-//		Cursor c=db.query(true, Tables.DIARY_CONFIG, 
-//				new String[]{DiaryConfigColumn._CATEGORY_INDEX,
-//				             DiaryConfigColumn._CATEGORY_NAME,
-//				             DiaryConfigColumn._CATEGORY_TYPE},
-//				DiaryConfigColumn._SUDO_TYPE+ " = "+model.getType().getType(),
-//				null, null, null, null, null);
-//		
-//		return c;
-//	}
+
+	/**
+	 * 新建模板
+	 * @param date
+	 * @param text
+	 */
+	public void insertDiaryTemplete(Date date,String text){
+		ContentValues values = new ContentValues();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		values.put(CommonColumn._CREATE_TIME, format.format(date));
+		values.put(CommonColumn._UPDATE_TIME, format.format(date));
+		values.put(DiaryTampleteColumn._TAMPLETE, text);
+		
+		db.insertOrThrow(Tables.DIARY_TEMPLETE, CommonColumn._ID, values);
+	}
+	/**
+	 * 更新模板
+	 * @param date
+	 * @param text
+	 */
+	public void updateDiaryTemplete(Date date,String text){
+		ContentValues values=new ContentValues();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		values.put(CommonColumn._UPDATE_TIME, format.format(date));
+		values.put(DiaryTampleteColumn._TAMPLETE, text);
+		
+		format = new SimpleDateFormat("yyyy-MM-dd");
+		String sDate=format.format(date);
+		db.update(Tables.DIARY_TRACK, values,
+				CommonColumn._CREATE_TIME+" between '"+sDate+" 00:00:00' and '"+sDate+" 23:59:59' ",
+		        null);
+	}
+	/**
+	 * 获取模板
+	 * @param date
+	 * @return
+	 */
+	public String getDiaryTemplete(Date date){
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		String sDate=date==null?null:format.format(date);
+		Cursor c=db.query(Tables.DIARY_CONTENT, new String[]{DiaryContentColumn._CONTENT}, 
+				sDate==null?null:CommonColumn._CREATE_TIME+" between '"+sDate+" 00:00:00' and '"+sDate+" 23:59:59' ",
+				null,null,null,CommonColumn._CREATE_TIME+" DESC");
+		if(c==null||c.getCount()==0)
+			return null;
+		if (c.moveToFirst())
+			return c.getString(0);
+		return null;
+	}
 	/**
 	 * insert diary content
 	 * @param model
@@ -269,12 +373,21 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	public void insertDiaryContent(DateModel model,String text){
 		ContentValues values=new ContentValues();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		values.put(DiaryTrackColumn._CREATE_TIME, format.format(model.getDate()));
-		values.put(DiaryTrackColumn._UPDATE_TIME, format.format(model.getDate()));
+		values.put(CommonColumn._CREATE_TIME, format.format(model.getDate()));
+		values.put(CommonColumn._UPDATE_TIME, format.format(model.getDate()));
 		values.put(DiaryTrackColumn._CONFIG_ID, model.getConfigId());
 		values.put(DiaryTrackColumn._TEXT, text);
 		
-		db.insertOrThrow(Tables.DIARY_TRACK, DiaryTrackColumn._ID, values);
+		db.insertOrThrow(Tables.DIARY_TRACK, CommonColumn._ID, values);
+	}
+	public void insertDiaryContent(Date date,String text){
+		ContentValues values=new ContentValues();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		values.put(CommonColumn._CREATE_TIME, format.format(date));
+		values.put(CommonColumn._UPDATE_TIME, format.format(date));
+		values.put(DiaryContentColumn._CONTENT, text);
+		
+		db.insertOrThrow(Tables.DIARY_CONTENT, CommonColumn._ID, values);
 	}
 	/**
 	 * update diary content
@@ -284,17 +397,47 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	public void updateDiaryContent(DateModel model,String text){
 		ContentValues values=new ContentValues();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		values.put(DiaryTrackColumn._UPDATE_TIME, format.format(model.getDate()));
+		values.put(CommonColumn._UPDATE_TIME, format.format(model.getDate()));
 		values.put(DiaryTrackColumn._TEXT, text);
 		
 		format = new SimpleDateFormat("yyyy-MM-dd");
 		String date=format.format(model.getDate());
 		int config_id=model.getConfigId();
 		db.update(Tables.DIARY_TRACK, values,
-				DiaryTrackColumn._CREATE_TIME+" between '"+date+" 00:00:00' and '"+date+" 23:59:59' " +
+				CommonColumn._CREATE_TIME+" between '"+date+" 00:00:00' and '"+date+" 23:59:59' " +
 				      " and "
 		           +DiaryTrackColumn._CONFIG_ID+ " = "+config_id,
 		        null);
+	}
+	
+	public void updateDiaryContent(Date date,String text){
+		ContentValues values=new ContentValues();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		values.put(CommonColumn._UPDATE_TIME, format.format(date));
+		values.put(DiaryContentColumn._CONTENT, text);
+		
+		format = new SimpleDateFormat("yyyy-MM-dd");
+		String sDate=format.format(date);
+		db.update(Tables.DIARY_TRACK, values,
+				CommonColumn._CREATE_TIME+" between '"+sDate+" 00:00:00' and '"+sDate+" 23:59:59' ",
+		        null);
+	}
+	/**
+	 * 判断当天是否写了日记
+	 * @param date
+	 * @return
+	 */
+	public String getDiaryContent(Date date){
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		String sDate=format.format(date);
+		Cursor c=db.query(Tables.DIARY_CONTENT, new String[]{DiaryContentColumn._CONTENT}, 
+				CommonColumn._CREATE_TIME+" between '"+sDate+" 00:00:00' and '"+sDate+" 23:59:59' ",
+				null,null,null,null);
+		if(c==null||c.getCount()==0)
+			return null;
+		if(c.moveToFirst())
+			return  c.getString(0);
+	    return null;
 	}
 
 }

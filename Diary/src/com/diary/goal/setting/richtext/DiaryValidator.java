@@ -107,6 +107,24 @@ public class DiaryValidator extends PatternValidator {
 				"(\\s*\\[([^\\[\\]])+\\]\\s*[^{}\\[\\]]*)*"
 				);
 	}
+	/**
+	 * 获取小标题
+	 * @return
+	 */
+	static public Pattern getSubTitle(){
+		return Pattern.compile(
+				"(?<=\\[)[^\\[\\]]+(?=\\])"
+				);
+	}
+	/**
+	 * 获取正文
+	 * @return
+	 */
+	static public Pattern getText(){
+		return Pattern.compile(
+				"(?<=\\])[^\\[\\]]+(?=\\[)"
+				);
+	}
 	
 
 }

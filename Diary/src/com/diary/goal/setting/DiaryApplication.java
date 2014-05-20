@@ -12,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.diary.goal.setting.database.DiaryHelper;
+import com.diary.goal.setting.database.DiaryHelper.CommonColumn;
 import com.diary.goal.setting.database.DiaryHelper.DiaryConfigColumn;
 import com.diary.goal.setting.database.DiaryHelper.Tables;
 import com.diary.goal.setting.model.CategoryModel;
@@ -19,7 +20,6 @@ import com.diary.goal.setting.model.DateModel;
 import com.diary.goal.setting.model.PanelDateModel;
 import com.diary.goal.setting.thread.UEHandler;
 import com.diary.goal.setting.tools.Constant;
-import com.diary.goal.setting.tools.Function;
 import com.flurry.android.FlurryAgent;
 
 import android.app.ActivityManager;
@@ -95,7 +95,7 @@ public class DiaryApplication extends Application {
 				model.setCategoryType(c.getInt(c.getColumnIndex(DiaryConfigColumn._CATEGORY_TYPE)));
 				model.setSudoType(c.getInt(c.getColumnIndex(DiaryConfigColumn._SUDO_TYPE)));
 				model.setHint(c.getString(c.getColumnIndex(DiaryConfigColumn._CATEGORY_HINT)));
-				map.put(c.getInt(c.getColumnIndex(DiaryConfigColumn._ID)), model);
+				map.put(c.getInt(c.getColumnIndex(CommonColumn._ID)), model);
 			}
 			tableCaches.put(Tables.DIARY_CONFIG, map);
 			c.close();

@@ -13,6 +13,33 @@ public class Constant {
 
 	public static String FLURRY_KEY="YMY4T7WMFCYVP3R5SS7H";
 	/**
+	 * 大标题排列顺序键
+	 */
+	public static final String MAIN_SEQUENCE_ORDER="main_order";
+	/**
+	 * 小标题排列顺序键
+	 */
+	public static final String SUB_SEQUENCE_ORDER="sub_order";
+	/**
+	 * 大标题状态指数键
+	 */
+	public static final String MAIN_STATUS="index";
+	/**
+	 * 默认模板
+	 */
+    public static final String TAMPLATE="{" +
+    		"\""+MAIN_SEQUENCE_ORDER+"\":[\"健康\",\"修养\",\"心灵\",\"工作\",\"人脉\",\"财富\",\"创意\",\"MIT\"]," +
+    		"\"健康\":[\"跑步\",\"身体\",\"饮食\",\"感悟\"]," +
+    		"\"修养\":[\"学习\",\"读书\",\"外语\",\"感悟\"]," +
+    		"\"心灵\":[\"感恩\",\"成功\",\"感悟\"]," +
+    		"\"工作\":[\"效率\",\"进步\"]," +
+    		"\"人脉\":[\"朋友\",\"家人\",\"恋人\"]," +
+    		"\"财富\":[\"记账\",\"理财\",\"感悟\"]," +
+    		"\"创意\":[\"想法\",\"行动\"]," +
+    		"\"MIT\":[\"第一件事\",\"第二件事\",\"第三件事\"]" +
+    		"}";
+    
+	/**
 	 * 9 sudo enum config
 	 */
 	public static enum SudoType {
@@ -215,33 +242,6 @@ public class Constant {
 		put(SudoType.getTypeString(SudoType.SUDO_7), SudoType.SUDO_7.getResString());
 		put(SudoType.getTypeString(SudoType.SUDO_8), SudoType.SUDO_8.getResString());
 		put(SudoType.getTypeString(SudoType.SUDO_9), SudoType.SUDO_9.getResString());
-		
-//		put("category1", R.string.category1);
-//		put("category2", R.string.category2);
-//		put("category3", R.string.category3);
-//		put("category4", R.string.category4);
-//		put("category5", R.string.category5);
-//		put("category6", R.string.category6);
-//		
-//		put("improvements on work", R.string.improvments_on_work);
-//		put("need to be improved", R.string.lack_on_work);
-//		put("finance reading", R.string.read_on_finance);
-//		put("finace accounting", R.string.accounts_on_finance);
-//		put("relatives", R.string.relatives_on_family);
-//		put("friends", R.string.friends_on_family);
-//		put("relationship", R.string.relationship_on_family);
-//		put("treasure management", R.string.treasure_on_innovation);
-//		put("time management", R.string.time_management_on_innovation);
-//		put("thinking pattern", R.string.thinking_on_innovation);
-//		put("physiological cycle", R.string.physiological_cycle_on_health);
-//		put("health abnormal", R.string.abnormal_on_health);
-//		put("excercise", R.string.excercise_on_health);
-//		put("exceretion", R.string.excretion_on_health);
-//		put("diet", R.string.diet_on_health);
-//		put("new concept", R.string.idea_on_personal);
-//		put("TMC", R.string.tmc_on_personal);
-//		put("five achievements", R.string.five_achievements_on_soul);
-//		put("thoughts on achievements", R.string.thoughts_on_achievements_on_soul);
 	}
 	};
 	

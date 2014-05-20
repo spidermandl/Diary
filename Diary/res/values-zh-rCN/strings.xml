@@ -77,4 +77,6 @@
 	<string name="Nov">11月</string>
 	<string name="Dec">12月</string>
 	<string name="day">日</string>
+	
+	<string name="syntax_error">语法错误</string>
 </resources>

@@ -3,7 +3,12 @@ package com.diary.goal.setting.richtext;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.diary.goal.setting.R;
+import com.diary.goal.setting.tools.Constant;
 import com.kemallette.RichEditText.Text.BulletListSpan;
 import com.kemallette.RichEditText.Text.FontSpan;
 import com.kemallette.RichEditText.Text.ISpan;
@@ -27,6 +32,7 @@ import com.kemallette.RichEditText.Widget.RichTextWatcher;
 import com.kemallette.RichEditText.Widget.SelectionChangeListener;
 import com.kemallette.RichEditText.Widget.WidgetUtil;
 
+import android.R.integer;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
@@ -673,6 +679,48 @@ public class RichTextEditView extends RichEditTextField implements
 				}
 			}
 		}
+	}
+	/**
+	 * 将正文转成json格式
+	 * @return
+	 */
+	public JSONObject getTextWithJsonFormat(){
+		JSONObject result=new JSONObject();
+		JSONArray titles=new JSONArray();
+		try {
+			result.put(Constant.SUB_SEQUENCE_ORDER, titles);
+			int i=0;
+			String text=this.getText().toString();
+			int titleL=0,titleR=0,textL=0,textR=0;
+			while (i<getText().length()) {
+				if(getText().charAt(i)==SUB_TITLE_LEFT||(i==getText().length()-1&&getText().charAt(i)!=SUB_TITLE_RIGHT)){
+					if(i!=0){
+						textR=i-1;
+						String s=text.substring(titleL, titleR);
+						titles.put(s);
+						if(textL<textR)
+							result.put(s, text.subSequence(textL, textR));
+						else
+							result.put(s, null);
+					}
+					titleL=i+1;
+				}else if (getText().charAt(i)==SUB_TITLE_RIGHT){
+					titleR=i-1;
+					textL=i+1;
+					if(i==getText().length()-1)
+						result.put(text.substring(titleL,titleR), null);
+				}
+				
+				i++;
+				
+			}
+			
+			return result;
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
     /**
      * 为语法错误文字加背景标注
