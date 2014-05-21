@@ -21,6 +21,7 @@ import com.diary.goal.setting.tools.Constant;
 import com.flurry.org.apache.avro.data.Json;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 /**
  * 编写日记activity
@@ -98,8 +99,7 @@ public class DiaryEditActivity extends SherlockActivity {
 		                for(int i = 0; i < length; i++){//遍历JSONArray
 		                	subtitles.append('[');
 		                	subtitles.append(array.getString(i));
-		                	subtitles.append(']');
-		                	subtitles.append("\n\n");  
+		                	subtitles.append(']'); 
 		                	subtitles.append(texts.getString(array.getString(i)));
 		                }  
 	            	}
@@ -112,7 +112,7 @@ public class DiaryEditActivity extends SherlockActivity {
 				e.printStackTrace();
 			}
 		}
-		
+		Log.e("init diary", templete.toString());
 		/**
 		 * 获得焦点焦点控件
 		 */
@@ -169,15 +169,15 @@ public class DiaryEditActivity extends SherlockActivity {
 		}
 		if(!hasError){//日记保存
 			JSONObject restructDiary=new JSONObject();
-			JSONArray array=new JSONArray();
 			try {
-				JSONArray titles = templete.getJSONArray(Constant.MAIN_SEQUENCE_ORDER);
-				restructDiary.put(Constant.MAIN_SEQUENCE_ORDER, array);
-				for (int i=0;i<8;i++){
+				JSONArray titles = templete.getJSONArray(Constant.MAIN_SEQUENCE_ORDER);//大标题
+				restructDiary.put(Constant.MAIN_SEQUENCE_ORDER, titles);//放入大标题数据
+				for (int i=0;i<8;i++){//赋入小标题内容
 					JSONObject subPart=editViews[i].getTextWithJsonFormat();
 					subPart.put(Constant.MAIN_STATUS, 0);
 					restructDiary.put(titles.getString(i), subPart);
 				}
+				Log.e("save diary", restructDiary.toString());
 				if(isFisrtLoad)
 					DiaryApplication.getInstance().getDbHelper().insertDiaryContent(new Date(), restructDiary.toString());
 				else
@@ -186,6 +186,7 @@ public class DiaryEditActivity extends SherlockActivity {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			this.finish();
 		}
 	}
 	@Override

@@ -42,6 +42,9 @@
 	<string name="richtext_copy">复制</string>
 	<string name="richtext_paste">粘贴</string>
 	
+	<string name="syntax_error">日记存在格式错误</string>
+	<string name="subTitle_duplication">小标题重复</string>
+	
 	<!-- config string -->
 	<string name="work">工作</string>
 	<string name="finance">财富</string>
@@ -78,5 +81,4 @@
 	<string name="Dec">12月</string>
 	<string name="day">日</string>
 	
-	<string name="syntax_error">语法错误</string>
 </resources>

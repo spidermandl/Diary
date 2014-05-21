@@ -32,25 +32,25 @@ import com.kemallette.RichEditText.Widget.RichTextWatcher;
 import com.kemallette.RichEditText.Widget.SelectionChangeListener;
 import com.kemallette.RichEditText.Widget.WidgetUtil;
 
-import android.R.integer;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.Editable;
-import android.text.Layout;
 import android.text.Spannable;
 import android.text.TextWatcher;
-import android.text.style.ScaleXSpan;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.widget.EditText;
-
+/**
+ * 正则判断编辑框
+ * @author desmond.duan
+ *
+ */
 public class RichTextEditView extends RichEditTextField implements
 		RichTextWatcher, TextWatcher, SelectionChangeListener, SpanTypes,
 		EditorActionModeListener {
@@ -116,14 +116,12 @@ public class RichTextEditView extends RichEditTextField implements
 	}
 
 	public RichTextEditView(Context context, AttributeSet attrs, int defStyle) {
-
 		super(context, attrs, defStyle);
 		this.context = context;
 
 		if (!isInEditMode()) {
 			editTextValidator = new DefaultEditTextValidator(this, attrs,
 					context);
-
 			density = WidgetUtil.getScreenDensity(getContext());
 
 			initViews(attrs);
@@ -214,22 +212,19 @@ public class RichTextEditView extends RichEditTextField implements
 	@Override
 	public void beforeTextChanged(CharSequence s, int start, int count,
 			int after) {
-		Log.e("beforeTextChanged", "beforeTextChanged");
+		//Log.e("beforeTextChanged", "beforeTextChanged");
 	}
 
 	@Override
 	public void afterTextChanged(Editable s) {
-		Log.e("afterTextChanged", "afterTextChanged");
-		// s.clearSpans();
-		// removeSpans();
+		//Log.e("afterTextChanged", "afterTextChanged");
 
 	}
 
 	@Override
 	public void onBeforeCompose(int start, int end, CharSequence repText,
 			int repStart, int repEnd) {
-		Log.e("onBeforeCompose", "onBeforeCompose:" + start + " end:" + end
-				+ " repStart:" + repStart + " repEnd:" + repEnd);
+		//Log.e("onBeforeCompose", "onBeforeCompose:" + start + " end:" + end + " repStart:" + repStart + " repEnd:" + repEnd);
 	}
 
 	@Override
@@ -293,9 +288,7 @@ public class RichTextEditView extends RichEditTextField implements
 	@Override
 	public void onAfterCompose(int start, int end, CharSequence repText,
 			int repStart, int repEnd) {
-		Log.e("onAfterCompose", "onAfterCompose:" + start + " end:" + end
-				+ " repStart:" + repStart + " repEnd:" + repEnd
-				+ "-------------------" + repText);
+		//Log.e("onAfterCompose", "onAfterCompose:" + start + " end:" + end + " repStart:" + repStart + " repEnd:" + repEnd + "-------------------" + repText);
 
 		paintAnalysis(start, end, repText, repStart, repEnd);
 
@@ -304,60 +297,57 @@ public class RichTextEditView extends RichEditTextField implements
 	@Override
 	public void onBeforeInsert(int position, CharSequence repText,
 			int repStart, int repEnd) {
-		Log.e("onBeforeInsert", "onBeforeInsert");
+		//Log.e("onBeforeInsert", "onBeforeInsert");
 	}
 
 	@Override
 	public void onAfterInsert(int position, CharSequence repText, int repStart,
 			int repEnd) {
-		Log.e("onAfterInsert", "onAfterInsert");
+		//Log.e("onAfterInsert", "onAfterInsert");
 		paintAnalysis(position, position, repText, repStart, repEnd);
 	}
 
 	@Override
 	public void onBeforeAppend(int position, CharSequence repText,
 			int repStart, int repEnd) {
-		Log.e("onBeforeAppend", "onBeforeAppend");
+		//Log.e("onBeforeAppend", "onBeforeAppend");
 	}
 
 	@Override
 	public void onAfterAppend(int position, CharSequence repText, int repStart,
 			int repEnd) {
 		// applySpan(BOLD, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-		Log.e("onAfterAppend", "onAfterAppend repStart:" + repStart
-				+ " repEnd:" + repEnd);
+		//Log.e("onAfterAppend", "onAfterAppend repStart:" + repStart + " repEnd:" + repEnd);
 		paintAnalysis(position, position, repText, repStart, repEnd);
 	}
 
 	@Override
 	public void onBeforeDelete(int start, int end) {
-		Log.e("onBeforeDelete", "onBeforeDelete:" + start + " end:" + end);
+		//Log.e("onBeforeDelete", "onBeforeDelete:" + start + " end:" + end);
 	}
 
 	@Override
 	public void onAfterDelete(int start, int end) {
-		Log.e("onAfterDelete", "onAfterDelete start:" + start + " end:" + end);
+		//Log.e("onAfterDelete", "onAfterDelete start:" + start + " end:" + end);
 		paintAnalysis(start, end, "", 0, 0);
 	}
 
 	@Override
 	public void onTextActionCursorMove(int position) {
-		Log.e("onTextActionCursorMove", "onTextActionCursorMove");
+		//Log.e("onTextActionCursorMove", "onTextActionCursorMove");
 	}
 
 	@Override
 	public void beforeReplace(final int start, final int end,
 			final CharSequence repText, final int repStart, final int repEnd) {
-		Log.e("beforeReplace", "beforeReplace:" + start + " end:" + end
-				+ " repStart:" + repStart + " repEnd:" + repEnd);
+		//Log.e("beforeReplace", "beforeReplace:" + start + " end:" + end + " repStart:" + repStart + " repEnd:" + repEnd);
 		removeSpans();
 	}
 
 	@Override
 	public void afterReplace(final int start, final int end,
 			final CharSequence repText, final int repStart, final int repEnd) {
-		Log.e("afterReplace", "afterReplace start:" + start + " end:" + end
-				+ " repStart:" + repStart + " repEnd:" + repEnd);
+		//Log.e("afterReplace", "afterReplace start:" + start + " end:" + end + " repStart:" + repStart + " repEnd:" + repEnd);
 
 	}
 
@@ -394,8 +384,7 @@ public class RichTextEditView extends RichEditTextField implements
 		//SpanUtil.reApplySpan(makeSpan(NORMAL, start+repStart, start+repEnd,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE), this.getEditableText());
 		
 		updateStatus(start, end, repText, repStart, repEnd);
-		Log.e("array and text ", "--------------------------------"
-				+ this.getText().toString());
+		Log.e("array and text ", "--------------------------------" + this.getText().toString());
 		String str = "";
 		for (int i = 0; i < editState.size(); i++) {
 			str += editState.get(i);
@@ -691,29 +680,38 @@ public class RichTextEditView extends RichEditTextField implements
 			result.put(Constant.SUB_SEQUENCE_ORDER, titles);
 			int i=0;
 			String text=this.getText().toString();
-			int titleL=0,titleR=0,textL=0,textR=0;
+			int titleL=0/*标题开头*/,titleR=0/*标题结尾*/,textL=0/*正文开头*/,textR=0/*正文结尾*/;
 			while (i<getText().length()) {
-				if(getText().charAt(i)==SUB_TITLE_LEFT||(i==getText().length()-1&&getText().charAt(i)!=SUB_TITLE_RIGHT)){
+				if(getText().charAt(i)==SUB_TITLE_LEFT){
 					if(i!=0){
-						textR=i-1;
+						textR=i;
 						String s=text.substring(titleL, titleR);
 						titles.put(s);
-						if(textL<textR)
-							result.put(s, text.subSequence(textL, textR));
-						else
-							result.put(s, null);
+						result.put(s, text.subSequence(textL, textR));
 					}
 					titleL=i+1;
 				}else if (getText().charAt(i)==SUB_TITLE_RIGHT){
-					titleR=i-1;
+					titleR=i;
 					textL=i+1;
-					if(i==getText().length()-1)
-						result.put(text.substring(titleL,titleR), null);
 				}
 				
 				i++;
-				
 			}
+			/**
+			 * 读到最后一个字符，对上一批title text进行处理
+			 */
+			String s=null;
+			if(getText().charAt(i-1)==SUB_TITLE_RIGHT){
+				s=text.substring(titleL, i-1);
+				titles.put(s);
+				result.put(s, "");
+			}
+			else{
+				s=text.substring(titleL,titleR);
+				titles.put(s);
+				result.put(s, text.subSequence(textL, i));
+			}
+			
 			
 			return result;
 		} catch (JSONException e) {

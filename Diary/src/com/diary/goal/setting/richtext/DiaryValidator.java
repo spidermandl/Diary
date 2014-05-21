@@ -3,10 +3,10 @@ package com.diary.goal.setting.richtext;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import android.widget.EditText;
 
 import com.diary.goal.setting.DiaryApplication;
+import com.diary.goal.setting.R;
 import com.kemallette.RichEditText.Validations.PatternValidator;
 
 /**
@@ -54,6 +54,9 @@ public class DiaryValidator extends PatternValidator {
 	public boolean isValid(EditText et) {
 		// TODO Auto-generated method stub
 		boolean correct= super.isValid(et);
+		/**
+		 * 找出语法错误的字串
+		 */
 		if(this.pattern!=null&&!correct){//将匹配结果分割开
 			Matcher matcher = this.pattern.matcher(et.getText());
 			ArrayList<Integer> errors=new ArrayList<Integer>();//存储所有不符合语法的字串位置
@@ -85,6 +88,49 @@ public class DiaryValidator extends PatternValidator {
 				errors.add(et.getText().length());
 			}
 			DiaryApplication.getInstance().setSyntaxError(errors.toArray(new Integer[0]));
+			errorMessage=et.getContext().getResources().getString(R.string.syntax_error);
+		}
+		/**
+		 * 小标题不能重复
+		 */
+		if(correct){
+			CharSequence text=et.getText();
+			Matcher matcher = DiaryValidator.getSubTitles().matcher(text);
+			ArrayList<Integer> errors=new ArrayList<Integer>();//存储重复字串位置
+			ArrayList<CharSequence> subTitles = new ArrayList<CharSequence>();//小标题
+			/**
+			 * 采集数据
+			 */
+			while(matcher.find()) {
+				int start=matcher.start();
+				int end=matcher.end();
+				errors.add(start);
+				errors.add(end);
+				subTitles.add(text.subSequence(start, end));
+			}
+			/**
+			 * 比对重复小标题
+			 */
+			int length=subTitles.size();
+			ArrayList<Integer> result=new ArrayList<Integer>();
+			for(int i=0;i<length;i++){
+				for(int j=0;j<length;j++){
+					if(i!=j){
+						if(subTitles.get(i).toString().equals(subTitles.get(j).toString())){
+							result.add(errors.get(2*i));
+							result.add(errors.get(2*i+1));
+							break;
+						}
+					}
+				}
+			}
+			if(result.size()==0)
+				return true;
+			else{
+				DiaryApplication.getInstance().setSyntaxError(result.toArray(new Integer[0]));
+				errorMessage=et.getContext().getResources().getString(R.string.subTitle_duplication);
+				return false;
+			}
 		}
 		return correct;
 	}
@@ -111,7 +157,7 @@ public class DiaryValidator extends PatternValidator {
 	 * 获取小标题
 	 * @return
 	 */
-	static public Pattern getSubTitle(){
+	static public Pattern getSubTitles(){
 		return Pattern.compile(
 				"(?<=\\[)[^\\[\\]]+(?=\\])"
 				);

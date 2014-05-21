@@ -331,6 +331,9 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		
 		db.insertOrThrow(Tables.DIARY_TEMPLETE, CommonColumn._ID, values);
 	}
+	/*******************************************************************************************
+	 * 模板（templete）表操作方法
+	 *******************************************************************************************/
 	/**
 	 * 更新模板
 	 * @param date
@@ -344,7 +347,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		
 		format = new SimpleDateFormat("yyyy-MM-dd");
 		String sDate=format.format(date);
-		db.update(Tables.DIARY_TRACK, values,
+		db.update(Tables.DIARY_TEMPLETE, values,
 				CommonColumn._CREATE_TIME+" between '"+sDate+" 00:00:00' and '"+sDate+" 23:59:59' ",
 		        null);
 	}
@@ -356,7 +359,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	public String getDiaryTemplete(Date date){
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		String sDate=date==null?null:format.format(date);
-		Cursor c=db.query(Tables.DIARY_CONTENT, new String[]{DiaryContentColumn._CONTENT}, 
+		Cursor c=db.query(Tables.DIARY_TEMPLETE, new String[]{DiaryTampleteColumn._TAMPLETE}, 
 				sDate==null?null:CommonColumn._CREATE_TIME+" between '"+sDate+" 00:00:00' and '"+sDate+" 23:59:59' ",
 				null,null,null,CommonColumn._CREATE_TIME+" DESC");
 		if(c==null||c.getCount()==0)
@@ -365,8 +368,11 @@ public class DiaryHelper extends SQLiteOpenHelper{
 			return c.getString(0);
 		return null;
 	}
+	/*******************************************************************************************
+	 * 日记表（diary_content）表操作方法
+	 *******************************************************************************************/
 	/**
-	 * insert diary content
+	 * 创建日记内容
 	 * @param model
 	 * @param text
 	 */
@@ -390,7 +396,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		db.insertOrThrow(Tables.DIARY_CONTENT, CommonColumn._ID, values);
 	}
 	/**
-	 * update diary content
+	 * 更新日记内容
 	 * @param model
 	 * @param text
 	 */
@@ -418,7 +424,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		
 		format = new SimpleDateFormat("yyyy-MM-dd");
 		String sDate=format.format(date);
-		db.update(Tables.DIARY_TRACK, values,
+		db.update(Tables.DIARY_CONTENT, values,
 				CommonColumn._CREATE_TIME+" between '"+sDate+" 00:00:00' and '"+sDate+" 23:59:59' ",
 		        null);
 	}

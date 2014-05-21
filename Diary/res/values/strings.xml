@@ -43,6 +43,9 @@
 	<string name="richtext_copy">Copy</string>
 	<string name="richtext_paste">Paste</string>
 	
+	<string name="syntax_error">Syntax Error</string>
+	<string name="subTitle_duplication">duplicate sub titles</string>
+	
 	<!-- config string -->
 	<string name="work">work</string>
 	<string name="finance">finance</string>
@@ -82,8 +85,6 @@
 	<string name="day_name_format">EEE</string>
     <string name="invalid_date">Date must be between %1$s and %2$s.</string>
     <string name="month_name_format">MMMM yyyy</string>
-    
-    <string name="syntax_error">syntax error</string>
     
     <string name="explanation_numeric">The numeric field allows only numbers on it. The previous edittext was intentionally configured to accept any kind of input so that you can test the validation.</string>
     <string name="explanation_alpha">The alpha field will check if the field contains only standard letters.</string>
