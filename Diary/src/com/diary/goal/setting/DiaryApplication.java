@@ -5,32 +5,32 @@ import java.io.InputStream;
 import java.lang.ref.SoftReference;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Date;
 import java.util.HashMap;
 
 import org.apache.http.util.EncodingUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.diary.goal.setting.database.DiaryHelper;
-import com.diary.goal.setting.database.DiaryHelper.CommonColumn;
-import com.diary.goal.setting.database.DiaryHelper.DiaryConfigColumn;
-import com.diary.goal.setting.database.DiaryHelper.Tables;
-import com.diary.goal.setting.model.CategoryModel;
-import com.diary.goal.setting.model.DateModel;
-import com.diary.goal.setting.model.PanelDateModel;
 import com.diary.goal.setting.thread.UEHandler;
 import com.diary.goal.setting.tools.Constant;
+import com.diary.goal.setting.tools.Constant.SudoType;
 import com.flurry.android.FlurryAgent;
 
 import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
-
+/**
+ * 程序进程管理
+ * @author desmond.duan
+ *
+ */
 public class DiaryApplication extends Application {
 
 	/**
@@ -42,19 +42,10 @@ public class DiaryApplication extends Application {
 	 */
 	private DiaryHelper dbHelper;
 	/**
-	 * get current day pad status
+	 * 保存九宫格状态
 	 */
-	private PanelDateModel padStatus;
-	/**
-	 * days link
-	 */
-	private HashMap<Integer, PanelDateModel> panelCache;
-	/**
-	 * the data model tracking the date users are dealing with
-	 */
-	private DateModel dateModel;
-	private HashMap<String,HashMap<Integer, Object>> tableCaches;
-	private int dateCursor=0;
+	private HashMap<SudoType, Boolean> SudoKuStatus;
+
 	private int screen_width;
 	private int screen_height;
 	private int initialOrientation;
@@ -78,29 +69,14 @@ public class DiaryApplication extends Application {
 	}
 
 	/**
-	 * store bitmap cache for accessing UI resource
+	 * 图片缓存，所有图片资源统一内存管理
 	 */
 	HashMap<Integer,SoftReference<Bitmap>> bitmapCache=new HashMap<Integer, SoftReference<Bitmap>>();
-
+    /**
+     * 程序崩溃异常处理handler
+     */
 	UEHandler ueHandler;
 	
-	private void setTableCaches(){
-		Cursor c=dbHelper.getDateDiaryAll();
-		if(c!=null){
-			HashMap<Integer, Object> map=new HashMap<Integer, Object>();
-			while(c.moveToNext()){
-				CategoryModel model=new CategoryModel();
-				model.setCategoryIndex(c.getInt(c.getColumnIndex(DiaryConfigColumn._CATEGORY_INDEX)));
-				model.setCategoryName(c.getString(c.getColumnIndex(DiaryConfigColumn._CATEGORY_NAME)));
-				model.setCategoryType(c.getInt(c.getColumnIndex(DiaryConfigColumn._CATEGORY_TYPE)));
-				model.setSudoType(c.getInt(c.getColumnIndex(DiaryConfigColumn._SUDO_TYPE)));
-				model.setHint(c.getString(c.getColumnIndex(DiaryConfigColumn._CATEGORY_HINT)));
-				map.put(c.getInt(c.getColumnIndex(CommonColumn._ID)), model);
-			}
-			tableCaches.put(Tables.DIARY_CONFIG, map);
-			c.close();
-		}
-	}
 	
 	public static DiaryApplication getInstance(){
 		return instance;
@@ -122,6 +98,9 @@ public class DiaryApplication extends Application {
 		FlurryAgent.onStartSession(this, Constant.FLURRY_KEY);
 		super.onCreate();
 	}
+	/**
+	 * 进程退出
+	 */
 	public void quit(){
 		dbHelper.close();
 		FlurryAgent.onEndSession(this);
@@ -146,18 +125,29 @@ public class DiaryApplication extends Application {
     		//am.killBackgroundProcesses("com.diary.goal.setting"); 
     	}
 	}
+	/**
+	 * 获取屏幕宽度
+	 * @return
+	 */
 	public int getScreen_w() {
 		if(!reverseOrientation)
 			return screen_width;
 		else
 			return screen_height;
 	}
-
+	/**
+	 * 获取屏幕高度
+	 * @return
+	 */
 	public int getScreen_h() {
 		if(!reverseOrientation)
 			return screen_height;
 		else
 			return screen_width;
+	}
+	
+	public HashMap<SudoType, Boolean> getSudoKuStatus() {
+		return SudoKuStatus;
 	}
 	
 	public void setBitmap(Integer resid,Bitmap bitmap){
@@ -187,6 +177,11 @@ public class DiaryApplication extends Application {
 	public int getOrientation(){
 		return initialOrientation;
 	}
+
+	public DiaryHelper getDbHelper() {
+		return dbHelper;
+	}
+	
 	public JSONObject getSudoConfig(){
 		if(sudoConfig==null){
 			try {
@@ -214,67 +209,59 @@ public class DiaryApplication extends Application {
 			return null;
 		}  
 	}
-	public DiaryHelper getDbHelper() {
-		return dbHelper;
-	}
 
-	public PanelDateModel getPadStatus(){
-		return padStatus;
-	}
-	public void setPadStatus(PanelDateModel status){
-		padStatus=status;
-	}
-
-	public DateModel getDateModel() {
-		if(dateModel==null)
-			dateModel=new DateModel();
-		return dateModel;
-	}
-
-	public void setDateModel(DateModel dateModel) {
-		this.dateModel = dateModel;
-	}
-
-	public HashMap<Integer, PanelDateModel> getPanelCache() {
-		if(panelCache==null)
-			panelCache=new HashMap<Integer, PanelDateModel>();
-		return panelCache;
-	}
-
-	public void setPanelCache(HashMap<Integer, PanelDateModel> panelCache) {
-		this.panelCache = panelCache;
-	}
-
-	public int getDateCursor() {
-		return dateCursor;
-	}
-
-	public void setDateCursor(int dateCursor) {
-		this.dateCursor = dateCursor;
-	}
 	/**
-	 * get info of static table.
-	 * return the entire table or a specific row with _id provided
-	 * @param table_name
-	 * @param _id
-	 * @return
+	 * 更新九宫格状态
+	 * 每次进入九宫格界面需要显示每个格子状态
+	 * 状态保存于SudoKuStatus中
 	 */
-	public Object getTableCacheElement(String table_name,Integer _id){
-		if(tableCaches==null){
-			tableCaches=new HashMap<String, HashMap<Integer,Object>>();
-			setTableCaches();
+	public void updateStatusPanel(){
+		if(SudoKuStatus==null){
+			/**
+			 * 初始化sudoKuStatus
+			 */
+	        SudoKuStatus=new HashMap<Constant.SudoType, Boolean>();
+	        SudoKuStatus.put(SudoType.SUDO_1, false);
+	        SudoKuStatus.put(SudoType.SUDO_2, false);
+	        SudoKuStatus.put(SudoType.SUDO_3, false);
+	        SudoKuStatus.put(SudoType.SUDO_4, false);
+	        SudoKuStatus.put(SudoType.SUDO_6, false);
+	        SudoKuStatus.put(SudoType.SUDO_7, false);
+	        SudoKuStatus.put(SudoType.SUDO_8, false);
+	        SudoKuStatus.put(SudoType.SUDO_9, false);
 		}
-		HashMap<Integer,Object> map = tableCaches.get(table_name);
-		if(map!=null){
-			if(_id==0)
-				return map;
-			return map.get(_id);
+		
+		String diaryText=DiaryApplication.getInstance().getDbHelper().getDiaryContent(new Date());
+		if(diaryText!=null){
+			try {
+				JSONObject diaryObject=new JSONObject(diaryText);
+				JSONArray array=diaryObject.getJSONArray(Constant.MAIN_SEQUENCE_ORDER);
+				for(int i=0;i<array.length();i++){//大标题循环
+					JSONObject subObj=diaryObject.getJSONObject(array.getString(i));
+					JSONArray subArr=subObj.getJSONArray(Constant.SUB_SEQUENCE_ORDER);
+					boolean hasEdited=false;
+					for(int j=0;j<subArr.length();j++){//小标题循环
+						String subTit=subArr.getString(j);
+						String text = subObj.getString(subTit);
+						if(text!=null&&text.length()!=0){
+							int k=0;
+							while(k<text.length()){
+								if(text.charAt(k)!=' '&&text.charAt(k)!='\n'){//有效文字
+									hasEdited=true;
+								}
+								k++;
+							}
+						}
+					}
+					SudoKuStatus.put(SudoType.getSudoType(i<4?i+1:i+2), hasEdited);
+				}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		return null;
 	}
-	public void clearTableCacheElement(String table_name){
-		tableCaches=null;
-	}
+
 }
 
 

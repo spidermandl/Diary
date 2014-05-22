@@ -1,4 +1,4 @@
-package com.diary.goal.setting.view;
+package com.diary.goal.setting.invalid;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -16,7 +16,6 @@ import android.widget.Scroller;
 
 /**
  * 
- * ×Ô¶¨ÒåÒ»¸öºáÏò¹ö¶¯µÄAdapterView£¬ÀàËÆÓëÈ«ÆÁµÄGallery£¬µ«ÊÇÒ»´ÎÖ»¹ö¶¯Ò»ÆÁ£¬¶øÇÒÃ¿Ò»ÆÁÖ§³Ö×ÓviewµÄµã»÷´¦Àí
  * 
  * @author weibinke
  * 
@@ -43,7 +42,7 @@ public class MultiPageSwitcher extends AdapterView<BaseAdapter> {
 	private int mHeightMeasureSpec;
 	private int mWidthMeasureSpec;
 	private int mSelectedPosition;
-	private int mFirstPosition; // µÚÒ»¸ö¿É¼ûviewµÄposition
+	private int mFirstPosition; // ï¿½ï¿½Ò»ï¿½ï¿½ï¿½É¼ï¿½viewï¿½ï¿½position
 	private int mCurrentSelectedPosition;
 	private VelocityTracker mVelocityTracker;
 	private static final int SNAP_VELOCITY = 600;
@@ -73,7 +72,7 @@ public class MultiPageSwitcher extends AdapterView<BaseAdapter> {
 
 	/**
 	 * 
-	 * ´Óµ±Ç°¿É¼ûµÄviewÏò×ó±ßÌî³ä
+	 * ï¿½Óµï¿½Ç°ï¿½É¼ï¿½ï¿½viewï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 
 	private void fillToGalleryLeft() {
@@ -131,14 +130,14 @@ public class MultiPageSwitcher extends AdapterView<BaseAdapter> {
 
 	/**
 	 * 
-	 * Ìî³äview
+	 * ï¿½ï¿½ï¿½view
 	 */
 
 	private void fillAllViews() {
 
-		// ÏÈ´´½¨µÚÒ»¸öview£¬Ê¹Æä¾ÓÖÐÏÔÊ¾
+		// ï¿½È´ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½viewï¿½ï¿½Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾
 		if (mSelectedPosition >= mAdapter.getCount() && mSelectedPosition > 0) {
-			// ´¦Àí±»¼ÇÂ¼±»É¾³ýµ¼ÖÂµ±Ç°Ñ¡ÖÐÎ»ÖÃ³¬³ö¼ÇÂ¼ÊýµÄÇé¿ö
+			// ï¿½ï¿½ï¿½?ï¿½ï¿½Â¼ï¿½ï¿½É¾ï¿½ï¿½ï¿½Âµï¿½Ç°Ñ¡ï¿½ï¿½Î»ï¿½Ã³ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			mSelectedPosition = mAdapter.getCount() - 1;
 			if (mOnPostionChangeListener != null) {
 				mCurrentSelectedPosition = mSelectedPosition;
@@ -343,7 +342,7 @@ public class MultiPageSwitcher extends AdapterView<BaseAdapter> {
 	}
 
 	private void scrollDeltaX(int deltaX) {
-		// ÏÈ°ÑÏÖÓÐµÄview×ø±êÒÆ¶¯
+		// ï¿½È°ï¿½ï¿½ï¿½ï¿½Ðµï¿½viewï¿½ï¿½ï¿½ï¿½Æ¶ï¿½
 		for (int i = 0; i < getChildCount(); i++) {
 			getChildAt(i).offsetLeftAndRight(deltaX);
 		}
@@ -396,7 +395,7 @@ public class MultiPageSwitcher extends AdapterView<BaseAdapter> {
 
 	/**
 	 * 
-	 * ¼ÆËã×î½Ó½üÖÐÐÄµãµÄview
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó½ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½view
 	 * 
 	 * @return
 	 */
@@ -557,7 +556,7 @@ public class MultiPageSwitcher extends AdapterView<BaseAdapter> {
 
 	/**
 	 * 
-	 * Ë¢ÐÂÊý¾Ý£¬±¾À´ÏëÓÃAdapterView.AdapterDataSetObserver»úÖÆÀ´ÊµÏÖµÄ£¬µ«ÊÇÕû¸öÂß¼­ÒÆÖ²±È½ÏÂé·³£¬¾ÍÔÝÊ±ÓÃÕâ¸öÌæ´úÁË
+	 * Ë¢ï¿½ï¿½ï¿½ï¿½Ý£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½AdapterView.AdapterDataSetObserverï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ÖµÄ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß¼ï¿½ï¿½ï¿½Ö²ï¿½È½ï¿½ï¿½é·³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 
 	public void updateData() {

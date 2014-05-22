@@ -1,7 +1,12 @@
 package com.diary.goal.setting.fragment;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.R.raw;
 import android.database.Cursor;
@@ -26,19 +31,18 @@ import com.diary.goal.setting.listener.FlipPathListener;
 import com.diary.goal.setting.model.DateModel;
 import com.diary.goal.setting.model.PanelDateModel;
 import com.diary.goal.setting.tools.Constant;
+import com.diary.goal.setting.tools.Constant.SudoType;
 import com.diary.goal.setting.view.ViewFlow;
+import com.flurry.org.apache.avro.data.Json;
 
 /**
- * �Ź����ռǽ���
- * nine square sudo panel style
+ * 九宫格fragment
  * @author Desmond
  *
  */
 public class SoduKuFragment extends SherlockFragment {
 	
 	private ViewFlow viewFlow;
-	private int position;//record current page of sudo view
-	NinePanelAdapter mAdapter;
 	Handler UIhandler=new Handler(){
 		public void handleMessage(android.os.Message msg) {
 			viewFlow.invalidate();
@@ -47,37 +51,14 @@ public class SoduKuFragment extends SherlockFragment {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		init();
 		super.onCreate(savedInstanceState);
 	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-//		View layout = inflater.inflate(R.layout.sudo_fragment_layout, container, false);
-//		viewFlow=(ViewFlow)layout.findViewById(R.id.sudo_panel);
-//		mAdapter=new NinePanelAdapter(this.getActivity());
-//		viewFlow.setAdapter(mAdapter);
-//		viewFlow.setFlipListener(new FlipPathListener() {
-//			
-//			//@Override
-//			public void track(int steps) {
-//				position=DiaryApplication.getInstance().getDateCursor();
-//				position+=steps;
-//				DiaryApplication.getInstance().setDateCursor(position);
-//				
-//				UIhandler.post(new Runnable() {
-//					
-//					//@Override
-//					public void run() {
-//						getPanelCache();	
-//						UIhandler.sendEmptyMessage(0);
-//					}
-//				});
-//				
-//			}
-//		});
-//		return viewFlow;
+
+		
 		View layout = inflater.inflate(R.layout.nine_panel_frame, container, false);
 		return layout;
 	}
@@ -99,7 +80,8 @@ public class SoduKuFragment extends SherlockFragment {
          * onCreateOptionsMenu() will be called back
 		 **/
         setHasOptionsMenu(true);
-
+        
+		init();
 	}
 	
 	@Override
@@ -121,55 +103,13 @@ public class SoduKuFragment extends SherlockFragment {
             item.setActionView(searchView);
         }
 	}
-	
-	private void init(){
-		DiaryApplication.getInstance().setOrientation(
-					this.getResources().getConfiguration().orientation);
-		getPanelCache();
-	}
-	
 	/**
-	 * init date link
-	 * get current day status
+	 * 初始化
 	 */
-	private synchronized void getPanelCache(){
-		HashMap<Integer, PanelDateModel> panelStatus=DiaryApplication.getInstance().getPanelCache();
-		position=DiaryApplication.getInstance().getDateCursor();
-		if(panelStatus.containsKey(position)){
-			DiaryApplication.getInstance().setPadStatus((PanelDateModel)panelStatus.get(position));
-			DateModel model = new DateModel();
-			model.setDate(((PanelDateModel)panelStatus.get(position)).getDate());
-			DiaryApplication.getInstance().setDateModel(model);
-		}
-        else {
-			Calendar date = Calendar.getInstance();
-			date.add(Calendar.DAY_OF_MONTH, position);
-			DateModel model = new DateModel();
-			model.setDate(date.getTime());
-			DiaryApplication.getInstance().setDateModel(model);
-			Cursor c = DiaryApplication.getInstance().getDbHelper().getTodayPad(model.getDate());
-			HashMap<Constant.SudoType, Boolean> status = new HashMap<Constant.SudoType, Boolean>();
-			status.put(Constant.SudoType.SUDO_0, false);
-			status.put(Constant.SudoType.SUDO_1, false);
-			status.put(Constant.SudoType.SUDO_2, false);
-			status.put(Constant.SudoType.SUDO_3, false);
-			status.put(Constant.SudoType.SUDO_4, false);
-			status.put(Constant.SudoType.SUDO_5, false);
-			status.put(Constant.SudoType.SUDO_6, false);
-			status.put(Constant.SudoType.SUDO_7, false);
-			status.put(Constant.SudoType.SUDO_8, false);
-			status.put(Constant.SudoType.SUDO_9, false);
-			if (c != null) {
-				while (c.moveToNext()) {
-					status.put(Constant.SudoType.getSudoType(c.getInt(0)), true);
-				}
-				c.close();
-			}
-			PanelDateModel panelModel=new PanelDateModel();
-			panelModel.setDate(date.getTime());
-			panelModel.setPadStatus(status);
-			DiaryApplication.getInstance().setPadStatus(panelModel);
-			panelStatus.put(position, panelModel);
-		}
+	private void init(){
+		DiaryApplication.getInstance().setOrientation(this.getResources().getConfiguration().orientation);
+        DiaryApplication.getInstance().updateStatusPanel();
 	}
+	
+	
 }

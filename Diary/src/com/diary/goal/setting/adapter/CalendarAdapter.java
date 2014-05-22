@@ -26,6 +26,7 @@ import java.util.Locale;
 import java.util.Map.Entry;
 
 
+import com.diary.goal.setting.activity.PaperOverviewActivity;
 import com.squareup.timessquare.CircleAdapter;
 import com.squareup.timessquare.Logr;
 import com.squareup.timessquare.MonthCellDescriptor;
@@ -35,6 +36,7 @@ import com.squareup.timessquare.MonthDescriptor;
 import com.squareup.timessquare.R;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -310,6 +312,16 @@ public class CalendarAdapter extends CircleAdapter<MonthDescriptor> {
 		@Override
 		public void handleClick(MonthCellDescriptor cell) {
 			Date clickedDate = cell.getDate();
+			/**
+			 * Desmond
+			 */
+			Intent intent=new Intent();
+			intent.setClass(context, PaperOverviewActivity.class);
+			intent.putExtra("review_date", clickedDate);
+			context.startActivity(intent);
+			/**
+			 * Desmond end
+			 */
 
 //			if (!betweenDates(clickedDate, minCal, maxCal)
 //					|| !isDateSelectable(clickedDate)) {

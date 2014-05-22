@@ -5,11 +5,13 @@ import android.os.Bundle;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
-import com.diary.goal.setting.R;
 import com.diary.goal.setting.adapter.CalendarAdapter;
-import com.diary.goal.setting.adapter.NinePanelAdapter;
 import com.diary.goal.setting.view.ViewFlow;
-
+/**
+ * 日历界面
+ * @author desmond.duan
+ *
+ */
 public class CalanderActivity extends SherlockActivity {
 
 	private ViewFlow viewFlow;

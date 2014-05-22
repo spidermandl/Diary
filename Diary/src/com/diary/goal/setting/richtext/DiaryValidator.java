@@ -81,14 +81,22 @@ public class DiaryValidator extends PatternValidator {
 				count++;
 				
 			}
+            if(errors.size()==0){//没有任何匹配的情况
+            	errors.add(0);
+            	errorMessage=et.getContext().getResources().getString(R.string.syntax_error_nosubtitle);
+            }else{
+            	errorMessage=null;
+            }
 			if (errors.get(errors.size()-1)==et.getText().length()){//最后一个字符匹配正则表达式
 			    errors.remove(errors.size()-1);
 			}
 			else{
 				errors.add(et.getText().length());
 			}
+			
 			DiaryApplication.getInstance().setSyntaxError(errors.toArray(new Integer[0]));
-			errorMessage=et.getContext().getResources().getString(R.string.syntax_error);
+			if(errorMessage==null)
+				errorMessage=et.getContext().getResources().getString(R.string.syntax_error);
 		}
 		/**
 		 * 小标题不能重复
@@ -128,7 +136,8 @@ public class DiaryValidator extends PatternValidator {
 				return true;
 			else{
 				DiaryApplication.getInstance().setSyntaxError(result.toArray(new Integer[0]));
-				errorMessage=et.getContext().getResources().getString(R.string.subTitle_duplication);
+				if(errorMessage==null)
+					errorMessage=et.getContext().getResources().getString(R.string.subTitle_duplication);
 				return false;
 			}
 		}

@@ -44,6 +44,7 @@
 	<string name="richtext_paste">Paste</string>
 	
 	<string name="syntax_error">Syntax Error</string>
+	<string name="syntax_error_nosubtitle">Diary must start with the format of [XXX]</string>
 	<string name="subTitle_duplication">duplicate sub titles</string>
 	
 	<!-- config string -->

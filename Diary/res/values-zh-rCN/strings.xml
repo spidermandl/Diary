@@ -43,6 +43,7 @@
 	<string name="richtext_paste">粘贴</string>
 	
 	<string name="syntax_error">日记存在格式错误</string>
+	<string name="syntax_error_nosubtitle">日记必须设置小标题 [XXX]</string>
 	<string name="subTitle_duplication">小标题重复</string>
 	
 	<!-- config string -->

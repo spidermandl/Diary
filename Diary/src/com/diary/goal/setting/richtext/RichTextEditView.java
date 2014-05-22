@@ -25,7 +25,6 @@ import com.kemallette.RichEditText.Text.TextSubscriptSpan;
 import com.kemallette.RichEditText.Text.TextSuperscriptSpan;
 import com.kemallette.RichEditText.Text.UnderliningSpan;
 import com.kemallette.RichEditText.Validations.Validator;
-import com.kemallette.RichEditText.Widget.DefaultEditTextValidator;
 import com.kemallette.RichEditText.Widget.EditTextValidator;
 import com.kemallette.RichEditText.Widget.RichEditTextField;
 import com.kemallette.RichEditText.Widget.RichTextWatcher;
@@ -120,7 +119,7 @@ public class RichTextEditView extends RichEditTextField implements
 		this.context = context;
 
 		if (!isInEditMode()) {
-			editTextValidator = new DefaultEditTextValidator(this, attrs,
+			editTextValidator = new DiaryEditTextValidator(this, attrs,
 					context);
 			density = WidgetUtil.getScreenDensity(getContext());
 
@@ -131,7 +130,7 @@ public class RichTextEditView extends RichEditTextField implements
 
 	protected void initViews(AttributeSet attrs) {
 
-		setEditTextValidator(new DefaultEditTextValidator(this, attrs,
+		setEditTextValidator(new DiaryEditTextValidator(this, attrs,
 				getContext()));
 
 		this.requestFocus();
@@ -432,8 +431,9 @@ public class RichTextEditView extends RichEditTextField implements
 			if (distance > 0) {
 				// 从高位向右移动
 				if (lastPosition - i >= 0)// 越界判断
-					editState.set(lastPosition + distance - i,
-							editState.get(lastPosition - i));
+					if (lastPosition + distance - i < editState.size()){//可能出现越界
+						editState.set(lastPosition + distance - i,editState.get(lastPosition - i));
+					}
 			} else {
 				// 从低位向左移动
 				if (end + distance + i >= 0) {// 越界判断
@@ -680,6 +680,8 @@ public class RichTextEditView extends RichEditTextField implements
 			result.put(Constant.SUB_SEQUENCE_ORDER, titles);
 			int i=0;
 			String text=this.getText().toString();
+			if(text.length()==0)
+				return result;
 			int titleL=0/*标题开头*/,titleR=0/*标题结尾*/,textL=0/*正文开头*/,textR=0/*正文结尾*/;
 			while (i<getText().length()) {
 				if(getText().charAt(i)==SUB_TITLE_LEFT){

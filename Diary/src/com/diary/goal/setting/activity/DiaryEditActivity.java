@@ -116,11 +116,11 @@ public class DiaryEditActivity extends SherlockActivity {
 		/**
 		 * 获得焦点焦点控件
 		 */
-		int type=DiaryApplication.getInstance().getDateModel().getType().getType();
+		int type=getIntent().getIntExtra("sudoType", 2);
 		editViews[type>5?type-2:type-1].requestFocus();
 		for (int i=0;i<8;i++){
 			editViews[i].addValidator(
-					new DiaryValidator("sytax error", DiaryValidator.getSubTitlePattern()));
+					new DiaryValidator(null, DiaryValidator.getSubTitlePattern()));
 		}
 		
 	}
@@ -182,6 +182,8 @@ public class DiaryEditActivity extends SherlockActivity {
 					DiaryApplication.getInstance().getDbHelper().insertDiaryContent(new Date(), restructDiary.toString());
 				else
 					DiaryApplication.getInstance().getDbHelper().updateDiaryContent(new Date(), restructDiary.toString());
+				
+				DiaryApplication.getInstance().updateStatusPanel();//更新九宫格状态
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

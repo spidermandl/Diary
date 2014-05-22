@@ -17,29 +17,29 @@ package com.diary.goal.setting.richtext;
 import android.widget.EditText;
 
 class Selection {
-  int start;
-  int end;
+	int start;
+	int end;
 
-  Selection(int _start, int _end) {
-    start=_start;
-    end=_end;
+	Selection(int _start, int _end) {
+		start = _start;
+		end = _end;
 
-    if (start > end) {
-      int temp=end;
-      end=start;
-      start=temp;
-    }
-  }
+		if (start > end) {
+			int temp = end;
+			end = start;
+			start = temp;
+		}
+	}
 
-  Selection(EditText editor) {
-    this(editor.getSelectionStart(), editor.getSelectionEnd());
-  }
+	Selection(EditText editor) {
+		this(editor.getSelectionStart(), editor.getSelectionEnd());
+	}
 
-  boolean isEmpty() {
-    return(start == end);
-  }
+	boolean isEmpty() {
+		return (start == end);
+	}
 
-  void apply(EditText editor) {
-    editor.setSelection(start, end);
-  }
+	void apply(EditText editor) {
+		editor.setSelection(start, end);
+	}
 }

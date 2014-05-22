@@ -3,9 +3,6 @@ package com.diary.goal.setting.view;
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.activity.DiaryEditActivity;
 import com.diary.goal.setting.activity.MainFrameActivity;
-import com.diary.goal.setting.activity.SudoKuActivity;
-import com.diary.goal.setting.invalid.RichTextEditorActivity;
-import com.diary.goal.setting.invalid.UnitOverviewActivity;
 import com.diary.goal.setting.richtext.RichTextEditView;
 import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.tools.Constant.SudoType;
@@ -86,7 +83,7 @@ public abstract class PanelView extends ViewGroup implements View.OnClickListene
 //		else{
 //			canvas.drawColor(bgColor);
 //		}
-		selfDraw(canvas,DiaryApplication.getInstance().getPadStatus().getPadStatus().get(sudoType));
+		selfDraw(canvas,DiaryApplication.getInstance().getSudoKuStatus().get(sudoType));
 		String text=context.getResources().getString(sudoType.getResString());
 		canvas.drawText(text, (this.getWidth()-cPaint.measureText(text))/2, this.getHeight()*3/4, cPaint);
 		super.onDraw(canvas);
@@ -96,14 +93,11 @@ public abstract class PanelView extends ViewGroup implements View.OnClickListene
 	
 	//@Override
 	public void onClick(View v) {
-		if(DiaryApplication.getInstance().getDateCursor()<=0){
-			DiaryApplication.getInstance().getDateModel().setType(sudoType);
-			Intent intent=new Intent();
-			//intent.setClass(context, RichTextEditorActivity.class);
-			intent.setClass(context, DiaryEditActivity.class);
-			((Activity)context).startActivityForResult(intent, MainFrameActivity.REQUEST_UNITOVERVIEW);
-		}
-		
+		Intent intent=new Intent();
+		//intent.setClass(context, RichTextEditorActivity.class);
+		intent.setClass(context, DiaryEditActivity.class);
+		intent.putExtra("sudoType", sudoType.getType());
+		((Activity)context).startActivityForResult(intent, MainFrameActivity.REQUEST_UNITOVERVIEW);
 	}
 	
 	protected Matrix zoomBitmap(Bitmap bitmap, int width, int height) {

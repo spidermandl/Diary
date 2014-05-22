@@ -1,4 +1,4 @@
-package com.diary.goal.setting.view;
+package com.diary.goal.setting.invalid;
 
 /*
  * Copyright (C) 2008 The Android Open Source Project

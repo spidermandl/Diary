@@ -9,7 +9,6 @@ import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.activity.CalanderActivity;
 import com.diary.goal.setting.activity.PaperOverviewActivity;
-import com.diary.goal.setting.activity.SudoKuActivity;
 import com.diary.goal.setting.tools.BitmapCustomize;
 import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.tools.Constant.SudoType;
@@ -75,7 +74,7 @@ public class PanelView_5 extends PanelView {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		calendar = Calendar.getInstance();
-		calendar.setTime(DiaryApplication.getInstance().getPadStatus().getDate());
+		calendar.setTime(new Date());
 		Calendar today=Calendar.getInstance();
 		today.setTime(new Date());
 		boolean activated=true;
@@ -135,24 +134,6 @@ public class PanelView_5 extends PanelView {
 			public void onClick(View v) {
 				Calendar nextYear = Calendar.getInstance();
 				nextYear.add(Calendar.YEAR, 1);
-//				CalendarWheelView dialogView = new CalendarWheelView(context);
-//				CalendarWheelAdapter adapter=new CalendarWheelAdapter(context);
-//				dialogView.setCyclic(true);
-//				dialogView.setBackground(0);
-//				dialogView.setViewAdapter(adapter);
-//				dialogView.setCurrentItem(1);
-//				dialogView.setVisibleItems(1);
-//				new AlertDialog.Builder(context)
-//						.setTitle("I'm a dialog!")
-//						.setView(dialogView)
-//						.setNeutralButton("Dismiss",
-//								new DialogInterface.OnClickListener() {
-//									public void onClick(
-//											DialogInterface dialogInterface,
-//											int i) {
-//										dialogInterface.dismiss();
-//									}
-//								}).create().show();
 				Intent intent=new Intent();
 				intent.setClass(context, CalanderActivity.class);
 				context.startActivity(intent);
@@ -209,8 +190,8 @@ public class PanelView_5 extends PanelView {
 	}
 	
 	private void callPaperOverview(){
-		Intent intent=new Intent();
-		intent.setClass(context, PaperOverviewActivity.class);
-		((Activity)context).startActivityForResult(intent, SudoKuActivity.REQUEST_PAPEROVERVIEW);
+//		Intent intent=new Intent();
+//		intent.setClass(context, PaperOverviewActivity.class);
+//		((Activity)context).startActivityForResult(intent, SudoKuActivity.REQUEST_PAPEROVERVIEW);
 	}
 }

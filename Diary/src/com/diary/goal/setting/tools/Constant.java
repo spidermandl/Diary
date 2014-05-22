@@ -5,8 +5,8 @@ import java.util.Map;
 
 import com.diary.goal.setting.R;
 /**
- * 
- * @author duanlei
+ * 统一管理应用常量类
+ * @author Desmond.duan
  *
  */
 public class Constant {
@@ -39,6 +39,9 @@ public class Constant {
     		"\"MIT\":[\"第一件事\",\"第二件事\",\"第三件事\"]" +
     		"}";
     
+//	public final static int REQUEST_UNITOVERVIEW=1;
+//	public final static int REQUEST_PAPEROVERVIEW=2;
+	
 	/**
 	 * 9 sudo enum config
 	 */

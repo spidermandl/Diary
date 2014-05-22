@@ -3,7 +3,6 @@ package com.diary.goal.setting.adapter;
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.activity.MainFrameActivity;
-import com.diary.goal.setting.activity.SudoKuActivity;
 import com.diary.goal.setting.tools.BitmapCustomize;
 
 import android.content.Context;

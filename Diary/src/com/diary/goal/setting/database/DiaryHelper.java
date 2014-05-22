@@ -185,7 +185,6 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		db.execSQL(CREATE_DIARY_TEMPLETE);
 		db.execSQL(CREATE_DIARY_CONTENT);
 		
-		initDiaryConfig(db);
 		db.execSQL(CREATE_VIEW_TRACK_CONFIG);
 	    
 		db.setTransactionSuccessful();
@@ -206,35 +205,6 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		db.setTransactionSuccessful();
 		db.endTransaction();
 		onCreate(db);
-	}
-
-	/**
-	 * init table of diary config
-	 */
-	private void initDiaryConfig(SQLiteDatabase db){
-		JSONObject json=DiaryApplication.getInstance().getSudoConfig();
-		int sudotype=0;
-		for(Iterator iter = json.keys(); iter.hasNext();){
-			try {
-				String type_str=(String)iter.next();
-				JSONArray array=json.getJSONArray(type_str);
-				sudotype=SudoType.forTypeValue(type_str).getType();
-				for (int i = 0; i < array.length(); i++) {
-					JSONObject jo = (JSONObject) array.get(i);
-					ContentValues values=new ContentValues();
-					values.put(DiaryConfigColumn._SUDO_TYPE,sudotype);
-					values.put(DiaryConfigColumn._CATEGORY_INDEX, jo.getInt("index"));
-					values.put(DiaryConfigColumn._CATEGORY_NAME, jo.getString("name"));
-					values.put(DiaryConfigColumn._CATEGORY_TYPE, jo.getInt("type"));
-					values.put(DiaryConfigColumn._CATEGORY_HINT, jo.getString("hint"));
-					db.insertOrThrow(Tables.DIARY_CONFIG, CommonColumn._ID, values);
-				}
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
 	}
 
 	public Cursor getDateDiaryAll(){
@@ -364,8 +334,11 @@ public class DiaryHelper extends SQLiteOpenHelper{
 				null,null,null,CommonColumn._CREATE_TIME+" DESC");
 		if(c==null||c.getCount()==0)
 			return null;
-		if (c.moveToFirst())
-			return c.getString(0);
+		if (c.moveToFirst()){
+			String result=c.getString(0);
+			c.close();
+			return result;
+		}
 		return null;
 	}
 	/*******************************************************************************************
@@ -441,8 +414,11 @@ public class DiaryHelper extends SQLiteOpenHelper{
 				null,null,null,null);
 		if(c==null||c.getCount()==0)
 			return null;
-		if(c.moveToFirst())
-			return  c.getString(0);
+		if(c.moveToFirst()){
+			String result=c.getString(0);
+			c.close();
+			return  result;
+		}
 	    return null;
 	}
 
