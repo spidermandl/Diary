@@ -92,14 +92,15 @@ public class QuickView extends TextView {
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		//MeasureSpec.getMode(heightMeasureSpec);
-		int height=MeasureSpec.getSize(heightMeasureSpec);
-		int barHeight=((SherlockActivity)this.getContext()).getSupportActionBar().getHeight();
-		//((SherlockActivity)this.getContext())
-		if(height<DiaryApplication.getInstance().getScreen_h()-barHeight){
-			int measuredHeight=MeasureSpec.makeMeasureSpec(DiaryApplication.getInstance().getScreen_h()-barHeight, MeasureSpec.EXACTLY);
-			super.onMeasure(widthMeasureSpec, measuredHeight);
-			return;
-		}
+//		int height=MeasureSpec.getSize(heightMeasureSpec);
+//		int barHeight=((SherlockActivity)this.getContext()).getSupportActionBar().getHeight();
+//		//((SherlockActivity)this.getContext())
+//		if(height<DiaryApplication.getInstance().getScreen_h()-barHeight){
+//			int measuredHeight=MeasureSpec.makeMeasureSpec(DiaryApplication.getInstance().getScreen_h()-barHeight, MeasureSpec.EXACTLY);
+//			super.onMeasure(widthMeasureSpec, measuredHeight);
+//			return;
+//		}
+		
 //		if(lines.size()*this.getLineHeight()<DiaryApplication.getInstance().getScreen_h()){
 //			int measuredHeight=MeasureSpec.makeMeasureSpec(DiaryApplication.getInstance().getScreen_h(), MeasureSpec.EXACTLY);
 //			super.onMeasure(widthMeasureSpec, measuredHeight);

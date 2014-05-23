@@ -1,4 +1,4 @@
-package com.diary.goal.setting.model;
+package com.diary.goal.setting.invalid;
 
 public class CategoryModel {
 

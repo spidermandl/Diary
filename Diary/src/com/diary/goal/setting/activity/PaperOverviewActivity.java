@@ -1,6 +1,7 @@
 package com.diary.goal.setting.activity;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,6 +25,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.widget.ScrollView;
 
@@ -72,8 +74,25 @@ public class PaperOverviewActivity extends SherlockActivity {
 		}
 		return true;
 	}
-	
+	/**
+	 * 初始日记显示内容
+	 */
 	private void initDiaryText(){
+		/**
+		 * 取数据库日记
+		 */
+		Date date=new Date(getIntent().getLongExtra("review_date", (new Date()).getTime()));
+		try {
+			String rawDiary=DiaryApplication.getInstance().getDbHelper().getDiaryContent(date);
+			if(rawDiary!=null)
+				diaryText=new JSONObject(rawDiary);
+		} catch (JSONException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		/**
+		 * 解析日记
+		 */
 		StringBuffer buffer=new StringBuffer();
 		int start=0,end=0;
 		if(diaryText!=null){
@@ -82,17 +101,38 @@ public class PaperOverviewActivity extends SherlockActivity {
 				for(int i=0;i<array.length();i++){//大标题循环
 					String mainTit=array.getString(i);//大标题
 					JSONObject subObj=diaryText.getJSONObject(mainTit);
-					mainTitPos.add(start);end=start+mainTit.length();mainTitPos.add(end);start=end;
-					buffer.append(mainTit);
+					if(mainTit.length()>0){
+						buffer.append(mainTit).append('\n');
+						mainTitPos.add(start);end=start+mainTit.length()+1;mainTitPos.add(end);
+						start=end;
+					}
 					JSONArray subArr=subObj.getJSONArray(Constant.SUB_SEQUENCE_ORDER);
 					for(int j=0;j<subArr.length();j++){//小标题循环
 						String subTit=subArr.getString(j);//小标题
-						buffer.append(subTit);
-						subTitPos.add(start);end=start+subTit.length();subTitPos.add(end);start=end;
+						if(subTit.length()>0){
+							buffer.append("  ").append('[').append(subTit).append(']');
+							subTitPos.add(start);end=start+subTit.length()+4;subTitPos.add(end);
+							start=end;
+							
+						}
 						String text = subObj.getString(subTit);//正文
-						if(text!=null&&text.length()!=0){
-							txtPos.add(start);end=start+text.length();subTitPos.add(end);start=end;
+						if(text!=null&&text.length()!=0){//正文不为空
+							txtPos.add(start);end=start+text.length();
+							if(text.charAt(0)!='\n'){
+								buffer.append('\n');
+								end++;
+							}
 							buffer.append(text);
+							if(text.charAt(text.length()-1)!='\n'){
+								buffer.append('\n');
+								end++;
+							}
+							txtPos.add(end);
+							start=end;
+						}else{//小标题后加换行
+							buffer.append('\n');
+							end++;
+							start=end;
 						}
 					}
 				}
@@ -101,7 +141,10 @@ public class PaperOverviewActivity extends SherlockActivity {
 				e.printStackTrace();
 			}
 		}
-
+		
+		/**
+		 * 设置字体样式
+		 */
 		SpannableString wholeText=new SpannableString(buffer.toString());
 		int index=0;
 		while (index<mainTitPos.size()) {
@@ -115,7 +158,7 @@ public class PaperOverviewActivity extends SherlockActivity {
 		}
 		index=0;
 		while (index<txtPos.size()) {
-			setSpannableString(wholeText, PLAIN_TEXT, subTitPos.get(index), txtPos.get(index+1), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			setSpannableString(wholeText, PLAIN_TEXT, txtPos.get(index), txtPos.get(index+1), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			index=index+2;
 		}
 		
@@ -132,24 +175,24 @@ public class PaperOverviewActivity extends SherlockActivity {
 	private void setSpannableString(SpannableString ss,int type, int start, int end, int flags){
 		switch (type) {
 		case MAIN_TITLE:
-			ss.setSpan(new AbsoluteSizeSpan(20), start, end, flags);
+			ss.setSpan(new RelativeSizeSpan(1.5f), start, end, flags);
 			ss.setSpan(new ForegroundColorSpan(Color.GRAY), start, end, flags);
 			
 			break;
 			
 		case SUB_TITLE:
-			ss.setSpan(new AbsoluteSizeSpan(16), start, end, flags);
+			ss.setSpan(new RelativeSizeSpan(1.2f), start, end, flags);
 			ss.setSpan(new ForegroundColorSpan(Color.RED), start, end, flags);
-			ss.setSpan(new StyleSpan(Typeface.BOLD) , start, end, flags);
+			//ss.setSpan(new StyleSpan(Typeface.BOLD) , start, end, flags);
 			break;
 			
 		case PLAIN_TEXT:
-			ss.setSpan(new AbsoluteSizeSpan(12), start, end, flags);
+			ss.setSpan(new RelativeSizeSpan(1.0f), start, end, flags);
 			ss.setSpan(new ForegroundColorSpan(Color.BLACK), start, end, flags);
 			break;
 
 		default:
-			ss.setSpan(new AbsoluteSizeSpan(12), start, end, flags);
+			ss.setSpan(new RelativeSizeSpan(1.0f), start, end, flags);
 			ss.setSpan(new ForegroundColorSpan(Color.BLACK), start, end, flags);
 			break;
 		}

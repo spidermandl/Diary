@@ -1,4 +1,4 @@
-package com.diary.goal.setting.model;
+package com.diary.goal.setting.invalid;
 
 import java.util.Date;
 import java.util.HashMap;

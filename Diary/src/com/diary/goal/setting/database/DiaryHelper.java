@@ -10,7 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.diary.goal.setting.DiaryApplication;
-import com.diary.goal.setting.model.DateModel;
+import com.diary.goal.setting.invalid.DateModel;
 import com.diary.goal.setting.tools.Constant.SudoType;
 
 import android.content.ContentValues;

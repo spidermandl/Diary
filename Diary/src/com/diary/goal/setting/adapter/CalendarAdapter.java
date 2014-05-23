@@ -317,7 +317,7 @@ public class CalendarAdapter extends CircleAdapter<MonthDescriptor> {
 			 */
 			Intent intent=new Intent();
 			intent.setClass(context, PaperOverviewActivity.class);
-			intent.putExtra("review_date", clickedDate);
+			intent.putExtra("review_date", clickedDate.getTime());
 			context.startActivity(intent);
 			/**
 			 * Desmond end
