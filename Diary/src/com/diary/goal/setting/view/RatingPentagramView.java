@@ -21,13 +21,13 @@ import android.widget.RatingBar.OnRatingBarChangeListener;
  * @author duanlei
  *
  */
-public class RatingPentagramView extends View {
+public class RatingPentagramView extends View implements OnRatingPentagramTouchUp{
 
 	Path mPath;
 	ShapeDrawable mDrawable;
 	Paint nullPaint,activePaint;
 	int starNum;
-	float last_x=0;
+	float last_x=0;//上一次点击的x轴距离
 	
 	double r=0;
 	double per=Math.sin(18*2*Math.PI/360)/Math.sin(54*2*Math.PI/360);
@@ -37,7 +37,7 @@ public class RatingPentagramView extends View {
 	double sin54=Math.sin(54*2*Math.PI/360);
 
 	OnRatingPentagramTouchUp listener;
-	float rating=0;
+	float rating=-1;
 	
 	public RatingPentagramView(Context context, AttributeSet attrs) {
 		this(context, attrs,1);
@@ -83,6 +83,7 @@ public class RatingPentagramView extends View {
 		 */
 		/**
 		 * calculate radius
+		 * 第一次计算半径
 		 */
 		if(r==0){
 			int width=this.getWidth();
@@ -92,8 +93,8 @@ public class RatingPentagramView extends View {
 			}else{
 				r=height/starNum>width?width/2:height/2/starNum;
 			}
-			if(rating!=0)
-				last_x=(float)(r*rating);
+			if(rating>=0)
+				last_x=(float)(r*(rating>0?rating:0.5));
 		}
 		int interval=(int)(last_x/r)+1;
 		interval=interval>(2*starNum)?10:interval;
@@ -168,23 +169,28 @@ public class RatingPentagramView extends View {
 		case MotionEvent.ACTION_MOVE:
 			break;
 		case MotionEvent.ACTION_UP:
+			int interval;
 			if(last_x<=r&&last_x>0&&x<=r){
 				/**
-				 * touching the very first half pentagram can clear all 
-				 * if the previous first half was activited
+				 * 第一个半心在选中的情况下点击，能清除所有心的颜色
 				 */
 				last_x=0;
+				interval=0;
 			}else{
 				last_x=x;
+				interval=(r!=0)?(int)(last_x/r)+1:0;
 			}
-			int interval=r!=0?(int)(last_x/r)+1:0;
 			if(interval<=(2*starNum)){
+				int integer=interval/2;
+				float value=((float)interval)/2;
+				float index=(float)integer+(float)((value-integer)>=0.5?0.5:0);//当前星级
+				this.touchUp(index);
 				if(listener!=null){
-					int integer=interval/2;
-					float value=((float)interval)/2;
-					listener.touchUp((float)integer+(float)((value-integer)>=0.5?0.5:0));
+					listener.touchUp(index);
 				}
 				invalidate();
+			}else{
+				this.touchUp(starNum);
 			}
 			break;
 		}
@@ -196,5 +202,15 @@ public class RatingPentagramView extends View {
 		if(r!=0){
 			last_x=(float)(r*this.rating);
 		}
+	}
+	
+	public float getRate(){
+		return (this.rating+1)/2;
+	}
+
+	@Override
+	public void touchUp(float rating) {
+		this.rating=2*rating-1;
+		
 	}
 }

@@ -243,6 +243,11 @@ public class DiaryApplication extends Application {
 					for(int j=0;j<subArr.length();j++){//小标题循环
 						String subTit=subArr.getString(j);
 						String text = subObj.getString(subTit);
+						float rating= Float.valueOf(subObj.getString(Constant.MAIN_STATUS));
+						if(rating>0.0){//评过星级
+							hasEdited=true;
+							break;
+						}
 						if(text!=null&&text.length()!=0){
 							int k=0;
 							while(k<text.length()){

@@ -12,7 +12,7 @@
   limitations under the License.
  */
 
-package com.diary.goal.setting.richedit;
+package com.diary.goal.setting.invalid.richedit;
 
 import android.text.Spannable;
 import android.text.style.StyleSpan;

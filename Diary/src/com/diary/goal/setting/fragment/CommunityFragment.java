@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
-public class BrowseFragment extends SherlockFragment {
+public class CommunityFragment extends SherlockFragment {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

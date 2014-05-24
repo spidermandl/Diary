@@ -12,7 +12,7 @@
   limitations under the License.
 */    
 
-package com.diary.goal.setting.richedit;
+package com.diary.goal.setting.invalid.richedit;
 
 /*
  * Base class for all effects. An "effect" is a particular

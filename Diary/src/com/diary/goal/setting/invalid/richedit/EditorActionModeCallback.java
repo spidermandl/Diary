@@ -12,7 +12,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
  */
-package com.diary.goal.setting.richedit;
+package com.diary.goal.setting.invalid.richedit;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;

@@ -26,6 +26,7 @@ import java.util.Locale;
 import java.util.Map.Entry;
 
 
+import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.activity.PaperOverviewActivity;
 import com.squareup.timessquare.CircleAdapter;
 import com.squareup.timessquare.Logr;
@@ -41,6 +42,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 public class CalendarAdapter extends CircleAdapter<MonthDescriptor> {
 
@@ -315,10 +317,14 @@ public class CalendarAdapter extends CircleAdapter<MonthDescriptor> {
 			/**
 			 * Desmond
 			 */
-			Intent intent=new Intent();
-			intent.setClass(context, PaperOverviewActivity.class);
-			intent.putExtra("review_date", clickedDate.getTime());
-			context.startActivity(intent);
+			if(DiaryApplication.getInstance().getDbHelper().getDiaryContent(clickedDate)!=null){
+				Intent intent=new Intent();
+				intent.setClass(context, PaperOverviewActivity.class);
+				intent.putExtra("review_date", clickedDate.getTime());
+				context.startActivity(intent);
+			}else{
+				Toast.makeText(CalendarAdapter.this.context, com.diary.goal.setting.R.string.no_diary_notice, 500).show();
+			}
 			/**
 			 * Desmond end
 			 */

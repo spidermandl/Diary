@@ -22,11 +22,10 @@
 	<string name="center">Center</string>
 	<string name="opposite">Opposite</string>
     <!--***********************************************************************************-->
-    <string name="tab_host_main">首页</string>
-    <string name="tab_host_fast_write">快写</string>
-    <string name="tab_host_view">浏览</string>
-    <string name="tab_host_dream">梦想</string>
-    <string name="tab_host_more">更多</string>
+    <string name="tab_host_main">晨记</string>
+    <string name="tab_host_fast_write">行动</string>
+    <string name="tab_host_view">圈子</string>
+    <string name="tab_host_dream">我</string>
     
 	<string name="edit_save">保存</string>
 	<string name="edit_back">返回</string>
@@ -45,6 +44,8 @@
 	<string name="syntax_error">日记存在格式错误</string>
 	<string name="syntax_error_nosubtitle">日记必须设置小标题 [XXX]</string>
 	<string name="subTitle_duplication">小标题重复</string>
+		
+	<string name="no_diary_notice">该天没有日记</string>
 	
 	<!-- config string -->
 	<string name="work">工作</string>

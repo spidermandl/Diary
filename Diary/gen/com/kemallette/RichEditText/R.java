@@ -8,7 +8,7 @@ package com.kemallette.RichEditText;
 
 public final class R {
 	public static final class array {
-		public static final int otf_fonts = 0x7f0a0000;
+		public static final int otf_fonts = 0x7f090000;
 	}
 	public static final class attr {
 		public static final int bar_length = 0x7f010016;
@@ -32,21 +32,21 @@ public final class R {
 		public static final int testType = 0x7f010006;
 	}
 	public static final class color {
-		public static final int dark_grey = 0x7f06000c;
+		public static final int dark_grey = 0x7f05000c;
 	}
 	public static final class dimen {
-		public static final int bar_length = 0x7f07000f;
-		public static final int bar_pointer_halo_radius = 0x7f070011;
-		public static final int bar_pointer_radius = 0x7f070010;
-		public static final int bar_thickness = 0x7f07000e;
-		public static final int color_center_halo_radius = 0x7f07000a;
-		public static final int color_center_radius = 0x7f07000b;
-		public static final int color_picker_hsvHeight = 0x7f070013;
-		public static final int color_picker_hsvWidth = 0x7f070012;
-		public static final int color_pointer_halo_radius = 0x7f07000c;
-		public static final int color_pointer_radius = 0x7f07000d;
-		public static final int color_wheel_radius = 0x7f070008;
-		public static final int color_wheel_thickness = 0x7f070009;
+		public static final int bar_length = 0x7f06000f;
+		public static final int bar_pointer_halo_radius = 0x7f060011;
+		public static final int bar_pointer_radius = 0x7f060010;
+		public static final int bar_thickness = 0x7f06000e;
+		public static final int color_center_halo_radius = 0x7f06000a;
+		public static final int color_center_radius = 0x7f06000b;
+		public static final int color_picker_hsvHeight = 0x7f060013;
+		public static final int color_picker_hsvWidth = 0x7f060012;
+		public static final int color_pointer_halo_radius = 0x7f06000c;
+		public static final int color_pointer_radius = 0x7f06000d;
+		public static final int color_wheel_radius = 0x7f060008;
+		public static final int color_wheel_thickness = 0x7f060009;
 	}
 	public static final class drawable {
 		public static final int color_picker_arrow_down = 0x7f020075;
@@ -87,73 +87,73 @@ public final class R {
 		public static final int text_uppercase = 0x7f0200c0;
 	}
 	public static final class id {
-		public static final int alignCenter = 0x7f0b00a1;
-		public static final int alignLeft = 0x7f0b00a0;
-		public static final int alignOpposite = 0x7f0b00a2;
-		public static final int alpha = 0x7f0b0002;
-		public static final int alphaNumeric = 0x7f0b0003;
-		public static final int bgColor = 0x7f0b009a;
-		public static final int bgColorPicker = 0x7f0b009b;
-		public static final int bold = 0x7f0b0094;
-		public static final int bullet = 0x7f0b009e;
-		public static final int clear = 0x7f0b00a6;
-		public static final int clearButton = 0x7f0b0092;
-		public static final int creditCard = 0x7f0b0005;
-		public static final int custom = 0x7f0b000b;
-		public static final int domainName = 0x7f0b0007;
-		public static final int editTextField = 0x7f0b0091;
-		public static final int email = 0x7f0b0004;
-		public static final int fgColor = 0x7f0b009c;
-		public static final int fgColorPicker = 0x7f0b009d;
-		public static final int fieldLayout = 0x7f0b0090;
-		public static final int formattingOptions = 0x7f0b0093;
-		public static final int ipAddress = 0x7f0b0008;
-		public static final int italic = 0x7f0b0095;
-		public static final int nocheck = 0x7f0b000a;
-		public static final int numeric = 0x7f0b0001;
-		public static final int opacityBar = 0x7f0b0043;
-		public static final int ordered = 0x7f0b009f;
-		public static final int phone = 0x7f0b0006;
-		public static final int picker = 0x7f0b0041;
-		public static final int regexp = 0x7f0b0000;
-		public static final int saturationBar = 0x7f0b0044;
-		public static final int smile1 = 0x7f0b00a3;
-		public static final int smile2 = 0x7f0b00a4;
-		public static final int smile3 = 0x7f0b00a5;
-		public static final int strikethrough = 0x7f0b0097;
-		public static final int sub = 0x7f0b0098;
-		public static final int sup = 0x7f0b0099;
-		public static final int svBar = 0x7f0b0042;
-		public static final int test = 0x7f0b00a7;
-		public static final int underline = 0x7f0b0096;
-		public static final int webUrl = 0x7f0b0009;
+		public static final int alignCenter = 0x7f0a00a1;
+		public static final int alignLeft = 0x7f0a00a0;
+		public static final int alignOpposite = 0x7f0a00a2;
+		public static final int alpha = 0x7f0a0002;
+		public static final int alphaNumeric = 0x7f0a0003;
+		public static final int bgColor = 0x7f0a009a;
+		public static final int bgColorPicker = 0x7f0a009b;
+		public static final int bold = 0x7f0a0094;
+		public static final int bullet = 0x7f0a009e;
+		public static final int clear = 0x7f0a00a6;
+		public static final int clearButton = 0x7f0a0092;
+		public static final int creditCard = 0x7f0a0005;
+		public static final int custom = 0x7f0a000b;
+		public static final int domainName = 0x7f0a0007;
+		public static final int editTextField = 0x7f0a0091;
+		public static final int email = 0x7f0a0004;
+		public static final int fgColor = 0x7f0a009c;
+		public static final int fgColorPicker = 0x7f0a009d;
+		public static final int fieldLayout = 0x7f0a0090;
+		public static final int formattingOptions = 0x7f0a0093;
+		public static final int ipAddress = 0x7f0a0008;
+		public static final int italic = 0x7f0a0095;
+		public static final int nocheck = 0x7f0a000a;
+		public static final int numeric = 0x7f0a0001;
+		public static final int opacityBar = 0x7f0a0043;
+		public static final int ordered = 0x7f0a009f;
+		public static final int phone = 0x7f0a0006;
+		public static final int picker = 0x7f0a0041;
+		public static final int regexp = 0x7f0a0000;
+		public static final int saturationBar = 0x7f0a0044;
+		public static final int smile1 = 0x7f0a00a3;
+		public static final int smile2 = 0x7f0a00a4;
+		public static final int smile3 = 0x7f0a00a5;
+		public static final int strikethrough = 0x7f0a0097;
+		public static final int sub = 0x7f0a0098;
+		public static final int sup = 0x7f0a0099;
+		public static final int svBar = 0x7f0a0042;
+		public static final int test = 0x7f0a00a7;
+		public static final int underline = 0x7f0a0096;
+		public static final int webUrl = 0x7f0a0009;
 	}
 	public static final class layout {
 		public static final int color_picker_dialog = 0x7f030016;
 		public static final int rich_edit_text = 0x7f030027;
 	}
 	public static final class string {
-		public static final int app_name = 0x7f080003;
-		public static final int bgColor = 0x7f080012;
-		public static final int clear = 0x7f080006;
-		public static final int clear_text_ = 0x7f080007;
-		public static final int error_creditcard_number_not_valid = 0x7f08000d;
-		public static final int error_domain_not_valid = 0x7f08000f;
-		public static final int error_email_address_not_valid = 0x7f08000c;
-		public static final int error_field_must_not_be_empty = 0x7f08000b;
-		public static final int error_ip_not_valid = 0x7f080010;
-		public static final int error_only_numeric_digits_allowed = 0x7f080008;
-		public static final int error_only_standard_letters_are_allowed = 0x7f08000a;
-		public static final int error_phone_not_valid = 0x7f08000e;
-		public static final int error_this_field_cannot_contain_special_character = 0x7f080009;
-		public static final int error_url_not_valid = 0x7f080011;
-		public static final int fgColor = 0x7f080013;
-		public static final int subscript = 0x7f080004;
-		public static final int superscript = 0x7f080005;
+		public static final int app_name = 0x7f070003;
+		public static final int bgColor = 0x7f070012;
+		public static final int clear = 0x7f070006;
+		public static final int clear_text_ = 0x7f070007;
+		public static final int error_creditcard_number_not_valid = 0x7f07000d;
+		public static final int error_domain_not_valid = 0x7f07000f;
+		public static final int error_email_address_not_valid = 0x7f07000c;
+		public static final int error_field_must_not_be_empty = 0x7f07000b;
+		public static final int error_ip_not_valid = 0x7f070010;
+		public static final int error_only_numeric_digits_allowed = 0x7f070008;
+		public static final int error_only_standard_letters_are_allowed = 0x7f07000a;
+		public static final int error_phone_not_valid = 0x7f07000e;
+		public static final int error_this_field_cannot_contain_special_character = 0x7f070009;
+		public static final int error_url_not_valid = 0x7f070011;
+		public static final int fgColor = 0x7f070013;
+		public static final int subscript = 0x7f070004;
+		public static final int superscript = 0x7f070005;
 	}
 	public static final class style {
-		public static final int AppBaseTheme = 0x7f090004;
-		public static final int AppTheme = 0x7f090005;
+		public static final int AppBaseTheme = 0x7f080004;
+		public static final int AppTheme = 0x7f080005;
 	}
 	public static final class styleable {
 		public static final int[] ColorBars = { 0x7f010015, 0x7f010016, 0x7f010017, 0x7f010018 };

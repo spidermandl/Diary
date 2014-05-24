@@ -1,4 +1,4 @@
-package com.diary.goal.setting.richedit;
+package com.diary.goal.setting.invalid.richedit;
 
 public interface EditorActionModeListener {
   boolean doAction(int itemId);
