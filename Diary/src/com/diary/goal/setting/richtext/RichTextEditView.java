@@ -484,16 +484,14 @@ public class RichTextEditView extends RichEditTextField implements
 			int repStart, int repEnd) {
 		int spanStart = 0;// 每轮循环repText读取的启始位置
 		boolean stop = true;
+		Log.e("setRepTextStatus", repText.toString());
+		Log.e("setRepTextStatus editState size", editState.size()+" "+position);
 		while (true) {
-			if (position + spanStart - 1 < 0
+			if ((position + spanStart - 1 < 0)
 					|| editState.get(position + spanStart - 1) == PLAIN_TEXT// 纯正文
-					|| (editState.get(position + spanStart - 1) == SUB_TITLE
-							&& this.getText().charAt(position + spanStart - 1) == SUB_TITLE_RIGHT// 最后一个标题字符
-					|| (editState.get(position + spanStart - 1) == SUB_TITLE
-							&& (position + spanStart - 2 < 0 || editState
-									.get(position + spanStart - 2) == PLAIN_TEXT) && this
-							.getText().charAt(position + spanStart - 1) != SUB_TITLE_LEFT)// 第一个正标题
-																							// ‘【’符号判断
+					|| (editState.get(position + spanStart - 1) == SUB_TITLE&& this.getText().charAt(position + spanStart - 1) == SUB_TITLE_RIGHT// 最后一个标题字符
+					|| (editState.get(position + spanStart - 1) == SUB_TITLE&& (position + spanStart - 2 < 0 || editState.get(position + spanStart - 2) == PLAIN_TEXT) && this.getText().charAt(position + spanStart - 1) != SUB_TITLE_LEFT)// 第一个正标题
+																							                                                                                                                                                // ‘【’符号判断
 					)) {
 				/**
 				 * 找下一个小标题起始点
@@ -539,6 +537,9 @@ public class RichTextEditView extends RichEditTextField implements
 				 * 继续循环
 				 */
 				spanStart += 1;
+				if(position + spanStart - 1>=this.getText().length()){//矫正spanStart
+					return;
+				}
 				// spanStart+=tmpStart;
 			}
 		}
