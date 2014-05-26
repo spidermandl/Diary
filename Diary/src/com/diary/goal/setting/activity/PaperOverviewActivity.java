@@ -25,21 +25,28 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.ImageSpan;
 import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.widget.ScrollView;
-
+/**
+ * 日记回顾界面
+ * @author Desmond Duan
+ *
+ */
 public class PaperOverviewActivity extends SherlockActivity {
 
 	private static final int MAIN_TITLE=0;
 	private static final int SUB_TITLE=1;
 	private static final int PLAIN_TEXT=2;
+	private static final int STAR_TITLE=3;
 
 	JSONObject diaryText;
 	ArrayList<Spanned> textSpans=new ArrayList<Spanned>();
 	ArrayList<Integer> mainTitPos=new ArrayList<Integer>();
 	ArrayList<Integer> subTitPos=new ArrayList<Integer>();
 	ArrayList<Integer> txtPos=new ArrayList<Integer>();
+	ArrayList<Integer> starPos=new ArrayList<Integer>();
 	QuickView textPanel;
 	
 	@Override
@@ -102,8 +109,14 @@ public class PaperOverviewActivity extends SherlockActivity {
 					String mainTit=array.getString(i);//大标题
 					JSONObject subObj=diaryText.getJSONObject(mainTit);
 					if(mainTit.length()>0){
-						buffer.append(mainTit).append('\n');
-						mainTitPos.add(start);end=start+mainTit.length()+1;mainTitPos.add(end);
+						buffer.append(mainTit).append("          ").append('\n');
+						mainTitPos.add(start);end=start+mainTit.length()+11;mainTitPos.add(end);
+						start=start+mainTit.length();
+						float index=Float.valueOf(subObj.getString(Constant.MAIN_STATUS));
+						for(int d=0;d<(int)(index+0.5);d++){
+							starPos.add(start);starPos.add(start+2);
+							start=start+2;
+						}
 						start=end;
 					}
 					JSONArray subArr=subObj.getJSONArray(Constant.SUB_SEQUENCE_ORDER);
@@ -161,6 +174,11 @@ public class PaperOverviewActivity extends SherlockActivity {
 			setSpannableString(wholeText, PLAIN_TEXT, txtPos.get(index), txtPos.get(index+1), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			index=index+2;
 		}
+		index=0;
+		while (index<starPos.size()){
+			setSpannableString(wholeText, STAR_TITLE, starPos.get(index), starPos.get(index+1), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		    index=index+2;
+		}
 		
 		textPanel.setText(wholeText);
 	}
@@ -190,7 +208,9 @@ public class PaperOverviewActivity extends SherlockActivity {
 			ss.setSpan(new RelativeSizeSpan(1.0f), start, end, flags);
 			ss.setSpan(new ForegroundColorSpan(Color.BLACK), start, end, flags);
 			break;
-
+		
+		case STAR_TITLE:
+			ss.setSpan(new ImageSpan(this,android.R.drawable.star_on), start, end, flags);
 		default:
 			ss.setSpan(new RelativeSizeSpan(1.0f), start, end, flags);
 			ss.setSpan(new ForegroundColorSpan(Color.BLACK), start, end, flags);

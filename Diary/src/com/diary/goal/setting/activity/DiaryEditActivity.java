@@ -1,9 +1,6 @@
 package com.diary.goal.setting.activity;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,7 +15,7 @@ import com.diary.goal.setting.R;
 import com.diary.goal.setting.richtext.DiaryValidator;
 import com.diary.goal.setting.richtext.RichTextEditView;
 import com.diary.goal.setting.tools.Constant;
-import com.flurry.org.apache.avro.data.Json;
+import com.diary.goal.setting.view.RatingPentagramView;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -32,6 +29,7 @@ public class DiaryEditActivity extends SherlockActivity {
      
     private RichTextEditView[] editViews=new RichTextEditView[8];
     private TextView[] mainTitles=new TextView[8];
+    private RatingPentagramView[] ratingViews = new RatingPentagramView[8];
     private JSONObject templete=null;//存储正在编辑的日记模板和内容
     private boolean isFisrtLoad=true;//是否为第一次进入当天日记编辑
 	@Override
@@ -83,6 +81,8 @@ public class DiaryEditActivity extends SherlockActivity {
 	            	String mainTitle=titles.getString(k);
 	            	StringBuffer subtitles=new StringBuffer();
 	            	mainTitles[main_index].setText("{"+mainTitle+"}");
+	            	mainTitles[main_index].setTextColor(0xFF777777);
+	            	mainTitles[main_index].setTextSize(20);
 	            	if(isFisrtLoad){//没有正文的text
 		            	JSONArray array=templete.getJSONArray(mainTitle);
 		            	int length = array.length();  
@@ -94,6 +94,7 @@ public class DiaryEditActivity extends SherlockActivity {
 		                }  
 	            	}else{
 	            		JSONObject texts=templete.getJSONObject(mainTitle);
+	            		ratingViews[k].setRate(Float.valueOf(texts.getString(Constant.MAIN_STATUS)));
 	            		JSONArray array=texts.getJSONArray(Constant.SUB_SEQUENCE_ORDER);
 		            	int length = array.length();  
 		                for(int i = 0; i < length; i++){//遍历JSONArray
@@ -153,6 +154,16 @@ public class DiaryEditActivity extends SherlockActivity {
 		mainTitles[6]=(TextView)findViewById(R.id.main_title_7);
 		mainTitles[7]=(TextView)findViewById(R.id.main_title_8);
 		
+		ratingViews[0]= (RatingPentagramView)findViewById(R.id.star_rating_1);
+		ratingViews[1]= (RatingPentagramView)findViewById(R.id.star_rating_2);
+		ratingViews[2]= (RatingPentagramView)findViewById(R.id.star_rating_3);
+		ratingViews[3]= (RatingPentagramView)findViewById(R.id.star_rating_4);
+		ratingViews[4]= (RatingPentagramView)findViewById(R.id.star_rating_5);
+		ratingViews[5]= (RatingPentagramView)findViewById(R.id.star_rating_6);
+		ratingViews[6]= (RatingPentagramView)findViewById(R.id.star_rating_7);
+		ratingViews[7]= (RatingPentagramView)findViewById(R.id.star_rating_8);
+		
+		
 	}
 	/**
 	 * 检测日记语法，并且保存正确日记
@@ -174,7 +185,7 @@ public class DiaryEditActivity extends SherlockActivity {
 				restructDiary.put(Constant.MAIN_SEQUENCE_ORDER, titles);//放入大标题数据
 				for (int i=0;i<8;i++){//赋入小标题内容
 					JSONObject subPart=editViews[i].getTextWithJsonFormat();
-					subPart.put(Constant.MAIN_STATUS, 0);
+					subPart.put(Constant.MAIN_STATUS, ratingViews[i].getRate());
 					restructDiary.put(titles.getString(i), subPart);
 				}
 				Log.e("save diary", restructDiary.toString());

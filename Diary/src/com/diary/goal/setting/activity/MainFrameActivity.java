@@ -12,10 +12,10 @@ import android.widget.TabHost;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.diary.goal.setting.R;
-import com.diary.goal.setting.fragment.BrowseFragment;
-import com.diary.goal.setting.fragment.DreamFragment;
+import com.diary.goal.setting.fragment.CommunityFragment;
+import com.diary.goal.setting.fragment.MeFragment;
 import com.diary.goal.setting.fragment.MoreFragment;
-import com.diary.goal.setting.fragment.QuickEditFragment;
+import com.diary.goal.setting.fragment.ActionFragment;
 import com.diary.goal.setting.fragment.SoduKuFragment;
 
 public class MainFrameActivity extends SherlockFragmentActivity {
@@ -42,13 +42,11 @@ public class MainFrameActivity extends SherlockFragmentActivity {
         mTabManager.addTab(mTabHost.newTabSpec(this.getResources().getString(R.string.tab_host_main)).setIndicator(this.getResources().getString(R.string.tab_host_main)),
         		SoduKuFragment.class, null);
         mTabManager.addTab(mTabHost.newTabSpec(this.getResources().getString(R.string.tab_host_fast_write)).setIndicator(this.getResources().getString(R.string.tab_host_fast_write)),
-        		QuickEditFragment.class, null);
+        		ActionFragment.class, null);
         mTabManager.addTab(mTabHost.newTabSpec(this.getResources().getString(R.string.tab_host_view)).setIndicator(this.getResources().getString(R.string.tab_host_view)),
-        		BrowseFragment.class, null);
+        		CommunityFragment.class, null);
         mTabManager.addTab(mTabHost.newTabSpec(this.getResources().getString(R.string.tab_host_dream)).setIndicator(this.getResources().getString(R.string.tab_host_dream)),
-        		DreamFragment.class, null);
-        mTabManager.addTab(mTabHost.newTabSpec(this.getResources().getString(R.string.tab_host_more)).setIndicator(this.getResources().getString(R.string.tab_host_more)),
-        		MoreFragment.class, null);
+        		MeFragment.class, null);
 
         if (savedInstanceState != null) {
             mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
