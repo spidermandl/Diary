@@ -1,20 +1,9 @@
 package com.diary.goal.setting.fragment;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.R.raw;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.SearchViewCompat;
 import android.support.v4.widget.SearchViewCompat.OnQueryTextListenerCompat;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,14 +15,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
-import com.diary.goal.setting.adapter.NinePanelAdapter;
-import com.diary.goal.setting.invalid.DateModel;
-import com.diary.goal.setting.invalid.PanelDateModel;
-import com.diary.goal.setting.listener.FlipPathListener;
-import com.diary.goal.setting.tools.Constant;
-import com.diary.goal.setting.tools.Constant.SudoType;
 import com.diary.goal.setting.view.ViewFlow;
-import com.flurry.org.apache.avro.data.Json;
 
 /**
  * 九宫格fragment
