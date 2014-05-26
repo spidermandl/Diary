@@ -8,11 +8,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.io.Reader;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.http.util.EncodingUtils;
 
 import android.content.Context;
 
@@ -82,7 +80,7 @@ public class Function {
     }  
 	
 	public static void writeFile(String filePath, String sets)  
-            throws IOException {  
+            throws IOException {
         FileWriter fw = new FileWriter(filePath);  
         PrintWriter out = new PrintWriter(fw);  
         out.write(sets);  

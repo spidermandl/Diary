@@ -18,7 +18,7 @@ package com.diary.goal.setting.view;
 
 
 import com.diary.goal.setting.R;
-import com.diary.goal.setting.listener.FlowIndicator;
+import com.diary.goal.setting.invalid.FlowIndicator;
 
 import android.content.Context;
 import android.content.res.TypedArray;

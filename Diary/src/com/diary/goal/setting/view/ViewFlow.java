@@ -19,8 +19,8 @@ import java.util.EnumSet;
 import java.util.LinkedList;
 
 import com.diary.goal.setting.R;
-import com.diary.goal.setting.listener.FlipPathListener;
-import com.diary.goal.setting.listener.FlowIndicator;
+import com.diary.goal.setting.invalid.FlipPathListener;
+import com.diary.goal.setting.invalid.FlowIndicator;
 
 
 //import org.taptwo.android.widget.viewflow.R;
