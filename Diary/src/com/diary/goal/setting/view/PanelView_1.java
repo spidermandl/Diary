@@ -6,7 +6,6 @@ import com.diary.goal.setting.R;
 import com.diary.goal.setting.tools.BitmapCustomize;
 import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.tools.Constant.SudoType;
-import com.diary.goal.setting.tools.TextUtil;
 
 import android.content.Context;
 import android.graphics.Bitmap;
