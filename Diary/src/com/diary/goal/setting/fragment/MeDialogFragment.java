@@ -2,6 +2,7 @@ package com.diary.goal.setting.fragment;
 
 import com.diary.goal.setting.R;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -10,9 +11,12 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 public class MeDialogFragment extends DialogFragment implements OnClickListener{
-	public interface getDialogStringListener {  
-		void   setTextString(String value);
-    }
+	
+	MeFragment me;
+	public MeDialogFragment(MeFragment meFragment) {
+		// TODO Auto-generated constructor stub
+		me=meFragment;
+	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -29,13 +33,11 @@ public class MeDialogFragment extends DialogFragment implements OnClickListener{
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.me_dialog_fragment_list:
-			getDialogStringListener activity=(getDialogStringListener)getActivity();
-			activity.setTextString("列表模式");
+			me.setTextString("列表模式");
 			this.dismiss();
 			break;
 		case R.id.me_dialog_fragment_icon:
-			getDialogStringListener activity1=(getDialogStringListener)getActivity();
-			activity1.setTextString("图标模式");
+			me.setTextString("图标模式");
 			this.dismiss();
 			break;
 		case R.id.me_dialog_fragment_cancel:

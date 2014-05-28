@@ -1,5 +1,6 @@
 package com.diary.goal.setting.fragment;
 
+import android.R.menu;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -8,12 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.diary.goal.setting.R;
-import com.diary.goal.setting.fragment.MeDialogFragment.getDialogStringListener;
 
-public class MeFragment extends SherlockFragment implements OnClickListener,getDialogStringListener{
+public class MeFragment extends SherlockFragment implements OnClickListener{
 	
 	TextView lineOneValue;
 	
@@ -41,10 +42,10 @@ public class MeFragment extends SherlockFragment implements OnClickListener,getD
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.me_fragment_line_one:
-			showDialog(new MeDialogFragment());
+			showDialog(new MeDialogFragment(MeFragment.this));
 			break;
 		case R.id.me_fragment_line_two:
-			
+			Toast.makeText(getActivity(), "此处跳转fragment", Toast.LENGTH_LONG).show();
 			break;
 		default:
 			break;
@@ -53,7 +54,7 @@ public class MeFragment extends SherlockFragment implements OnClickListener,getD
 	private void showDialog(DialogFragment dialog)
 	{
 		FragmentManager fragmentManager=getFragmentManager();
-		dialog.show(fragmentManager, "haha");
+		dialog.show(fragmentManager,"abc");
 	}
 	public void setTextString(String value){
 		lineOneValue.setText(value);
