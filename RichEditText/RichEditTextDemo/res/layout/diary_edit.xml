@@ -1,0 +1,144 @@
+<!-- <com.kemallette.RichEditTextDemo.Activity.DiaryEditText
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:editTextFormExample="http://schemas.android.com/apk/res/com.kemallette.RichEditTextDemo"
+    android:id="@+id/et"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="@string/hint_emailorcredit"
+    android:inputType="textEmailAddress"
+    editTextFormExample:testType="nocheck" />  -->
+    
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+        
+        
+        <TextView 
+            android:id="@+id/main_title_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        
+        <com.diary.goal.setting.richtext.RichTextEditView
+		    android:id="@+id/diary_content_1"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center_vertical"
+            android:padding="8dip"
+		    android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:minLines="10" /> 
+		    
+       	<TextView 
+            android:id="@+id/main_title_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        
+        <com.diary.goal.setting.richtext.RichTextEditView
+		    android:id="@+id/diary_content_2"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center_vertical"
+		    android:padding="8dip"
+		    android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:minLines="10" /> 
+		    
+        <TextView 
+            android:id="@+id/main_title_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        
+        <com.diary.goal.setting.richtext.RichTextEditView
+		    android:id="@+id/diary_content_3"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center_vertical"
+		    android:padding="8dip"
+		    android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:minLines="10" /> 
+	
+        <TextView 
+            android:id="@+id/main_title_4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        
+        <com.diary.goal.setting.richtext.RichTextEditView
+		    android:id="@+id/diary_content_4"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center_vertical"
+		    android:padding="8dip"
+		    android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:minLines="10" /> 
+		    
+        <TextView 
+            android:id="@+id/main_title_5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        
+        <com.diary.goal.setting.richtext.RichTextEditView
+		    android:id="@+id/diary_content_5"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center_vertical"
+		    android:padding="8dip"
+		    android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:minLines="10" /> 
+		    
+        <TextView 
+            android:id="@+id/main_title_6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        
+        <com.diary.goal.setting.richtext.RichTextEditView
+		    android:id="@+id/diary_content_6"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center_vertical"
+		    android:padding="8dip"
+		    android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:minLines="10" /> 
+		    
+        <TextView 
+            android:id="@+id/main_title_7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        
+        <com.diary.goal.setting.richtext.RichTextEditView
+		    android:id="@+id/diary_content_7"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center_vertical"
+		    android:padding="8dip"
+		    android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:minLines="10" /> 
+		    
+        <TextView 
+            android:id="@+id/main_title_8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        
+        <com.diary.goal.setting.richtext.RichTextEditView
+		    android:id="@+id/diary_content_8"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center_vertical"
+		    android:padding="8dip"
+		    android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:minLines="10" /> 
+    </LinearLayout>
+    
+
+</ScrollView>
+    

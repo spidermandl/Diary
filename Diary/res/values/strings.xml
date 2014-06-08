@@ -26,7 +26,11 @@
     <string name="tab_host_fast_write">Action</string>
     <string name="tab_host_view">Community</string>
     <string name="tab_host_dream">Me</string>
-    
+    <!-- ********************************************************************************* -->
+    <string name="login_hint">Username or email</string>
+    <string name="password_hint">Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
     
 	<string name="edit_save">SAVE</string>
 	<string name="edit_back">BACK</string>
