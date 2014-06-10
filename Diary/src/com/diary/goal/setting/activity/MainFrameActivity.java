@@ -14,7 +14,6 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.fragment.CommunityFragment;
 import com.diary.goal.setting.fragment.MeFragment;
-import com.diary.goal.setting.fragment.MoreFragment;
 import com.diary.goal.setting.fragment.ActionFragment;
 import com.diary.goal.setting.fragment.SoduKuFragment;
 

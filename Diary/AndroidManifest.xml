@@ -4,8 +4,8 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="5"
-        android:targetSdkVersion="15" />
+        android:minSdkVersion="7"
+        android:targetSdkVersion="17" />
     
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -20,18 +20,14 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity 
-            android:name="com.diary.goal.setting.invalid.FrontPageActivity"
+            android:name=".activity.UserAuthActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            
-        </activity>
-        <activity
-            android:name="com.diary.goal.setting.invalid.SudoKuActivity"
-            android:configChanges="orientation|keyboardHidden" 
-            android:screenOrientation="portrait"
-            android:launchMode="singleTop">
-            
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".activity.MainFrameActivity"
@@ -39,11 +35,7 @@
             android:screenOrientation="portrait"
             android:launchMode="singleTop">
             
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".activity.DiaryEditActivity"

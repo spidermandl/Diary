@@ -18,5 +18,7 @@
 <resources>
 
     <drawable name="category_select_bg">#ffc0c0c0</drawable>
+    <drawable name="auth_bar_bg">#ff777777</drawable>
+    <drawable name="auth_bar_split_bg">#ffcccccc</drawable>
 
 </resources>
