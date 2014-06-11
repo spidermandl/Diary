@@ -19,6 +19,7 @@ import com.diary.goal.setting.R;
  */
 public class LoginFragment extends SherlockFragment {
 
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub

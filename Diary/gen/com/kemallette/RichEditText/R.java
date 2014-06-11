@@ -87,50 +87,50 @@ public final class R {
 		public static final int text_uppercase = 0x7f0200c1;
 	}
 	public static final class id {
-		public static final int alignCenter = 0x7f0600a5;
-		public static final int alignLeft = 0x7f0600a4;
-		public static final int alignOpposite = 0x7f0600a6;
+		public static final int alignCenter = 0x7f0600a8;
+		public static final int alignLeft = 0x7f0600a7;
+		public static final int alignOpposite = 0x7f0600a9;
 		public static final int alpha = 0x7f060002;
 		public static final int alphaNumeric = 0x7f060003;
-		public static final int bgColor = 0x7f06009e;
-		public static final int bgColorPicker = 0x7f06009f;
-		public static final int bold = 0x7f060098;
-		public static final int bullet = 0x7f0600a2;
-		public static final int clear = 0x7f0600aa;
-		public static final int clearButton = 0x7f060096;
+		public static final int bgColor = 0x7f0600a1;
+		public static final int bgColorPicker = 0x7f0600a2;
+		public static final int bold = 0x7f06009b;
+		public static final int bullet = 0x7f0600a5;
+		public static final int clear = 0x7f0600ad;
+		public static final int clearButton = 0x7f060099;
 		public static final int creditCard = 0x7f060005;
 		public static final int custom = 0x7f06000b;
 		public static final int domainName = 0x7f060007;
-		public static final int editTextField = 0x7f060095;
+		public static final int editTextField = 0x7f060098;
 		public static final int email = 0x7f060004;
-		public static final int fgColor = 0x7f0600a0;
-		public static final int fgColorPicker = 0x7f0600a1;
-		public static final int fieldLayout = 0x7f060094;
-		public static final int formattingOptions = 0x7f060097;
+		public static final int fgColor = 0x7f0600a3;
+		public static final int fgColorPicker = 0x7f0600a4;
+		public static final int fieldLayout = 0x7f060097;
+		public static final int formattingOptions = 0x7f06009a;
 		public static final int ipAddress = 0x7f060008;
-		public static final int italic = 0x7f060099;
+		public static final int italic = 0x7f06009c;
 		public static final int nocheck = 0x7f06000a;
 		public static final int numeric = 0x7f060001;
 		public static final int opacityBar = 0x7f060043;
-		public static final int ordered = 0x7f0600a3;
+		public static final int ordered = 0x7f0600a6;
 		public static final int phone = 0x7f060006;
 		public static final int picker = 0x7f060041;
 		public static final int regexp = 0x7f060000;
 		public static final int saturationBar = 0x7f060044;
-		public static final int smile1 = 0x7f0600a7;
-		public static final int smile2 = 0x7f0600a8;
-		public static final int smile3 = 0x7f0600a9;
-		public static final int strikethrough = 0x7f06009b;
-		public static final int sub = 0x7f06009c;
-		public static final int sup = 0x7f06009d;
+		public static final int smile1 = 0x7f0600aa;
+		public static final int smile2 = 0x7f0600ab;
+		public static final int smile3 = 0x7f0600ac;
+		public static final int strikethrough = 0x7f06009e;
+		public static final int sub = 0x7f06009f;
+		public static final int sup = 0x7f0600a0;
 		public static final int svBar = 0x7f060042;
-		public static final int test = 0x7f0600ab;
-		public static final int underline = 0x7f06009a;
+		public static final int test = 0x7f0600ae;
+		public static final int underline = 0x7f06009d;
 		public static final int webUrl = 0x7f060009;
 	}
 	public static final class layout {
 		public static final int color_picker_dialog = 0x7f030016;
-		public static final int rich_edit_text = 0x7f030028;
+		public static final int rich_edit_text = 0x7f030029;
 	}
 	public static final class string {
 		public static final int app_name = 0x7f090000;

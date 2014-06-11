@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginLeft="25dip"
+    android:layout_marginRight="25dip"
+    android:background="@drawable/auth_bg"
+    android:orientation="vertical" >
+  
+    <EditText 
+        android:id="@+id/register_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/login_hint"
+        android:singleLine="true"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:paddingTop="10dip"
+        android:shadowColor="#00000000"
+        android:background="#00000000"
+        android:textColor="#FF000000"/>
+    <View 
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:layout_marginTop="10dip"
+        android:background="#FFCCCCCC"></View>
+    
+    <EditText 
+        android:id="@+id/register_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/password_hint"            
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:paddingTop="10dip"
+        android:paddingBottom="10dip"
+        android:inputType="textEmailAddress"
+        android:singleLine="true"
+        android:shadowColor="#00000000"
+        android:background="#00000000"
+        android:textColor="#FF000000"/>
+    
+    <View 
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:layout_marginTop="10dip"
+        android:background="#FFCCCCCC"></View>
+    
+    <EditText 
+        android:id="@+id/register_passwd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/password_hint"            
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:paddingTop="10dip"
+        android:paddingBottom="10dip"
+        android:inputType="textPassword"
+        android:singleLine="true"
+        android:shadowColor="#00000000"
+        android:background="#00000000"
+        android:textColor="#FF000000"/>
+
+</LinearLayout>

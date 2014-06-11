@@ -49,7 +49,7 @@ public final class R {
 	}
 	public static final class layout {
 		public static final int month = 0x7f030025;
-		public static final int week = 0x7f03002d;
+		public static final int week = 0x7f03002e;
 	}
 	public static final class string {
 		public static final int day_name_format = 0x7f090011;
