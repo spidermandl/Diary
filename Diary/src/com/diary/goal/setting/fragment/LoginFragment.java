@@ -1,9 +1,13 @@
 package com.diary.goal.setting.fragment;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView.FindListener;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
@@ -11,6 +15,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.diary.goal.setting.R;
+import com.diary.goal.setting.activity.UserAuthActivity;
 
 /**
  *   登陆界面
@@ -19,6 +24,8 @@ import com.diary.goal.setting.R;
  */
 public class LoginFragment extends SherlockFragment {
 
+	private EditText account,passwd;
+	private TextView resetPasswd,signUp;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -30,9 +37,24 @@ public class LoginFragment extends SherlockFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View layout = inflater.inflate(R.layout.login, container, false);
+		initView(layout);
 		return layout;
 	}
 	
+	private void initView(View layout){
+		account=(EditText)layout.findViewById(R.id.login_username);
+		passwd=(EditText)layout.findViewById(R.id.login_passwd);
+		resetPasswd=(TextView)layout.findViewById(R.id.login_find_passwd);
+		signUp=(TextView)layout.findViewById(R.id.login_sign_up);
+		signUp.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				((UserAuthActivity)LoginFragment.this.getActivity()).switchFragment(
+						new RegisterFragment(), false);
+			}
+		});
+	}
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -55,6 +77,7 @@ public class LoginFragment extends SherlockFragment {
         setHasOptionsMenu(true);
         
 	}
+	
 	
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

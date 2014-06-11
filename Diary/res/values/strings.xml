@@ -29,6 +29,8 @@
     <!-- ********************************************************************************* -->
     <string name="login_hint">Username or email</string>
     <string name="password_hint">Password</string>
+    <string name="confirm_password_hint">Confirm password</string>
+    <string name="email_hint">Email</string>
     <string name="sign_in">Sign In</string>
     <string name="sign_up">Sign Up</string>
     <string name="find_passwd">Forget your password?</string>

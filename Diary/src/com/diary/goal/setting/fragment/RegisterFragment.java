@@ -1,6 +1,7 @@
 package com.diary.goal.setting.fragment;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.diary.goal.setting.R;
+import com.diary.goal.setting.activity.UserAuthActivity;
 /**
  * 注册界面
  * @author Desmond Duan
@@ -27,7 +29,7 @@ public class RegisterFragment extends SherlockFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View layout = inflater.inflate(R.layout.login, container, false);
+		View layout = inflater.inflate(R.layout.register, container, false);
 		return layout;
 	}
 	
@@ -52,6 +54,20 @@ public class RegisterFragment extends SherlockFragment {
 		 **/
         setHasOptionsMenu(true);
         
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// This uses the imported MenuItem from ActionBarSherlock
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			((UserAuthActivity)RegisterFragment.this.getActivity()).switchFragment(
+					new LoginFragment(), false);
+			break;
+		default:
+			break;
+		}
+		return true;
 	}
 	
 	@Override
