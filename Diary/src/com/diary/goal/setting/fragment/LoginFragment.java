@@ -1,11 +1,10 @@
 package com.diary.goal.setting.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.webkit.WebView.FindListener;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -14,6 +13,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.Window;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.activity.UserAuthActivity;
 
@@ -26,6 +26,7 @@ public class LoginFragment extends SherlockFragment {
 
 	private EditText account,passwd;
 	private TextView resetPasswd,signUp;
+	private OnClickListener clickListener;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -42,18 +43,37 @@ public class LoginFragment extends SherlockFragment {
 	}
 	
 	private void initView(View layout){
+		initFunctionality();
 		account=(EditText)layout.findViewById(R.id.login_username);
 		passwd=(EditText)layout.findViewById(R.id.login_passwd);
 		resetPasswd=(TextView)layout.findViewById(R.id.login_find_passwd);
+		resetPasswd.setOnClickListener(clickListener);
 		signUp=(TextView)layout.findViewById(R.id.login_sign_up);
-		signUp.setOnClickListener(new View.OnClickListener() {
+		signUp.setOnClickListener(clickListener);
+	}
+	
+	private void initFunctionality(){
+		clickListener=new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				((UserAuthActivity)LoginFragment.this.getActivity()).switchFragment(
-						new RegisterFragment(), false);
+				if(((UserAuthActivity)LoginFragment.this.getActivity()).isNetworkProcess())
+					return;
+				switch (v.getId()) {
+				case R.id.login_find_passwd:
+					
+					break;
+				case R.id.login_sign_up:
+					((UserAuthActivity)LoginFragment.this.getActivity()).switchFragment(
+							new RegisterFragment(), false);
+					break;
+
+				default:
+					break;
+				}
+				
 			}
-		});
+		};
 	}
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -78,10 +98,23 @@ public class LoginFragment extends SherlockFragment {
         
 	}
 	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// This uses the imported MenuItem from ActionBarSherlock
+		switch (item.getItemId()) {
+		case R.string.sign_in:
+			((UserAuthActivity)this.getActivity()).setSupportProgress(Window.PROGRESS_END);
+			((UserAuthActivity)this.getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+			break;
+		default:
+			break;
+		}
+		return true;
+	}
 	
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		menu.add(0, R.string.edit_save, 1, R.string.sign_in)
+		menu.add(0, R.string.sign_in, 1, R.string.sign_in)
 	    .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 	}
 

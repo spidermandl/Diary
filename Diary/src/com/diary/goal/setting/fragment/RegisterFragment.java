@@ -1,10 +1,11 @@
 package com.diary.goal.setting.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
+import android.widget.EditText;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
@@ -20,6 +21,9 @@ import com.diary.goal.setting.activity.UserAuthActivity;
  */
 public class RegisterFragment extends SherlockFragment {
 
+	private EditText username,email,passwd,rePasswd;
+	private OnClickListener clickListener;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -30,8 +34,17 @@ public class RegisterFragment extends SherlockFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View layout = inflater.inflate(R.layout.register, container, false);
+		initView(layout);
 		return layout;
 	}
+	
+	private void initView(View layout){
+		username=(EditText)layout.findViewById(R.id.register_username);
+		email=(EditText)layout.findViewById(R.id.register_email);
+		passwd=(EditText)layout.findViewById(R.id.register_passwd);
+		rePasswd=(EditText)layout.findViewById(R.id.confirm_passwd);
+	}
+	
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -59,10 +72,15 @@ public class RegisterFragment extends SherlockFragment {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// This uses the imported MenuItem from ActionBarSherlock
+		if(((UserAuthActivity)RegisterFragment.this.getActivity()).isNetworkProcess())
+			return true;
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			((UserAuthActivity)RegisterFragment.this.getActivity()).switchFragment(
 					new LoginFragment(), false);
+			break;
+		case R.string.sign_up:
+			((UserAuthActivity)RegisterFragment.this.getActivity()).setSupportProgressBarIndeterminateVisibility(true);
 			break;
 		default:
 			break;
@@ -72,7 +90,7 @@ public class RegisterFragment extends SherlockFragment {
 	
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		menu.add(0, R.string.edit_save, 1, R.string.sign_up)
+		menu.add(0, R.string.sign_up, 1, R.string.sign_up)
 	    .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 	}
 }

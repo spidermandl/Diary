@@ -48,6 +48,7 @@ import android.widget.EditText;
 /**
  * 正则判断编辑框
  * @author desmond.duan
+ * 
  *
  */
 public class RichTextEditView extends RichEditTextField implements
