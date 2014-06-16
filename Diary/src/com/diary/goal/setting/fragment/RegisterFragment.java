@@ -1,11 +1,18 @@
 package com.diary.goal.setting.fragment;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
@@ -13,7 +20,9 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.diary.goal.setting.R;
+import com.diary.goal.setting.activity.MainFrameActivity;
 import com.diary.goal.setting.activity.UserAuthActivity;
+import com.diary.goal.setting.tools.API;
 /**
  * 注册界面
  * @author Desmond Duan
@@ -23,6 +32,10 @@ public class RegisterFragment extends SherlockFragment {
 
 	private EditText username,email,passwd,rePasswd;
 	private OnClickListener clickListener;
+	
+	private Handler handler;
+	private final static int SUCCESS=0;
+	private final static int FAIL=1;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -35,6 +48,7 @@ public class RegisterFragment extends SherlockFragment {
 			Bundle savedInstanceState) {
 		View layout = inflater.inflate(R.layout.register, container, false);
 		initView(layout);
+		initFunctionality();
 		return layout;
 	}
 	
@@ -45,6 +59,44 @@ public class RegisterFragment extends SherlockFragment {
 		rePasswd=(EditText)layout.findViewById(R.id.confirm_passwd);
 	}
 	
+	private void initFunctionality(){
+		clickListener=new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if(((UserAuthActivity)RegisterFragment.this.getActivity()).isNetworkProcess())
+					return;
+				switch (v.getId()) {
+
+				default:
+					break;
+				}
+				
+			}
+		};
+		
+		handler = new Handler(){
+			@Override
+			public void handleMessage(Message msg) {
+				switch (msg.what) {
+				case SUCCESS:
+					((UserAuthActivity)RegisterFragment.this.getActivity()).switchFragment(
+							new LoginFragment(), false);
+					Toast.makeText(RegisterFragment.this.getActivity(), R.string.register_success, 500).show();
+					break;
+				case FAIL:
+					if (msg.obj!=null) {
+						Toast.makeText(getActivity(), msg.obj.toString(), 500).show();
+					}
+					break;
+				default:
+					break;
+				}
+				super.handleMessage(msg);
+			}
+		};
+		
+	}
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -81,6 +133,25 @@ public class RegisterFragment extends SherlockFragment {
 			break;
 		case R.string.sign_up:
 			((UserAuthActivity)RegisterFragment.this.getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+			if(passwd.getText().toString()==rePasswd.getText().toString()){
+				
+			}
+			JSONObject result=API.register(username.getText().toString(), email.getText().toString(), passwd.getText().toString());
+			try {
+				if(result!=null&&result.getString("success")!=null)
+					handler.sendEmptyMessage(SUCCESS);
+				else{
+					if(result!=null){
+						Message msg=new Message();
+						msg.obj=result.getString("fail");
+						handler.sendMessage(msg);
+					}else
+						handler.sendEmptyMessage(FAIL);
+				}
+			} catch (JSONException e) {
+				handler.sendEmptyMessage(FAIL);
+				e.printStackTrace();
+			}
 			break;
 		default:
 			break;

@@ -34,6 +34,7 @@
     <string name="sign_in">登陆</string>
     <string name="sign_up">注册</string>
     <string name="find_passwd">忘记密码 ?</string>
+    <string name="register_success">账号注册成功</string>
     
     
 	<string name="edit_save">保存</string>

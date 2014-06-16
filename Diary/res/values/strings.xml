@@ -34,6 +34,7 @@
     <string name="sign_in">Sign In</string>
     <string name="sign_up">Sign Up</string>
     <string name="find_passwd">Forget your password?</string>
+    <string name="register_success">Account has been registered</string>
     
 	<string name="edit_save">SAVE</string>
 	<string name="edit_back">BACK</string>

@@ -1,7 +1,9 @@
 package com.diary.goal.setting.fragment;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -11,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
@@ -19,6 +22,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
 import com.diary.goal.setting.R;
+import com.diary.goal.setting.activity.MainFrameActivity;
 import com.diary.goal.setting.activity.UserAuthActivity;
 import com.diary.goal.setting.tools.API;
 
@@ -90,9 +94,14 @@ public class LoginFragment extends SherlockFragment {
 				switch (msg.what) {
 				case SUCCESS:
 					((UserAuthActivity)LoginFragment.this.getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+					Intent intent=new Intent();
+					intent.setClass(LoginFragment.this.getActivity(), MainFrameActivity.class);
+					LoginFragment.this.startActivity(intent);
 					break;
 				case FAIL:
-					
+					if (msg.obj!=null) {
+						Toast.makeText(getActivity(), msg.obj.toString(), 500).show();
+					}
 					break;
 				default:
 					break;
@@ -134,7 +143,21 @@ public class LoginFragment extends SherlockFragment {
 			new Thread(){
 				public void run() {
 					JSONObject result=API.login(account.getText().toString(), passwd.getText().toString());
-					handler.sendEmptyMessage(SUCCESS);
+					try {
+						if(result!=null&&result.getString("success")!=null)
+							handler.sendEmptyMessage(SUCCESS);
+						else{
+							if(result!=null){
+								Message msg=new Message();
+								msg.obj=result.getString("fail");
+								handler.sendMessage(msg);
+							}else
+								handler.sendEmptyMessage(FAIL);
+						}
+					} catch (JSONException e) {
+						handler.sendEmptyMessage(FAIL);
+						e.printStackTrace();
+					}
 				};
 			}.start();
 			break;

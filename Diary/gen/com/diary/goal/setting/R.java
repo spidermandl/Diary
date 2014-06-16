@@ -1686,18 +1686,18 @@ containing a value of this type.
         public static final int richedittext_null_select=0x7f0d0006;
     }
     public static final class string {
-        public static final int Apr=0x7f09005f;
-        public static final int Aug=0x7f090063;
-        public static final int Dec=0x7f090067;
-        public static final int Feb=0x7f09005d;
-        public static final int Jan=0x7f09005c;
-        public static final int Jul=0x7f090062;
-        public static final int Jun=0x7f090061;
-        public static final int Mar=0x7f09005e;
-        public static final int May=0x7f090060;
-        public static final int Nov=0x7f090066;
-        public static final int Oct=0x7f090065;
-        public static final int Sep=0x7f090064;
+        public static final int Apr=0x7f090060;
+        public static final int Aug=0x7f090064;
+        public static final int Dec=0x7f090068;
+        public static final int Feb=0x7f09005e;
+        public static final int Jan=0x7f09005d;
+        public static final int Jul=0x7f090063;
+        public static final int Jun=0x7f090062;
+        public static final int Mar=0x7f09005f;
+        public static final int May=0x7f090061;
+        public static final int Nov=0x7f090067;
+        public static final int Oct=0x7f090066;
+        public static final int Sep=0x7f090065;
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
          */
         public static final int abs__action_bar_home_description=0x7f090014;
@@ -1746,15 +1746,15 @@ containing a value of this type.
         public static final int center=0x7f09002f;
         public static final int clear=0x7f090003;
         public static final int clear_text_=0x7f090004;
-        public static final int config_coding=0x7f090054;
-        public static final int config_file=0x7f090053;
+        public static final int config_coding=0x7f090055;
+        public static final int config_file=0x7f090054;
         public static final int confirm_password_hint=0x7f090037;
-        public static final int date=0x7f09004e;
-        public static final int day=0x7f090068;
+        public static final int date=0x7f09004f;
+        public static final int day=0x7f090069;
         public static final int day_name_format=0x7f090011;
-        public static final int edit_back=0x7f09003d;
-        public static final int edit_dismiss=0x7f090040;
-        public static final int edit_save=0x7f09003c;
+        public static final int edit_back=0x7f09003e;
+        public static final int edit_dismiss=0x7f090041;
+        public static final int edit_save=0x7f09003d;
         public static final int effects=0x7f09002a;
         public static final int email_hint=0x7f090038;
         public static final int error_creditcard_number_not_valid=0x7f09000a;
@@ -1767,48 +1767,49 @@ containing a value of this type.
         public static final int error_phone_not_valid=0x7f09000b;
         public static final int error_this_field_cannot_contain_special_character=0x7f090006;
         public static final int error_url_not_valid=0x7f09000e;
-        public static final int family=0x7f09004c;
+        public static final int family=0x7f09004d;
         public static final int fgColor=0x7f090010;
-        public static final int finance=0x7f09004b;
+        public static final int finance=0x7f09004c;
         public static final int find_passwd=0x7f09003b;
         public static final int fonts=0x7f09002b;
         public static final int format=0x7f09002c;
-        public static final int healthy=0x7f090050;
-        public static final int innovation=0x7f09004d;
+        public static final int healthy=0x7f090051;
+        public static final int innovation=0x7f09004e;
         public static final int invalid_date=0x7f090012;
         public static final int italic=0x7f090024;
-        public static final int journery_description=0x7f09003f;
+        public static final int journery_description=0x7f090040;
         public static final int lines=0x7f09002d;
         /**  ********************************************************************************* 
  ********************************************************************************* 
          */
         public static final int login_hint=0x7f090035;
         public static final int menu_settings=0x7f090021;
-        public static final int mit=0x7f09004f;
+        public static final int mit=0x7f090050;
         public static final int mono=0x7f090029;
         public static final int month_name_format=0x7f090013;
-        public static final int no_diary_notice=0x7f090049;
+        public static final int no_diary_notice=0x7f09004a;
         public static final int normal=0x7f09002e;
         public static final int opposite=0x7f090030;
         public static final int password_hint=0x7f090036;
-        public static final int personal=0x7f090051;
-        public static final int richtext_copy=0x7f090044;
-        public static final int richtext_cut=0x7f090043;
-        public static final int richtext_paste=0x7f090045;
-        public static final int richtext_select_all=0x7f090042;
+        public static final int personal=0x7f090052;
+        public static final int register_success=0x7f09003c;
+        public static final int richtext_copy=0x7f090045;
+        public static final int richtext_cut=0x7f090044;
+        public static final int richtext_paste=0x7f090046;
+        public static final int richtext_select_all=0x7f090043;
         public static final int sans=0x7f090027;
         public static final int serif=0x7f090028;
         public static final int sign_in=0x7f090039;
         public static final int sign_up=0x7f09003a;
-        public static final int soul=0x7f090052;
-        public static final int start_jounery=0x7f09003e;
+        public static final int soul=0x7f090053;
+        public static final int start_jounery=0x7f09003f;
         public static final int strikethrough=0x7f090026;
-        public static final int subTitle_duplication=0x7f090048;
-        public static final int sub_category_operation=0x7f090041;
+        public static final int subTitle_duplication=0x7f090049;
+        public static final int sub_category_operation=0x7f090042;
         public static final int subscript=0x7f090001;
         public static final int superscript=0x7f090002;
-        public static final int syntax_error=0x7f090046;
-        public static final int syntax_error_nosubtitle=0x7f090047;
+        public static final int syntax_error=0x7f090047;
+        public static final int syntax_error_nosubtitle=0x7f090048;
         public static final int tab_host_dream=0x7f090034;
         public static final int tab_host_fast_write=0x7f090032;
         /** ***********************************************************************************
@@ -1818,17 +1819,17 @@ containing a value of this type.
         public static final int tab_host_view=0x7f090033;
         public static final int title_activity_main=0x7f090022;
         public static final int underline=0x7f090025;
-        public static final int week_1=0x7f090055;
-        public static final int week_2=0x7f090056;
-        public static final int week_3=0x7f090057;
-        public static final int week_4=0x7f090058;
-        public static final int week_5=0x7f090059;
-        public static final int week_6=0x7f09005a;
-        public static final int week_7=0x7f09005b;
+        public static final int week_1=0x7f090056;
+        public static final int week_2=0x7f090057;
+        public static final int week_3=0x7f090058;
+        public static final int week_4=0x7f090059;
+        public static final int week_5=0x7f09005a;
+        public static final int week_6=0x7f09005b;
+        public static final int week_7=0x7f09005c;
         /**  config string 
  config string 
          */
-        public static final int work=0x7f09004a;
+        public static final int work=0x7f09004b;
     }
     public static final class style {
         /** 
