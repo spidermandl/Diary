@@ -1,6 +1,10 @@
 package com.diary.goal.setting.fragment;
 
+import org.json.JSONObject;
+
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,6 +20,7 @@ import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.activity.UserAuthActivity;
+import com.diary.goal.setting.tools.API;
 
 /**
  *   登陆界面
@@ -27,6 +32,10 @@ public class LoginFragment extends SherlockFragment {
 	private EditText account,passwd;
 	private TextView resetPasswd,signUp;
 	private OnClickListener clickListener;
+	
+	private Handler handler;
+	private final static int SUCCESS=0;
+	private final static int FAIL=1;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -74,6 +83,23 @@ public class LoginFragment extends SherlockFragment {
 				
 			}
 		};
+		
+		handler = new Handler(){
+			@Override
+			public void handleMessage(Message msg) {
+				switch (msg.what) {
+				case SUCCESS:
+					((UserAuthActivity)LoginFragment.this.getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+					break;
+				case FAIL:
+					
+					break;
+				default:
+					break;
+				}
+				super.handleMessage(msg);
+			}
+		};
 	}
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -105,6 +131,12 @@ public class LoginFragment extends SherlockFragment {
 		case R.string.sign_in:
 			((UserAuthActivity)this.getActivity()).setSupportProgress(Window.PROGRESS_END);
 			((UserAuthActivity)this.getActivity()).setSupportProgressBarIndeterminateVisibility(true);
+			new Thread(){
+				public void run() {
+					JSONObject result=API.login(account.getText().toString(), passwd.getText().toString());
+					handler.sendEmptyMessage(SUCCESS);
+				};
+			}.start();
 			break;
 		default:
 			break;

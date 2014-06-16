@@ -10,6 +10,18 @@ import com.diary.goal.setting.R;
  *
  */
 public class Constant {
+	/**
+	 * 服务器域名
+	 */
+	public static String SERVER_DOMAIN="http://114.215.123.255/";
+	/**
+	 *  登录
+	 */
+	public static String LOGIN="users/login";
+	/**
+	 * 注册
+	 */
+	public static String REGISTER="users/register";
 
 	public static String FLURRY_KEY="YMY4T7WMFCYVP3R5SS7H";
 	/**

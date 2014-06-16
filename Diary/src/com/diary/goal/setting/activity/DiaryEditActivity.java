@@ -32,6 +32,7 @@ public class DiaryEditActivity extends SherlockActivity {
     private RatingPentagramView[] ratingViews = new RatingPentagramView[8];
     private JSONObject templete=null;//存储正在编辑的日记模板和内容
     private boolean isFisrtLoad=true;//是否为第一次进入当天日记编辑
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
 		setContentView(R.layout.diary_edit);
@@ -162,7 +163,6 @@ public class DiaryEditActivity extends SherlockActivity {
 		ratingViews[5]= (RatingPentagramView)findViewById(R.id.star_rating_6);
 		ratingViews[6]= (RatingPentagramView)findViewById(R.id.star_rating_7);
 		ratingViews[7]= (RatingPentagramView)findViewById(R.id.star_rating_8);
-		
 		
 	}
 	/**

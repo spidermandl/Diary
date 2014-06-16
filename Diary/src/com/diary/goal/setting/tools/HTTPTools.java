@@ -29,6 +29,9 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
+
+import com.flurry.org.apache.avro.data.Json;
 
 
 public class HTTPTools {
@@ -110,10 +113,10 @@ public class HTTPTools {
 		}
     }
     
-    private void javaHttpPost(String url){
+    public static JSONObject javaHttpPost(String url,String params){
     	
     	try {
-    		String params = "username=" + URLEncoder.encode("hello", "UTF-8")+ "&password=" + URLEncoder.encode("eoe", "UTF-8");
+    		params =URLEncoder.encode(params,"UTF-8");
     		byte[] postData = params.getBytes();
     		URL pathUrl = new URL(url); //创建一个URL对象
 			HttpURLConnection urlConnect = (HttpURLConnection) pathUrl.openConnection(); 
@@ -129,9 +132,10 @@ public class HTTPTools {
 			dos.flush();
 			dos.close();
 			if (urlConnect.getResponseCode() == 200) {    //请求成功
-				byte[] data = readInputStream(urlConnect.getInputStream());   
+				byte[] data = readInputStream(urlConnect.getInputStream());  
+				JSONObject json=new JSONObject(new String(data, "UTF-8"));
+				return json;
 				
-
 			}
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
@@ -143,9 +147,10 @@ public class HTTPTools {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}    
+    	return null;
     }
     
-    public  byte[] readInputStream(InputStream inStream) throws Exception{
+    private static byte[] readInputStream(InputStream inStream) throws Exception{
         ByteArrayOutputStream outStream = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024];
         int len = 0;

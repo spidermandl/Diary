@@ -28,7 +28,6 @@ public class UserAuthActivity extends SherlockFragmentActivity {
 	public void switchFragment(android.support.v4.app.Fragment fragment,boolean begin){
 		if(begin){
 			this.getSupportFragmentManager().beginTransaction().add(
-					
 					R.id.auth_switcher, fragment).commit();
 		}else{
 			this.getSupportFragmentManager().beginTransaction().replace(
