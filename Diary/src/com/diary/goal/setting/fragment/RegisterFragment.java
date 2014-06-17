@@ -3,7 +3,6 @@ package com.diary.goal.setting.fragment;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -20,7 +19,6 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.diary.goal.setting.R;
-import com.diary.goal.setting.activity.MainFrameActivity;
 import com.diary.goal.setting.activity.UserAuthActivity;
 import com.diary.goal.setting.tools.API;
 /**
@@ -80,8 +78,6 @@ public class RegisterFragment extends SherlockFragment {
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case SUCCESS:
-					((UserAuthActivity)RegisterFragment.this.getActivity()).switchFragment(
-							new LoginFragment(), false);
 					Toast.makeText(RegisterFragment.this.getActivity(), R.string.register_success, 500).show();
 					break;
 				case FAIL:
@@ -92,6 +88,7 @@ public class RegisterFragment extends SherlockFragment {
 				default:
 					break;
 				}
+				((UserAuthActivity)RegisterFragment.this.getActivity()).switchFragment(new LoginFragment(), false);
 				super.handleMessage(msg);
 			}
 		};
@@ -133,17 +130,28 @@ public class RegisterFragment extends SherlockFragment {
 			break;
 		case R.string.sign_up:
 			((UserAuthActivity)RegisterFragment.this.getActivity()).setSupportProgressBarIndeterminateVisibility(true);
-			if(passwd.getText().toString()==rePasswd.getText().toString()){
-				
+			/**
+			 * 错误判断
+			 */
+			if(passwd.getText().length()==0||rePasswd.getText().length()==0
+					||username.getText().length()==0||email.getText().length()==0){
+				Toast.makeText(RegisterFragment.this.getActivity(), R.string.register_error_void_item, 500).show();
 			}
+			else if(passwd.getText().toString()==rePasswd.getText().toString()){
+				Toast.makeText(RegisterFragment.this.getActivity(), R.string.register_error_unidentical_passwd, 500).show();
+			}
+			/**
+			 * 注册
+			 */
 			JSONObject result=API.register(username.getText().toString(), email.getText().toString(), passwd.getText().toString());
 			try {
-				if(result!=null&&result.getString("success")!=null)
+				if(result!=null&&result.has("success"))
 					handler.sendEmptyMessage(SUCCESS);
 				else{
 					if(result!=null){
 						Message msg=new Message();
 						msg.obj=result.getString("fail");
+						msg.what=FAIL;
 						handler.sendMessage(msg);
 					}else
 						handler.sendEmptyMessage(FAIL);

@@ -35,6 +35,8 @@
     <string name="sign_up">注册</string>
     <string name="find_passwd">忘记密码 ?</string>
     <string name="register_success">账号注册成功</string>
+    <string name="register_error_unidentical_passwd">两次密码不一样</string>
+    <string name="register_error_void_item">信息不完整</string>
     
     
 	<string name="edit_save">保存</string>

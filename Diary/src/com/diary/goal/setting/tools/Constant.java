@@ -13,7 +13,7 @@ public class Constant {
 	/**
 	 * 服务器域名
 	 */
-	public static String SERVER_DOMAIN="http://114.215.123.255/";
+	public static String SERVER_DOMAIN="http://114.215.120.47:3000/";
 	/**
 	 *  登录
 	 */

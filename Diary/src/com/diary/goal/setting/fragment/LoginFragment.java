@@ -92,8 +92,7 @@ public class LoginFragment extends SherlockFragment {
 			@Override
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
-				case SUCCESS:
-					((UserAuthActivity)LoginFragment.this.getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+				case SUCCESS:		
 					Intent intent=new Intent();
 					intent.setClass(LoginFragment.this.getActivity(), MainFrameActivity.class);
 					LoginFragment.this.startActivity(intent);
@@ -106,6 +105,7 @@ public class LoginFragment extends SherlockFragment {
 				default:
 					break;
 				}
+				((UserAuthActivity)LoginFragment.this.getActivity()).setSupportProgressBarIndeterminateVisibility(false);
 				super.handleMessage(msg);
 			}
 		};
@@ -144,12 +144,13 @@ public class LoginFragment extends SherlockFragment {
 				public void run() {
 					JSONObject result=API.login(account.getText().toString(), passwd.getText().toString());
 					try {
-						if(result!=null&&result.getString("success")!=null)
+						if(result!=null&&result.has("success"))
 							handler.sendEmptyMessage(SUCCESS);
 						else{
 							if(result!=null){
 								Message msg=new Message();
 								msg.obj=result.getString("fail");
+								msg.what=FAIL;
 								handler.sendMessage(msg);
 							}else
 								handler.sendEmptyMessage(FAIL);

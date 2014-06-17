@@ -12,7 +12,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -29,6 +31,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.flurry.org.apache.avro.data.Json;
@@ -60,33 +63,39 @@ public class HTTPTools {
 		}
     }
     
-    private void connectPost(String url){
-    	
-    	  HttpClient httpClient = new DefaultHttpClient();    // 新建HttpClient对象
-    	  HttpPost httpPost = new HttpPost(url);    // 新建HttpPost对象
-    	  List<NameValuePair> params = new ArrayList<NameValuePair>();  //使用NameValuePair来保存要传递的Post参数
-    	  params.add(new BasicNameValuePair("username", "hello"));    //添加要传递的参数
-    	  params.add(new BasicNameValuePair("password", "eoe"));   
-			try {
-				 HttpEntity entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);  // 设置字符集
-	    	     httpPost.setEntity(entity);    // 设置参数实体
-	    	     HttpResponse httpResp = httpClient.execute(httpPost); // 获取HttpResponse实例
-	    		if(httpResp.getStatusLine().getStatusCode() == HttpStatus.SC_OK){  //响应通过
-	    			String result = EntityUtils.toString(httpResp.getEntity(), "UTF-8");   
-	    			
-	    		}else{
-	    			                                               //响应未通过
-	    		}
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ClientProtocolException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}   
+    public static JSONObject connectPost(String url,HashMap<String, String> posts){ 	
+		HttpClient httpClient = new DefaultHttpClient();    // 新建HttpClient对象
+		HttpPost httpPost = new HttpPost(url);    // 新建HttpPost对象
+		List<NameValuePair> params = new ArrayList<NameValuePair>();  //使用NameValuePair来保存要传递的Post参数
+		for(Map.Entry<String, String> entry :posts.entrySet()){//添加要传递的参数
+		  params.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
+		}
+		try {
+			HttpEntity entity = new UrlEncodedFormEntity(params, HTTP.UTF_8);  // 设置字符集
+			httpPost.setEntity(entity);    // 设置参数实体
+			HttpResponse httpResp = httpClient.execute(httpPost); // 获取HttpResponse实例
+			if(httpResp.getStatusLine().getStatusCode() == HttpStatus.SC_OK){  //响应通过
+				String result = EntityUtils.toString(httpResp.getEntity(), "UTF-8");   
+				JSONObject json;
+				json = new JSONObject(result);
+				return json;
+			}else{
+				//响应未通过
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}   
+		return null;
     }
     
     private void javaHttpGet(String url){

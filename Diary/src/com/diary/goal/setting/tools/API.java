@@ -1,6 +1,8 @@
 package com.diary.goal.setting.tools;
 
 
+import java.util.HashMap;
+
 import org.json.JSONObject;
 
 public class API {
@@ -11,9 +13,13 @@ public class API {
 	 * @return
 	 */
 	public static JSONObject login(String user,String passwd){
-		String params="username="+user+
-				      "&passwd="+passwd;
-		return HTTPTools.javaHttpPost(Constant.SERVER_DOMAIN+Constant.LOGIN, params);
+//		String params="username="+user+
+//				      "&passwd="+passwd;
+//		return HTTPTools.javaHttpPost(Constant.SERVER_DOMAIN+Constant.LOGIN, params);
+		HashMap<String, String> params=new HashMap<String, String>();
+		params.put("username", user);
+		params.put("passwd", passwd);
+		return HTTPTools.connectPost(Constant.SERVER_DOMAIN+Constant.LOGIN, params);
 	}
 	/**
 	 * 注册
