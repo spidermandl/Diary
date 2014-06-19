@@ -3,6 +3,8 @@ package com.diary.goal.setting.fragment;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,12 +17,15 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.Window;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.activity.UserAuthActivity;
 import com.diary.goal.setting.tools.API;
+import com.diary.goal.setting.tools.Constant;
 /**
  * 注册界面
  * @author Desmond Duan
@@ -37,7 +42,7 @@ public class RegisterFragment extends SherlockFragment {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+		//((SherlockFragmentActivity)this.getActivity()).requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		super.onCreate(savedInstanceState);
 	}
 	
@@ -79,6 +84,10 @@ public class RegisterFragment extends SherlockFragment {
 				switch (msg.what) {
 				case SUCCESS:
 					Toast.makeText(RegisterFragment.this.getActivity(), R.string.register_success, 500).show();
+					SharedPreferences diary=RegisterFragment.this.getActivity().getSharedPreferences(Constant.PREFERENCE_NAME, Context.MODE_PRIVATE);
+					diary.edit().putString(Constant.P_USERNAME, username.getText().toString()).commit();  
+					diary.edit().putString(Constant.P_PASSWORD, passwd.getText().toString()).commit(); 
+					diary.edit().putString(Constant.P_EMAIL, email.getText().toString()).commit(); 
 					break;
 				case FAIL:
 					if (msg.obj!=null) {

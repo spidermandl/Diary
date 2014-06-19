@@ -3,7 +3,9 @@ package com.diary.goal.setting.fragment;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -25,6 +27,7 @@ import com.diary.goal.setting.R;
 import com.diary.goal.setting.activity.MainFrameActivity;
 import com.diary.goal.setting.activity.UserAuthActivity;
 import com.diary.goal.setting.tools.API;
+import com.diary.goal.setting.tools.Constant;
 
 /**
  *   登陆界面
@@ -43,7 +46,7 @@ public class LoginFragment extends SherlockFragment {
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
+		//((SherlockFragmentActivity)this.getActivity()).requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		super.onCreate(savedInstanceState);
 	}
 	
@@ -93,14 +96,26 @@ public class LoginFragment extends SherlockFragment {
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case SUCCESS:		
+					SharedPreferences diary=LoginFragment.this.getActivity().getSharedPreferences(Constant.PREFERENCE_NAME, Context.MODE_PRIVATE);
+					diary.edit().putString(Constant.P_USERNAME, account.getText().toString()).commit();  
+					diary.edit().putString(Constant.P_PASSWORD, passwd.getText().toString()).commit();
+					if(msg.obj!=null){
+						diary.edit().putString(Constant.P_SESSION, msg.obj.toString()).commit();  
+					}
+					
 					Intent intent=new Intent();
 					intent.setClass(LoginFragment.this.getActivity(), MainFrameActivity.class);
 					LoginFragment.this.startActivity(intent);
+					
+
 					break;
 				case FAIL:
 					if (msg.obj!=null) {
 						Toast.makeText(getActivity(), msg.obj.toString(), 500).show();
 					}
+					diary=LoginFragment.this.getActivity().getSharedPreferences(Constant.PREFERENCE_NAME, Context.MODE_PRIVATE);
+					diary.edit().remove(Constant.P_USERNAME).commit();  
+					diary.edit().remove(Constant.P_PASSWORD).commit();
 					break;
 				default:
 					break;
@@ -118,6 +133,7 @@ public class LoginFragment extends SherlockFragment {
 		final ActionBar ab = this.getSherlockActivity().getSupportActionBar();
 
 		// set defaults for logo & home up
+		ab.show();
 		ab.setDisplayHomeAsUpEnabled(false);	
 		ab.setDisplayUseLogoEnabled(true);
 		ab.setDisplayShowHomeEnabled(true);
@@ -130,7 +146,7 @@ public class LoginFragment extends SherlockFragment {
          * onCreateOptionsMenu() will be called back
 		 **/
         setHasOptionsMenu(true);
-        
+
 	}
 	
 	@Override
@@ -142,18 +158,26 @@ public class LoginFragment extends SherlockFragment {
 			((UserAuthActivity)this.getActivity()).setSupportProgressBarIndeterminateVisibility(true);
 			new Thread(){
 				public void run() {
+					/**
+					 * 开始登录
+					 */
 					JSONObject result=API.login(account.getText().toString(), passwd.getText().toString());
 					try {
-						if(result!=null&&result.has("success"))
-							handler.sendEmptyMessage(SUCCESS);
+						if(result!=null&&result.has(Constant.SERVER_SUCCESS)){
+							Message msg=new Message();
+							msg.obj=result.getString(Constant.SERVER_SUCCESS);
+							msg.what=SUCCESS;
+							handler.sendMessage(msg);
+						}
 						else{
 							if(result!=null){
 								Message msg=new Message();
-								msg.obj=result.getString("fail");
+								msg.obj=result.getString(Constant.SERVER_FAIL);
 								msg.what=FAIL;
 								handler.sendMessage(msg);
-							}else
+							}else{
 								handler.sendEmptyMessage(FAIL);
+							}
 						}
 					} catch (JSONException e) {
 						handler.sendEmptyMessage(FAIL);

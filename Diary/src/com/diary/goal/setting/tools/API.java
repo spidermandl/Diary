@@ -29,9 +29,13 @@ public class API {
 	 * @return
 	 */
 	public static JSONObject register(String user,String email,String passwd){
-		String params="username="+user+
-			      "&passwd="+passwd+
-			      "&email="+email;
-		return HTTPTools.javaHttpPost(Constant.SERVER_DOMAIN+Constant.REGISTER, params);
+//		String params="username="+user+
+//			      "&passwd="+passwd+
+//			      "&email="+email;
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("username", user);
+		params.put("passwd", passwd);
+		params.put("email", email);
+		return HTTPTools.connectPost(Constant.SERVER_DOMAIN+Constant.REGISTER, params);
 	}
 }

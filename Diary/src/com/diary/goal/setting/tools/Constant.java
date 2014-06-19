@@ -11,17 +11,30 @@ import com.diary.goal.setting.R;
  */
 public class Constant {
 	/**
+	 * ======================================server================================================
+	 */
+	/**
 	 * 服务器域名
 	 */
-	public static String SERVER_DOMAIN="http://114.215.120.47:3000/";
+	public static final String SERVER_DOMAIN="http://114.215.120.47:3000/";
 	/**
 	 *  登录
 	 */
-	public static String LOGIN="users/login";
+	public static final String LOGIN="users/login";
 	/**
 	 * 注册
 	 */
-	public static String REGISTER="users/register";
+	public static final String REGISTER="users/register";
+	
+	/**
+	 * ==================服务器返回字段
+	 */
+	public static final String SERVER_SUCCESS="success";
+	public static final String SERVER_FAIL="fail";
+	public static final String SERVER_SESSION_ID="session_id";
+	/**
+	 * =======================================client================================================
+	 */
 
 	public static String FLURRY_KEY="YMY4T7WMFCYVP3R5SS7H";
 	/**
@@ -50,9 +63,14 @@ public class Constant {
     		"\"创意\":[\"想法\",\"行动\"]," +
     		"\"MIT\":[\"第一件事\",\"第二件事\",\"第三件事\"]" +
     		"}";
-    
-//	public final static int REQUEST_UNITOVERVIEW=1;
-//	public final static int REQUEST_PAPEROVERVIEW=2;
+    /**
+     * preference 字段
+     */
+    public static final String PREFERENCE_NAME="diary_preference";
+    public static final String P_USERNAME="user_name";
+    public static final String P_PASSWORD="password";
+    public static final String P_EMAIL="email";
+    public static final String P_SESSION="session_series";
 	
 	/**
 	 * 9 sudo enum config
