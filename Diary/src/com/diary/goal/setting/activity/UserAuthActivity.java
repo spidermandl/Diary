@@ -1,31 +1,28 @@
 package com.diary.goal.setting.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.ActionMode;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.fragment.FrontPageFragment;
-import com.diary.goal.setting.fragment.LoginFragment;
 /**
  * 用户注册登录界面
  * @author desmond.duan
  *
  */
 public class UserAuthActivity extends SherlockFragmentActivity {
-
+    /**
+     * 判断是否在做网络请求
+     */
 	private boolean isNetworkProcess=false;
 	//private ActionMode actionMode;
 	
 	@Override
 	protected void onCreate(Bundle arg0) {
-
 		setTheme(R.style.Theme_Auth);
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-		
 		super.onCreate(arg0);
 		setContentView(R.layout.user_auth_layout);
 //		actionMode=startActionMode(new UserAuthCallback());
@@ -60,6 +57,12 @@ public class UserAuthActivity extends SherlockFragmentActivity {
 		this.isNetworkProcess = isNetworkProcess;
 	}
 	
+	
+	@Override
+	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
+		this.finish();
+		super.onActivityResult(arg0, arg1, arg2);
+	}
 //	public void showActionBar(){
 //		actionMode=startActionMode(new UserAuthCallback());
 //	}

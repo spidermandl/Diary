@@ -3,15 +3,8 @@ package com.diary.goal.setting.database;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Iterator;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.invalid.DateModel;
-import com.diary.goal.setting.tools.Constant.SudoType;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -37,6 +30,8 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		public static final String DIARY_TEMPLETE = "diary_templete";
 		/**@table 日记内容*/
 		public static final String DIARY_CONTENT = "diary_content";
+		/**@table 日记同步记录*/
+		public static final String DIARY_SYNC_RECORD = "diary_sync_record";
 	}
 	/**
 	 * 公用字段
@@ -70,12 +65,20 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 */
 	public interface DiaryTampleteColumn{
 		public static final String _TAMPLETE = "templete"; //json:{[subtitle,type],[subtile,type]...}
+		public static final String _SYNC = "sync";//是否同步, 0:没有同步，1:已经同步
 	}
 	/**
 	 * 日记内容
 	 */
 	public interface DiaryContentColumn{
 		public static final String _CONTENT="_content";
+		public static final String _SYNC = "sync";//是否同步, 0:没有同步，1:已经同步
+	}
+	/**
+	 * 日记同步记录
+	 */
+	public interface DiarySyncRecordColumn{
+		public static final String _USERID="_userid";//同步账号
 	}
 	
 	public static final String CREATE_DIARY_TRACK = 
@@ -114,7 +117,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 			+ CommonColumn._ID + " integer primary key autoincrement,"//
 			+ CommonColumn._CREATE_TIME + " datetime,"	
 			+ CommonColumn._UPDATE_TIME + " datetime,"	
-			+ DiaryTampleteColumn._TAMPLETE + " text"/** 模板存储json格式
+			+ DiaryTampleteColumn._TAMPLETE + " text,"/** 模板存储json格式
 										             * {
 										             * title_order:[big1,big2,bi3]
 										             * big1:[small1,small2]
@@ -122,13 +125,14 @@ public class DiaryHelper extends SQLiteOpenHelper{
 										             * big3:[small1,small2]
 										             * }
 										             **/
+			+DiaryTampleteColumn._SYNC+" integer"
 			+ ")";
 	public static final String CREATE_DIARY_CONTENT = 
 			"CREATE TABLE IF NOT EXISTS " +  Tables.DIARY_CONTENT + "("
 			+ CommonColumn._ID + " integer primary key autoincrement,"//
 			+ CommonColumn._CREATE_TIME + " datetime,"	
 			+ CommonColumn._UPDATE_TIME + " datetime,"	
-			+ DiaryContentColumn._CONTENT + " text" /** 日记字串存储json格式
+			+ DiaryContentColumn._CONTENT + " text," /** 日记字串存储json格式
 			                                         * {
 			                                         * main_title_order:[big1,big2,bi3]
 			                                         * big1:{  sub_title_order:[small1,small2]
@@ -148,6 +152,15 @@ public class DiaryHelper extends SQLiteOpenHelper{
 			                                         *       }
 			                                         * }
 			                                         **/
+			+DiaryTampleteColumn._SYNC+" integer"
+			+ ")";
+	
+	public static final String CREATE_DIARY_SYNC_RECORD = 
+			"CREATE TABLE IF NOT EXISTS " +  Tables.DIARY_SYNC_RECORD + "("
+			+ CommonColumn._ID + " integer primary key autoincrement,"//
+			+ CommonColumn._CREATE_TIME + " datetime,"	
+			+ CommonColumn._UPDATE_TIME + " datetime,"	
+			+ DiarySyncRecordColumn._USERID + " integer" 
 			+ ")";
 	
 	public static final String DROP_DIARY_TRACK = "DROP TABLE IF EXISTS " + Tables.DIARY_TRACK+" ";
@@ -155,6 +168,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	public static final String DROP_VIEW_CONFIG_TRACK = "DROP VIEW IF EXISTS " + Views.TRACK_CONFIG_ALL;
 	public static final String DROP_DIARY_TEMPLETE = "DROP TABLE IF EXISTS" + Tables.DIARY_TEMPLETE+" ";
 	public static final String DROP_DIARY_CONTENT= "DROP TABLE IF EXISTS" + Tables.DIARY_CONTENT+" ";
+	public static final String DROP_DIARY_SYNC_RECORD= "DROP TABLE IF EXISTS" + Tables.DIARY_SYNC_RECORD+" ";
 	/**
 	 *******************************************************************************************************************************
 	 */
@@ -184,6 +198,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		db.execSQL(CREATE_DIARY_CONFIG);
 		db.execSQL(CREATE_DIARY_TEMPLETE);
 		db.execSQL(CREATE_DIARY_CONTENT);
+		db.execSQL(CREATE_DIARY_SYNC_RECORD);
 		
 		db.execSQL(CREATE_VIEW_TRACK_CONFIG);
 	    
@@ -197,10 +212,12 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		db.beginTransaction();
 		
 		db.execSQL(DROP_VIEW_CONFIG_TRACK);
+		db.execSQL(DROP_DIARY_SYNC_RECORD);
 		db.execSQL(DROP_DIARY_TRACK);
 		db.execSQL(DROP_DIRAY_CONFIG);
 		db.execSQL(DROP_DIARY_TEMPLETE);
 		db.execSQL(DROP_DIARY_CONTENT);
+		
 		
 		db.setTransactionSuccessful();
 		db.endTransaction();
@@ -292,12 +309,13 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 * @param date
 	 * @param text
 	 */
-	public void insertDiaryTemplete(Date date,String text){
+	public void insertDiaryTemplete(Date date,String text,int sync){
 		ContentValues values = new ContentValues();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		values.put(CommonColumn._CREATE_TIME, format.format(date));
 		values.put(CommonColumn._UPDATE_TIME, format.format(date));
 		values.put(DiaryTampleteColumn._TAMPLETE, text);
+		values.put(DiaryTampleteColumn._SYNC, sync);
 		
 		db.insertOrThrow(Tables.DIARY_TEMPLETE, CommonColumn._ID, values);
 	}
@@ -309,11 +327,12 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 * @param date
 	 * @param text
 	 */
-	public void updateDiaryTemplete(Date date,String text){
+	public void updateDiaryTemplate(Date date,String text,int sync){
 		ContentValues values=new ContentValues();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		values.put(CommonColumn._UPDATE_TIME, format.format(date));
 		values.put(DiaryTampleteColumn._TAMPLETE, text);
+		values.put(DiaryTampleteColumn._SYNC, sync);
 		
 		format = new SimpleDateFormat("yyyy-MM-dd");
 		String sDate=format.format(date);
@@ -326,7 +345,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 * @param date
 	 * @return
 	 */
-	public String getDiaryTemplete(Date date){
+	public String getDiaryTemplate(Date date){
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		String sDate=date==null?null:format.format(date);
 		Cursor c=db.query(Tables.DIARY_TEMPLETE, new String[]{DiaryTampleteColumn._TAMPLETE}, 
@@ -349,6 +368,9 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 * @param model
 	 * @param text
 	 */
+	/**
+	 * @deprecated
+	 */
 	public void insertDiaryContent(DateModel model,String text){
 		ContentValues values=new ContentValues();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -359,12 +381,14 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		
 		db.insertOrThrow(Tables.DIARY_TRACK, CommonColumn._ID, values);
 	}
-	public void insertDiaryContent(Date date,String text){
+	
+	public void insertDiaryContent(Date date,String text,int sync){
 		ContentValues values=new ContentValues();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		values.put(CommonColumn._CREATE_TIME, format.format(date));
 		values.put(CommonColumn._UPDATE_TIME, format.format(date));
 		values.put(DiaryContentColumn._CONTENT, text);
+		values.put(DiaryContentColumn._SYNC, sync);
 		
 		db.insertOrThrow(Tables.DIARY_CONTENT, CommonColumn._ID, values);
 	}
@@ -373,11 +397,12 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 * @param model
 	 * @param text
 	 */
-	public void updateDiaryContent(DateModel model,String text){
+	public void updateDiaryContent(DateModel model,String text,int sync){
 		ContentValues values=new ContentValues();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		values.put(CommonColumn._UPDATE_TIME, format.format(model.getDate()));
 		values.put(DiaryTrackColumn._TEXT, text);
+		values.put(DiaryContentColumn._SYNC, sync);
 		
 		format = new SimpleDateFormat("yyyy-MM-dd");
 		String date=format.format(model.getDate());
@@ -389,11 +414,12 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		        null);
 	}
 	
-	public void updateDiaryContent(Date date,String text){
+	public void updateDiaryContent(Date date,String text,int sync){
 		ContentValues values=new ContentValues();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		values.put(CommonColumn._UPDATE_TIME, format.format(date));
 		values.put(DiaryContentColumn._CONTENT, text);
+		values.put(DiaryContentColumn._SYNC, sync);
 		
 		format = new SimpleDateFormat("yyyy-MM-dd");
 		String sDate=format.format(date);
@@ -420,6 +446,27 @@ public class DiaryHelper extends SQLiteOpenHelper{
 			return  result;
 		}
 	    return null;
+	}
+	/*******************************************************************************************
+	 * 日记同步记录表（diary_sync_record）表操作方法
+	 *******************************************************************************************/
+	public boolean getSynRecord(String userid){
+		Cursor c=db.query(Tables.DIARY_SYNC_RECORD, null, 
+				DiarySyncRecordColumn._USERID+" = "+userid,
+				null,null,null,null);
+		if(c==null||c.getCount()==0)
+			return false;
+		return true;
+	}
+	
+	public void insertSynRecord(Date date,int userid){
+		ContentValues values=new ContentValues();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		values.put(CommonColumn._CREATE_TIME, format.format(date));
+		values.put(CommonColumn._UPDATE_TIME, format.format(date));
+		values.put(DiaryContentColumn._SYNC, userid);
+		
+		db.insertOrThrow(Tables.DIARY_SYNC_RECORD, CommonColumn._ID, values);
 	}
 
 }

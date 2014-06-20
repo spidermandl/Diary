@@ -1,5 +1,8 @@
 package com.diary.goal.setting.fragment;
 
+import java.util.HashMap;
+
+import org.apache.commons.lang3.reflect.ConstructorUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,6 +26,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
+import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.activity.MainFrameActivity;
 import com.diary.goal.setting.activity.UserAuthActivity;
@@ -100,12 +104,21 @@ public class LoginFragment extends SherlockFragment {
 					diary.edit().putString(Constant.P_USERNAME, account.getText().toString()).commit();  
 					diary.edit().putString(Constant.P_PASSWORD, passwd.getText().toString()).commit();
 					if(msg.obj!=null){
-						diary.edit().putString(Constant.P_SESSION, msg.obj.toString()).commit();  
+						JSONObject obj=(JSONObject)msg.obj;
+						HashMap<String, String> cache=DiaryApplication.getInstance().getMemCache();
+						try {
+							cache.put(Constant.SERVER_SESSION_ID, obj.getString(Constant.SERVER_SESSION_ID));
+							cache.put(Constant.SERVER_USER_ID, obj.getString(Constant.SERVER_USER_ID));
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
 					}
 					
 					Intent intent=new Intent();
 					intent.setClass(LoginFragment.this.getActivity(), MainFrameActivity.class);
-					LoginFragment.this.startActivity(intent);
+					LoginFragment.this.startActivityForResult(intent, 0);
 					
 
 					break;
@@ -154,7 +167,6 @@ public class LoginFragment extends SherlockFragment {
 		// This uses the imported MenuItem from ActionBarSherlock
 		switch (item.getItemId()) {
 		case R.string.sign_in:
-			((UserAuthActivity)this.getActivity()).setSupportProgress(Window.PROGRESS_END);
 			((UserAuthActivity)this.getActivity()).setSupportProgressBarIndeterminateVisibility(true);
 			new Thread(){
 				public void run() {
@@ -165,7 +177,7 @@ public class LoginFragment extends SherlockFragment {
 					try {
 						if(result!=null&&result.has(Constant.SERVER_SUCCESS)){
 							Message msg=new Message();
-							msg.obj=result.getString(Constant.SERVER_SUCCESS);
+							msg.obj=result;
 							msg.what=SUCCESS;
 							handler.sendMessage(msg);
 						}
@@ -197,5 +209,6 @@ public class LoginFragment extends SherlockFragment {
 		menu.add(0, R.string.sign_in, 1, R.string.sign_in)
 	    .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 	}
+	
 
 }

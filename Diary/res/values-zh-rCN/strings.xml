@@ -37,6 +37,7 @@
     <string name="register_success">账号注册成功</string>
     <string name="register_error_unidentical_passwd">两次密码不一样</string>
     <string name="register_error_void_item">信息不完整</string>
+    <string name="server_error">服务器错误</string>
     
     
 	<string name="edit_save">保存</string>

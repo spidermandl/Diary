@@ -38,4 +38,13 @@ public class API {
 		params.put("email", email);
 		return HTTPTools.connectPost(Constant.SERVER_DOMAIN+Constant.REGISTER, params);
 	}
+	
+	/**
+	 * 获得用户日记
+	 */
+	public static JSONObject fetchDiarys(String session_id){
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("session_id", session_id);
+		return HTTPTools.connectPost(Constant.SERVER_DOMAIN+Constant.DIARY_LIST, params);
+	}
 }

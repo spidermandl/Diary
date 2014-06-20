@@ -25,6 +25,10 @@ public class Constant {
 	 * 注册
 	 */
 	public static final String REGISTER="users/register";
+	/**
+	 * 获取用户日记
+	 */
+	public static final String DIARY_LIST="diarys/list";
 	
 	/**
 	 * ==================服务器返回字段
@@ -32,6 +36,8 @@ public class Constant {
 	public static final String SERVER_SUCCESS="success";
 	public static final String SERVER_FAIL="fail";
 	public static final String SERVER_SESSION_ID="session_id";
+	public static final String SERVER_USER_ID="user_id";
+	public static final String SERVER_DIARY_LIST="diarys";
 	/**
 	 * =======================================client================================================
 	 */

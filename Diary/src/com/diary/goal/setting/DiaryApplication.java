@@ -45,6 +45,10 @@ public class DiaryApplication extends Application {
 	 * 保存九宫格状态
 	 */
 	private HashMap<SudoType, Boolean> SudoKuStatus;
+	/**
+	 * 数据缓存,包括用户id等服务器信息
+	 */
+	private HashMap<String, String> memCache;
 
 	private int screen_width;
 	private int screen_height;
@@ -91,7 +95,8 @@ public class DiaryApplication extends Application {
 		screen_width=displaymetrics.widthPixels;
 		screen_height=displaymetrics.heightPixels;
 		initialOrientation=this.getResources().getConfiguration().orientation;
-		dbHelper=new DiaryHelper(this);
+		dbHelper = new DiaryHelper(this);
+		memCache = new HashMap<String, String>();
 		
 //		ueHandler = new UEHandler(this); 
 //        Thread.setDefaultUncaughtExceptionHandler(ueHandler); 
@@ -265,6 +270,12 @@ public class DiaryApplication extends Application {
 				e.printStackTrace();
 			}
 		}
+	}
+	public HashMap<String, String> getMemCache() {
+		return memCache;
+	}
+	public void setMemCache(HashMap<String, String> memCache) {
+		this.memCache = memCache;
 	}
 
 }

@@ -18,6 +18,8 @@ import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.view.RatingPentagramView;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.widget.TextView;
 /**
@@ -32,6 +34,10 @@ public class DiaryEditActivity extends SherlockActivity {
     private RatingPentagramView[] ratingViews = new RatingPentagramView[8];
     private JSONObject templete=null;//存储正在编辑的日记模板和内容
     private boolean isFisrtLoad=true;//是否为第一次进入当天日记编辑
+    
+	private Handler handler;
+	private final static int SUCCESS=0;
+	private final static int FAIL=1;
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -56,7 +62,7 @@ public class DiaryEditActivity extends SherlockActivity {
 			}
 		}
 		if(isFisrtLoad){
-			String latestTemplete=DiaryApplication.getInstance().getDbHelper().getDiaryTemplete(null);
+			String latestTemplete=DiaryApplication.getInstance().getDbHelper().getDiaryTemplate(null);
 			if(latestTemplete!=null){//数据库中存在模板
 				try {
 					templete=new JSONObject(latestTemplete);
@@ -125,6 +131,24 @@ public class DiaryEditActivity extends SherlockActivity {
 					new DiaryValidator(null, DiaryValidator.getSubTitlePattern()));
 		}
 		
+		handler=new Handler(){
+			@Override
+			public void handleMessage(Message msg) {
+				switch (msg.what) {
+				case SUCCESS:
+					
+					break;
+				case FAIL:
+					
+					break;
+
+				default:
+					break;
+				}
+				super.handleMessage(msg);
+			}
+		};
+		
 	}
 
 	protected void initViews(){
@@ -190,9 +214,9 @@ public class DiaryEditActivity extends SherlockActivity {
 				}
 				Log.e("save diary", restructDiary.toString());
 				if(isFisrtLoad)
-					DiaryApplication.getInstance().getDbHelper().insertDiaryContent(new Date(), restructDiary.toString());
+					DiaryApplication.getInstance().getDbHelper().insertDiaryContent(new Date(), restructDiary.toString(),0);
 				else
-					DiaryApplication.getInstance().getDbHelper().updateDiaryContent(new Date(), restructDiary.toString());
+					DiaryApplication.getInstance().getDbHelper().updateDiaryContent(new Date(), restructDiary.toString(),0);
 				
 				DiaryApplication.getInstance().updateStatusPanel();//更新九宫格状态
 			} catch (JSONException e) {
@@ -201,6 +225,12 @@ public class DiaryEditActivity extends SherlockActivity {
 			}
 			this.finish();
 		}
+	}
+	/**
+	 * 向服务器提交
+	 */
+	private void commitDiary(){
+		
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -231,4 +261,5 @@ public class DiaryEditActivity extends SherlockActivity {
 		}
 		return true;
 	}
+	
 }

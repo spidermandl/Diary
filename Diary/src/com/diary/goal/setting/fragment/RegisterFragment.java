@@ -97,6 +97,7 @@ public class RegisterFragment extends SherlockFragment {
 				default:
 					break;
 				}
+				((UserAuthActivity)RegisterFragment.this.getActivity()).setSupportProgressBarIndeterminateVisibility(false);
 				((UserAuthActivity)RegisterFragment.this.getActivity()).switchFragment(new LoginFragment(), false);
 				super.handleMessage(msg);
 			}
@@ -149,25 +150,31 @@ public class RegisterFragment extends SherlockFragment {
 			else if(passwd.getText().toString()==rePasswd.getText().toString()){
 				Toast.makeText(RegisterFragment.this.getActivity(), R.string.register_error_unidentical_passwd, 500).show();
 			}
-			/**
-			 * 注册
-			 */
-			JSONObject result=API.register(username.getText().toString(), email.getText().toString(), passwd.getText().toString());
-			try {
-				if(result!=null&&result.has("success"))
-					handler.sendEmptyMessage(SUCCESS);
-				else{
-					if(result!=null){
-						Message msg=new Message();
-						msg.obj=result.getString("fail");
-						msg.what=FAIL;
-						handler.sendMessage(msg);
-					}else
-						handler.sendEmptyMessage(FAIL);
-				}
-			} catch (JSONException e) {
-				handler.sendEmptyMessage(FAIL);
-				e.printStackTrace();
+			else{
+				/**
+				 * 注册
+				 */
+				new Thread(){
+					public void run() {
+						JSONObject result=API.register(username.getText().toString(), email.getText().toString(), passwd.getText().toString());
+						try {
+							if(result!=null&&result.has("success"))
+								handler.sendEmptyMessage(SUCCESS);
+							else{
+								if(result!=null){
+									Message msg=new Message();
+									msg.obj=result.getString("fail");
+									msg.what=FAIL;
+									handler.sendMessage(msg);
+								}else
+									handler.sendEmptyMessage(FAIL);
+							}
+						} catch (JSONException e) {
+							handler.sendEmptyMessage(FAIL);
+							e.printStackTrace();
+						}
+					};
+				}.start();
 			}
 			break;
 		default:

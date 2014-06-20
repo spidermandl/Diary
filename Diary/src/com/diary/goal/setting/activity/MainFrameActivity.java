@@ -2,8 +2,16 @@ package com.diary.goal.setting.activity;
 
 import java.util.HashMap;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -11,21 +19,29 @@ import android.view.View;
 import android.widget.TabHost;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.fragment.CommunityFragment;
 import com.diary.goal.setting.fragment.MeFragment;
 import com.diary.goal.setting.fragment.ActionFragment;
 import com.diary.goal.setting.fragment.SoduKuFragment;
+import com.diary.goal.setting.tools.API;
+import com.diary.goal.setting.tools.Constant;
 
 public class MainFrameActivity extends SherlockFragmentActivity {
 	TabHost mTabHost;
     TabManager mTabManager;
+    
+    private Handler handler;
+	private final static int SUCCESS=0;
+	private final static int FAIL=1;
 
 	/**
 	 * request code of an activty
 	 */
 	public final static int REQUEST_UNITOVERVIEW=1;
 	public final static int REQUEST_PAPEROVERVIEW=2;
+	
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +66,8 @@ public class MainFrameActivity extends SherlockFragmentActivity {
         if (savedInstanceState != null) {
             mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
         }
+        
+        syncDiary();
     }
 
     @Override
@@ -57,7 +75,60 @@ public class MainFrameActivity extends SherlockFragmentActivity {
         super.onSaveInstanceState(outState);
         outState.putString("tab", mTabHost.getCurrentTabTag());
     }
+    
 
+    /**
+     * 同步机制
+     */
+    private void syncDiary(){
+    	handler=new Handler(){
+    		@Override
+    		public void handleMessage(Message msg) {
+    			switch (msg.what) {
+				case SUCCESS:
+					JSONObject obj = (JSONObject)msg.obj;
+					try {
+						JSONArray array=obj.getJSONArray(Constant.SERVER_DIARY_LIST);
+						for(int i=0;i<array.length();i++){
+							
+						}
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+					break;
+				case FAIL:
+					
+					break;
+
+				default:
+					break;
+				}
+    			super.handleMessage(msg);
+    		}
+    	};
+    	
+    	if(!DiaryApplication.getInstance().getDbHelper().getSynRecord(
+    			DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID))){
+	    	new Thread(){
+	    		public void run() {
+	    			SharedPreferences diary=MainFrameActivity.this.getSharedPreferences(Constant.PREFERENCE_NAME, Context.MODE_PRIVATE);
+	    			String session_id=diary.getString(Constant.P_SESSION, null);
+	    			if(session_id!=null){
+	    				JSONObject result=API.fetchDiarys(session_id);			
+						if(result!=null&&result.has(Constant.SERVER_SUCCESS)){
+							Message msg=new Message();
+							msg.obj=result;
+							msg.what=SUCCESS;
+							handler.sendMessage(msg);
+						}
+						else{
+							handler.sendEmptyMessage(FAIL);
+						}
+	    			}
+	    		};
+	    	}.start();
+    	}
+    }
     /**
      * This is a helper class that implements a generic mechanism for
      * associating fragments with the tabs in a tab host.  It relies on a
