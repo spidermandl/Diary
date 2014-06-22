@@ -81,6 +81,7 @@ public class MainFrameActivity extends SherlockFragmentActivity {
      * 同步机制
      */
     private void syncDiary(){
+
     	handler=new Handler(){
     		@Override
     		public void handleMessage(Message msg) {
@@ -106,28 +107,34 @@ public class MainFrameActivity extends SherlockFragmentActivity {
     			super.handleMessage(msg);
     		}
     	};
-    	
-    	if(!DiaryApplication.getInstance().getDbHelper().getSynRecord(
-    			DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID))){
-	    	new Thread(){
-	    		public void run() {
-	    			SharedPreferences diary=MainFrameActivity.this.getSharedPreferences(Constant.PREFERENCE_NAME, Context.MODE_PRIVATE);
-	    			String session_id=diary.getString(Constant.P_SESSION, null);
-	    			if(session_id!=null){
-	    				JSONObject result=API.fetchDiarys(session_id);			
-						if(result!=null&&result.has(Constant.SERVER_SUCCESS)){
-							Message msg=new Message();
-							msg.obj=result;
-							msg.what=SUCCESS;
-							handler.sendMessage(msg);
-						}
-						else{
-							handler.sendEmptyMessage(FAIL);
-						}
-	    			}
-	    		};
-	    	}.start();
-    	}
+    	HashMap<String, String> cache=DiaryApplication.getInstance().getMemCache();
+		String session_id=cache.get(Constant.SERVER_SESSION_ID);
+		//String user_id=cache.get(Constant.SERVER_USER_ID);
+		String user_id=DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID);
+		if(session_id!=null){
+			if(!DiaryApplication.getInstance().getDbHelper().getSynRecord(user_id)){
+				//没有同步过
+				new Thread(){
+		    		public void run() {
+		    			SharedPreferences diary=MainFrameActivity.this.getSharedPreferences(Constant.PREFERENCE_NAME, Context.MODE_PRIVATE);
+		    			String session_id=diary.getString(Constant.P_SESSION, null);
+		    			if(session_id!=null){
+		    				JSONObject result=API.fetchDiarys(session_id);			
+							if(result!=null&&result.has(Constant.SERVER_SUCCESS)){
+								Message msg=new Message();
+								msg.obj=result;
+								msg.what=SUCCESS;
+								handler.sendMessage(msg);
+							}
+							else{
+								handler.sendEmptyMessage(FAIL);
+							}
+		    			}
+		    		};
+		    	}.start();
+			}
+		}
+		
     }
     /**
      * This is a helper class that implements a generic mechanism for

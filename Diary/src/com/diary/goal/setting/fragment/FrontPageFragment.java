@@ -67,7 +67,7 @@ public class FrontPageFragment extends SherlockFragment{
 		new Thread(){
 			public void run() {
 				SharedPreferences diary=FrontPageFragment.this.getActivity().getSharedPreferences(Constant.PREFERENCE_NAME, Context.MODE_PRIVATE);
-				String username=diary.getString(Constant.P_USERNAME, null);
+				String username=diary.getString(Constant.P_ACCOUNT, null);
 				String passwd=diary.getString(Constant.P_PASSWORD, null);
 				if (username!=null&&username.length()>0&&passwd!=null&&passwd.length()>0){
 					JSONObject result=API.login(username, passwd);
@@ -104,9 +104,14 @@ public class FrontPageFragment extends SherlockFragment{
 					if(msg.obj!=null){
 						JSONObject obj=(JSONObject)msg.obj;
 						HashMap<String, String> cache=DiaryApplication.getInstance().getMemCache();
+						SharedPreferences diary=FrontPageFragment.this.getActivity().getSharedPreferences(Constant.PREFERENCE_NAME, Context.MODE_PRIVATE);
+						String username=diary.getString(Constant.P_ACCOUNT, null);
+						String passwd=diary.getString(Constant.P_PASSWORD, null);
+						long userid=DiaryApplication.getInstance().getDbHelper().getUser(username, passwd);
 						try {
 							cache.put(Constant.SERVER_SESSION_ID, obj.getString(Constant.SERVER_SESSION_ID));
-							cache.put(Constant.SERVER_USER_ID, obj.getString(Constant.SERVER_USER_ID));
+							//cache.put(Constant.SERVER_USER_ID, obj.getString(Constant.SERVER_USER_ID));
+							cache.put(Constant.SERVER_USER_ID, String.valueOf(userid));
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -118,8 +123,19 @@ public class FrontPageFragment extends SherlockFragment{
 					((UserAuthActivity)FrontPageFragment.this.getActivity()).switchFragment(new LoginFragment(), false);
 					break;
 				case NO_SERVER:
-					Toast.makeText(FrontPageFragment.this.getActivity(), R.string.server_error, 500).show();
-					FrontPageFragment.this.getActivity().finish();
+					SharedPreferences diary=FrontPageFragment.this.getActivity().getSharedPreferences(Constant.PREFERENCE_NAME, Context.MODE_PRIVATE);
+					String user_id=diary.getString(Constant.P_USER_ID, null);
+					if(user_id==null){//user_id 没有被存
+						Toast.makeText(FrontPageFragment.this.getActivity(), R.string.server_error, 500).show();
+						FrontPageFragment.this.getActivity().finish();
+					}else{
+						intent=new Intent();
+						intent.setClass(FrontPageFragment.this.getActivity(), MainFrameActivity.class);
+						FrontPageFragment.this.startActivityForResult(intent, 0);
+						
+						HashMap<String, String> cache=DiaryApplication.getInstance().getMemCache();
+						cache.put(Constant.SERVER_USER_ID, user_id);
+					}
 				default:
 					break;
 				}

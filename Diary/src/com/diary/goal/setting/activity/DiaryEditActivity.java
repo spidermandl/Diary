@@ -1,6 +1,8 @@
 package com.diary.goal.setting.activity;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,6 +16,7 @@ import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.richtext.DiaryValidator;
 import com.diary.goal.setting.richtext.RichTextEditView;
+import com.diary.goal.setting.tools.API;
 import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.view.RatingPentagramView;
 
@@ -34,10 +37,16 @@ public class DiaryEditActivity extends SherlockActivity {
     private RatingPentagramView[] ratingViews = new RatingPentagramView[8];
     private JSONObject templete=null;//存储正在编辑的日记模板和内容
     private boolean isFisrtLoad=true;//是否为第一次进入当天日记编辑
+    private String[] diaryModel;//日记查询的结果
+    private final static int _CONTENT=0;
+    private final static int _CREATE_TIME=1;
     
 	private Handler handler;
-	private final static int SUCCESS=0;
-	private final static int FAIL=1;
+	private final static int CREATE_SUCCESS=0;
+	private final static int UPDATE_SUCCESS=1;
+	private final static int FAIL=2;
+	
+	HashMap<String, String> memCache;//缓存
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -52,7 +61,8 @@ public class DiaryEditActivity extends SherlockActivity {
 		/**
 		 * 载入模板 和 日记
 		 */
-		String content=DiaryApplication.getInstance().getDbHelper().getDiaryContent(new Date());
+		diaryModel= DiaryApplication.getInstance().getDbHelper().getDiaryContent(memCache.get(Constant.SERVER_USER_ID),new Date());
+		String content= diaryModel[_CONTENT];
 		if(content!=null){//当天日记已经编辑过
 			try {
 				templete=new JSONObject(content);
@@ -135,8 +145,12 @@ public class DiaryEditActivity extends SherlockActivity {
 			@Override
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
-				case SUCCESS:
-					
+				case CREATE_SUCCESS:
+					DiaryApplication.getInstance().getDbHelper().updateDiaryContent(memCache.get(Constant.SERVER_USER_ID),new Date(), diaryModel[0], 1);
+					break;
+				
+				case UPDATE_SUCCESS:
+					DiaryApplication.getInstance().getDbHelper().updateDiaryContent(memCache.get(Constant.SERVER_USER_ID),new Date(), diaryModel[0], 1);
 					break;
 				case FAIL:
 					
@@ -188,6 +202,7 @@ public class DiaryEditActivity extends SherlockActivity {
 		ratingViews[6]= (RatingPentagramView)findViewById(R.id.star_rating_7);
 		ratingViews[7]= (RatingPentagramView)findViewById(R.id.star_rating_8);
 		
+		memCache=DiaryApplication.getInstance().getMemCache();
 	}
 	/**
 	 * 检测日记语法，并且保存正确日记
@@ -214,9 +229,9 @@ public class DiaryEditActivity extends SherlockActivity {
 				}
 				Log.e("save diary", restructDiary.toString());
 				if(isFisrtLoad)
-					DiaryApplication.getInstance().getDbHelper().insertDiaryContent(new Date(), restructDiary.toString(),0);
+					DiaryApplication.getInstance().getDbHelper().insertDiaryContent(memCache.get(Constant.SERVER_USER_ID),new Date(), restructDiary.toString(),0);
 				else
-					DiaryApplication.getInstance().getDbHelper().updateDiaryContent(new Date(), restructDiary.toString(),0);
+					DiaryApplication.getInstance().getDbHelper().updateDiaryContent(memCache.get(Constant.SERVER_USER_ID),new Date(), restructDiary.toString(),0);
 				
 				DiaryApplication.getInstance().updateStatusPanel();//更新九宫格状态
 			} catch (JSONException e) {
@@ -226,11 +241,29 @@ public class DiaryEditActivity extends SherlockActivity {
 			this.finish();
 		}
 	}
+
 	/**
 	 * 向服务器提交
 	 */
-	private void commitDiary(){
-		
+	private void commitDiary(boolean created,Date date,String content){
+		HashMap<String, String> cache=DiaryApplication.getInstance().getMemCache();
+		String session_id=cache.get(Constant.SERVER_SESSION_ID);
+		String user_id=cache.get(Constant.SERVER_USER_ID);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		if(diaryModel==null)
+			diaryModel= DiaryApplication.getInstance().getDbHelper().getDiaryContent(memCache.get(Constant.SERVER_USER_ID),new Date());
+		if(session_id!=null){
+			JSONObject result=isFisrtLoad? API.createDiary(session_id, format.format(date), content)
+					:API.updateDiary(session_id, diaryModel[_CREATE_TIME], format.format(date), content);
+			if(result!=null&&result.has(Constant.SERVER_SESSION_ID)){
+				Message msg=new Message();
+				msg.what=isFisrtLoad?CREATE_SUCCESS:UPDATE_SUCCESS;
+				msg.obj=date;
+				handler.sendMessage(msg);
+			}else{
+				handler.sendEmptyMessage(FAIL);
+			}
+		}
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
