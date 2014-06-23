@@ -1,5 +1,7 @@
 package com.diary.goal.setting.fragment;
 
+import java.util.Date;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,6 +24,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
+import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.activity.UserAuthActivity;
 import com.diary.goal.setting.tools.API;
@@ -85,9 +88,14 @@ public class RegisterFragment extends SherlockFragment {
 				case SUCCESS:
 					Toast.makeText(RegisterFragment.this.getActivity(), R.string.register_success, 500).show();
 					SharedPreferences diary=RegisterFragment.this.getActivity().getSharedPreferences(Constant.PREFERENCE_NAME, Context.MODE_PRIVATE);
-					diary.edit().putString(Constant.P_USERNAME, username.getText().toString()).commit();  
+					diary.edit().putString(Constant.P_ACCOUNT, username.getText().toString()).commit();  
 					diary.edit().putString(Constant.P_PASSWORD, passwd.getText().toString()).commit(); 
 					diary.edit().putString(Constant.P_EMAIL, email.getText().toString()).commit(); 
+					
+					DiaryApplication.getInstance().getDbHelper().createUser(username.getText().toString(),
+							                                                passwd.getText().toString(), 
+							                                                email.getText().toString(), 
+							                                                new Date());
 					break;
 				case FAIL:
 					if (msg.obj!=null) {

@@ -236,7 +236,7 @@ public class DiaryApplication extends Application {
 	        SudoKuStatus.put(SudoType.SUDO_9, false);
 		}
 		
-		String diaryText=DiaryApplication.getInstance().getDbHelper().getDiaryContent(new Date());
+		String diaryText=DiaryApplication.getInstance().getDbHelper().getDiaryContent(memCache.get(Constant.SERVER_USER_ID),new Date())[0];
 		if(diaryText!=null){
 			try {
 				JSONObject diaryObject=new JSONObject(diaryText);

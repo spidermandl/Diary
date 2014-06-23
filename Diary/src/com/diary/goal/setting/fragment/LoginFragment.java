@@ -101,14 +101,18 @@ public class LoginFragment extends SherlockFragment {
 				switch (msg.what) {
 				case SUCCESS:		
 					SharedPreferences diary=LoginFragment.this.getActivity().getSharedPreferences(Constant.PREFERENCE_NAME, Context.MODE_PRIVATE);
-					diary.edit().putString(Constant.P_USERNAME, account.getText().toString()).commit();  
+					diary.edit().putString(Constant.P_ACCOUNT, account.getText().toString()).commit();  
 					diary.edit().putString(Constant.P_PASSWORD, passwd.getText().toString()).commit();
 					if(msg.obj!=null){
+						long userid=DiaryApplication.getInstance().getDbHelper().getUser( account.getText().toString(), passwd.getText().toString());
 						JSONObject obj=(JSONObject)msg.obj;
 						HashMap<String, String> cache=DiaryApplication.getInstance().getMemCache();
 						try {
 							cache.put(Constant.SERVER_SESSION_ID, obj.getString(Constant.SERVER_SESSION_ID));
-							cache.put(Constant.SERVER_USER_ID, obj.getString(Constant.SERVER_USER_ID));
+							//cache.put(Constant.SERVER_USER_ID, obj.getString(Constant.SERVER_USER_ID));
+							cache.put(Constant.SERVER_USER_ID,String.valueOf(userid));
+							//diary.edit().putString(Constant.P_USER_ID, obj.getString(Constant.SERVER_USER_ID)).commit();//存储用于没有网络情况
+							
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -126,9 +130,9 @@ public class LoginFragment extends SherlockFragment {
 					if (msg.obj!=null) {
 						Toast.makeText(getActivity(), msg.obj.toString(), 500).show();
 					}
-					diary=LoginFragment.this.getActivity().getSharedPreferences(Constant.PREFERENCE_NAME, Context.MODE_PRIVATE);
-					diary.edit().remove(Constant.P_USERNAME).commit();  
-					diary.edit().remove(Constant.P_PASSWORD).commit();
+//					diary=LoginFragment.this.getActivity().getSharedPreferences(Constant.PREFERENCE_NAME, Context.MODE_PRIVATE);
+//					diary.edit().remove(Constant.P_ACCOUNT).commit();  
+//					diary.edit().remove(Constant.P_PASSWORD).commit();
 					break;
 				default:
 					break;

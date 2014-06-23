@@ -2,6 +2,7 @@ package com.diary.goal.setting.activity;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,17 +18,14 @@ import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.view.QuickView;
 
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
-import android.text.style.AbsoluteSizeSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
 import android.text.style.RelativeSizeSpan;
-import android.text.style.StyleSpan;
 import android.widget.ScrollView;
 /**
  * 日记回顾界面
@@ -48,6 +46,7 @@ public class PaperOverviewActivity extends SherlockActivity {
 	ArrayList<Integer> txtPos=new ArrayList<Integer>();
 	ArrayList<Integer> starPos=new ArrayList<Integer>();
 	QuickView textPanel;
+	HashMap<String, String> memCache;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +58,7 @@ public class PaperOverviewActivity extends SherlockActivity {
 				DiaryApplication.getInstance().getScreen_w(), DiaryApplication.getInstance().getScreen_h(), false)));
 		
 		textPanel=(QuickView)this.findViewById(R.id.diary_review);
-		
+		memCache=DiaryApplication.getInstance().getMemCache();
 		final ActionBar ab = getSupportActionBar();
 		
 		ab.setDisplayHomeAsUpEnabled(true);
@@ -90,7 +89,7 @@ public class PaperOverviewActivity extends SherlockActivity {
 		 */
 		Date date=new Date(getIntent().getLongExtra("review_date", (new Date()).getTime()));
 		try {
-			String rawDiary=DiaryApplication.getInstance().getDbHelper().getDiaryContent(date);
+			String rawDiary=DiaryApplication.getInstance().getDbHelper().getDiaryContent(memCache.get(Constant.SERVER_USER_ID),date)[0];
 			if(rawDiary!=null)
 				diaryText=new JSONObject(rawDiary);
 		} catch (JSONException e1) {

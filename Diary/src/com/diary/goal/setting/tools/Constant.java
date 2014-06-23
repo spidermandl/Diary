@@ -29,7 +29,14 @@ public class Constant {
 	 * 获取用户日记
 	 */
 	public static final String DIARY_LIST="diarys/list";
-	
+	/**
+	 * 创建用户日记
+	 */
+	public static final String DIARY_CREATE="diarys/create";
+	/**
+	 * 更新用户日记
+	 */
+	public static final String DIARY_UPDATE="diarys/update";
 	/**
 	 * ==================服务器返回字段
 	 */
@@ -73,8 +80,9 @@ public class Constant {
      * preference 字段
      */
     public static final String PREFERENCE_NAME="diary_preference";
-    public static final String P_USERNAME="user_name";
+    public static final String P_ACCOUNT="account";
     public static final String P_PASSWORD="password";
+    public static final String P_USER_ID = "user_id";
     public static final String P_EMAIL="email";
     public static final String P_SESSION="session_series";
 	

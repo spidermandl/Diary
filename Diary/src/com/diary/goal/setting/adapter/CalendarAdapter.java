@@ -28,6 +28,7 @@ import java.util.Map.Entry;
 
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.activity.PaperOverviewActivity;
+import com.diary.goal.setting.tools.Constant;
 import com.squareup.timessquare.CircleAdapter;
 import com.squareup.timessquare.Logr;
 import com.squareup.timessquare.MonthCellDescriptor;
@@ -317,7 +318,7 @@ public class CalendarAdapter extends CircleAdapter<MonthDescriptor> {
 			/**
 			 * Desmond
 			 */
-			if(DiaryApplication.getInstance().getDbHelper().getDiaryContent(clickedDate)!=null){
+			if(DiaryApplication.getInstance().getDbHelper().getDiaryContent(DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID),clickedDate)!=null){
 				Intent intent=new Intent();
 				intent.setClass(context, PaperOverviewActivity.class);
 				intent.putExtra("review_date", clickedDate.getTime());
