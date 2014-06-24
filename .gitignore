@@ -3,5 +3,8 @@
 .classpath
 .project
 
-/bin/
+.actionbarsherlock/bin/*
+.Diary/bin/*
+.CalenderSquare/bin/*
+.RichEditText/bin/*
 /gen/
