@@ -518,12 +518,37 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		
 		db.insertOrThrow(Tables.DIARY_TRACK, CommonColumn._ID, values);
 	}
-	
-	public void insertDiaryContent(String userid,Date date,String text,int sync){
+	/**
+	 * 新建日记
+	 * @param userid
+	 * @param createDate
+	 * @param updateDate
+	 * @param text
+	 * @param sync
+	 */
+	public void insertDiaryContent(String userid,Date createDate,Date updateDate,String text,int sync){
 		ContentValues values=new ContentValues();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		values.put(CommonColumn._CREATE_TIME, format.format(date));
-		values.put(CommonColumn._UPDATE_TIME, format.format(date));
+		values.put(CommonColumn._CREATE_TIME, format.format(createDate));
+		values.put(CommonColumn._UPDATE_TIME, format.format(updateDate));
+		values.put(DiaryContentColumn._USER_ID, userid);
+		values.put(DiaryContentColumn._CONTENT, text);
+		values.put(DiaryContentColumn._SYNC, sync);
+		
+		db.insertOrThrow(Tables.DIARY_CONTENT, CommonColumn._ID, values);
+	}
+	/**
+	 * 新建日记
+	 * @param userid
+	 * @param createDate
+	 * @param updateDate
+	 * @param text
+	 * @param sync
+	 */
+	public void insertDiaryContent(String userid,String createDate,String updateDate,String text,int sync){
+		ContentValues values=new ContentValues();
+		values.put(CommonColumn._CREATE_TIME, createDate);
+		values.put(CommonColumn._UPDATE_TIME, updateDate);
 		values.put(DiaryContentColumn._USER_ID, userid);
 		values.put(DiaryContentColumn._CONTENT, text);
 		values.put(DiaryContentColumn._SYNC, sync);

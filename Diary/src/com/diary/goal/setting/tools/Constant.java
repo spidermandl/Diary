@@ -85,7 +85,10 @@ public class Constant {
     public static final String P_USER_ID = "user_id";
     public static final String P_EMAIL="email";
     public static final String P_SESSION="session_series";
-	
+    public static final String P_CREATED_AT="created_at";
+    public static final String P_UPDATED_AT="updated_at";
+    public static final String P_CONTENT="content";
+    
 	/**
 	 * 9 sudo enum config
 	 */

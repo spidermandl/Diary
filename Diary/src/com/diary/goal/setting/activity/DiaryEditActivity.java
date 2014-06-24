@@ -228,8 +228,10 @@ public class DiaryEditActivity extends SherlockActivity {
 					restructDiary.put(titles.getString(i), subPart);
 				}
 				Log.e("save diary", restructDiary.toString());
-				if(isFisrtLoad)
-					DiaryApplication.getInstance().getDbHelper().insertDiaryContent(memCache.get(Constant.SERVER_USER_ID),new Date(), restructDiary.toString(),0);
+				if(isFisrtLoad){
+					Date date=new Date();
+					DiaryApplication.getInstance().getDbHelper().insertDiaryContent(memCache.get(Constant.SERVER_USER_ID),date,date, restructDiary.toString(),0);
+				}
 				else
 					DiaryApplication.getInstance().getDbHelper().updateDiaryContent(memCache.get(Constant.SERVER_USER_ID),new Date(), restructDiary.toString(),0);
 				
@@ -251,24 +253,29 @@ public class DiaryEditActivity extends SherlockActivity {
 	 * @param date
 	 * @param content
 	 */
-	private void commitDiary(boolean created,Date date,String content){
-		String session_id=memCache.get(Constant.SERVER_SESSION_ID);
-		String user_id=memCache.get(Constant.SERVER_USER_ID);
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		String[] diaryModel= DiaryApplication.getInstance().getDbHelper().getDiaryContent(user_id,new Date());
-		if(session_id!=null){
-			JSONObject result=created?
-					 API.createDiary(session_id, diaryModel[_CREATE_TIME], content)
-					:API.updateDiary(session_id, diaryModel[_CREATE_TIME], format.format(date), content);
-			if(result!=null&&result.has(Constant.SERVER_SESSION_ID)){
-				Message msg=new Message();
-				msg.what=isFisrtLoad?CREATE_SUCCESS:UPDATE_SUCCESS;
-				msg.obj=date;
-				handler.sendMessage(msg);
-			}else{
-				handler.sendEmptyMessage(FAIL);
-			}
-		}
+	private void commitDiary(final boolean created,final Date date,final String content){
+		final String session_id=memCache.get(Constant.SERVER_SESSION_ID);
+		final String user_id=memCache.get(Constant.SERVER_USER_ID);
+		final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		final String[] diaryModel= DiaryApplication.getInstance().getDbHelper().getDiaryContent(user_id,new Date());
+		new Thread(){
+			public void run() {
+				if(session_id!=null){
+					JSONObject result=created?
+							 API.createDiary(session_id, diaryModel[_CREATE_TIME], content)
+							:API.updateDiary(session_id, diaryModel[_CREATE_TIME], format.format(date), content);
+					if(result!=null&&result.has(Constant.SERVER_SESSION_ID)){
+						Message msg=new Message();
+						msg.what=isFisrtLoad?CREATE_SUCCESS:UPDATE_SUCCESS;
+						msg.obj=date;
+						handler.sendMessage(msg);
+					}else{
+						handler.sendEmptyMessage(FAIL);
+					}
+				}
+			};
+		}.start();
+		
 	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

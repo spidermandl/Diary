@@ -90,7 +90,12 @@ public class MainFrameActivity extends SherlockFragmentActivity {
 					try {
 						JSONArray array=obj.getJSONArray(Constant.SERVER_DIARY_LIST);
 						for(int i=0;i<array.length();i++){
-							
+							JSONObject diary=array.getJSONObject(i);
+							String uid=diary.getString(Constant.P_USER_ID);
+							String created_at=diary.getString(Constant.P_CREATED_AT);
+							String updated_at=diary.getString(Constant.P_UPDATED_AT);
+							String content=diary.getString(Constant.P_CONTENT);
+							DiaryApplication.getInstance().getDbHelper().insertDiaryContent(uid, created_at, updated_at,content, 1);
 						}
 					} catch (JSONException e) {
 						e.printStackTrace();
