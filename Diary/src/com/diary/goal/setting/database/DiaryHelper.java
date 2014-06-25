@@ -638,7 +638,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 //			c.close();
 //			return  result;
 //		}
-//	    return null;
+//	    return null; 
 //	}
 	
 
