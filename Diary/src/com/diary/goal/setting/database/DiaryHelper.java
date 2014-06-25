@@ -393,7 +393,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 * @param date
 	 * @param userid
 	 */
-	public void updateSynRecord(Date date,int userid,int sync){
+	public void updateSynRecord(Date date,String userid,int sync){
 		ContentValues values=new ContentValues();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		values.put(CommonColumn._UPDATE_TIME, format.format(date));

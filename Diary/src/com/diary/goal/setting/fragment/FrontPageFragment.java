@@ -85,7 +85,7 @@ public class FrontPageFragment extends SherlockFragment{
 						handler.sendEmptyMessage(NO_SERVER);
 					}
 				}
-				handler.sendEmptyMessage(NO_SERVER);
+				handler.sendEmptyMessage(FAIL);
 			};
 		}.start();
 		return layout;
@@ -123,10 +123,9 @@ public class FrontPageFragment extends SherlockFragment{
 					((UserAuthActivity)FrontPageFragment.this.getActivity()).switchFragment(new LoginFragment(), false);
 					break;
 				case NO_SERVER:
-					SharedPreferences diary=FrontPageFragment.this.getActivity().getSharedPreferences(Constant.PREFERENCE_NAME, Context.MODE_PRIVATE);
 					//String user_id=diary.getString(Constant.P_USER_ID, null);
 					long user_id=//DiaryApplication.getInstance().getDbHelper().getUser(diary.getString(Constant.P_ACCOUNT, " "), diary.getString(Constant.P_PASSWORD, " "));
-					DiaryApplication.getInstance().getDbHelper().lastestLoginTime();
+						DiaryApplication.getInstance().getDbHelper().lastestLoginTime();
 					if(user_id==0){//user_id 没有被存
 						Toast.makeText(FrontPageFragment.this.getActivity(), R.string.server_error, 500).show();
 						handler.sendEmptyMessage(FAIL);

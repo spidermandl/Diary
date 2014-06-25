@@ -1,5 +1,6 @@
 package com.diary.goal.setting.activity;
 
+import java.util.Date;
 import java.util.HashMap;
 
 import org.json.JSONArray;
@@ -77,7 +78,7 @@ public class MainFrameActivity extends SherlockFragmentActivity {
     
 
     /**
-     * 同步机制
+     * 同步机制，同步服务器上的日记
      */
     private void syncDiary(){
 
@@ -89,14 +90,16 @@ public class MainFrameActivity extends SherlockFragmentActivity {
 					JSONObject obj = (JSONObject)msg.obj;
 					try {
 						JSONArray array=obj.getJSONArray(Constant.SERVER_DIARY_LIST);
+						String uid=DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID);
 						for(int i=0;i<array.length();i++){
 							JSONObject diary=array.getJSONObject(i);
-							String uid=diary.getString(Constant.P_USER_ID);
-							String created_at=diary.getString(Constant.P_CREATED_AT);
-							String updated_at=diary.getString(Constant.P_UPDATED_AT);
-							String content=diary.getString(Constant.P_CONTENT);
-							DiaryApplication.getInstance().getDbHelper().insertDiaryContent(uid, created_at, updated_at,content, 1);
+							
+							String created_at=diary.getString(Constant.SERVER_CREATED_AT);
+							String updated_at=diary.getString(Constant.SERVER_UPDATED_AT);
+							String content=diary.getString(Constant.SERVER_CONTENT);
+							DiaryApplication.getInstance().getDbHelper().insertDiaryContent(uid, created_at, updated_at,content, 1);//插入单条日记
 						}
+						DiaryApplication.getInstance().getDbHelper().updateSynRecord(new Date(), uid, 1);//账户同步完成
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
@@ -112,7 +115,7 @@ public class MainFrameActivity extends SherlockFragmentActivity {
     		}
     	};
     	HashMap<String, String> cache=DiaryApplication.getInstance().getMemCache();
-		String session_id=cache.get(Constant.SERVER_SESSION_ID);
+		final String session_id=cache.get(Constant.SERVER_SESSION_ID);
 		//String user_id=cache.get(Constant.SERVER_USER_ID);
 		String user_id=DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID);
 		if(session_id!=null){
@@ -120,20 +123,16 @@ public class MainFrameActivity extends SherlockFragmentActivity {
 				//没有同步过
 				new Thread(){
 		    		public void run() {
-		    			SharedPreferences diary=MainFrameActivity.this.getSharedPreferences(Constant.PREFERENCE_NAME, Context.MODE_PRIVATE);
-		    			String session_id=diary.getString(Constant.P_SESSION, null);
-		    			if(session_id!=null){
-		    				JSONObject result=API.fetchDiarys(session_id);			
-							if(result!=null&&result.has(Constant.SERVER_SUCCESS)){
-								Message msg=new Message();
-								msg.obj=result;
-								msg.what=SUCCESS;
-								handler.sendMessage(msg);
-							}
-							else{
-								handler.sendEmptyMessage(FAIL);
-							}
-		    			}
+	    				JSONObject result=API.fetchDiarys(session_id);			
+						if(result!=null&&result.has(Constant.SERVER_SUCCESS)){
+							Message msg=new Message();
+							msg.obj=result;
+							msg.what=SUCCESS;
+							handler.sendMessage(msg);
+						}
+						else{
+							handler.sendEmptyMessage(FAIL);
+						}
 		    		};
 		    	}.start();
 			}

@@ -74,6 +74,7 @@ public class API {
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("session_id", session_id);
 		params.put("created_time", created_time);
+		params.put("updated_time", updated_time);
 		params.put("content", content);
 		return HTTPTools.connectPost(Constant.SERVER_DOMAIN+Constant.DIARY_UPDATE, params);
 	}
