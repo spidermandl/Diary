@@ -26,6 +26,19 @@
     <string name="tab_host_fast_write">行动</string>
     <string name="tab_host_view">圈子</string>
     <string name="tab_host_dream">我</string>
+    <!-- ********************************************************************************* -->
+    <string name="login_hint">账号/邮箱</string>
+    <string name="password_hint">密码</string>
+    <string name="confirm_password_hint">确认密码</string>
+    <string name="email_hint">邮箱地址</string>
+    <string name="sign_in">登陆</string>
+    <string name="sign_up">注册</string>
+    <string name="find_passwd">忘记密码 ?</string>
+    <string name="register_success">账号注册成功</string>
+    <string name="register_error_unidentical_passwd">两次密码不一样</string>
+    <string name="register_error_void_item">信息不完整</string>
+    <string name="server_error">服务器错误</string>
+    
     
 	<string name="edit_save">保存</string>
 	<string name="edit_back">返回</string>

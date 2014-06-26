@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="RichEditText">
+        <attr name="testType">
+            <enum name="regexp" value="0" />
+            <enum name="numeric" value="1" />
+            <enum name="alpha" value="2" />
+            <enum name="alphaNumeric" value="3" />
+            <enum name="email" value="4" />
+            <enum name="creditCard" value="5" />
+            <enum name="phone" value="6" />
+            <enum name="domainName" value="7" />
+            <enum name="ipAddress" value="8" />
+            <enum name="webUrl" value="9" />
+            <enum name="nocheck" value="10" />
+            <enum name="custom" value="11" />
+        </attr>
+        <attr name="testErrorString" format="string" />
+        <attr name="emptyErrorString" format="string" />
+        <attr name="customRegexp" format="string" />
+        <attr name="emptyAllowed" format="boolean" />
+        <attr name="classType" format="string" />
+        <attr name="fontName" format="string" />
+        <attr name="showClearButton" format="boolean" />
+        <attr name="showFormattingOptions" format="boolean" />
+    </declare-styleable>
+    <declare-styleable name="ColorPicker">
+        <attr name="color_wheel_radius" format="dimension" />
+        <attr name="color_wheel_thickness" format="dimension" />
+        <attr name="color_center_radius" format="dimension" />
+        <attr name="color_center_halo_radius" format="dimension" />
+        <attr name="color_pointer_radius" format="dimension" />
+        <attr name="color_pointer_halo_radius" format="dimension" />
+    </declare-styleable>
+    <declare-styleable name="ColorBars">
+        <attr name="bar_thickness" format="dimension" />
+        <attr name="bar_length" format="dimension" />
+        <attr name="bar_pointer_radius" format="dimension" />
+        <attr name="bar_pointer_halo_radius" format="dimension" />
+    </declare-styleable>
+
+</resources>

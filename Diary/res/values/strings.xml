@@ -26,7 +26,18 @@
     <string name="tab_host_fast_write">Action</string>
     <string name="tab_host_view">Community</string>
     <string name="tab_host_dream">Me</string>
-    
+    <!-- ********************************************************************************* -->
+    <string name="login_hint">Username or email</string>
+    <string name="password_hint">Password</string>
+    <string name="confirm_password_hint">Confirm password</string>
+    <string name="email_hint">Email</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="find_passwd">Forget your password?</string>
+    <string name="register_success">Account has been registered</string>
+    <string name="register_error_unidentical_passwd">please reconfirm the password</string>
+    <string name="register_error_void_item">please fill up the content</string>
+    <string name="server_error">server error</string>
     
 	<string name="edit_save">SAVE</string>
 	<string name="edit_back">BACK</string>

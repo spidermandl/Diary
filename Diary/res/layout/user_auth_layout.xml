@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:id="@+id/auth_switcher"
+    android:background="@drawable/auth_bar_bg">
+    
+<!--     <fragment 
+        android:name="com.diary.goal.setting.fragment.LoginFragment"
+        android:id="@+id/auth_login"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        
+    </fragment> -->
+</FrameLayout>
