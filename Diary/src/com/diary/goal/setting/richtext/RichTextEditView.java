@@ -517,7 +517,7 @@ public class RichTextEditView extends RichEditTextField implements
 			int tmpStart = spanStart;// 计数游标定位
 			for (int i = spanStart; i < repEnd - repStart; i++, spanStart++) {
 				editState.set(position + i, SUB_TITLE);
-				if (repText.charAt(repStart + i - tmpStart) == SUB_TITLE_RIGHT) {
+				if (repText.charAt(repStart + i) == SUB_TITLE_RIGHT) {
 					/**
 					 * 找到小标题的终点
 					 */
