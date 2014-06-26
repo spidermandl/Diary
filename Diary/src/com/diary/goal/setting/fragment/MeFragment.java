@@ -11,12 +11,18 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.diary.goal.setting.R;
-
+/**
+ * 用户个人页面
+ * @author desmond.duan
+ *
+ */
 public class MeFragment extends SherlockFragment implements OnClickListener{
 	
 	TextView lineOneValue;
+	TextView syncText;
 	
 	
 	@Override
@@ -30,23 +36,32 @@ public class MeFragment extends SherlockFragment implements OnClickListener{
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		View layout = inflater.inflate(R.layout.me_fragment_layout, container, false);
-		layout.findViewById(R.id.me_fragment_line_one).setOnClickListener(this);
-		layout.findViewById(R.id.me_fragment_line_two).setOnClickListener(this);
-		lineOneValue=(TextView)layout.findViewById(R.id.me_fragment_line_one_value);
 		
 		return layout;
 	}
 
 	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		final ActionBar ab = this.getSherlockActivity().getSupportActionBar();
+		
+		ab.setDisplayHomeAsUpEnabled(false);
+		ab.setDisplayUseLogoEnabled(false);
+		ab.setDisplayShowHomeEnabled(false);
+		ab.setTitle(R.string.me);
+
+	}
+	
+	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
-		case R.id.me_fragment_line_one:
-			showDialog(new MeDialogFragment(MeFragment.this));
-			break;
-		case R.id.me_fragment_line_two:
-			Toast.makeText(getActivity(), "此处跳转fragment", Toast.LENGTH_LONG).show();
-			break;
+//		case R.id.me_fragment_line_one:
+//			showDialog(new MeDialogFragment(MeFragment.this));
+//			break;
+//		case R.id.me_fragment_line_two:
+//			Toast.makeText(getActivity(), "此处跳转fragment", Toast.LENGTH_LONG).show();
+//			break;
 		default:
 			break;
 		}
