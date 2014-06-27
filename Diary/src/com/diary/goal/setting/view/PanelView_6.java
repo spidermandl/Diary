@@ -7,6 +7,7 @@ import com.diary.goal.setting.tools.Constant.SudoType;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 
@@ -36,8 +37,10 @@ public class PanelView_6 extends PanelView {
 //		mPaint.setColor(0xFF000000);
 //		canvas.drawText(SudoType.getTypeString(sudoType), this.getMeasuredWidth()/2, this.getMeasuredHeight()/2, mPaint);
 		Bitmap temp=BitmapCustomize.customizePicture(context, sudoType.getResDrawable(activated),
-		this.getWidth(),
-		this.getHeight(),false);
-		canvas.drawBitmap(temp, zoomBitmap(temp, this.getWidth(), this.getHeight()), mPaint);
+		this.getWidth()/2,
+		this.getHeight()/3,false);
+		Matrix matrix=zoomBitmap(temp, this.getWidth()/2, this.getHeight()/3);
+		matrix.postTranslate(this.getWidth()/4, this.getHeight()/3);
+		canvas.drawBitmap(temp, matrix, mPaint);
 	}
 }

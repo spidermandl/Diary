@@ -34,7 +34,7 @@ public class CategoryTextView extends TextView{
 	}
 	
 	void init(){
-		this.setBackgroundResource(R.drawable.category_selector);
+		this.setBackgroundResource(R.drawable.me_item_selector);
 	}
 //	@Override
 //	public boolean onTouchEvent(MotionEvent event) {

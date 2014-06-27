@@ -38,7 +38,11 @@
     <string name="register_error_unidentical_passwd">两次密码不一样</string>
     <string name="register_error_void_item">信息不完整</string>
     <string name="server_error">服务器错误</string>
-    
+    <!-- ********************************************************************************** -->
+    <string name="me">我</string>
+    <string name="create_nickname">创建昵称</string>
+    <string name="tamplate_libs">我的模板库</string>
+    <string name ="long_term_vision">我的梦想规划</string>
     
 	<string name="edit_save">保存</string>
 	<string name="edit_back">返回</string>

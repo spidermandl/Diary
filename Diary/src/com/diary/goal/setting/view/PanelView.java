@@ -1,9 +1,9 @@
 package com.diary.goal.setting.view;
 
 import com.diary.goal.setting.DiaryApplication;
+import com.diary.goal.setting.R;
 import com.diary.goal.setting.activity.DiaryEditActivity;
 import com.diary.goal.setting.activity.MainFrameActivity;
-import com.diary.goal.setting.richtext.RichTextEditView;
 import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.tools.Constant.SudoType;
 
@@ -18,7 +18,6 @@ import android.graphics.Paint.Style;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.MeasureSpec;
 
 public abstract class PanelView extends ViewGroup implements View.OnClickListener{
 
@@ -65,6 +64,9 @@ public abstract class PanelView extends ViewGroup implements View.OnClickListene
 		cPaint.setStrokeWidth(1);
 		cPaint.setAntiAlias(true); 
 		cPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+		
+		this.setBackground(context.getResources().getDrawable(R.drawable.sudo_bg));
+
 	}
 	
 	@Override
