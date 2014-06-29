@@ -78,6 +78,9 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	public interface DiaryTamplateColumn{
 		public static final String _TAMPLETE = "templete"; //json:{[subtitle,type],[subtile,type]...}
 		public static final String _SYNC = "sync";//是否同步, 0:没有同步，1:已经同步
+		public static final String _NAME = "name";//模板名
+		public static final String _CREATER_ID = "creater_id";//创建者id
+		public static final String _SELECTED = "_selected";//当前选中模板
 	}
 	/**
 	 * 日记内容
@@ -132,7 +135,9 @@ public class DiaryHelper extends SQLiteOpenHelper{
 										             * big3:[small1,small2]
 										             * }
 										             **/
-			+DiaryTamplateColumn._SYNC+" integer"
+			+DiaryTamplateColumn._SYNC+" integer,"
+			+DiaryTamplateColumn._NAME+" text,"
+			+DiaryTamplateColumn._CREATER_ID+" integer"
 			+ ")";
 	public static final String CREATE_DIARY_CONTENT = 
 			"CREATE TABLE IF NOT EXISTS " +  Tables.DIARY_CONTENT + "("
@@ -446,13 +451,14 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 * @param date
 	 * @param text
 	 */
-	public void insertDiaryTemplate(Date date,String text,int sync){
+	public void insertDiaryTemplate(Date date,String text,int sync,String name){
 		ContentValues values = new ContentValues();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		values.put(CommonColumn._CREATE_TIME, format.format(date));
 		values.put(CommonColumn._UPDATE_TIME, format.format(date));
 		values.put(DiaryTamplateColumn._TAMPLETE, text);
 		values.put(DiaryTamplateColumn._SYNC, sync);
+		values.put(DiaryTamplateColumn._NAME, name);
 		
 		db.insertOrThrow(Tables.DIARY_TEMPLETE, CommonColumn._ID, values);
 	}
@@ -464,12 +470,16 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 * @param date
 	 * @param text
 	 */
-	public void updateDiaryTemplate(Date date,String text,int sync){
+	public void updateDiaryTemplate(Date date,String text,int sync,String name){
 		ContentValues values=new ContentValues();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		values.put(CommonColumn._UPDATE_TIME, format.format(date));
-		values.put(DiaryTamplateColumn._TAMPLETE, text);
-		values.put(DiaryTamplateColumn._SYNC, sync);
+		if(text!=null)
+			values.put(DiaryTamplateColumn._TAMPLETE, text);
+		if(sync!=-1)
+			values.put(DiaryTamplateColumn._SYNC, sync);
+		if(name!=null)
+			values.put(DiaryTamplateColumn._NAME, name);
 		
 		format = new SimpleDateFormat("yyyy-MM-dd");
 		String sDate=format.format(date);

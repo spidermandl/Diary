@@ -2,7 +2,6 @@ package com.diary.goal.setting.fragment;
 
 import java.util.HashMap;
 
-import org.apache.commons.lang3.reflect.ConstructorUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
