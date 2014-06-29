@@ -80,7 +80,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		public static final String _SYNC = "sync";//是否同步, 0:没有同步，1:已经同步
 		public static final String _NAME = "name";//模板名
 		public static final String _CREATER_ID = "creater_id";//创建者id
-		public static final String _SELECTED = "_selected";//当前选中模板
+		public static final String _SELECTED = "_selected";//当前选中模板 0:没有选中,1:选中
 	}
 	/**
 	 * 日记内容
@@ -451,7 +451,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 * @param date
 	 * @param text
 	 */
-	public void insertDiaryTemplate(Date date,String text,int sync,String name){
+	public void insertDiaryTemplate(Date date,String text,int sync,String name,boolean selected){
 		ContentValues values = new ContentValues();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		values.put(CommonColumn._CREATE_TIME, format.format(date));
@@ -459,6 +459,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		values.put(DiaryTamplateColumn._TAMPLETE, text);
 		values.put(DiaryTamplateColumn._SYNC, sync);
 		values.put(DiaryTamplateColumn._NAME, name);
+		values.put(DiaryTamplateColumn._SELECTED, selected?"1":"0");
 		
 		db.insertOrThrow(Tables.DIARY_TEMPLETE, CommonColumn._ID, values);
 	}
@@ -470,7 +471,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 * @param date
 	 * @param text
 	 */
-	public void updateDiaryTemplate(Date date,String text,int sync,String name){
+	public void updateDiaryTemplate(Date date,String text,int sync,String name,boolean selected){
 		ContentValues values=new ContentValues();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		values.put(CommonColumn._UPDATE_TIME, format.format(date));
@@ -480,6 +481,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 			values.put(DiaryTamplateColumn._SYNC, sync);
 		if(name!=null)
 			values.put(DiaryTamplateColumn._NAME, name);
+		values.put(DiaryTamplateColumn._SELECTED, selected?"1":"0");
 		
 		format = new SimpleDateFormat("yyyy-MM-dd");
 		String sDate=format.format(date);
