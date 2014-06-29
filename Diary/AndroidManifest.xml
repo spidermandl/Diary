@@ -23,7 +23,7 @@
             android:name=".activity.UserAuthActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask">
+            android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,11 +43,6 @@
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait" >
         </activity>
-        <activity 
-            android:name="com.diary.goal.setting.invalid.UnitOverviewActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait">
-        </activity>
         <activity
             android:name=".activity.PaperOverviewActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -61,12 +56,14 @@
             android:screenOrientation="portrait">
         </activity>
         <activity 
-            android:name="com.diary.goal.setting.invalid.RichTextEditorActivity"
+            android:name=".activity.TemplateOperateActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:launchMode="singleTop">
             
         </activity>
+        
+        
     </application>
 
 </manifest>

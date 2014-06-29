@@ -49,6 +49,7 @@ public class Constant {
 	public static final String SERVER_CREATED_AT="created_at";
     public static final String SERVER_UPDATED_AT="updated_at";
     public static final String SERVER_CONTENT="content";
+    public static final String SERVER_USER_NAME="user_name";
 	/**
 	 * =======================================client================================================
 	 */

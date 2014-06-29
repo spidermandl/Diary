@@ -112,6 +112,7 @@ public class FrontPageFragment extends SherlockFragment{
 							cache.put(Constant.SERVER_SESSION_ID, obj.getString(Constant.SERVER_SESSION_ID));
 							//cache.put(Constant.SERVER_USER_ID, obj.getString(Constant.SERVER_USER_ID));
 							cache.put(Constant.SERVER_USER_ID, String.valueOf(userid));
+							cache.put(Constant.SERVER_USER_NAME, username);
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();

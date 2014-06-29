@@ -112,7 +112,7 @@ public class LoginFragment extends SherlockFragment {
 							//cache.put(Constant.SERVER_USER_ID, obj.getString(Constant.SERVER_USER_ID));
 							cache.put(Constant.SERVER_USER_ID,String.valueOf(userid));
 							//diary.edit().putString(Constant.P_USER_ID, obj.getString(Constant.SERVER_USER_ID)).commit();//存储用于没有网络情况
-							
+							cache.put(Constant.SERVER_USER_NAME, account.getText().toString());
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();

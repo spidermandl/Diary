@@ -1,27 +1,41 @@
 package com.diary.goal.setting.fragment;
 
+import java.util.HashMap;
+
 import android.R.menu;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.SearchViewCompat;
+import android.support.v4.widget.SearchViewCompat.OnQueryTextListenerCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.webkit.WebView.FindListener;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
+import com.diary.goal.setting.activity.TemplateOperateActivity;
+import com.diary.goal.setting.tools.Constant;
 /**
  * 用户个人页面
  * @author desmond.duan
  *
  */
-public class MeFragment extends SherlockFragment implements OnClickListener{
+public class MeFragment extends SherlockFragment{
 	
-	TextView lineOneValue;
+	TextView myTemplate;
 	TextView syncText;
+	
+	private OnClickListener listener;
 	
 	
 	@Override
@@ -35,10 +49,37 @@ public class MeFragment extends SherlockFragment implements OnClickListener{
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		View layout = inflater.inflate(R.layout.me_fragment_layout, container, false);
-		
+		initView(layout);
+		initFunctionality();
 		return layout;
 	}
 
+	private void initView(View layout) {
+		myTemplate=(TextView)layout.findViewById(R.id.me_template);
+		
+	}
+	
+	private void initFunctionality() {
+		listener=new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				switch (v.getId()) {
+				case R.id.me_template:
+					Intent intent=new Intent();
+					intent.setClass(MeFragment.this.getActivity(), TemplateOperateActivity.class);
+					MeFragment.this.startActivityForResult(intent, 0);
+					break;
+				default:
+					break;
+				}
+				
+			}
+		};
+		
+		myTemplate.setOnClickListener(listener);
+	}
+	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -47,30 +88,20 @@ public class MeFragment extends SherlockFragment implements OnClickListener{
 		ab.setDisplayHomeAsUpEnabled(false);
 		ab.setDisplayUseLogoEnabled(false);
 		ab.setDisplayShowHomeEnabled(false);
-		ab.setTitle(R.string.me);
+		
+		HashMap<String, String> cache=DiaryApplication.getInstance().getMemCache();
+		String name=cache.get(Constant.SERVER_USER_NAME);
+		if(name==null)
+			ab.setTitle(R.string.me);
+		else
+			ab.setTitle(cache.get(Constant.SERVER_USER_NAME));
 
 	}
 	
 	@Override
-	public void onClick(View v) {
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
-		switch (v.getId()) {
-//		case R.id.me_fragment_line_one:
-//			showDialog(new MeDialogFragment(MeFragment.this));
-//			break;
-//		case R.id.me_fragment_line_two:
-//			Toast.makeText(getActivity(), "此处跳转fragment", Toast.LENGTH_LONG).show();
-//			break;
-		default:
-			break;
-		}
+		super.onActivityResult(requestCode, resultCode, data);
 	}
-	private void showDialog(DialogFragment dialog)
-	{
-		FragmentManager fragmentManager=getFragmentManager();
-		dialog.show(fragmentManager,"abc");
-	}
-	public void setTextString(String value){
-		lineOneValue.setText(value);
-	}
+	
 }
