@@ -22,6 +22,17 @@
 	<string name="center">Center</string>
 	<string name="opposite">Opposite</string>
     <!--***********************************************************************************-->
+    <string name="default_template">{
+    		"main_order":["健康","修养","心灵","工作","人脉","财富","创意","MIT"],
+    		"健康":["跑步","身体","饮食","感悟"],
+    		"修养":["学习","读书","外语","感悟"],
+    		"心灵":["感恩","成功","感悟"],
+    		"工作":["效率","进步"],
+    		"人脉":["朋友","家人","恋人"],
+    		"财富":["记账","理财","感悟"],
+    		"创意":["想法","行动"],
+    		"MIT":["第一件事","第二件事","第三件事"]
+    		}</string>
     <string name="tab_host_main">晨记</string>
     <string name="tab_host_fast_write">行动</string>
     <string name="tab_host_view">圈子</string>

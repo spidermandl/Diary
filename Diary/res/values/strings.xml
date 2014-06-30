@@ -22,6 +22,17 @@
 	<string name="center">Center</string>
 	<string name="opposite">Opposite</string>
     <!--***********************************************************************************-->
+    <string name="default_template">{
+    		"main_order":["HEALTH","PERSONAL","SOUL","WORK","FAMILY","FINANCE","INNOVATION","MIT"],
+    		"HEALTH":["running","body","diet","comments"],
+    		"PERSONAL":["study","reading","second language","comments"],
+    		"SOUL":["感恩","成功","comments"],
+    		"WORK":["效率","进步"],
+    		"FAMILY":["朋友","家人","恋人"],
+    		"FINANCE":["记账","理财","感悟"],
+    		"INNOVATION":["想法","行动"],
+    		"MIT":["第一件事","第二件事","第三件事"]
+    		}</string>
     <string name="tab_host_main">Day</string>
     <string name="tab_host_fast_write">Action</string>
     <string name="tab_host_view">Community</string>

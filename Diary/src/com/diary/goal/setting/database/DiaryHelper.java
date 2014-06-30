@@ -464,12 +464,15 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		db.insertOrThrow(Tables.DIARY_TEMPLETE, CommonColumn._ID, values);
 	}
 	/*******************************************************************************************
-	 * 模板（templete）表操作方法
+	 * 模板（template）表操作方法
 	 *******************************************************************************************/
 	/**
 	 * 更新模板
 	 * @param date
 	 * @param text
+	 * @param sync
+	 * @param name
+	 * @param selected
 	 */
 	public void updateDiaryTemplate(Date date,String text,int sync,String name,boolean selected){
 		ContentValues values=new ContentValues();
@@ -488,6 +491,12 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		db.update(Tables.DIARY_TEMPLETE, values,
 				CommonColumn._CREATE_TIME+" between '"+sDate+" 00:00:00' and '"+sDate+" 23:59:59' ",
 		        null);
+	}
+	/*
+	 * 
+	 */
+	public String[] getAllDiaryTemplates(){
+		Cursor c=db.query(table, columns, selection, selectionArgs, groupBy, having, orderBy)
 	}
 	/**
 	 * 获取模板
