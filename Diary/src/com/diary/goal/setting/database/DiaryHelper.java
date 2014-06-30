@@ -15,7 +15,6 @@ import android.os.Environment;
 
 public class DiaryHelper extends SQLiteOpenHelper{
 
-	
 	private SQLiteDatabase db;
 	
 	private static final String DB_NAME = "diary.db";//DB name
@@ -75,12 +74,23 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	/**
 	 * 日记模板表
 	 */
-	public interface DiaryTamplateColumn{
+	public interface DiaryTemplateColumn{
 		public static final String _TAMPLETE = "templete"; //json:{[subtitle,type],[subtile,type]...}
-		public static final String _SYNC = "sync";//是否同步, 0:没有同步，1:已经同步
+		public static final String _SYNC = "sync";//是否同步, 0:没有同步,1:已经同步,-1 不需要同步（如用户当天正编辑的模板）
 		public static final String _NAME = "name";//模板名
 		public static final String _CREATER_ID = "creater_id";//创建者id
 		public static final String _SELECTED = "_selected";//当前选中模板 0:没有选中,1:选中
+	}
+	/**
+	 * 
+	 * 日记模板内存模型
+	 */
+	public class DiaryTemplateModel{
+		public String _TAMPLETE;
+		public String _SYNC;
+		public String _NAME;
+		public String _SELECTED;
+		public String _CREATE_TIME;
 	}
 	/**
 	 * 日记内容
@@ -127,7 +137,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 			+ CommonColumn._ID + " integer primary key autoincrement,"//
 			+ CommonColumn._CREATE_TIME + " datetime,"	
 			+ CommonColumn._UPDATE_TIME + " datetime,"	
-			+ DiaryTamplateColumn._TAMPLETE + " text,"/** 模板存储json格式
+			+ DiaryTemplateColumn._TAMPLETE + " text,"/** 模板存储json格式
 										             * {
 										             * title_order:[big1,big2,bi3]
 										             * big1:[small1,small2]
@@ -135,9 +145,9 @@ public class DiaryHelper extends SQLiteOpenHelper{
 										             * big3:[small1,small2]
 										             * }
 										             **/
-			+DiaryTamplateColumn._SYNC+" integer,"
-			+DiaryTamplateColumn._NAME+" text,"
-			+DiaryTamplateColumn._CREATER_ID+" integer"
+			+DiaryTemplateColumn._SYNC+" integer,"
+			+DiaryTemplateColumn._NAME+" text,"
+			+DiaryTemplateColumn._CREATER_ID+" integer"
 			+ ")";
 	public static final String CREATE_DIARY_CONTENT = 
 			"CREATE TABLE IF NOT EXISTS " +  Tables.DIARY_CONTENT + "("
@@ -165,7 +175,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 			                                         *       }
 			                                         * }
 			                                         **/
-			+DiaryTamplateColumn._SYNC+" integer"
+			+DiaryTemplateColumn._SYNC+" integer"
 			+ ")";
 
 	public static final String CREATE_USER = 
@@ -451,15 +461,15 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 * @param date
 	 * @param text
 	 */
-	public void insertDiaryTemplate(Date date,String text,int sync,String name,boolean selected){
+	public void insertDiaryTemplate(Date date,String text,String sync,String name,String selected){
 		ContentValues values = new ContentValues();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		values.put(CommonColumn._CREATE_TIME, format.format(date));
 		values.put(CommonColumn._UPDATE_TIME, format.format(date));
-		values.put(DiaryTamplateColumn._TAMPLETE, text);
-		values.put(DiaryTamplateColumn._SYNC, sync);
-		values.put(DiaryTamplateColumn._NAME, name);
-		values.put(DiaryTamplateColumn._SELECTED, selected?"1":"0");
+		values.put(DiaryTemplateColumn._TAMPLETE, text);
+		values.put(DiaryTemplateColumn._SYNC, sync);
+		values.put(DiaryTemplateColumn._NAME, name);
+		values.put(DiaryTemplateColumn._SELECTED, selected);
 		
 		db.insertOrThrow(Tables.DIARY_TEMPLETE, CommonColumn._ID, values);
 	}
@@ -474,17 +484,18 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 * @param name
 	 * @param selected
 	 */
-	public void updateDiaryTemplate(Date date,String text,int sync,String name,boolean selected){
+	public void updateDiaryTemplate(Date date,String text,String sync,String name,String selected){
 		ContentValues values=new ContentValues();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		values.put(CommonColumn._UPDATE_TIME, format.format(date));
 		if(text!=null)
-			values.put(DiaryTamplateColumn._TAMPLETE, text);
-		if(sync!=-1)
-			values.put(DiaryTamplateColumn._SYNC, sync);
+			values.put(DiaryTemplateColumn._TAMPLETE, text);
+		if(sync!=null)
+			values.put(DiaryTemplateColumn._SYNC, sync);
 		if(name!=null)
-			values.put(DiaryTamplateColumn._NAME, name);
-		values.put(DiaryTamplateColumn._SELECTED, selected?"1":"0");
+			values.put(DiaryTemplateColumn._NAME, name);
+		if(selected!=null)
+			values.put(DiaryTemplateColumn._SELECTED, selected);
 		
 		format = new SimpleDateFormat("yyyy-MM-dd");
 		String sDate=format.format(date);
@@ -492,21 +503,42 @@ public class DiaryHelper extends SQLiteOpenHelper{
 				CommonColumn._CREATE_TIME+" between '"+sDate+" 00:00:00' and '"+sDate+" 23:59:59' ",
 		        null);
 	}
-	/*
-	 * 
+	/**
+	 * 获得所有创建的日记模板
+	 * @return
 	 */
-	public String[] getAllDiaryTemplates(){
-		Cursor c=db.query(table, columns, selection, selectionArgs, groupBy, having, orderBy)
+	public DiaryTemplateModel[] getFixedDiaryTemplates(){
+		Cursor c=db.query(Tables.DIARY_TEMPLETE, 
+                          new String[]{DiaryTemplateColumn._NAME,
+				                       DiaryTemplateColumn._SELECTED,
+				                       DiaryTemplateColumn._SYNC,
+				                       DiaryTemplateColumn._TAMPLETE,
+				                       CommonColumn._CREATE_TIME}, 
+				          DiaryTemplateColumn._SYNC+" <> -1", null, null, null, 
+                          CommonColumn._CREATE_TIME+" DESC");
+		DiaryTemplateModel[] results= new DiaryTemplateModel[c==null?0:c.getCount()];
+		int index=0;
+		while(c.moveToNext()){
+			DiaryTemplateModel model=new DiaryTemplateModel();
+			model._NAME = c.getString(0);
+			model._SELECTED = c.getString(1);
+			model._SYNC = c.getString(2);
+			model._TAMPLETE = c.getString(3);
+			model._CREATE_TIME = c.getString(4);
+			results[index]=model;
+			index++;
+		}
+		return results;
 	}
 	/**
-	 * 获取模板
+	 * 获取正要编辑的模板
 	 * @param date
 	 * @return
 	 */
 	public String getDiaryTemplate(Date date){
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		String sDate=date==null?null:format.format(date);
-		Cursor c=db.query(Tables.DIARY_TEMPLETE, new String[]{DiaryTamplateColumn._TAMPLETE}, 
+		Cursor c=db.query(Tables.DIARY_TEMPLETE, new String[]{DiaryTemplateColumn._TAMPLETE}, 
 				sDate==null?null:CommonColumn._CREATE_TIME+" between '"+sDate+" 00:00:00' and '"+sDate+" 23:59:59' ",
 				null,null,null,CommonColumn._CREATE_TIME+" DESC");
 		if(c==null||c.getCount()==0)

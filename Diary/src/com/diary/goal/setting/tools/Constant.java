@@ -70,19 +70,20 @@ public class Constant {
 	/**
 	 * 默认模板
 	 */
-    public static final String TAMPLATE="{" +
-    		"\""+MAIN_SEQUENCE_ORDER+"\":[\"健康\",\"修养\",\"心灵\",\"工作\",\"人脉\",\"财富\",\"创意\",\"MIT\"]," +
-    		"\"健康\":[\"跑步\",\"身体\",\"饮食\",\"感悟\"]," +
-    		"\"修养\":[\"学习\",\"读书\",\"外语\",\"感悟\"]," +
-    		"\"心灵\":[\"感恩\",\"成功\",\"感悟\"]," +
-    		"\"工作\":[\"效率\",\"进步\"]," +
-    		"\"人脉\":[\"朋友\",\"家人\",\"恋人\"]," +
-    		"\"财富\":[\"记账\",\"理财\",\"感悟\"]," +
-    		"\"创意\":[\"想法\",\"行动\"]," +
-    		"\"MIT\":[\"第一件事\",\"第二件事\",\"第三件事\"]" +
-    		"}";
+    public static final int TAMPLATE=R.string.default_template;
+//    		"{" +
+//    		"\""+MAIN_SEQUENCE_ORDER+"\":[\"健康\",\"修养\",\"心灵\",\"工作\",\"人脉\",\"财富\",\"创意\",\"MIT\"]," +
+//    		"\"健康\":[\"跑步\",\"身体\",\"饮食\",\"感悟\"]," +
+//    		"\"修养\":[\"学习\",\"读书\",\"外语\",\"感悟\"]," +
+//    		"\"心灵\":[\"感恩\",\"成功\",\"感悟\"]," +
+//    		"\"工作\":[\"效率\",\"进步\"]," +
+//    		"\"人脉\":[\"朋友\",\"家人\",\"恋人\"]," +
+//    		"\"财富\":[\"记账\",\"理财\",\"感悟\"]," +
+//    		"\"创意\":[\"想法\",\"行动\"]," +
+//    		"\"MIT\":[\"第一件事\",\"第二件事\",\"第三件事\"]" +
+//    		"}";
     /**
-     * preference 字段
+     * 缓存 字段
      */
     public static final String PREFERENCE_NAME="diary_preference";
     public static final String P_ACCOUNT="account";
@@ -90,6 +91,7 @@ public class Constant {
     public static final String P_USER_ID = "user_id";
     public static final String P_EMAIL="email";
     public static final String P_SESSION="session_series";
+    public static final String P_DEFAULT_TEMPLATE="default_template_content";
     
 	/**
 	 * 9 sudo enum config
