@@ -33,6 +33,7 @@
     		"创意":["想法","行动"],
     		"MIT":["第一件事","第二件事","第三件事"]
     		}</string>
+    <string name="default_template_name">默认模板</string>
     <string name="tab_host_main">晨记</string>
     <string name="tab_host_fast_write">行动</string>
     <string name="tab_host_view">圈子</string>

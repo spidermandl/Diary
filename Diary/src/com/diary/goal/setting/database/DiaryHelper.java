@@ -4,7 +4,10 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.diary.goal.setting.DiaryApplication;
+import com.diary.goal.setting.R;
 import com.diary.goal.setting.invalid.DateModel;
+import com.diary.goal.setting.tools.Constant;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -535,14 +538,33 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 * @param date
 	 * @return
 	 */
-	public String getDiaryTemplate(Date date){
+	public String getTodayDiaryTemplate(Date date){
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		String sDate=date==null?null:format.format(date);
 		Cursor c=db.query(Tables.DIARY_TEMPLETE, new String[]{DiaryTemplateColumn._TAMPLETE}, 
-				sDate==null?null:CommonColumn._CREATE_TIME+" between '"+sDate+" 00:00:00' and '"+sDate+" 23:59:59' ",
+				sDate==null?null:CommonColumn._CREATE_TIME+" between '"+sDate+" 00:00:00' and '"+sDate+" 23:59:59' and "+DiaryTemplateColumn._SYNC+" = '-1'",
 				null,null,null,CommonColumn._CREATE_TIME+" DESC");
-		if(c==null||c.getCount()==0)
+		if(c==null||c.getCount()==0){
+			//没有今天的日记模板
+			c=db.query(Tables.DIARY_TEMPLETE, new String[]{DiaryTemplateColumn._TAMPLETE}, 
+				DiaryTemplateColumn._SELECTED+" = '1'",
+				null,null,null,null);
+			if(c==null||c.getCount()==0){
+				//没有选中的日记模板，创建默认模板，并设置为选中
+				String result=DiaryApplication.getInstance().getResources().getText(R.string.default_template).toString();
+				ContentValues values=new ContentValues();
+				sDate=format.format(new Date());
+				values.put(CommonColumn._CREATE_TIME, sDate);
+				values.put(CommonColumn._UPDATE_TIME, sDate);
+				values.put(DiaryTemplateColumn._TAMPLETE,result);
+				values.put(DiaryTemplateColumn._SYNC, "-1");
+				values.put(DiaryTemplateColumn._NAME, DiaryApplication.getInstance().getResources().getText(R.string.default_template_name).toString());
+				values.put(DiaryTemplateColumn._SELECTED, "1");
+				
+				db.insertOrThrow(Tables.DIARY_TEMPLETE, CommonColumn._ID, values);
+			}
 			return null;
+		}
 		if (c.moveToFirst()){
 			String result=c.getString(0);
 			c.close();

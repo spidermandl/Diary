@@ -33,6 +33,7 @@
     		"INNOVATION":["Thoughts","Actions"],
     		"MIT":["First To Do","Second To Do","Third To Do"]
     		}</string>
+    <string name="default_template_name">Default Template</string>
     <string name="tab_host_main">Day</string>
     <string name="tab_host_fast_write">Action</string>
     <string name="tab_host_view">Community</string>
