@@ -23,15 +23,15 @@
 	<string name="opposite">Opposite</string>
     <!--***********************************************************************************-->
     <string name="default_template">{
-    		"main_order":["HEALTH","PERSONAL","SOUL","WORK","FAMILY","FINANCE","INNOVATION","MIT"],
-    		"HEALTH":["Running","Body","Diet","Comments"],
-    		"PERSONAL":["Study","Reading","Second Language","Comments"],
-    		"SOUL":["Pray","Enlightment","Comments"],
-    		"WORK":["Efficiency","Achievement"],
-    		"FAMILY":["Friends","Relatives","Lover"],
-    		"FINANCE":["Account","Money Management","Comments"],
-    		"INNOVATION":["Thoughts","Actions"],
-    		"MIT":["First To Do","Second To Do","Third To Do"]
+    		\"main_order\":[\"HEALTH\",\"PERSONAL\",\"SOUL\",\"WORK\",\"FAMILY\",\"FINANCE\",\"INNOVATION\",\"MIT\"],
+    		\"HEALTH\":[\"Running\",\"Body\",\"Diet\",\"Comments\"],
+    		\"PERSONAL\":[\"Study\",\"Reading\",\"Second Language\",\"Comments\"],
+    		\"SOUL\":[\"Pray\",\"Enlightment\",\"Comments\"],
+    		\"WORK\":[\"Efficiency\",\"Achievement\"],
+    		\"FAMILY\":[\"Friends\",\"Relatives\",\"Lover\"],
+    		\"FINANCE\":[\"Account\",\"Money Management\",\"Comments\"],
+    		\"INNOVATION\":[\"Thoughts\",\"Actions\"],
+    		\"MIT\":[\"First To Do\",\"Second To Do\",\"Third To Do\"]
     		}</string>
     <string name="default_template_name">Default Template</string>
     <string name="tab_host_main">Day</string>

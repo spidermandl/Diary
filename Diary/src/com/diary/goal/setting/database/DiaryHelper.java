@@ -148,9 +148,10 @@ public class DiaryHelper extends SQLiteOpenHelper{
 										             * big3:[small1,small2]
 										             * }
 										             **/
-			+DiaryTemplateColumn._SYNC+" integer,"
+			+DiaryTemplateColumn._SYNC+" text,"
 			+DiaryTemplateColumn._NAME+" text,"
-			+DiaryTemplateColumn._CREATER_ID+" integer"
+			+DiaryTemplateColumn._CREATER_ID+" integer,"
+			+DiaryTemplateColumn._SELECTED+" text"
 			+ ")";
 	public static final String CREATE_DIARY_CONTENT = 
 			"CREATE TABLE IF NOT EXISTS " +  Tables.DIARY_CONTENT + "("
@@ -346,7 +347,9 @@ public class DiaryHelper extends SQLiteOpenHelper{
 			createUser(account, passwd, null, new Date());
 			return getUser(account,passwd);
 		}
-		return c.getInt(0);
+		long _id=c.getInt(0);
+		c.close();
+		return _id;
 	}
 	/**
 	 * 创建用户
@@ -359,8 +362,10 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		Cursor c=db.query(Tables.USER, null, 
 				"( "+UserColumn._USERNAME+" = '"+name+"' or "+UserColumn._EMAIL+" = '"+name+"' ) and "+UserColumn._PASSWD+" = '"+passwd+"'",
 				null,null,null,null);
-		if(c!=null&&c.getCount()!=0)
+		if(c!=null&&c.getCount()!=0){
+			c.close();
 			return;
+		}
 		ContentValues values = new ContentValues();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		values.put(CommonColumn._CREATE_TIME, format.format(date));
@@ -386,8 +391,11 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		if(c==null||!c.moveToFirst()){
 			return false;
 		}
-		if(c.getInt(0)==0)
+		if(c.getInt(0)==0){
+			c.close();
 			return false;
+		}
+		c.close();
 		return true;
 	}
 	/**
@@ -402,8 +410,11 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		if(c==null||!c.moveToFirst()){
 			return false;
 		}
-		if(c.getInt(0)==0)
+		if(c.getInt(0)==0){
+			c.close();
 			return false;
+		}
+		c.close();
 		return true;
 	}
 	/**
@@ -454,7 +465,9 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		if(c==null||!c.moveToFirst()){
 			return 0;
 		}
-		return c.getInt(0);
+		long _id= c.getInt(0);
+		c.close();
+		return _id;
 	}
 	/**********************************************************************************
 	 *日记模板表操作方法
@@ -531,6 +544,8 @@ public class DiaryHelper extends SQLiteOpenHelper{
 			results[index]=model;
 			index++;
 		}
+		if(c!=null)
+			c.close();
 		return results;
 	}
 	/**
@@ -538,22 +553,23 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 * @param date
 	 * @return
 	 */
-	public String getTodayDiaryTemplate(Date date){
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		String sDate=date==null?null:format.format(date);
-		Cursor c=db.query(Tables.DIARY_TEMPLETE, new String[]{DiaryTemplateColumn._TAMPLETE}, 
-				sDate==null?null:CommonColumn._CREATE_TIME+" between '"+sDate+" 00:00:00' and '"+sDate+" 23:59:59' and "+DiaryTemplateColumn._SYNC+" = '-1'",
-				null,null,null,CommonColumn._CREATE_TIME+" DESC");
-		if(c==null||c.getCount()==0){
-			//没有今天的日记模板
-			c=db.query(Tables.DIARY_TEMPLETE, new String[]{DiaryTemplateColumn._TAMPLETE}, 
+	public String getCurrentAppliedDiaryTemplate(){
+//		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//		String sDate=format.format(date);
+//		Cursor c=db.query(Tables.DIARY_TEMPLETE, new String[]{DiaryTemplateColumn._TAMPLETE}, 
+//				CommonColumn._CREATE_TIME+" between '"+sDate+" 00:00:00' and '"+sDate+" 23:59:59' and "+DiaryTemplateColumn._SYNC+" = '-1'",
+//				null,null,null,CommonColumn._CREATE_TIME+" DESC");
+//		if(c==null||c.getCount()==0){
+			
+			Cursor c=db.query(Tables.DIARY_TEMPLETE, new String[]{DiaryTemplateColumn._TAMPLETE}, 
 				DiaryTemplateColumn._SELECTED+" = '1'",
 				null,null,null,null);
 			if(c==null||c.getCount()==0){
 				//没有选中的日记模板，创建默认模板，并设置为选中
 				String result=DiaryApplication.getInstance().getResources().getText(R.string.default_template).toString();
 				ContentValues values=new ContentValues();
-				sDate=format.format(new Date());
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				String sDate=format.format(new Date());
 				values.put(CommonColumn._CREATE_TIME, sDate);
 				values.put(CommonColumn._UPDATE_TIME, sDate);
 				values.put(DiaryTemplateColumn._TAMPLETE,result);
@@ -562,15 +578,23 @@ public class DiaryHelper extends SQLiteOpenHelper{
 				values.put(DiaryTemplateColumn._SELECTED, "1");
 				
 				db.insertOrThrow(Tables.DIARY_TEMPLETE, CommonColumn._ID, values);
+				if(c!=null)
+					c.close();
+				return result;
+			}
+			if (c.moveToFirst()){
+				String result=c.getString(0);
+				c.close();
+				return result;
 			}
 			return null;
-		}
-		if (c.moveToFirst()){
-			String result=c.getString(0);
-			c.close();
-			return result;
-		}
-		return null;
+//		}
+//		if (c.moveToFirst()){
+//			String result=c.getString(0);
+//			c.close();
+//			return result;
+//		}
+//		return null;
 	}
 	/*******************************************************************************************
 	 * 日记表（diary_content）表操作方法

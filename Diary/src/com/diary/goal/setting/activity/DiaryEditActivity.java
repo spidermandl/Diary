@@ -72,7 +72,7 @@ public class DiaryEditActivity extends SherlockActivity {
 			}
 		}
 		if(isFisrtLoad){
-			String latestTemplete=DiaryApplication.getInstance().getDbHelper().getDiaryTemplate(null);
+			String latestTemplete=DiaryApplication.getInstance().getDbHelper().getCurrentAppliedDiaryTemplate();
 			if(latestTemplete!=null){//数据库中存在模板
 				try {
 					templete=new JSONObject(latestTemplete);
@@ -83,7 +83,7 @@ public class DiaryEditActivity extends SherlockActivity {
 			}
 			if(templete==null){//使用默认模板
 				try {
-					templete=new JSONObject(Constant.TAMPLATE);
+					templete=new JSONObject(this.getResources().getText(Constant.TAMPLATE).toString());
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
