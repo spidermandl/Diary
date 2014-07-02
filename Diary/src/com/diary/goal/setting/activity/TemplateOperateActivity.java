@@ -29,7 +29,11 @@ public class TemplateOperateActivity extends SherlockFragmentActivity{
 		ab.setDisplayHomeAsUpEnabled(true);
 		ab.setDisplayShowTitleEnabled(false);
 	}
-	
+	/**
+	 * 
+	 * @param fragment
+	 * @param begin 是否第一次启动fragment
+	 */
 	public void switchFragment(android.support.v4.app.Fragment fragment,boolean begin){
 		if(begin){
 			this.getSupportFragmentManager().beginTransaction().add(
@@ -46,10 +50,9 @@ public class TemplateOperateActivity extends SherlockFragmentActivity{
 		case android.R.id.home:
 			this.finish();
 			//this.overridePendingTransition(R.anim.left_enter, R.anim.right_exit);
-			break;
+			return true;
 		default:
-			break;
+			return false;
 		}
-		return true;
 	}
 }

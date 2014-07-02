@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -11,6 +14,8 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.diary.goal.setting.R;
+import com.diary.goal.setting.activity.TemplateOperateActivity;
+import com.diary.goal.setting.activity.UserAuthActivity;
 import com.diary.goal.setting.adapter.TemplateListAdapter;
 
 /**
@@ -21,6 +26,7 @@ public class TemplateListFragment extends SherlockFragment{
 
 	
 	private ListView tempList;
+	private OnItemClickListener itemListener;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -44,8 +50,19 @@ public class TemplateListFragment extends SherlockFragment{
 	}
 	
 	private void initFunctionality() {
+		itemListener=new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				((TemplateOperateActivity)TemplateListFragment.this.getActivity()).switchFragment(
+						new TemplateEditFragment(), false);
+				
+			}
+		};
 		TemplateListAdapter adapter =new TemplateListAdapter(this.getActivity());
 		tempList.setAdapter(adapter);
+		tempList.setOnItemClickListener(itemListener);
 		
 	}
 
@@ -53,14 +70,27 @@ public class TemplateListFragment extends SherlockFragment{
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
+		setHasOptionsMenu(true);
 	}
 	
-	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.string.add_template:
+			((TemplateOperateActivity)TemplateListFragment.this.getActivity()).switchFragment(
+					new TemplateEditFragment(), false);
+			break;
+
+		default:
+			break;
+		}
+		return true;
+	}
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//		menu.add(0, R.string.sign_in, 1, R.string.sign_in)
-//		.setIcon(iconRes)
-//	    .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+		menu.add(0, R.string.add_template, 1, R.string.add_template)
+		.setIcon(R.drawable.ico_btn_plus_blue)
+	    .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 	}
 	
 }

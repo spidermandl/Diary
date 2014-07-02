@@ -55,6 +55,8 @@
     <string name="create_nickname">创建昵称</string>
     <string name="tamplate_libs">我的模板库</string>
     <string name ="long_term_vision">我的梦想规划</string>
+    <!-- ********************************************************************************** -->
+    <string name="add_template">新建模板</string>
     
 	<string name="edit_save">保存</string>
 	<string name="edit_back">返回</string>

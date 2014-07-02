@@ -55,6 +55,8 @@
     <string name="create_nickname">Create Nickname</string>
     <string name="tamplate_libs">My Diary Tamplates</string>
     <string name ="long_term_vision">My Long Term Vision</string>
+     <!-- ********************************************************************************** -->
+    <string name="add_template">Add Template</string>
     
 	<string name="edit_save">SAVE</string>
 	<string name="edit_back">BACK</string>

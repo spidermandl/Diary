@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content" 
+    android:paddingBottom="5dip"
     android:background="@drawable/template_item_bg">
     
     <TextView 
@@ -10,20 +11,18 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dip"
         android:layout_marginLeft="5dip"
-        android:textStyle="bold"
-        android:text="默认模板"/>
+        android:textStyle="bold"/>
     
     <TextView 
         android:id="@+id/template_created_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dip"
-        android:layout_marginBottom="10dip"
         android:layout_below="@id/template_title"
         android:layout_alignLeft="@id/template_title"
+        android:layout_alignParentBottom="true"
         android:textColor="#FFCD9C9C"
-        android:textSize="10sp"
-        android:text="2014 7 01"/>
+        android:textSize="10sp"/>
     
     <CheckBox 
         android:id="@+id/template_check_box"
