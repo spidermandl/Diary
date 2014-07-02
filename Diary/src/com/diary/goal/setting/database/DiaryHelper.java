@@ -530,7 +530,8 @@ public class DiaryHelper extends SQLiteOpenHelper{
 				                       DiaryTemplateColumn._SYNC,
 				                       DiaryTemplateColumn._TAMPLETE,
 				                       CommonColumn._CREATE_TIME}, 
-				          DiaryTemplateColumn._SYNC+" <> -1", null, null, null, 
+				          null,//DiaryTemplateColumn._SYNC+" <> -1", 
+				          null, null, null, 
                           CommonColumn._CREATE_TIME+" DESC");
 		DiaryTemplateModel[] results= new DiaryTemplateModel[c==null?0:c.getCount()];
 		int index=0;
