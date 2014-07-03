@@ -89,7 +89,7 @@ public class TemplateListFragment extends SherlockFragment{
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.add(0, R.string.add_template, 1, R.string.add_template)
-		.setIcon(R.drawable.ico_btn_plus_blue)
+		.setIcon(R.drawable.ico_btn_plus_gray)
 	    .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 	}
 	
