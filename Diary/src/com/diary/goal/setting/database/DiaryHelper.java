@@ -575,7 +575,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 				//没有选中的日记模板，创建默认模板，并设置为选中
 				String result=DiaryApplication.getInstance().getResources().getText(R.string.default_template).toString();
 				ContentValues values=new ContentValues();
-				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				String sDate=format.format(new Date());
 				values.put(CommonColumn._CREATE_TIME, sDate);
 				values.put(CommonColumn._UPDATE_TIME, sDate);
