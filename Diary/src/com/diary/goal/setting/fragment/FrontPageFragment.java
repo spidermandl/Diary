@@ -63,7 +63,7 @@ public class FrontPageFragment extends SherlockFragment{
 						DiaryApplication.getInstance().getScreen_h(), false)));
 		
 		initFunctionality();
-		
+		final long user_id=DiaryApplication.getInstance().getDbHelper().lastestLoginTime();
 		new Thread(){
 			public void run() {
 				SharedPreferences diary=FrontPageFragment.this.getActivity().getSharedPreferences(Constant.PREFERENCE_NAME, Context.MODE_PRIVATE);
@@ -83,7 +83,15 @@ public class FrontPageFragment extends SherlockFragment{
 					 */
 					if(result==null){
 						handler.sendEmptyMessage(NO_SERVER);
+						return;
 					}
+				}
+				if(user_id!=0){
+					Message msg=new Message();
+					msg.what=NO_SERVER;
+					msg.obj=user_id;
+					handler.sendMessage(msg);
+					return;
 				}
 				handler.sendEmptyMessage(FAIL);
 			};
@@ -113,6 +121,7 @@ public class FrontPageFragment extends SherlockFragment{
 							//cache.put(Constant.SERVER_USER_ID, obj.getString(Constant.SERVER_USER_ID));
 							cache.put(Constant.SERVER_USER_ID, String.valueOf(userid));
 							cache.put(Constant.SERVER_USER_NAME, username);
+							DiaryApplication.getInstance().getDbHelper().loginTrigger(String.valueOf(userid));
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -125,8 +134,9 @@ public class FrontPageFragment extends SherlockFragment{
 					break;
 				case NO_SERVER:
 					//String user_id=diary.getString(Constant.P_USER_ID, null);
-					long user_id=//DiaryApplication.getInstance().getDbHelper().getUser(diary.getString(Constant.P_ACCOUNT, " "), diary.getString(Constant.P_PASSWORD, " "));
-						DiaryApplication.getInstance().getDbHelper().lastestLoginTime();
+					long user_id=msg.obj==null?
+						DiaryApplication.getInstance().getDbHelper().lastestLoginTime()
+						:Long.parseLong(msg.obj.toString());
 					if(user_id==0){//user_id 没有被存
 						Toast.makeText(FrontPageFragment.this.getActivity(), R.string.server_error, 500).show();
 						handler.sendEmptyMessage(FAIL);

@@ -339,6 +339,12 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	/*******************************************************************************************
 	 * 用户表操作方法
 	 *******************************************************************************************/
+	/**
+	 * 获取本地用户id
+	 * @param account
+	 * @param passwd
+	 * @return
+	 */
 	public long getUser(String account,String passwd){
 		Cursor c=db.query(Tables.USER, new String[]{CommonColumn._ID}, 
 				"( "+UserColumn._USERNAME+" = '"+account+"' or "+UserColumn._EMAIL+" = '"+account+"' ) and "+UserColumn._PASSWD+" = '"+passwd+"'",
