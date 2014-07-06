@@ -50,9 +50,9 @@ public class Constant {
     public static final String SERVER_UPDATED_AT="updated_at";
     public static final String SERVER_CONTENT="content";
     public static final String SERVER_USER_NAME="user_name";
-	/**
-	 * =======================================client================================================
-	 */
+/**
+ * =======================================client================================================
+ */
 
 	public static String FLURRY_KEY="YMY4T7WMFCYVP3R5SS7H";
 	/**
@@ -92,6 +92,11 @@ public class Constant {
     public static final String P_EMAIL="email";
     public static final String P_SESSION="session_series";
     public static final String P_DEFAULT_TEMPLATE="default_template_content";
+    
+    /**
+     * intent数据交互使用key
+     */
+    public static final String TEMPLATE_EXCHANGE="template_mode";
     
 	/**
 	 * 9 sudo enum config

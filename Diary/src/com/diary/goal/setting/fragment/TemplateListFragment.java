@@ -1,6 +1,7 @@
 package com.diary.goal.setting.fragment;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import com.diary.goal.setting.R;
 import com.diary.goal.setting.activity.TemplateOperateActivity;
 import com.diary.goal.setting.activity.UserAuthActivity;
 import com.diary.goal.setting.adapter.TemplateListAdapter;
+import com.diary.goal.setting.database.DiaryHelper.DiaryTemplateModel;
+import com.diary.goal.setting.tools.Constant;
 
 /**
  * 
@@ -27,6 +30,7 @@ public class TemplateListFragment extends SherlockFragment{
 	
 	private ListView tempList;
 	private OnItemClickListener itemListener;
+	private TemplateListAdapter tempAdapter;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -50,18 +54,23 @@ public class TemplateListFragment extends SherlockFragment{
 	}
 	
 	private void initFunctionality() {
+		tempAdapter =new TemplateListAdapter(this.getActivity());
 		itemListener=new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
+				Fragment fragment=new TemplateEditFragment();
+				Bundle args=new Bundle();
+				args.putParcelable(Constant.TEMPLATE_EXCHANGE, (DiaryTemplateModel)tempAdapter.getItem(position));
+				fragment.setArguments(args);
 				((TemplateOperateActivity)TemplateListFragment.this.getActivity()).switchFragment(
-						new TemplateEditFragment(), false);
+						fragment, false);
 				
 			}
 		};
-		TemplateListAdapter adapter =new TemplateListAdapter(this.getActivity());
-		tempList.setAdapter(adapter);
+		
+		tempList.setAdapter(tempAdapter);
 		tempList.setOnItemClickListener(itemListener);
 		
 	}
@@ -76,9 +85,15 @@ public class TemplateListFragment extends SherlockFragment{
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
+		case android.R.id.home:
+			this.getActivity().finish();
+			break;
 		case R.string.add_template:
+			Fragment fragment=new TemplateEditFragment();
+			Bundle args=new Bundle();
+			fragment.setArguments(args);
 			((TemplateOperateActivity)TemplateListFragment.this.getActivity()).switchFragment(
-					new TemplateEditFragment(), false);
+					fragment, false);
 			break;
 
 		default:

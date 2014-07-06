@@ -23,6 +23,7 @@ import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.activity.MainFrameActivity;
 import com.diary.goal.setting.activity.UserAuthActivity;
+import com.diary.goal.setting.database.DiaryHelper.UserModel;
 import com.diary.goal.setting.tools.API;
 import com.diary.goal.setting.tools.BitmapCustomize;
 import com.diary.goal.setting.tools.Constant;
@@ -37,6 +38,9 @@ public class FrontPageFragment extends SherlockFragment{
 	private final static int SUCCESS=0;
 	private final static int FAIL=1;
 	private final static int NO_SERVER=2;
+	
+	private String username,password;
+	private long userID;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -63,14 +67,14 @@ public class FrontPageFragment extends SherlockFragment{
 						DiaryApplication.getInstance().getScreen_h(), false)));
 		
 		initFunctionality();
-		final long user_id=DiaryApplication.getInstance().getDbHelper().lastestLoginTime();
+		final boolean hasAccount=hasUserInfo();
 		new Thread(){
 			public void run() {
-				SharedPreferences diary=FrontPageFragment.this.getActivity().getSharedPreferences(Constant.PREFERENCE_NAME, Context.MODE_PRIVATE);
-				String username=diary.getString(Constant.P_ACCOUNT, null);
-				String passwd=diary.getString(Constant.P_PASSWORD, null);
-				if (username!=null&&username.length()>0&&passwd!=null&&passwd.length()>0){
-					JSONObject result=API.login(username, passwd);
+//				SharedPreferences diary=FrontPageFragment.this.getActivity().getSharedPreferences(Constant.PREFERENCE_NAME, Context.MODE_PRIVATE);
+//				String username=diary.getString(Constant.P_ACCOUNT, null);
+//				String passwd=diary.getString(Constant.P_PASSWORD, null);
+				if (hasAccount){
+					JSONObject result=API.login(username, password);
 					if(result!=null&&result.has(Constant.SERVER_SUCCESS)){
 						Message msg=new Message();
 						msg.what=SUCCESS;
@@ -85,13 +89,6 @@ public class FrontPageFragment extends SherlockFragment{
 						handler.sendEmptyMessage(NO_SERVER);
 						return;
 					}
-				}
-				if(user_id!=0){
-					Message msg=new Message();
-					msg.what=NO_SERVER;
-					msg.obj=user_id;
-					handler.sendMessage(msg);
-					return;
 				}
 				handler.sendEmptyMessage(FAIL);
 			};
@@ -112,16 +109,12 @@ public class FrontPageFragment extends SherlockFragment{
 					if(msg.obj!=null){
 						JSONObject obj=(JSONObject)msg.obj;
 						HashMap<String, String> cache=DiaryApplication.getInstance().getMemCache();
-						SharedPreferences diary=FrontPageFragment.this.getActivity().getSharedPreferences(Constant.PREFERENCE_NAME, Context.MODE_PRIVATE);
-						String username=diary.getString(Constant.P_ACCOUNT, null);
-						String passwd=diary.getString(Constant.P_PASSWORD, null);
-						long userid=DiaryApplication.getInstance().getDbHelper().getUser(username, passwd);
 						try {
 							cache.put(Constant.SERVER_SESSION_ID, obj.getString(Constant.SERVER_SESSION_ID));
 							//cache.put(Constant.SERVER_USER_ID, obj.getString(Constant.SERVER_USER_ID));
-							cache.put(Constant.SERVER_USER_ID, String.valueOf(userid));
+							cache.put(Constant.SERVER_USER_ID, String.valueOf(userID));
 							cache.put(Constant.SERVER_USER_NAME, username);
-							DiaryApplication.getInstance().getDbHelper().loginTrigger(String.valueOf(userid));
+							DiaryApplication.getInstance().getDbHelper().loginTrigger(String.valueOf(userID));
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -134,10 +127,7 @@ public class FrontPageFragment extends SherlockFragment{
 					break;
 				case NO_SERVER:
 					//String user_id=diary.getString(Constant.P_USER_ID, null);
-					long user_id=msg.obj==null?
-						DiaryApplication.getInstance().getDbHelper().lastestLoginTime()
-						:Long.parseLong(msg.obj.toString());
-					if(user_id==0){//user_id 没有被存
+					if(userID==0){//user_id 没有被存
 						Toast.makeText(FrontPageFragment.this.getActivity(), R.string.server_error, 500).show();
 						handler.sendEmptyMessage(FAIL);
 						//FrontPageFragment.this.getActivity().finish();
@@ -147,7 +137,7 @@ public class FrontPageFragment extends SherlockFragment{
 						FrontPageFragment.this.startActivityForResult(intent, 0);
 						
 						HashMap<String, String> cache=DiaryApplication.getInstance().getMemCache();
-						cache.put(Constant.SERVER_USER_ID, String.valueOf(user_id));
+						cache.put(Constant.SERVER_USER_ID, String.valueOf(userID));
 					}
 				default:
 					break;
@@ -155,5 +145,26 @@ public class FrontPageFragment extends SherlockFragment{
 				super.handleMessage(msg);
 			}
 		};
+	}
+	/**
+	 * 判断是否有登陆记录
+	 * @return
+	 */
+	private boolean hasUserInfo(){
+		SharedPreferences diary=FrontPageFragment.this.getActivity().getSharedPreferences(Constant.PREFERENCE_NAME, Context.MODE_PRIVATE);
+		username=diary.getString(Constant.P_ACCOUNT, null);
+		password=diary.getString(Constant.P_PASSWORD, null);
+		if(username==null||username.length()==0||password==null||password.length()==0){
+			userID=DiaryApplication.getInstance().getDbHelper().lastestLoginTime();
+			if(userID==0)
+				return false;
+			else{
+				UserModel model=DiaryApplication.getInstance().getDbHelper().getUserInfo(String.valueOf(userID));
+				username=model._USERNAME;
+				password=model._PASSWD;
+			}
+		}
+		
+		return true;
 	}
 }

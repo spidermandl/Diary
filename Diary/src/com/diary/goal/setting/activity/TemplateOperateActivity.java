@@ -1,6 +1,7 @@
 package com.diary.goal.setting.activity;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -35,12 +36,15 @@ public class TemplateOperateActivity extends SherlockFragmentActivity{
 	 * @param begin 是否第一次启动fragment
 	 */
 	public void switchFragment(android.support.v4.app.Fragment fragment,boolean begin){
+		FragmentTransaction transaction=this.getSupportFragmentManager().beginTransaction();
 		if(begin){
-			this.getSupportFragmentManager().beginTransaction().add(
-					R.id.template_switcher, fragment).commit();
+			transaction.add(R.id.template_switcher, fragment);
+			//transaction.addToBackStack(null);
+			transaction.commit();
 		}else{
-			this.getSupportFragmentManager().beginTransaction().replace(
-					R.id.template_switcher, fragment).commit();
+			transaction.replace(R.id.template_switcher, fragment);
+			transaction.addToBackStack(null);
+			transaction.commit();
 		}
 	}
 	
@@ -48,11 +52,11 @@ public class TemplateOperateActivity extends SherlockFragmentActivity{
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			this.finish();
 			//this.overridePendingTransition(R.anim.left_enter, R.anim.right_exit);
-			return true;
+			return false;
 		default:
 			return false;
 		}
 	}
+
 }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+    
+     <TextView 
+        android:id="@+id/template_prior_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dip"
+        android:layout_marginLeft="5dip"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textColor="#FF29A0F8"
+        android:text="eeeeeeeee"/>
+     
+     <ImageView 
+         android:id="@+id/template_add"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignParentRight="true"
+         android:layout_centerVertical="true"
+         android:src="@android:drawable/ic_menu_add"/>
+</RelativeLayout>

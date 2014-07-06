@@ -7,7 +7,6 @@ import java.util.Date;
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.invalid.DateModel;
-import com.diary.goal.setting.tools.Constant;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -15,6 +14,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 public class DiaryHelper extends SQLiteOpenHelper{
 
@@ -75,6 +76,21 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	}
 	
 	/**
+	 * 
+	 * 用户信息内存模型
+	 */
+	public static class UserModel{
+		public String _ID;
+		public String _USERNAME;
+		public String _PASSWD;
+		public String _EMAIL;
+		public String _LOGINTIME;
+		public String _PIC_PATH;
+		public String _NICKNAME;
+		public String _SYNC;
+	}
+	
+	/**
 	 * 日记模板表
 	 */
 	public interface DiaryTemplateColumn{
@@ -88,12 +104,43 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 * 
 	 * 日记模板内存模型
 	 */
-	public class DiaryTemplateModel{
+	public static class DiaryTemplateModel implements Parcelable{
+		public String _ID;
 		public String _TAMPLETE;
 		public String _SYNC;
 		public String _NAME;
 		public String _SELECTED;
 		public String _CREATE_TIME;
+		public static final Parcelable.Creator<DiaryTemplateModel> CREATOR = new Parcelable.Creator<DiaryTemplateModel>() {
+		    public DiaryTemplateModel createFromParcel(Parcel in) {
+		    	DiaryTemplateModel model = new DiaryTemplateModel(); 
+		    	model._ID=in.readString();
+		    	model._TAMPLETE=in.readString();
+		    	model._SYNC=in.readString();
+		    	model._NAME=in.readString();
+		    	model._SELECTED=in.readString();
+		    	model._CREATE_TIME=in.readString();
+		        return model;
+		    }
+		
+		    public DiaryTemplateModel[] newArray(int size) {
+		        return new DiaryTemplateModel[size];
+		    }
+		 };
+		@Override
+		public int describeContents() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+		@Override
+		public void writeToParcel(Parcel dest, int flags) {
+			dest.writeString(_ID);
+			dest.writeString(_TAMPLETE);
+			dest.writeString(_SYNC);
+			dest.writeString(_NAME);
+			dest.writeString(_SELECTED);
+			dest.writeString(_CREATE_TIME);
+		}
 	}
 	/**
 	 * 日记内容
@@ -357,6 +404,66 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		c.close();
 		return _id;
 	}
+
+	/**
+	 * 获取本地用户id
+	 * @param account
+	 * @param passwd
+	 * @return
+	 */
+	public UserModel getUserInfo(String account,String passwd){
+		Cursor c=db.query(Tables.USER, 
+				new String[]{CommonColumn._ID,UserColumn._USERNAME,
+				             UserColumn._PASSWD,UserColumn._EMAIL,
+				             UserColumn._LOGINTIME,UserColumn._NICKNAME,
+				             UserColumn._PIC_PATH,UserColumn._SYNC}, 
+				"( "+UserColumn._USERNAME+" = '"+account+"' or "+UserColumn._EMAIL+" = '"+account+"' ) and "+UserColumn._PASSWD+" = '"+passwd+"'",
+				null,null,null,null);
+		if(c==null||!c.moveToFirst()){
+			createUser(account, passwd, null, new Date());
+			return getUserInfo(account,passwd);
+		}
+		UserModel model=new UserModel();
+		model._ID=String.valueOf(c.getInt(0));
+		model._USERNAME=c.getString(1);
+		model._PASSWD=c.getString(2);
+		model._EMAIL=c.getString(3);
+		model._LOGINTIME=c.getString(4);
+		model._NICKNAME=c.getString(5);
+		model._PIC_PATH=c.getString(6);
+		model._SYNC=String.valueOf(c.getInt(7));
+		c.close();
+		return model;
+	}
+	/**
+	 * 获取本地用户id
+	 * @param _id
+	 * @return
+	 */
+	public UserModel getUserInfo(String _id){
+		Cursor c=db.query(Tables.USER, 
+				new String[]{CommonColumn._ID,UserColumn._USERNAME,
+				             UserColumn._PASSWD,UserColumn._EMAIL,
+				             UserColumn._LOGINTIME,UserColumn._NICKNAME,
+				             UserColumn._PIC_PATH,UserColumn._SYNC}, 
+				CommonColumn._ID+" = "+_id,
+				null,null,null,null);
+		if(c==null||!c.moveToFirst()){
+			return null;
+		}
+		UserModel model=new UserModel();
+		model._ID=String.valueOf(c.getInt(0));
+		model._USERNAME=c.getString(1);
+		model._PASSWD=c.getString(2);
+		model._EMAIL=c.getString(3);
+		model._LOGINTIME=c.getString(4);
+		model._NICKNAME=c.getString(5);
+		model._PIC_PATH=c.getString(6);
+		model._SYNC=String.valueOf(c.getInt(7));
+		c.close();
+		return model;
+	}
+	
 	/**
 	 * 创建用户
 	 * @param name
@@ -531,7 +638,8 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 */
 	public DiaryTemplateModel[] getFixedDiaryTemplates(){
 		Cursor c=db.query(Tables.DIARY_TEMPLETE, 
-                          new String[]{DiaryTemplateColumn._NAME,
+                          new String[]{CommonColumn._ID,
+									   DiaryTemplateColumn._NAME,
 				                       DiaryTemplateColumn._SELECTED,
 				                       DiaryTemplateColumn._SYNC,
 				                       DiaryTemplateColumn._TAMPLETE,
@@ -540,14 +648,19 @@ public class DiaryHelper extends SQLiteOpenHelper{
 				          null, null, null, 
                           CommonColumn._CREATE_TIME+" DESC");
 		DiaryTemplateModel[] results= new DiaryTemplateModel[c==null?0:c.getCount()];
+		if(results.length==0){//模板为空
+			createDefaultTemplate();
+			return getFixedDiaryTemplates();
+		}
 		int index=0;
 		while(c.moveToNext()){
 			DiaryTemplateModel model=new DiaryTemplateModel();
-			model._NAME = c.getString(0);
-			model._SELECTED = c.getString(1);
-			model._SYNC = c.getString(2);
-			model._TAMPLETE = c.getString(3);
-			model._CREATE_TIME = c.getString(4);
+			model._ID = c.getString(0);
+			model._NAME = c.getString(1);
+			model._SELECTED = c.getString(2);
+			model._SYNC = c.getString(3);
+			model._TAMPLETE = c.getString(4);
+			model._CREATE_TIME = c.getString(5);
 			results[index]=model;
 			index++;
 		}
@@ -573,18 +686,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 				null,null,null,null);
 			if(c==null||c.getCount()==0){
 				//没有选中的日记模板，创建默认模板，并设置为选中
-				String result=DiaryApplication.getInstance().getResources().getText(R.string.default_template).toString();
-				ContentValues values=new ContentValues();
-				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				String sDate=format.format(new Date());
-				values.put(CommonColumn._CREATE_TIME, sDate);
-				values.put(CommonColumn._UPDATE_TIME, sDate);
-				values.put(DiaryTemplateColumn._TAMPLETE,result);
-				values.put(DiaryTemplateColumn._SYNC, "-1");
-				values.put(DiaryTemplateColumn._NAME, DiaryApplication.getInstance().getResources().getText(R.string.default_template_name).toString());
-				values.put(DiaryTemplateColumn._SELECTED, "1");
-				
-				db.insertOrThrow(Tables.DIARY_TEMPLETE, CommonColumn._ID, values);
+				String result=createDefaultTemplate();
 				if(c!=null)
 					c.close();
 				return result;
@@ -602,6 +704,25 @@ public class DiaryHelper extends SQLiteOpenHelper{
 //			return result;
 //		}
 //		return null;
+	}
+	
+	/**
+	 * 创建第一个日记模板
+	 */
+	private String createDefaultTemplate(){
+		String result=DiaryApplication.getInstance().getResources().getText(R.string.default_template).toString();
+		ContentValues values=new ContentValues();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String sDate=format.format(new Date());
+		values.put(CommonColumn._CREATE_TIME, sDate);
+		values.put(CommonColumn._UPDATE_TIME, sDate);
+		values.put(DiaryTemplateColumn._TAMPLETE,result);
+		values.put(DiaryTemplateColumn._SYNC, "-1");
+		values.put(DiaryTemplateColumn._NAME, DiaryApplication.getInstance().getResources().getText(R.string.default_template_name).toString());
+		values.put(DiaryTemplateColumn._SELECTED, "1");
+		
+		db.insertOrThrow(Tables.DIARY_TEMPLETE, CommonColumn._ID, values);
+		return result;
 	}
 	/*******************************************************************************************
 	 * 日记表（diary_content）表操作方法
@@ -726,26 +847,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		}
 	    return new String[]{null,null};
 	}
-//	/**
-//	 * 获取日记创建时间
-//	 * @param date
-//	 * @return
-//	 */
-//	public String getDiaryNewDate(Date date){
-//		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-//		String sDate=format.format(date);
-//		Cursor c=db.query(Tables.DIARY_CONTENT, new String[]{CommonColumn._CREATE_TIME}, 
-//				CommonColumn._CREATE_TIME+" between '"+sDate+" 00:00:00' and '"+sDate+" 23:59:59' ",
-//				null,null,null,null);
-//		if(c==null||c.getCount()==0)
-//			return null;
-//		if(c.moveToFirst()){
-//			String result=c.getString(0);
-//			c.close();
-//			return  result;
-//		}
-//	    return null; 
-//	}
+
 	
 
 
