@@ -20,5 +20,6 @@
          android:layout_height="wrap_content"
          android:layout_alignParentRight="true"
          android:layout_centerVertical="true"
-         android:src="@android:drawable/ic_menu_add"/>
+         android:layout_marginRight="5dip"
+         android:src="@drawable/temp_category_add_selector"/>
 </RelativeLayout>

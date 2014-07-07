@@ -57,6 +57,9 @@
     <string name ="long_term_vision">我的梦想规划</string>
     <!-- ********************************************************************************** -->
     <string name="add_template">新建模板</string>
+    <string name="change_template_title">编辑标题</string>
+    <string name="save_template">保存模板</string>
+    <string name="delete_template">删除模板</string>
     
 	<string name="edit_save">保存</string>
 	<string name="edit_back">返回</string>

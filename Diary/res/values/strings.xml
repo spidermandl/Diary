@@ -57,6 +57,9 @@
     <string name ="long_term_vision">My Long Term Vision</string>
      <!-- ********************************************************************************** -->
     <string name="add_template">Add Template</string>
+    <string name="change_template_title">Rename</string>
+    <string name="save_template">Save</string>
+    <string name="delete_template">Delete</string>
     
 	<string name="edit_save">SAVE</string>
 	<string name="edit_back">BACK</string>

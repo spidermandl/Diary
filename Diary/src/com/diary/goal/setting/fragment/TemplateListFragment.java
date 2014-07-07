@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -16,7 +15,6 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.activity.TemplateOperateActivity;
-import com.diary.goal.setting.activity.UserAuthActivity;
 import com.diary.goal.setting.adapter.TemplateListAdapter;
 import com.diary.goal.setting.database.DiaryHelper.DiaryTemplateModel;
 import com.diary.goal.setting.tools.Constant;
