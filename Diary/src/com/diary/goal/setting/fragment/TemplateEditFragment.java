@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnChildClickListener;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
@@ -30,6 +31,7 @@ public class TemplateEditFragment extends SherlockFragment{
 
 	private ExpandableListView editList;
 	private TemplateEditExpandableAdapter expandableAdapter;
+	private OnChildClickListener childClickListener;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -54,7 +56,17 @@ public class TemplateEditFragment extends SherlockFragment{
 	private void initFunctionality() {
 		Parcelable model = this.getArguments().getParcelable(Constant.TEMPLATE_EXCHANGE);
 		expandableAdapter=new TemplateEditExpandableAdapter(this.getActivity(),model);
+		childClickListener=new OnChildClickListener() {
+			
+			@Override
+			public boolean onChildClick(ExpandableListView parent, View v,
+					int groupPosition, int childPosition, long id) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+		};
 		editList.setAdapter(expandableAdapter);
+		editList.setOnChildClickListener(childClickListener);
 		
 	}
 

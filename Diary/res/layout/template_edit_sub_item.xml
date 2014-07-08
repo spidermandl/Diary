@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:descendantFocusability="beforeDescendants" >
     
      <TextView 
         android:id="@+id/template_sub_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dip"
-        android:layout_marginLeft="5dip"
-        android:textSize="12sp"
+        android:layout_marginTop="15dip"
+        android:layout_marginLeft="10dip"
+        android:textSize="15sp"
         android:textColor="#FF000000"
         android:text="eeeeeeeee"/>
      
@@ -19,6 +20,13 @@
          android:layout_height="wrap_content"
          android:layout_alignParentRight="true"
          android:layout_marginRight="5dip"
+         android:layout_alignTop="@id/template_sub_title"
          android:src="@drawable/edit_title"/>
+     
+     <View 
+         android:layout_width="match_parent"
+         android:layout_height="1dip"
+         android:background="#FFCCCCCC"
+         android:layout_alignParentBottom="true"/>
      
 </RelativeLayout>
