@@ -9,7 +9,11 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnChildClickListener;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
@@ -55,6 +59,50 @@ public class TemplateEditFragment extends SherlockFragment{
 		Parcelable model = this.getArguments().getParcelable(Constant.TEMPLATE_EXCHANGE);
 		expandableAdapter=new TemplateEditExpandableAdapter(this.getActivity(),model);
 		editList.setAdapter(expandableAdapter);
+		editList.setOnChildClickListener(new OnChildClickListener() {
+			
+			@Override
+			public boolean onChildClick(ExpandableListView parent, View v,
+					int groupPosition, int childPosition, long id) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+		});
+		editList.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int position, long id) {
+				int a=0;
+				a++;
+				
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				int a=0;
+				a++;
+			}
+		});
+		editList.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				// TODO Auto-generated method stub
+				int a=0;
+				a++;
+			}
+		});
+		editList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+			
+			@Override
+			public boolean onGroupClick(ExpandableListView parent, View v,
+					int groupPosition, long id) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+		});
 		
 	}
 

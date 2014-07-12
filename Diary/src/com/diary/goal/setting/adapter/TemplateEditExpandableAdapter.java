@@ -8,12 +8,16 @@ import com.diary.goal.setting.R;
 import com.diary.goal.setting.database.DiaryHelper.DiaryTemplateModel;
 import com.diary.goal.setting.tools.Constant;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,6 +32,10 @@ public class TemplateEditExpandableAdapter extends BaseExpandableListAdapter{
 	private DiaryTemplateModel dataModel;
 	private JSONObject tempContent;//模板全文
 	private JSONArray tempMainTitle;//模板大标题
+	
+	private OnClickListener popTextInputListener;//弹出文字输入框事件
+	private AlertDialog.Builder textInputDialog;//文字输入对话框
+	private EditText textInput;//输入框
 	
 	/**
 	 * @param con
@@ -63,8 +71,66 @@ public class TemplateEditExpandableAdapter extends BaseExpandableListAdapter{
 				e.printStackTrace();
 			}
 		}
+		/**
+		 * 监听事件
+		 */
+		popTextInputListener=new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				switch (v.getId()) {
+				case R.id.template_add://添加小标题
+					textInput=new EditText(context); 
+					new AlertDialog.Builder(context)
+					.setView(textInput)
+					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							textInput.getEditableText().toString();
+						}
+					})
+					.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							
+						}
+					}).show();
+					break;
+				case R.id.edit_sub_title://编辑小标题
+					textInput=new EditText(context); 
+					new AlertDialog.Builder(context)
+					.setView(textInput)
+					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO Auto-generated method stub
+							
+						}
+					})
+					.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							
+						}
+					}).show();
+					break;
+					
+				default:
+					break;
+				}
+				
+			}
+		};
+		
 	}
 	
+	private void updateTemplate(){
+		
+	}
 	@Override
 	public int getGroupCount() {
 		// TODO Auto-generated method stub
@@ -141,6 +207,7 @@ public class TemplateEditExpandableAdapter extends BaseExpandableListAdapter{
 			convertView = m_inflater.inflate(R.layout.template_edit_sub_item, null);
 			SubViewHolder holder=new SubViewHolder();
 			holder.title=(TextView)convertView.findViewById(R.id.template_sub_title);
+			holder.edit=(ImageView)convertView.findViewById(R.id.edit_sub_title);
 			convertView.setTag(holder);
 		}
 		SubViewHolder holder=(SubViewHolder)convertView.getTag();
@@ -171,5 +238,6 @@ public class TemplateEditExpandableAdapter extends BaseExpandableListAdapter{
 	 */
 	class SubViewHolder{
 		TextView title;
+		ImageView edit;
 	}
 }

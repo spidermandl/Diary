@@ -65,6 +65,9 @@ public class HTTPTools {
     
     public static JSONObject connectPost(String url,HashMap<String, String> posts){ 	
 		HttpClient httpClient = new DefaultHttpClient();    // 新建HttpClient对象
+    	HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), 3000); //设置连接超时
+    	HttpConnectionParams.setSoTimeout(httpClient.getParams(), 3000); //设置数据读取时间超时
+    	ConnManagerParams.setTimeout(httpClient.getParams(), 3000);  //设置从连接池中取连接超时
 		HttpPost httpPost = new HttpPost(url);    // 新建HttpPost对象
 		List<NameValuePair> params = new ArrayList<NameValuePair>();  //使用NameValuePair来保存要传递的Post参数
 		for(Map.Entry<String, String> entry :posts.entrySet()){//添加要传递的参数

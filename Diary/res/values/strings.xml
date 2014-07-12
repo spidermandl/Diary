@@ -21,6 +21,7 @@
 	<string name="normal">Normal</string>
 	<string name="center">Center</string>
 	<string name="opposite">Opposite</string>
+	
     <!--***********************************************************************************-->
     <string name="default_template">{
     		\"main_order\":[\"HEALTH\",\"PERSONAL\",\"SOUL\",\"WORK\",\"FAMILY\",\"FINANCE\",\"INNOVATION\",\"MIT\"],
@@ -50,12 +51,12 @@
     <string name="register_error_unidentical_passwd">please reconfirm the password</string>
     <string name="register_error_void_item">please fill up the content</string>
     <string name="server_error">server error</string>
-   <!-- ********************************************************************************** -->
+    <!-- ********************************************************************************** -->
     <string name="me">Me</string>
     <string name="create_nickname">Create Nickname</string>
     <string name="tamplate_libs">My Diary Tamplates</string>
     <string name ="long_term_vision">My Long Term Vision</string>
-     <!-- ********************************************************************************** -->
+    <!-- ********************************************************************************** -->
     <string name="add_template">Add Template</string>
     <string name="change_template_title">Rename</string>
     <string name="save_template">Save</string>
