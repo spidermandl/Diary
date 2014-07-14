@@ -521,6 +521,8 @@ public class DiaryHelper extends SQLiteOpenHelper{
 				CommonColumn._ID+" = "+userid,
 				null,null,null,null);
 		if(c==null||!c.moveToFirst()){
+			if(c!=null)
+				c.close();
 			return false;
 		}
 		if(c.getInt(0)==0){
@@ -576,6 +578,8 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		Cursor c=db.query(Tables.USER, new String[]{CommonColumn._ID}, 
 				null, null, null, null, UserColumn._LOGINTIME+" DESC ", "1");
 		if(c==null||!c.moveToFirst()){
+			if(c!=null)
+				c.close();
 			return 0;
 		}
 		long _id= c.getInt(0);
@@ -650,6 +654,8 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		DiaryTemplateModel[] results= new DiaryTemplateModel[c==null?0:c.getCount()];
 		if(results.length==0){//模板为空
 			createDefaultTemplate();
+			if(c!=null)
+				c.close();
 			return getFixedDiaryTemplates();
 		}
 		int index=0;
@@ -836,8 +842,11 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		Cursor c=db.query(Tables.DIARY_CONTENT, new String[]{DiaryContentColumn._CONTENT,CommonColumn._CREATE_TIME}, 
 				DiaryContentColumn._USER_ID+" = "+userid+" and "+CommonColumn._CREATE_TIME+" between '"+sDate+" 00:00:00' and '"+sDate+" 23:59:59' ",
 				null,null,null,null);
-		if(c==null||c.getCount()==0)
+		if(c==null||c.getCount()==0){
+			if(c!=null)
+				c.close();
 			return new String[]{null,null};
+		}
 		if(c.moveToFirst()){
 			String[] result=new String[2];
 			result[0]=c.getString(0);

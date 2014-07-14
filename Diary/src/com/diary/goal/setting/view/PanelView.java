@@ -65,7 +65,7 @@ public abstract class PanelView extends ViewGroup implements View.OnClickListene
 		cPaint.setAntiAlias(true); 
 		cPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
 		
-		this.setBackground(context.getResources().getDrawable(R.drawable.sudo_bg));
+		this.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.sudo_bg));
 
 	}
 	

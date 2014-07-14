@@ -28,6 +28,7 @@ public class UserAuthActivity extends SherlockFragmentActivity {
 //		actionMode=startActionMode(new UserAuthCallback());
 		this.getSupportActionBar().hide();
 		switchFragment(new FrontPageFragment(), true);
+		this.setSupportProgressBarIndeterminateVisibility(false);
 		
 	}
 	

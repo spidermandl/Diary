@@ -5,7 +5,7 @@
     android:orientation="vertical" >
     
     <ListView android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/template_list"
         android:layout_marginTop="10dip"
         android:paddingLeft="10dip"
@@ -14,5 +14,10 @@
         android:divider="@null">
         
     </ListView>
+    
+    <View android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:background="#FFFFFFFF"
+        android:layout_weight="1"/>
 
 </LinearLayout>

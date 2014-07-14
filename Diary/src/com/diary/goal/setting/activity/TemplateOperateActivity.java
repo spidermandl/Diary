@@ -29,6 +29,8 @@ public class TemplateOperateActivity extends SherlockFragmentActivity{
 		
 		ab.setDisplayHomeAsUpEnabled(true);
 		ab.setDisplayShowTitleEnabled(false);
+		
+		this.setSupportProgressBarIndeterminateVisibility(false);
 	}
 	/**
 	 * 

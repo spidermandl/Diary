@@ -33,9 +33,15 @@ public class TemplateEditExpandableAdapter extends BaseExpandableListAdapter{
 	private JSONObject tempContent;//模板全文
 	private JSONArray tempMainTitle;//模板大标题
 	
-	private OnClickListener popTextInputListener;//弹出文字输入框事件
-	private AlertDialog.Builder textInputDialog;//文字输入对话框
-	private EditText textInput;//输入框
+	private TemplateEditAction action;
+	/**
+	 * 
+	 * item内按钮事件
+	 */
+	public interface TemplateEditAction{
+		void addItem(int group);//添加模板item
+		void editItem(int group,int child);//编辑模板item
+	}
 	
 	/**
 	 * @param con
@@ -71,66 +77,13 @@ public class TemplateEditExpandableAdapter extends BaseExpandableListAdapter{
 				e.printStackTrace();
 			}
 		}
-		/**
-		 * 监听事件
-		 */
-		popTextInputListener=new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				switch (v.getId()) {
-				case R.id.template_add://添加小标题
-					textInput=new EditText(context); 
-					new AlertDialog.Builder(context)
-					.setView(textInput)
-					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-						
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							textInput.getEditableText().toString();
-						}
-					})
-					.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-						
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							
-						}
-					}).show();
-					break;
-				case R.id.edit_sub_title://编辑小标题
-					textInput=new EditText(context); 
-					new AlertDialog.Builder(context)
-					.setView(textInput)
-					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-						
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							// TODO Auto-generated method stub
-							
-						}
-					})
-					.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-						
-						@Override
-						public void onClick(DialogInterface dialog, int which) {
-							
-						}
-					}).show();
-					break;
-					
-				default:
-					break;
-				}
-				
-			}
-		};
 		
 	}
 	
 	private void updateTemplate(){
-		
 	}
+	
+	
 	@Override
 	public int getGroupCount() {
 		// TODO Auto-generated method stub
@@ -152,6 +105,12 @@ public class TemplateEditExpandableAdapter extends BaseExpandableListAdapter{
 	@Override
 	public Object getGroup(int groupPosition) {
 		// TODO Auto-generated method stub
+		try {
+			return tempMainTitle.getString(groupPosition);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 
@@ -191,6 +150,17 @@ public class TemplateEditExpandableAdapter extends BaseExpandableListAdapter{
 		}
 		MainViewHolder holder=(MainViewHolder)convertView.getTag();
 		try {
+			final int groupP=groupPosition;
+			holder.add.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					if (action!=null){
+						action.addItem(groupP);
+					}
+					
+				}
+			});
 			holder.title.setText(tempMainTitle.getString(groupPosition));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -212,6 +182,17 @@ public class TemplateEditExpandableAdapter extends BaseExpandableListAdapter{
 		}
 		SubViewHolder holder=(SubViewHolder)convertView.getTag();
 		try {
+			final int groupP=groupPosition,childP=childPosition ;
+			holder.edit.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					if (action!=null){
+						action.editItem(groupP, childP);
+					}
+					
+				}
+			});
 			holder.title.setText(tempContent.getJSONArray(tempMainTitle.getString(groupPosition)).getString(childPosition));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -223,11 +204,21 @@ public class TemplateEditExpandableAdapter extends BaseExpandableListAdapter{
 	@Override
 	public boolean isChildSelectable(int groupPosition, int childPosition) {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
+	public void setAction(TemplateEditAction action) {
+		this.action = action;
+	}
+
+	public DiaryTemplateModel getDataModel(){
+		return dataModel;
+	}
+	public JSONObject getTempJson(){
+		return tempContent;
+	}
 	/**
-	 * 主标题
+	 * 主标题                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
 	 */
 	class MainViewHolder{
 		TextView title;

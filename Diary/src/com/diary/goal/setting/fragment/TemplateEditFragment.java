@@ -1,17 +1,25 @@
 package com.diary.goal.setting.fragment;
 
-import java.util.HashMap;
 
+import java.nio.channels.Pipe.SinkChannel;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.AlertDialog.Builder;
+import android.app.AlertDialog;
 import android.app.Instrumentation;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
+import android.view.View.OnClickListener;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 
@@ -20,11 +28,12 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.adapter.TemplateEditExpandableAdapter;
+import com.diary.goal.setting.adapter.TemplateEditExpandableAdapter.TemplateEditAction;
 import com.diary.goal.setting.database.DiaryHelper.DiaryTemplateModel;
 import com.diary.goal.setting.tools.Constant;
+import com.flurry.org.apache.avro.data.Json;
 
 /**
  * 
@@ -34,6 +43,8 @@ public class TemplateEditFragment extends SherlockFragment{
 
 	private ExpandableListView editList;
 	private TemplateEditExpandableAdapter expandableAdapter;
+	private OnChildClickListener childClickListener;//列表child item事件
+	private TemplateEditAction actionListener;//列表item內按钮事件
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -58,8 +69,7 @@ public class TemplateEditFragment extends SherlockFragment{
 	private void initFunctionality() {
 		Parcelable model = this.getArguments().getParcelable(Constant.TEMPLATE_EXCHANGE);
 		expandableAdapter=new TemplateEditExpandableAdapter(this.getActivity(),model);
-		editList.setAdapter(expandableAdapter);
-		editList.setOnChildClickListener(new OnChildClickListener() {
+		childClickListener=new OnChildClickListener() {
 			
 			@Override
 			public boolean onChildClick(ExpandableListView parent, View v,
@@ -67,42 +77,27 @@ public class TemplateEditFragment extends SherlockFragment{
 				// TODO Auto-generated method stub
 				return false;
 			}
-		});
-		editList.setOnItemSelectedListener(new OnItemSelectedListener() {
-
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view,
-					int position, long id) {
-				int a=0;
-				a++;
-				
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> parent) {
-				int a=0;
-				a++;
-			}
-		});
-		editList.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				// TODO Auto-generated method stub
-				int a=0;
-				a++;
-			}
-		});
-		editList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+		};
+		actionListener=new TemplateEditExpandableAdapter.TemplateEditAction() {
 			
 			@Override
-			public boolean onGroupClick(ExpandableListView parent, View v,
-					int groupPosition, long id) {
-				// TODO Auto-generated method stub
-				return false;
+			public void editItem(int group, int child) {
+				new EditTempBuilder(TemplateEditFragment.this.getActivity(),group,child)
+				.show();
+				
 			}
-		});
+			
+			@Override
+			public void addItem(int group) {
+				new EditTempBuilder(TemplateEditFragment.this.getActivity(),group,-1)
+				.show();
+				
+			}
+		};
+		editList.setAdapter(expandableAdapter);
+		expandableAdapter.setAction(actionListener);
+		editList.setOnChildClickListener(childClickListener);
+
 		
 	}
 
@@ -155,5 +150,69 @@ public class TemplateEditFragment extends SherlockFragment{
 		menu.add(0, R.string.change_template_title, 1, R.string.change_template_title);
 		menu.add(0, R.string.save_template, 1, R.string.save_template);
 		menu.add(0, R.string.delete_template, 1, R.string.delete_template);
+	}
+	
+	/**
+	 * 
+	 * 模版编辑功能中的对话框
+	 *
+	 */
+	class EditTempBuilder extends Builder{
+
+		int group;
+		int child;
+		private OnClickListener popTextInputListener;//弹出文字输入框事件
+		private AlertDialog.Builder textInputDialog;//文字输入对话框
+		private EditText textInput;//输入框
+		private DialogInterface.OnClickListener okListener=new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				DiaryTemplateModel model=expandableAdapter.getDataModel();
+				JSONObject tempContent=expandableAdapter.getTempJson();
+				try {
+					JSONArray array=tempContent.getJSONArray(expandableAdapter.getGroup(group).toString());
+					String text=textInput.getEditableText().toString();
+					boolean singlton=true;//小标题重复判断
+					for(int i=0;i<array.length();i++){
+						if(text.equalsIgnoreCase(array.getString(i))){
+							singlton=false;
+							break;
+						}
+					}
+					if(singlton){
+						if(child>=0){//编辑
+							
+						}else{//添加
+							
+						}		
+					}else{
+						
+					}
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				expandableAdapter.notifyDataSetChanged();
+			}
+		};
+        private DialogInterface.OnClickListener cancelListener=new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+		
+		public EditTempBuilder(Context arg0,int groupID,int childID) {
+			super(arg0);
+			group=groupID;
+			child=childID;
+			textInput=new EditText(arg0);
+			this.setView(textInput);
+			this.setPositiveButton(android.R.string.ok, okListener);
+			this.setNegativeButton(android.R.string.cancel,cancelListener);
+		}
+		
 	}
 }
