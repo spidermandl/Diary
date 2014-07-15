@@ -1,5 +1,6 @@
 package com.diary.goal.setting.fragment;
 
+import java.util.Date;
 import java.util.HashMap;
 
 import android.app.Instrumentation;
@@ -119,5 +120,13 @@ public class TemplateEditFragment extends SherlockFragment{
 		menu.add(0, R.string.change_template_title, 1, R.string.change_template_title);
 		menu.add(0, R.string.save_template, 1, R.string.save_template);
 		menu.add(0, R.string.delete_template, 1, R.string.delete_template);
+	}
+	
+	private void saveTemplate(){
+		
+	}
+	
+	private void addTemplate(){
+		DiaryApplication.getInstance().getDbHelper().insertDiaryTemplate(new Date(), text, 0, name, 0);
 	}
 }

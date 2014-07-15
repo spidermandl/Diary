@@ -97,6 +97,7 @@ public class TemplateListFragment extends SherlockFragment{
 		default:
 			break;
 		}
+		
 		return true;
 	}
 	@Override
