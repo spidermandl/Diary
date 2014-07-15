@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -77,6 +78,10 @@ public class TemplateListFragment extends SherlockFragment{
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
+		final ActionBar ab = this.getSherlockActivity().getSupportActionBar();
+
+		ab.setDisplayShowTitleEnabled(false);
+		
 		setHasOptionsMenu(true);
 	}
 	

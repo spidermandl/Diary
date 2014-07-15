@@ -25,5 +25,6 @@
          android:layout_marginTop="10dip"
          android:layout_marginRight="5dip"
          android:layout_marginBottom="10dip"
+         android:clickable="true"
          android:src="@drawable/temp_category_add_selector"/>
 </RelativeLayout>

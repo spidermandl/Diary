@@ -20,4 +20,6 @@
     <drawable name="me_select_bg">#ffCCCCCC</drawable>
     <drawable name="auth_bar_bg">#ff777777</drawable>
     <drawable name="auth_bar_split_bg">#ffcccccc</drawable>
+    <drawable name="edit_child_item_bg">#00ffffff</drawable>
+    <drawable name="edit_child_item_select_bg">#ffCCCCCC</drawable>
 </resources>

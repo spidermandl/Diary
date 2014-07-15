@@ -60,6 +60,13 @@
     <string name="change_template_title">编辑标题</string>
     <string name="save_template">保存模板</string>
     <string name="delete_template">删除模板</string>
+    <string name="new_template_name">新建模板</string>
+    <string name="item_conflict">模板标题已经使用过</string>
+    <string name="template_save_indication">没有保存的内容将会丢失?</string>
+    <string name="template_add_item_title">新增项</string>
+    <string name="template_edit_item_title">编辑项</string>
+    <string name="template_del">删除模板</string>
+    <string name="template_rename_title">命名模板</string>
     
 	<string name="edit_save">保存</string>
 	<string name="edit_back">返回</string>
