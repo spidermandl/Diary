@@ -45,6 +45,7 @@ public class TemplateEditFragment extends SherlockFragment{
 	private TemplateEditExpandableAdapter expandableAdapter;
 	private OnChildClickListener childClickListener;//列表child item事件
 	private TemplateEditAction actionListener;//列表item內按钮事件
+	private MenuItem nameItem;
 	
 	final static int ADD_ITEM=0;//添加item
 	final static int EDIT_ITEM=1;//编辑item
@@ -127,7 +128,7 @@ public class TemplateEditFragment extends SherlockFragment{
 //				new EditTempBuilder(TemplateEditFragment.this.getActivity(),group,child,DELETE_ITEM)
 //				.show();
 				JSONObject tempContent=expandableAdapter.getTempJson();
-				JSONArray array;
+				JSONArray array=null;
 				try {
 					array = tempContent.getJSONArray(expandableAdapter.getGroup(group).toString());
 					isChanged=true;
@@ -201,11 +202,12 @@ public class TemplateEditFragment extends SherlockFragment{
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		
 		DiaryTemplateModel model = this.getArguments().getParcelable(Constant.TEMPLATE_EXCHANGE);
-        menu.add(1,R.string.new_template_name,1,model==null?this.getResources().getString(R.string.new_template_name):model._NAME)
-        .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+        nameItem=menu.add(1,R.string.new_template_name,1,model==null?this.getResources().getString(R.string.new_template_name):model._NAME);
+        nameItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 		menu.add(0, R.string.change_template_title, 1, R.string.change_template_title);
 		menu.add(0, R.string.save_template, 1, R.string.save_template);
 		menu.add(0, R.string.delete_template, 1, R.string.delete_template);
+		
 	}
 	
     /**
@@ -247,6 +249,7 @@ public class TemplateEditFragment extends SherlockFragment{
 		DiaryTemplateModel model=expandableAdapter.getDataModel();
 		model._TAMPLETE=expandableAdapter.getTempJson().toString();
 		long _id=DiaryApplication.getInstance().getDbHelper().insertDiaryTemplate(new Date(), model._TAMPLETE, "0", model._NAME, "0");
+		model._ID=String.valueOf(_id);
 		isChanged=false;
 	}
 	/**
@@ -310,8 +313,8 @@ public class TemplateEditFragment extends SherlockFragment{
 							return;
 						}
 						isChanged=true;
-						final ActionBar ab = TemplateEditFragment.this.getSherlockActivity().getSupportActionBar();
-						ab.setTitle(text);
+						nameItem.setTitle(text);
+						model._NAME=text;
 						break;
 					default:
 						break;
