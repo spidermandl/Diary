@@ -611,6 +611,26 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 *******************************************************************************************/
 	/**
 	 * 更新模板
+	 * @param model
+	 */
+	public void updateDiaryTemplate(DiaryTemplateModel model){
+		ContentValues values=new ContentValues();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		values.put(CommonColumn._UPDATE_TIME, format.format(new Date()));
+		if(model._NAME!=null)
+			values.put(DiaryTemplateColumn._NAME, model._NAME);
+		if(model._TAMPLETE!=null)
+			values.put(DiaryTemplateColumn._TAMPLETE, model._TAMPLETE);
+		if(model._SYNC!=null)
+			values.put(DiaryTemplateColumn._SYNC, model._SYNC);
+		if(model._SELECTED!=null)
+			values.put(DiaryTemplateColumn._SELECTED, model._SELECTED);
+		db.update(Tables.DIARY_TEMPLETE, values,
+				CommonColumn._ID+" = "+model._ID,
+		        null);
+	}
+	/**
+	 * 更新模板
 	 * @param date
 	 * @param text
 	 * @param sync
