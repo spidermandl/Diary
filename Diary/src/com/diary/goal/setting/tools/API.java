@@ -3,6 +3,7 @@ package com.diary.goal.setting.tools;
 
 import java.util.HashMap;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class API {
@@ -77,5 +78,15 @@ public class API {
 		params.put("updated_time", updated_time);
 		params.put("content", content);
 		return HTTPTools.connectPost(Constant.SERVER_DOMAIN+Constant.DIARY_UPDATE, params);
+	}
+	/**
+	 * 获取用户日记模板
+	 * @param session_id
+	 * @return
+	 */
+	public static JSONObject getUserTemplates(String session_id){
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("session_id", session_id);
+		return HTTPTools.connectPost(Constant.SERVER_DOMAIN+Constant.TEMPLATE_LIST, params);
 	}
 }

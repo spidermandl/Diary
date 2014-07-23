@@ -38,6 +38,14 @@ public class Constant {
 	 */
 	public static final String DIARY_UPDATE="diarys/update";
 	/**
+	 * 获取用户日记模板
+	 */
+	public static final String TEMPLATE_LIST="templates/list";
+	/**
+	 * 增、删、改用户日记模板
+	 */
+	public static final String TEMPLATE_OPERATE="templates/operate";
+	/**
 	 * ==================服务器返回字段
 	 */
 	public static final String SERVER_SUCCESS="success";
