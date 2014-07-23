@@ -11,6 +11,7 @@ import com.diary.goal.setting.tools.Constant;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.opengl.Visibility;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,8 +82,6 @@ public class TemplateEditExpandableAdapter extends BaseExpandableListAdapter{
 		
 	}
 	
-	private void updateTemplate(){
-	}
 	
 	
 	@Override
@@ -147,11 +146,20 @@ public class TemplateEditExpandableAdapter extends BaseExpandableListAdapter{
 			MainViewHolder holder=new MainViewHolder();
 			holder.title=(TextView)convertView.findViewById(R.id.template_prior_title);
 			holder.add=(ImageView)convertView.findViewById(R.id.template_add);
+			holder.subNum=(TextView)convertView.findViewById(R.id.template_sub_num);
 			convertView.setTag(holder);
 		}
 		MainViewHolder holder=(MainViewHolder)convertView.getTag();
 		try {
 			final int groupP=groupPosition;
+			if(isExpanded||getChildrenCount(groupPosition)==0){
+				holder.add.setVisibility(View.VISIBLE);
+				holder.subNum.setVisibility(View.INVISIBLE);
+			}else{
+				holder.add.setVisibility(View.INVISIBLE);
+				holder.subNum.setVisibility(View.VISIBLE);
+				holder.subNum.setText("("+getChildrenCount(groupPosition)+")");
+			}
 			holder.add.setOnClickListener(new OnClickListener() {
 				
 				@Override
@@ -179,11 +187,15 @@ public class TemplateEditExpandableAdapter extends BaseExpandableListAdapter{
 			SubViewHolder holder=new SubViewHolder();
 			holder.title=(TextView)convertView.findViewById(R.id.template_sub_title);
 			holder.edit=(ImageView)convertView.findViewById(R.id.edit_sub_title);
+			holder.delButton=(ImageView)convertView.findViewById(R.id.del_sub_title);
+			holder.eraseLine=(View)convertView.findViewById(R.id.erase_line);
 			convertView.setTag(holder);
 		}
 		SubViewHolder holder=(SubViewHolder)convertView.getTag();
 		try {
 			final int groupP=groupPosition,childP=childPosition ;
+			holder.delButton.setVisibility(View.INVISIBLE);
+			holder.eraseLine.setVisibility(View.INVISIBLE);
 			holder.edit.setOnClickListener(new OnClickListener() {
 				
 				@Override
@@ -224,6 +236,7 @@ public class TemplateEditExpandableAdapter extends BaseExpandableListAdapter{
 	class MainViewHolder{
 		TextView title;
 		ImageView add;
+		TextView subNum;
 	}
 	/**
 	 * 副标题
@@ -231,5 +244,7 @@ public class TemplateEditExpandableAdapter extends BaseExpandableListAdapter{
 	class SubViewHolder{
 		TextView title;
 		ImageView edit;
+		ImageView delButton;
+		View eraseLine;
 	}
 }

@@ -63,11 +63,13 @@
     <string name="delete_template">Delete</string>
     <string name="new_template_name">New Template</string>
     <string name="item_conflict">No identical items in one category</string>
-    <string name="template_save_indication">Usaved template,ture to discard?</string>
+    <string name="template_save_indication">Usaved template,sure to discard?</string>
     <string name="template_add_item_title">Add Item</string>
     <string name="template_edit_item_title">Edit Item</string>
     <string name="template_del">Delete Template</string>
     <string name="template_rename_title">Rename Title</string>
+    <string name="template_saved">Save successfully</string>
+    <string name="template_rename_hint">Name of template has not been set?</string>
     
 	<string name="edit_save">SAVE</string>
 	<string name="edit_back">BACK</string>

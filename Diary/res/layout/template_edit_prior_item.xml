@@ -27,4 +27,18 @@
          android:layout_marginBottom="10dip"
          android:clickable="true"
          android:src="@drawable/temp_category_add_selector"/>
+     
+     <TextView 
+         android:id="@+id/template_sub_num"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignParentRight="true"
+         android:layout_centerVertical="true"
+         android:layout_marginTop="10dip"
+         android:layout_marginRight="12dip"
+         android:layout_marginBottom="10dip"
+         android:clickable="false"
+         android:textColor="#FFCCCCCC"
+         android:text="(1)"/>
+     
 </RelativeLayout>

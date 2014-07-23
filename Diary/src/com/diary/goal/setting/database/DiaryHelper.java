@@ -95,7 +95,11 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 */
 	public interface DiaryTemplateColumn{
 		public static final String _TAMPLETE = "templete"; //json:{[subtitle,type],[subtile,type]...}
-		public static final String _SYNC = "sync";//是否同步, 0:没有同步,1:已经同步,-1 不需要同步（如用户当天正编辑的模板）
+		public static final String _SYNC = "sync";/*同步状态, 0:没有同步,
+		                                                   1:已经同步,
+		                                                   -1 不需要同步（如用户当天正编辑的模板）,
+		                                                   -2 需要删除的模板（和服务器同步后该条目删除）
+		                                          */
 		public static final String _NAME = "name";//模板名
 		public static final String _CREATER_ID = "creater_id";//创建者id
 		public static final String _SELECTED = "_selected";//当前选中模板 0:没有选中,1:选中
@@ -611,6 +615,26 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 *******************************************************************************************/
 	/**
 	 * 更新模板
+	 * @param model
+	 */
+	public void updateDiaryTemplate(DiaryTemplateModel model){
+		ContentValues values=new ContentValues();
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		values.put(CommonColumn._UPDATE_TIME, format.format(new Date()));
+		if(model._NAME!=null)
+			values.put(DiaryTemplateColumn._NAME, model._NAME);
+		if(model._TAMPLETE!=null)
+			values.put(DiaryTemplateColumn._TAMPLETE, model._TAMPLETE);
+		if(model._SYNC!=null)
+			values.put(DiaryTemplateColumn._SYNC, model._SYNC);
+		if(model._SELECTED!=null)
+			values.put(DiaryTemplateColumn._SELECTED, model._SELECTED);
+		db.update(Tables.DIARY_TEMPLETE, values,
+				CommonColumn._ID+" = "+model._ID,
+		        null);
+	}
+	/**
+	 * 更新模板
 	 * @param date
 	 * @param text
 	 * @param sync
@@ -637,6 +661,13 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		        null);
 	}
 	/**
+	 * 删除
+	 * @param model
+	 */
+	public void deleteDiaryTemplate(DiaryTemplateModel model){
+		db.delete(Tables.DIARY_TEMPLETE, CommonColumn._ID+" = "+model._ID, null);
+	}
+	/**
 	 * 获得所有创建的日记模板
 	 * @return
 	 */
@@ -648,7 +679,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 				                       DiaryTemplateColumn._SYNC,
 				                       DiaryTemplateColumn._TAMPLETE,
 				                       CommonColumn._CREATE_TIME}, 
-				          null,//DiaryTemplateColumn._SYNC+" <> -1", 
+				          DiaryTemplateColumn._SYNC+" <> '-2'", 
 				          null, null, null, 
                           CommonColumn._CREATE_TIME+" DESC");
 		DiaryTemplateModel[] results= new DiaryTemplateModel[c==null?0:c.getCount()];

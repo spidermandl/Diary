@@ -67,6 +67,8 @@
     <string name="template_edit_item_title">编辑项</string>
     <string name="template_del">删除模板</string>
     <string name="template_rename_title">命名模板</string>
+    <string name="template_saved">保存成功</string>
+    <string name="template_rename_hint">模板名没有设置？</string>
     
 	<string name="edit_save">保存</string>
 	<string name="edit_back">返回</string>

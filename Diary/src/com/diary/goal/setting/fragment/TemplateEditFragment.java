@@ -34,7 +34,6 @@ import com.diary.goal.setting.adapter.TemplateEditExpandableAdapter;
 import com.diary.goal.setting.adapter.TemplateEditExpandableAdapter.TemplateEditAction;
 import com.diary.goal.setting.database.DiaryHelper.DiaryTemplateModel;
 import com.diary.goal.setting.tools.Constant;
-import com.flurry.org.apache.avro.data.Json;
 
 /**
  * 模板编辑功能实现
@@ -45,6 +44,7 @@ public class TemplateEditFragment extends SherlockFragment{
 	private TemplateEditExpandableAdapter expandableAdapter;
 	private OnChildClickListener childClickListener;//列表child item事件
 	private TemplateEditAction actionListener;//列表item內按钮事件
+	private MenuItem nameItem;
 	
 	final static int ADD_ITEM=0;//添加item
 	final static int EDIT_ITEM=1;//编辑item
@@ -127,7 +127,7 @@ public class TemplateEditFragment extends SherlockFragment{
 //				new EditTempBuilder(TemplateEditFragment.this.getActivity(),group,child,DELETE_ITEM)
 //				.show();
 				JSONObject tempContent=expandableAdapter.getTempJson();
-				JSONArray array;
+				JSONArray array=null;
 				try {
 					array = tempContent.getJSONArray(expandableAdapter.getGroup(group).toString());
 					isChanged=true;
@@ -145,10 +145,13 @@ public class TemplateEditFragment extends SherlockFragment{
 		
 	}
 	
+	/**
+	 * 菜单栏操作
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case android.R.id.home:
+		case android.R.id.home://返回键
 			//this.getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
 			if(isChanged){
 				new AlertDialog.Builder(this.getActivity())
@@ -157,7 +160,7 @@ public class TemplateEditFragment extends SherlockFragment{
 					
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						backToPreviousFragment();
+						TemplateEditFragment.this.getFragmentManager().popBackStack();
 					}
 				}).setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
 					
@@ -166,28 +169,55 @@ public class TemplateEditFragment extends SherlockFragment{
 						// TODO Auto-generated method stub
 						
 					}
-				});
+				})
+				.show();
 			}else{
 				backToPreviousFragment();
 			}
 			
 			break;
-		case R.string.change_template_title:
+		case R.string.change_template_title://修改名称菜单
 			new EditTempBuilder(TemplateEditFragment.this.getActivity(),-1,-1,RENAME_TITLE)
 			.show();
 			break;
-		case R.string.save_template:
+		case R.string.save_template://保存模板菜单
 			DiaryTemplateModel model=expandableAdapter.getDataModel();
+			if(model._NAME==null){
+				/**
+				 * 模板没有命名
+				 */
+				new AlertDialog.Builder(this.getActivity())
+				.setMessage(R.string.template_rename_hint)
+				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						//重新命名
+						new EditTempBuilder(TemplateEditFragment.this.getActivity(),-1,-1,RENAME_TITLE)
+						.show();
+					}
+				}).setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						
+					}
+				})
+				.show();
+				break;
+			}
 			if(model._TAMPLETE==null)
 				addTemplate();
 			else
 				saveTemplate();
+			Toast.makeText(getActivity(), R.string.template_saved, 500).show();
 			break;
-		case R.string.delete_template:
+		case R.string.delete_template://删除模板菜单
 			new EditTempBuilder(TemplateEditFragment.this.getActivity(),-1,-1,DELETE_TEMPLATE)
 			.show();
 			break;
-		case R.string.new_template_name:
+		case R.string.new_template_name://修改名称键
 			new EditTempBuilder(TemplateEditFragment.this.getActivity(),-1,-1,RENAME_TITLE)
 			.show();
 			break;
@@ -201,11 +231,12 @@ public class TemplateEditFragment extends SherlockFragment{
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		
 		DiaryTemplateModel model = this.getArguments().getParcelable(Constant.TEMPLATE_EXCHANGE);
-        menu.add(1,R.string.new_template_name,1,model==null?this.getResources().getString(R.string.new_template_name):model._NAME)
-        .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+        nameItem=menu.add(1,R.string.new_template_name,1,model==null?this.getResources().getString(R.string.new_template_name):model._NAME);
+        nameItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 		menu.add(0, R.string.change_template_title, 1, R.string.change_template_title);
 		menu.add(0, R.string.save_template, 1, R.string.save_template);
 		menu.add(0, R.string.delete_template, 1, R.string.delete_template);
+		
 	}
 	
     /**
@@ -230,13 +261,24 @@ public class TemplateEditFragment extends SherlockFragment{
 	 * 删除模板操作
 	 */
 	private void deleteTemplate(){
+		DiaryTemplateModel model=expandableAdapter.getDataModel();
+		if(model._ID!=null){
+			model._SYNC="-2";
+			DiaryApplication.getInstance().getDbHelper().updateDiaryTemplate(model);
+		}
 		isChanged=false;
-		backToPreviousFragment();
 	}
 	/**
 	 * 保存模板操作
 	 */
 	private void saveTemplate(){
+		if(!isChanged)
+			return;
+		DiaryTemplateModel model=expandableAdapter.getDataModel();
+		JSONObject tempContent=expandableAdapter.getTempJson();
+		model._TAMPLETE=tempContent.toString();
+		model._SYNC="0";
+		DiaryApplication.getInstance().getDbHelper().updateDiaryTemplate(model);
 		isChanged=false;
 	}
 	
@@ -247,6 +289,7 @@ public class TemplateEditFragment extends SherlockFragment{
 		DiaryTemplateModel model=expandableAdapter.getDataModel();
 		model._TAMPLETE=expandableAdapter.getTempJson().toString();
 		long _id=DiaryApplication.getInstance().getDbHelper().insertDiaryTemplate(new Date(), model._TAMPLETE, "0", model._NAME, "0");
+		model._ID=String.valueOf(_id);
 		isChanged=false;
 	}
 	/**
@@ -303,6 +346,7 @@ public class TemplateEditFragment extends SherlockFragment{
 						break;
 					case DELETE_TEMPLATE:
 						deleteTemplate();
+						TemplateEditFragment.this.getFragmentManager().popBackStack();
 						break;
 					case RENAME_TITLE:
 						text=textInput.getEditableText().toString();
@@ -310,6 +354,8 @@ public class TemplateEditFragment extends SherlockFragment{
 							return;
 						}
 						isChanged=true;
+						nameItem.setTitle(text);
+						model._NAME=text;
 						break;
 					default:
 						break;
@@ -352,6 +398,8 @@ public class TemplateEditFragment extends SherlockFragment{
 					break;
 				case RENAME_TITLE:
 					this.setTitle(R.string.template_rename_title);
+					DiaryTemplateModel model=expandableAdapter.getDataModel();
+					textInput.setHint(model._NAME==null?model._NAME:"");
 					this.setView(textInput);
 					break;
 				default:
