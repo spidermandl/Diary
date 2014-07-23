@@ -262,7 +262,7 @@ public class TemplateEditFragment extends SherlockFragment{
 		int child;
 		private EditText textInput;//输入框
 		private DialogInterface.OnClickListener okListener=new DialogInterface.OnClickListener() {
-			
+			//各类对话框功能集成
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				DiaryTemplateModel model=expandableAdapter.getDataModel();
@@ -310,8 +310,6 @@ public class TemplateEditFragment extends SherlockFragment{
 							return;
 						}
 						isChanged=true;
-						final ActionBar ab = TemplateEditFragment.this.getSherlockActivity().getSupportActionBar();
-						ab.setTitle(text);
 						break;
 					default:
 						break;
