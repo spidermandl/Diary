@@ -13,13 +13,13 @@
         android:divider="@null">
     </ExpandableListView>
     
-    <com.diary.goal.setting.view.DashLineView
+    <com.diary.goal.setting.invalid.DashLineView
         android:layout_width="match_parent"
         android:layout_height="2dp"
         dash:orientation="0" 
         android:layout_below="@id/overview_list"/>
     
-    <com.diary.goal.setting.view.DashLineView
+    <com.diary.goal.setting.invalid.DashLineView
         android:layout_width="3dp"
         android:layout_height="wrap_content"
         dash:orientation="1" 

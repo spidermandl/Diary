@@ -1,4 +1,4 @@
-package com.diary.goal.setting.view;
+package com.diary.goal.setting.invalid;
 
 import android.content.Context;
 import android.graphics.Canvas;

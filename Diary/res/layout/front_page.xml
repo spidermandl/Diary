@@ -19,7 +19,7 @@
         android:gravity="center"
         android:padding="3dip" >
 
-        <com.diary.goal.setting.view.CircleFlowIndicator
+        <com.diary.goal.setting.invalid.CircleFlowIndicator
             android:id="@+id/front_indic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
             app:inactiveColor="#ffffff"
             app:inactiveType="fill"
             app:radius="4dip" >
-        </com.diary.goal.setting.view.CircleFlowIndicator>
+        </com.diary.goal.setting.invalid.CircleFlowIndicator>
         
     </LinearLayout>
 

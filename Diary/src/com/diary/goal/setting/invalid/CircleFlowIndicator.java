@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.diary.goal.setting.view;
+package com.diary.goal.setting.invalid;
 
 
 
 import com.diary.goal.setting.R;
-import com.diary.goal.setting.invalid.FlowIndicator;
+import com.diary.goal.setting.view.ViewFlow;
 
 import android.content.Context;
 import android.content.res.TypedArray;

@@ -89,4 +89,18 @@ public class API {
 		params.put("session_id", session_id);
 		return HTTPTools.connectPost(Constant.SERVER_DOMAIN+Constant.TEMPLATE_LIST, params);
 	}
+	
+	/**
+	 * 提交用户日记模板
+	 * @param session_id
+	 * @param changed_temp
+	 * @return
+	 */
+	public static JSONObject pushUserTemplates(String session_id,HashMap<Integer, JSONObject> changed_temp){
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("session_id", session_id);
+		params.put("template_upload", changed_temp.toString());
+		return HTTPTools.connectPost(Constant.SERVER_DOMAIN+Constant.TEMPLATE_OPERATE, params);
+		
+	}
 }

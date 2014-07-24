@@ -57,7 +57,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <com.diary.goal.setting.view.DashLineView
+        <com.diary.goal.setting.invalid.DashLineView
             android:id="@+id/line_h_type_0"
             android:layout_width="match_parent"
             android:layout_height="2dp"
@@ -70,7 +70,7 @@
             android:layout_below="@id/line_h_type_0"
             android:orientation="horizontal" >
 
-            <com.diary.goal.setting.view.CategoryTextView
+            <com.diary.goal.setting.invalid.CategoryTextView
                 android:id="@+id/title_type_0"
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
@@ -84,7 +84,7 @@
                 android:textColor="#FF704214"
                 android:textSize="16sp" />
 
-            <com.diary.goal.setting.view.DashLineView
+            <com.diary.goal.setting.invalid.DashLineView
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0"
@@ -110,7 +110,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <com.diary.goal.setting.view.DashLineView
+        <com.diary.goal.setting.invalid.DashLineView
             android:id="@+id/line_h_type_1"
             android:layout_width="match_parent"
             android:layout_height="2dp"
@@ -123,7 +123,7 @@
             android:layout_below="@id/line_h_type_1"
             android:orientation="horizontal" >
 
-            <com.diary.goal.setting.view.CategoryTextView
+            <com.diary.goal.setting.invalid.CategoryTextView
                 android:id="@+id/title_type_1"
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
@@ -137,7 +137,7 @@
                 android:textColor="#FF704214"
                 android:textSize="16sp" />
 
-            <com.diary.goal.setting.view.DashLineView
+            <com.diary.goal.setting.invalid.DashLineView
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0"
@@ -162,7 +162,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <com.diary.goal.setting.view.DashLineView
+        <com.diary.goal.setting.invalid.DashLineView
             android:id="@+id/line_h_type_2"
             android:layout_width="match_parent"
             android:layout_height="2dp"
@@ -175,7 +175,7 @@
             android:layout_below="@id/line_h_type_2"
             android:orientation="horizontal" >
 
-            <com.diary.goal.setting.view.CategoryTextView
+            <com.diary.goal.setting.invalid.CategoryTextView
                 android:id="@+id/title_type_2"
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
@@ -188,7 +188,7 @@
                 android:textColor="#FF704214"
                 android:textSize="16sp" />
 
-            <com.diary.goal.setting.view.DashLineView
+            <com.diary.goal.setting.invalid.DashLineView
                 android:layout_width="2dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0"
@@ -218,13 +218,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <com.diary.goal.setting.view.DashLineView
+        <com.diary.goal.setting.invalid.DashLineView
             android:id="@+id/line_h_type_3"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             dash:orientation="0" />
 
-        <com.diary.goal.setting.view.CategoryTextView
+        <com.diary.goal.setting.invalid.CategoryTextView
             android:id="@+id/title_type_3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

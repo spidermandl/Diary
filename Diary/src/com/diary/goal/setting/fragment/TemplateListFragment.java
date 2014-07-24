@@ -111,5 +111,11 @@ public class TemplateListFragment extends SherlockFragment{
 		.setIcon(R.drawable.ico_btn_plus_gray)
 	    .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 	}
+	/**
+	 * 向服务器请求模板
+	 */
+	private void fetchDiaryTemplates(){
+		
+	}
 	
 }
