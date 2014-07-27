@@ -1,6 +1,7 @@
 package com.diary.goal.setting.tools;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.json.JSONArray;
@@ -82,24 +83,32 @@ public class API {
 	/**
 	 * 获取用户日记模板
 	 * @param session_id
+	 * @param created_time
 	 * @return
 	 */
-	public static JSONObject getUserTemplates(String session_id){
+	public static JSONObject getUserTemplates(String session_id,String created_time){
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("session_id", session_id);
+		if(created_time!=null){
+			params.put("user_created_time", created_time);
+		}
 		return HTTPTools.connectPost(Constant.SERVER_DOMAIN+Constant.TEMPLATE_LIST, params);
 	}
 	
 	/**
-	 * 提交用户日记模板
+	 *  提交用户日记模板
 	 * @param session_id
-	 * @param changed_temp
+	 * @param addList 新加模板
+	 * @param updateList 修改模板
+	 * @param delList 删除模板
 	 * @return
 	 */
-	public static JSONObject pushUserTemplates(String session_id,HashMap<Integer, JSONObject> changed_temp){
+	public static JSONObject pushUserTemplates(String session_id,JSONArray addList,JSONArray updateList,JSONArray delList){
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("session_id", session_id);
-		params.put("template_upload", changed_temp.toString());
+		params.put("add_temps", addList.toString());
+		params.put("update_temps", updateList.toString());
+		params.put("del_temps", delList.toString());
 		return HTTPTools.connectPost(Constant.SERVER_DOMAIN+Constant.TEMPLATE_OPERATE, params);
 		
 	}
