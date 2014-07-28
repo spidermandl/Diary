@@ -106,6 +106,9 @@ public class Constant {
     public static final String P_EMAIL="email";
     public static final String P_SESSION="session_series";
     public static final String P_DEFAULT_TEMPLATE="default_template_content";
+    public static final String P_ADD_TEMPLATES_LIST="add_template_list";
+    public static final String P_UPDATE_TEMPLATES_LIST="update_template_list";
+    public static final String P_DELETE_TEMPLATES_LIST="delete_template_list";
     
     /**
      * intent数据交互使用key

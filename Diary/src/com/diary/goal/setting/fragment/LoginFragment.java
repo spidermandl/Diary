@@ -123,7 +123,6 @@ public class LoginFragment extends SherlockFragment {
 					intent.setClass(LoginFragment.this.getActivity(), MainFrameActivity.class);
 					LoginFragment.this.startActivityForResult(intent, 0);
 					
-
 					break;
 				case FAIL:
 					if (msg.obj!=null) {

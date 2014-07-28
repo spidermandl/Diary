@@ -1,6 +1,7 @@
 package com.diary.goal.setting.fragment;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.json.JSONArray;
@@ -30,6 +31,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
+import com.diary.goal.setting.activity.TemplateOperateActivity;
 import com.diary.goal.setting.adapter.TemplateEditExpandableAdapter;
 import com.diary.goal.setting.adapter.TemplateEditExpandableAdapter.TemplateEditAction;
 import com.diary.goal.setting.database.DiaryHelper.DiaryTemplateModel;
@@ -262,9 +264,14 @@ public class TemplateEditFragment extends SherlockFragment{
 	 */
 	private void deleteTemplate(){
 		DiaryTemplateModel model=expandableAdapter.getDataModel();
-		if(model._ID!=null){
-			model._SYNC="-2";
-			DiaryApplication.getInstance().getDbHelper().updateDiaryTemplate(model);
+		if(model._ID!=null){//默认模板id为空
+			ArrayList<Long> addList=((TemplateOperateActivity)this.getActivity()).getAddIDs();
+			if(addList.contains(Long.valueOf(model._ID))){
+				DiaryApplication.getInstance().getDbHelper().deleteDiaryTemplate(model);
+			}else{
+				model._SYNC="-2";
+				DiaryApplication.getInstance().getDbHelper().updateDiaryTemplate(model);
+			}
 		}
 		isChanged=false;
 	}
@@ -277,7 +284,9 @@ public class TemplateEditFragment extends SherlockFragment{
 		DiaryTemplateModel model=expandableAdapter.getDataModel();
 		JSONObject tempContent=expandableAdapter.getTempJson();
 		model._TAMPLETE=tempContent.toString();
-		model._SYNC="0";
+		ArrayList<Long> addList=((TemplateOperateActivity)this.getActivity()).getAddIDs();
+		if(!addList.contains(Long.valueOf(model._ID)))//模板已经存在
+			model._SYNC="2";
 		DiaryApplication.getInstance().getDbHelper().updateDiaryTemplate(model);
 		isChanged=false;
 	}
@@ -291,6 +300,7 @@ public class TemplateEditFragment extends SherlockFragment{
 		Date date=new Date();
 		long _id=DiaryApplication.getInstance().getDbHelper().insertDiaryTemplate(date,date, model._TAMPLETE, "0", model._NAME, "0");
 		model._ID=String.valueOf(_id);
+		((TemplateOperateActivity)this.getActivity()).getAddIDs().add(Long.valueOf(_id));
 		isChanged=false;
 	}
 	/**

@@ -95,10 +95,11 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 */
 	public interface DiaryTemplateColumn{
 		public static final String _TAMPLETE = "templete"; //json:{[subtitle,type],[subtile,type]...}
-		public static final String _SYNC = "sync";/*同步状态, 0:没有同步,
-		                                                   1:已经同步,
-		                                                   -1 不需要同步（如用户当天正编辑的模板）,
-		                                                   -2 需要删除的模板（和服务器同步后该条目删除）
+		public static final String _SYNC = "sync";/*同步状态, 0:新增加的模板,没有同步,
+		                                                     1:已经同步,
+		                                                     2:已经修改但没有同步,
+		                                                    -1 不需要同步（如用户当天正编辑的模板）,
+		                                                    -2 需要删除的模板（和服务器同步后该条目删除）
 		                                          */
 		public static final String _NAME = "name";//模板名
 		public static final String _CREATER_ID = "creater_id";//创建者id
@@ -700,6 +701,41 @@ public class DiaryHelper extends SQLiteOpenHelper{
 			index++;
 		}
 		if(c!=null)
+			c.close();
+		return results;
+	}
+	/**
+	 * 根据同步状态获取模板
+	 * @param user_id
+	 * @return
+	 */
+	public DiaryTemplateModel[] getDiaryTemplatesBySync(String user_id,String sync) {
+		Cursor c = db.query(Tables.DIARY_TEMPLETE, new String[] {
+				CommonColumn._ID, DiaryTemplateColumn._NAME,
+				DiaryTemplateColumn._SELECTED, DiaryTemplateColumn._SYNC,
+				DiaryTemplateColumn._TAMPLETE, CommonColumn._CREATE_TIME },
+				DiaryTemplateColumn._CREATER_ID + " = " + user_id + " and "
+						+ DiaryTemplateColumn._SYNC + " = '"+sync+"'", null, null,
+				null, CommonColumn._CREATE_TIME + " DESC");
+		DiaryTemplateModel[] results = new DiaryTemplateModel[c == null ? 0 : c.getCount()];
+		if (results.length == 0) {// 模板为空
+			if (c != null)
+				c.close();
+			return new DiaryTemplateModel[0];
+		}
+		int index = 0;
+		while (c.moveToNext()) {
+			DiaryTemplateModel model = new DiaryTemplateModel();
+			model._ID = c.getString(0);
+			model._NAME = c.getString(1);
+			model._SELECTED = c.getString(2);
+			model._SYNC = c.getString(3);
+			model._TAMPLETE = c.getString(4);
+			model._CREATE_TIME = c.getString(5);
+			results[index] = model;
+			index++;
+		}
+		if (c != null)
 			c.close();
 		return results;
 	}
