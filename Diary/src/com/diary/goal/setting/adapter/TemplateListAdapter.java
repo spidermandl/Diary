@@ -3,6 +3,7 @@ package com.diary.goal.setting.adapter;
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.database.DiaryHelper;
+import com.diary.goal.setting.tools.Constant;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -25,7 +26,8 @@ public class TemplateListAdapter extends BaseAdapter {
 	public TemplateListAdapter(Context con){
 		this.context=con;
 		m_inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		dataModel=DiaryApplication.getInstance().getDbHelper().getFixedDiaryTemplates();
+		dataModel=DiaryApplication.getInstance().getDbHelper().getFixedDiaryTemplates(
+				DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID));
 	}
 	
 	@Override

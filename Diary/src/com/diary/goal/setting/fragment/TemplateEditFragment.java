@@ -288,7 +288,8 @@ public class TemplateEditFragment extends SherlockFragment{
 	private void addTemplate(){
 		DiaryTemplateModel model=expandableAdapter.getDataModel();
 		model._TAMPLETE=expandableAdapter.getTempJson().toString();
-		long _id=DiaryApplication.getInstance().getDbHelper().insertDiaryTemplate(new Date(), model._TAMPLETE, "0", model._NAME, "0");
+		Date date=new Date();
+		long _id=DiaryApplication.getInstance().getDbHelper().insertDiaryTemplate(date,date, model._TAMPLETE, "0", model._NAME, "0");
 		model._ID=String.valueOf(_id);
 		isChanged=false;
 	}

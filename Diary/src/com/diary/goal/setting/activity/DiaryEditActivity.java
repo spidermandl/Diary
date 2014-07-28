@@ -72,7 +72,7 @@ public class DiaryEditActivity extends SherlockActivity {
 			}
 		}
 		if(isFisrtLoad){
-			String latestTemplete=DiaryApplication.getInstance().getDbHelper().getCurrentAppliedDiaryTemplate();
+			String latestTemplete=DiaryApplication.getInstance().getDbHelper().getCurrentAppliedDiaryTemplate(memCache.get(Constant.SERVER_USER_ID));
 			if(latestTemplete!=null){//数据库中存在模板
 				try {
 					templete=new JSONObject(latestTemplete);

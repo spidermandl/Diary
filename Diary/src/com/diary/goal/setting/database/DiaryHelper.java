@@ -598,11 +598,11 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 * @param date
 	 * @param text
 	 */
-	public long insertDiaryTemplate(Date date,String text,String sync,String name,String selected){
+	public long insertDiaryTemplate(Date cDate,Date uDate,String text,String sync,String name,String selected){
 		ContentValues values = new ContentValues();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		values.put(CommonColumn._CREATE_TIME, format.format(date));
-		values.put(CommonColumn._UPDATE_TIME, format.format(date));
+		values.put(CommonColumn._CREATE_TIME, format.format(cDate));
+		values.put(CommonColumn._UPDATE_TIME, format.format(uDate==null?cDate:uDate));
 		values.put(DiaryTemplateColumn._TAMPLETE, text);
 		values.put(DiaryTemplateColumn._SYNC, sync);
 		values.put(DiaryTemplateColumn._NAME, name);
@@ -610,9 +610,6 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		
 		return db.insertOrThrow(Tables.DIARY_TEMPLETE, CommonColumn._ID, values);
 	}
-	/*******************************************************************************************
-	 * 模板（template）表操作方法
-	 *******************************************************************************************/
 	/**
 	 * 更新模板
 	 * @param model
@@ -669,9 +666,10 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	}
 	/**
 	 * 获得所有创建的日记模板
+	 * @param user_id
 	 * @return
 	 */
-	public DiaryTemplateModel[] getFixedDiaryTemplates(){
+	public DiaryTemplateModel[] getFixedDiaryTemplates(String user_id){
 		Cursor c=db.query(Tables.DIARY_TEMPLETE, 
                           new String[]{CommonColumn._ID,
 									   DiaryTemplateColumn._NAME,
@@ -679,15 +677,15 @@ public class DiaryHelper extends SQLiteOpenHelper{
 				                       DiaryTemplateColumn._SYNC,
 				                       DiaryTemplateColumn._TAMPLETE,
 				                       CommonColumn._CREATE_TIME}, 
-				          DiaryTemplateColumn._SYNC+" <> '-2'", 
+				          DiaryTemplateColumn._CREATER_ID+" = "+user_id +" and "+DiaryTemplateColumn._SYNC+" <> '-2'", 
 				          null, null, null, 
                           CommonColumn._CREATE_TIME+" DESC");
 		DiaryTemplateModel[] results= new DiaryTemplateModel[c==null?0:c.getCount()];
 		if(results.length==0){//模板为空
-			createDefaultTemplate();
+			createDefaultTemplate(user_id);
 			if(c!=null)
 				c.close();
-			return getFixedDiaryTemplates();
+			return getFixedDiaryTemplates(user_id);
 		}
 		int index=0;
 		while(c.moveToNext()){
@@ -707,10 +705,10 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	}
 	/**
 	 * 获取正要编辑的模板
-	 * @param date
+	 * @param user_id
 	 * @return
 	 */
-	public String getCurrentAppliedDiaryTemplate(){
+	public String getCurrentAppliedDiaryTemplate(String user_id){
 //		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 //		String sDate=format.format(date);
 //		Cursor c=db.query(Tables.DIARY_TEMPLETE, new String[]{DiaryTemplateColumn._TAMPLETE}, 
@@ -719,11 +717,11 @@ public class DiaryHelper extends SQLiteOpenHelper{
 //		if(c==null||c.getCount()==0){
 			
 			Cursor c=db.query(Tables.DIARY_TEMPLETE, new String[]{DiaryTemplateColumn._TAMPLETE}, 
-				DiaryTemplateColumn._SELECTED+" = '1'",
+				DiaryTemplateColumn._SELECTED+" = '1' and "+DiaryTemplateColumn._CREATER_ID+" = "+user_id,
 				null,null,null,null);
 			if(c==null||c.getCount()==0){
 				//没有选中的日记模板，创建默认模板，并设置为选中
-				String result=createDefaultTemplate();
+				String result=createDefaultTemplate(user_id);
 				if(c!=null)
 					c.close();
 				return result;
@@ -746,13 +744,14 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	/**
 	 * 创建第一个日记模板
 	 */
-	private String createDefaultTemplate(){
+	private String createDefaultTemplate(String user_id){
 		String result=DiaryApplication.getInstance().getResources().getText(R.string.default_template).toString();
 		ContentValues values=new ContentValues();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String sDate=format.format(new Date());
 		values.put(CommonColumn._CREATE_TIME, sDate);
 		values.put(CommonColumn._UPDATE_TIME, sDate);
+		values.put(DiaryTemplateColumn._CREATER_ID,Integer.parseInt(user_id));
 		values.put(DiaryTemplateColumn._TAMPLETE,result);
 		values.put(DiaryTemplateColumn._SYNC, "-1");
 		values.put(DiaryTemplateColumn._NAME, DiaryApplication.getInstance().getResources().getText(R.string.default_template_name).toString());
@@ -760,6 +759,26 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		
 		db.insertOrThrow(Tables.DIARY_TEMPLETE, CommonColumn._ID, values);
 		return result;
+	}
+	
+	/**
+	 * 获取最大模板创建的时间
+	 * @param user_id
+	 * @return
+	 */
+	public String getLatestTemplate(String user_id){
+		Cursor c=db.query(Tables.DIARY_TEMPLETE, new String[]{CommonColumn._CREATE_TIME}, 
+				DiaryTemplateColumn._CREATER_ID+" = "+user_id,
+				null, null, null, CommonColumn._CREATE_TIME+" DESC ", "1");
+		if(c==null||!c.moveToFirst()){
+			if(c!=null)
+				c.close();
+			return null;
+		}
+		String stime= c.getString(0);
+		c.close();
+		return stime;
+		
 	}
 	/*******************************************************************************************
 	 * 日记表（diary_content）表操作方法

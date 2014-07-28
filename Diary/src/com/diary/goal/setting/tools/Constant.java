@@ -56,8 +56,14 @@ public class Constant {
 	public static final String SERVER_DIART_KEY="diarys";
 	public static final String SERVER_CREATED_AT="created_at";
     public static final String SERVER_UPDATED_AT="updated_at";
+	public static final String SERVER_USER_CREATED_AT="user_created_at";
+    public static final String SERVER_USER_UPDATED_AT="user_updated_at";
     public static final String SERVER_CONTENT="content";
     public static final String SERVER_USER_NAME="user_name";
+    public static final String SERVER_TEMPLATE_LIST="templates";
+    public static final String SERVER_TEMPLATE_LIST_NAME="name";
+    public static final String SERVER_TEMPLATE_LIST_SELECTED="selected";
+    public static final String SERVER_TEMPLATE_LIST_FORMAT="format";
 /**
  * =======================================client================================================
  */
