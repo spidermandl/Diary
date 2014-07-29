@@ -61,7 +61,6 @@ public class Constant {
     public static final String SERVER_CONTENT="content";
     public static final String SERVER_USER_NAME="user_name";
     public static final String SERVER_TEMPLATE_LIST="templates";
-    public static final String SERVER_TEMPLATE_USER_ID = "user_id";
     public static final String SERVER_TEMPLATE_LIST_NAME="name";
     public static final String SERVER_TEMPLATE_LIST_SELECTED="selected";
     public static final String SERVER_TEMPLATE_LIST_FORMAT="format";
