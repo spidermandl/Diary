@@ -98,18 +98,19 @@ public class API {
 	/**
 	 *  提交用户日记模板
 	 * @param session_id
-	 * @param addList 新加模板
-	 * @param updateList 修改模板
-	 * @param delList 删除模板
+	 * @param addList 新加模板 json字串
+	 * @param updateList 修改模板 json字串
+	 * @param delList 删除模板 json字串
 	 * @return
 	 */
-	public static JSONObject pushUserTemplates(String session_id,JSONArray addList,JSONArray updateList,JSONArray delList){
+	public static JSONObject pushUserTemplates(String session_id,String addList,String updateList,String delList){
 		HashMap<String, String> params = new HashMap<String, String>();
 		params.put("session_id", session_id);
-		params.put("add_temps", addList.toString());
-		params.put("update_temps", updateList.toString());
-		params.put("del_temps", delList.toString());
+		params.put("add_temps", addList);
+		params.put("update_temps", updateList);
+		params.put("del_temps", delList);
 		return HTTPTools.connectPost(Constant.SERVER_DOMAIN+Constant.TEMPLATE_OPERATE, params);
+		
 		
 	}
 }

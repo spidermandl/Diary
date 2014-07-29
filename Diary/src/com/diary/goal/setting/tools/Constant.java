@@ -61,13 +61,14 @@ public class Constant {
     public static final String SERVER_CONTENT="content";
     public static final String SERVER_USER_NAME="user_name";
     public static final String SERVER_TEMPLATE_LIST="templates";
+    public static final String SERVER_TEMPLATE_USER_ID = "user_id";
     public static final String SERVER_TEMPLATE_LIST_NAME="name";
     public static final String SERVER_TEMPLATE_LIST_SELECTED="selected";
     public static final String SERVER_TEMPLATE_LIST_FORMAT="format";
+    public static final String SERVER_TEMPLATE_LIST_ID="local_id";
 /**
  * =======================================client================================================
  */
-
 	public static String FLURRY_KEY="YMY4T7WMFCYVP3R5SS7H";
 	/**
 	 * 大标题排列顺序键

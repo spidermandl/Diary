@@ -2,6 +2,7 @@ package com.diary.goal.setting.fragment;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,8 +41,10 @@ public class TemplateListFragment extends SherlockFragment{
 	private ListView tempList;
 	private OnItemClickListener itemListener;
 	private TemplateListAdapter tempAdapter;
-	private Handler tempListHandler;
-	private Thread listThread;
+	private Handler tempListHandler,
+	              updateHandler;
+	private Thread listThread,//获取模板列表线程
+	               updateThread;//更新模板线程
 	
 	private final static int SUCCESS=0;
 	private final static int FAIL=1;
@@ -86,7 +89,9 @@ public class TemplateListFragment extends SherlockFragment{
 		
 		tempList.setAdapter(tempAdapter);
 		tempList.setOnItemClickListener(itemListener);
-		
+		/**
+		 * 获取模板列表
+		 */
 		fetchDiaryTemplates();
 		
 	}
@@ -168,6 +173,10 @@ public class TemplateListFragment extends SherlockFragment{
 				default:
 					break;
 				}
+				/**
+				 * 同步更新模板
+				 */
+				updateDiaryTemplate();
 				super.handleMessage(msg);
 			}
 		};
@@ -196,11 +205,80 @@ public class TemplateListFragment extends SherlockFragment{
 	 * 更新模板
 	 */
 	private void updateDiaryTemplate(){
+		updateHandler=new Handler(){
+			@Override
+			public void handleMessage(Message msg) {
+				switch (msg.what) {
+				case SUCCESS:
+					
+					break;
+				case FAIL:
+					break;
+				default:
+					break;
+				}
+				super.handleMessage(msg);
+			}
+		};
 		String user_id=DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID);
 		DiaryTemplateModel[] adds=DiaryApplication.getInstance().getDbHelper().getDiaryTemplatesBySync(user_id, "0");
 		DiaryTemplateModel[] updates=DiaryApplication.getInstance().getDbHelper().getDiaryTemplatesBySync(user_id, "2");
 		DiaryTemplateModel[] dels=DiaryApplication.getInstance().getDbHelper().getDiaryTemplatesBySync(user_id, "-2");
-		API.pushUserTemplates(session_id, addList, updateList, delList)
+		ArrayList<Long> addIds=((TemplateOperateActivity)this.getActivity()).getAddIDs();
+		addIds.clear();
+		/**
+		 * 保存新增模板id
+		 */
+		for(DiaryTemplateModel m:adds){
+			addIds.add(Long.parseLong(m._ID));
+		}
+		final String session_id= DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_SESSION_ID);
+		final String addJson=transferModelToJsonArray(adds).toString();
+		final String updateJson=transferModelToJsonArray(updates).toString();
+		final String delJson=transferModelToJsonArray(dels).toString();
+		if(updateThread==null){
+			updateThread=new Thread() {
+				public void run() {
+					JSONObject result = API.pushUserTemplates(session_id,addJson,updateJson,delJson);
+					if(result!=null&&result.has(Constant.SERVER_SUCCESS)){
+						Message msg=new Message();
+						msg.what=SUCCESS;
+						msg.obj=result;
+						updateHandler.sendMessage(msg);
+					}else{
+						updateHandler.sendEmptyMessage(FAIL);
+					}
+					updateThread=null;
+				};
+			};
+			updateThread.start();
+		}
+	}
+	/**
+	 * 模板model转成JsonArray
+	 * @param models
+	 * @return
+	 */
+	private JSONArray transferModelToJsonArray(DiaryTemplateModel[] models){
+		JSONArray sends=new JSONArray();
+		String user_id=DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID);
+		for(DiaryTemplateModel m:models){
+			JSONObject obj=new JSONObject();
+			try {
+				obj.put(Constant.SERVER_TEMPLATE_LIST_ID, m._ID);
+				obj.put(Constant.SERVER_USER_ID, user_id);
+				obj.put(Constant.SERVER_TEMPLATE_LIST_NAME, m._NAME);
+				obj.put(Constant.SERVER_TEMPLATE_LIST_FORMAT, m._TAMPLETE);
+				obj.put(Constant.SERVER_TEMPLATE_LIST_SELECTED, m._SELECTED);
+				obj.put(Constant.SERVER_USER_CREATED_AT, m._CREATE_TIME);
+				obj.put(Constant.SERVER_USER_UPDATED_AT, m._UPDATE_TIME);
+				sends.put(obj);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return sends;
 	}
 	
 }

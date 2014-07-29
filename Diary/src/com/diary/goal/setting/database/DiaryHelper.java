@@ -116,6 +116,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		public String _NAME;
 		public String _SELECTED;
 		public String _CREATE_TIME;
+		public String _UPDATE_TIME;
 		public static final Parcelable.Creator<DiaryTemplateModel> CREATOR = new Parcelable.Creator<DiaryTemplateModel>() {
 		    public DiaryTemplateModel createFromParcel(Parcel in) {
 		    	DiaryTemplateModel model = new DiaryTemplateModel(); 
@@ -125,6 +126,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		    	model._NAME=in.readString();
 		    	model._SELECTED=in.readString();
 		    	model._CREATE_TIME=in.readString();
+		    	model._UPDATE_TIME=in.readString();
 		        return model;
 		    }
 		
@@ -145,6 +147,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 			dest.writeString(_NAME);
 			dest.writeString(_SELECTED);
 			dest.writeString(_CREATE_TIME);
+			dest.writeString(_UPDATE_TIME);
 		}
 	}
 	/**
@@ -618,7 +621,8 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	public void updateDiaryTemplate(DiaryTemplateModel model){
 		ContentValues values=new ContentValues();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		values.put(CommonColumn._UPDATE_TIME, format.format(new Date()));
+		model._UPDATE_TIME=format.format(new Date());
+		values.put(CommonColumn._UPDATE_TIME, model._UPDATE_TIME);
 		if(model._NAME!=null)
 			values.put(DiaryTemplateColumn._NAME, model._NAME);
 		if(model._TAMPLETE!=null)
@@ -677,7 +681,8 @@ public class DiaryHelper extends SQLiteOpenHelper{
 				                       DiaryTemplateColumn._SELECTED,
 				                       DiaryTemplateColumn._SYNC,
 				                       DiaryTemplateColumn._TAMPLETE,
-				                       CommonColumn._CREATE_TIME}, 
+				                       CommonColumn._CREATE_TIME,
+				                       CommonColumn._UPDATE_TIME}, 
 				          DiaryTemplateColumn._CREATER_ID+" = "+user_id +" and "+DiaryTemplateColumn._SYNC+" <> '-2'", 
 				          null, null, null, 
                           CommonColumn._CREATE_TIME+" DESC");
@@ -697,6 +702,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 			model._SYNC = c.getString(3);
 			model._TAMPLETE = c.getString(4);
 			model._CREATE_TIME = c.getString(5);
+			model._UPDATE_TIME = c.getString(6);
 			results[index]=model;
 			index++;
 		}
@@ -713,7 +719,8 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		Cursor c = db.query(Tables.DIARY_TEMPLETE, new String[] {
 				CommonColumn._ID, DiaryTemplateColumn._NAME,
 				DiaryTemplateColumn._SELECTED, DiaryTemplateColumn._SYNC,
-				DiaryTemplateColumn._TAMPLETE, CommonColumn._CREATE_TIME },
+				DiaryTemplateColumn._TAMPLETE, CommonColumn._CREATE_TIME,
+				CommonColumn._UPDATE_TIME},
 				DiaryTemplateColumn._CREATER_ID + " = " + user_id + " and "
 						+ DiaryTemplateColumn._SYNC + " = '"+sync+"'", null, null,
 				null, CommonColumn._CREATE_TIME + " DESC");
@@ -732,6 +739,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 			model._SYNC = c.getString(3);
 			model._TAMPLETE = c.getString(4);
 			model._CREATE_TIME = c.getString(5);
+			model._UPDATE_TIME = c.getString(6);
 			results[index] = model;
 			index++;
 		}
