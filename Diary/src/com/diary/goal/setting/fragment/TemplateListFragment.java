@@ -192,9 +192,15 @@ public class TemplateListFragment extends SherlockFragment{
 			listThread.start();
 		}
 	}
-	
+	/**
+	 * 更新模板
+	 */
 	private void updateDiaryTemplate(){
-		
+		String user_id=DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID);
+		DiaryTemplateModel[] adds=DiaryApplication.getInstance().getDbHelper().getDiaryTemplatesBySync(user_id, "0");
+		DiaryTemplateModel[] updates=DiaryApplication.getInstance().getDbHelper().getDiaryTemplatesBySync(user_id, "2");
+		DiaryTemplateModel[] dels=DiaryApplication.getInstance().getDbHelper().getDiaryTemplatesBySync(user_id, "-2");
+		API.pushUserTemplates(session_id, addList, updateList, delList)
 	}
 	
 }
