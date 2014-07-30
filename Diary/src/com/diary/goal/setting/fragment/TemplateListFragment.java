@@ -3,19 +3,27 @@ package com.diary.goal.setting.fragment;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.LinkedList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
@@ -31,6 +39,10 @@ import com.diary.goal.setting.adapter.TemplateListAdapter;
 import com.diary.goal.setting.database.DiaryHelper.DiaryTemplateModel;
 import com.diary.goal.setting.tools.API;
 import com.diary.goal.setting.tools.Constant;
+import com.lee.pullrefresh.PullRefreshListViewActivity;
+import com.lee.pullrefresh.ui.PullToRefreshBase;
+import com.lee.pullrefresh.ui.PullToRefreshListView;
+import com.lee.pullrefresh.ui.PullToRefreshBase.OnRefreshListener;
 
 /**
  * 
@@ -38,9 +50,15 @@ import com.diary.goal.setting.tools.Constant;
  */
 public class TemplateListFragment extends SherlockFragment{
 	
+	private PullToRefreshListView mPullListView;
 	private ListView tempList;
 	private OnItemClickListener itemListener;
 	private TemplateListAdapter tempAdapter;
+    private SimpleDateFormat mDateFormat = new SimpleDateFormat("MM-dd HH:mm");
+    private boolean mIsStart = true;
+    private int mCurIndex = 0;
+    private static final int mLoadDataCount = 100;
+    
 	private Handler tempListHandler,
 	              updateHandler;
 	private Thread listThread,//获取模板列表线程
@@ -66,7 +84,15 @@ public class TemplateListFragment extends SherlockFragment{
 	}
 	
 	private void initView(View layout) {
+		ViewGroup container=(ViewGroup)layout.findViewById(R.id.temp_list_container);
 		tempList=(ListView)layout.findViewById(R.id.template_list);
+//		container.removeView(tempList);
+//		
+//		mPullListView = new PullToRefreshListView(this.getActivity());
+//        
+//        mPullListView.setPullLoadEnabled(false);
+//        mPullListView.setScrollLoadEnabled(true);
+//        mPullListView.setListView(tempList);
 		
 	}
 	
@@ -89,6 +115,24 @@ public class TemplateListFragment extends SherlockFragment{
 		
 		tempList.setAdapter(tempAdapter);
 		tempList.setOnItemClickListener(itemListener);
+        
+//        mPullListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
+//            @Override
+//            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+//                mIsStart = true;
+//                new GetDataTask().execute();
+//            }
+//
+//            @Override
+//            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+//                mIsStart = false;
+//                new GetDataTask().execute();
+//            }
+//        });
+//        setLastUpdateTime();
+//        
+//        mPullListView.doPullRefreshing(true, 500);
+        
 		/**
 		 * 获取模板列表
 		 */
@@ -134,6 +178,61 @@ public class TemplateListFragment extends SherlockFragment{
 	    .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 	}
 	
+    private class GetDataTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            // Simulates a background job.
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            boolean hasMoreData = true;
+            if (mIsStart) {
+//                mListItems.addFirst("Added after refresh...");
+            } else {
+                int start = mCurIndex;
+                int end = mCurIndex + mLoadDataCount;
+//                if (end >= mStrings.length) {
+//                    end = mStrings.length;
+//                    hasMoreData = false;
+//                }
+//                
+//                for (int i = start; i < end; ++i) {
+//                    mListItems.add(mStrings[i]);
+//                }
+                
+                mCurIndex = end;
+            }
+            
+            tempAdapter.notifyDataSetChanged();
+            mPullListView.onPullDownRefreshComplete();
+            mPullListView.onPullUpRefreshComplete();
+            mPullListView.setHasMoreData(hasMoreData);
+            setLastUpdateTime();
+
+            super.onPostExecute(result);
+        }
+    }
+    
+    private void setLastUpdateTime() {
+        String text = formatDateTime(System.currentTimeMillis());
+        mPullListView.setLastUpdatedLabel(text);
+    }
+
+    private String formatDateTime(long time) {
+        if (0 == time) {
+            return "";
+        }
+        
+        return mDateFormat.format(new Date(time));
+    }
+    
 	/**
 	 * 向服务器请求最新模板
 	 */
