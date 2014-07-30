@@ -60,12 +60,9 @@ public class PullToRefreshListView extends PullToRefreshBase<ListView> implement
 
     @Override
     protected ListView createRefreshableView(Context context, AttributeSet attrs) {
-    	if(mListView==null){
-	        ListView listView = new ListView(context);
-	        mListView = listView;
-	        listView.setOnScrollListener(this);
-    	}
-        
+        if(mListView ==null)
+        	mListView = new ListView(context);
+        mListView.setOnScrollListener(this); 
         return mListView;
     }
     
@@ -248,11 +245,8 @@ public class PullToRefreshListView extends PullToRefreshBase<ListView> implement
         return false;
     }
 
-	public ListView getListView() {
-		return mListView;
-	}
-
-	public void setListView(ListView listView) {
-		this.mListView = listView;
-	}
+    
+    protected void setListView (ListView listview){
+    	mListView=listview;
+    }
 }

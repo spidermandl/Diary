@@ -21,8 +21,10 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -86,14 +88,21 @@ public class TemplateListFragment extends SherlockFragment{
 	private void initView(View layout) {
 		ViewGroup container=(ViewGroup)layout.findViewById(R.id.temp_list_container);
 		tempList=(ListView)layout.findViewById(R.id.template_list);
-//		container.removeView(tempList);
-//		
-//		mPullListView = new PullToRefreshListView(this.getActivity());
-//        
-//        mPullListView.setPullLoadEnabled(false);
-//        mPullListView.setScrollLoadEnabled(true);
-//        mPullListView.setListView(tempList);
+		container.removeView(tempList);
 		
+		mPullListView = new PullToRefreshListView(this.getActivity()){
+			@Override
+			protected ListView createRefreshableView(Context context,
+					AttributeSet attrs) {
+		        setListView(tempList);
+				return super.createRefreshableView(context, attrs);
+			}
+		};
+		mPullListView.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        mPullListView.setPullLoadEnabled(false);
+        mPullListView.setScrollLoadEnabled(true);
+
+		container.addView(mPullListView);
 	}
 	
 	private void initFunctionality() {
@@ -116,22 +125,22 @@ public class TemplateListFragment extends SherlockFragment{
 		tempList.setAdapter(tempAdapter);
 		tempList.setOnItemClickListener(itemListener);
         
-//        mPullListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
-//            @Override
-//            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-//                mIsStart = true;
-//                new GetDataTask().execute();
-//            }
-//
-//            @Override
-//            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-//                mIsStart = false;
-//                new GetDataTask().execute();
-//            }
-//        });
-//        setLastUpdateTime();
-//        
-//        mPullListView.doPullRefreshing(true, 500);
+        mPullListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                mIsStart = true;
+                new GetDataTask().execute();
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                mIsStart = false;
+                new GetDataTask().execute();
+            }
+        });
+        setLastUpdateTime();
+        
+        mPullListView.doPullRefreshing(true, 500);
         
 		/**
 		 * 获取模板列表
