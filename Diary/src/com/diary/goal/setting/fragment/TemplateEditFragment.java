@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Instrumentation;
@@ -124,6 +125,7 @@ public class TemplateEditFragment extends SherlockFragment{
 				
 			}
 
+			@SuppressLint("NewApi")
 			@Override
 			public void deleteItem(int group, int child) {
 //				new EditTempBuilder(TemplateEditFragment.this.getActivity(),group,child,DELETE_ITEM)
@@ -134,6 +136,7 @@ public class TemplateEditFragment extends SherlockFragment{
 					array = tempContent.getJSONArray(expandableAdapter.getGroup(group).toString());
 					isChanged=true;
 					array.remove(child);
+					//array.remove(child);
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
