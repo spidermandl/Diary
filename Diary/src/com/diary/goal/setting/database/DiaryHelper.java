@@ -3,6 +3,7 @@ package com.diary.goal.setting.database;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
@@ -345,7 +346,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 * @return
 	 */
 	public Cursor getDataInSingleDay(Date date){
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault());
 		String d=format.format(date);
 		Cursor c=db.query(true, Views.TRACK_CONFIG_ALL, 
 				new String[]{
@@ -368,7 +369,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 */
 	public Cursor getTodayPad(Date date){
 
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault());
 		String d=format.format(date);
 		Cursor c=db.query(true, Views.TRACK_CONFIG_ALL, new String[]{DiaryConfigColumn._SUDO_TYPE},
 				CommonColumn._CREATE_TIME+" between '"+d+" 00:00:00' and '"+d+" 23:59:59'",
@@ -382,7 +383,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	}
 	
 	public Cursor getCategory(Date date,int type,int category){
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault());
 		String d=format.format(date);
 		Cursor c=db.query(true, Views.TRACK_CONFIG_ALL, new String[]{DiaryConfigColumn._CATEGORY_INDEX,DiaryTrackColumn._TEXT},
 				CommonColumn._CREATE_TIME+" between '"+d+" 00:00:00' and '"+d+" 23:59:59' " +
@@ -491,7 +492,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 			return;
 		}
 		ContentValues values = new ContentValues();
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.getDefault());
 		values.put(CommonColumn._CREATE_TIME, format.format(date));
 		values.put(CommonColumn._UPDATE_TIME, format.format(date));
 		values.put(UserColumn._USERNAME, name);
@@ -550,7 +551,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 */
 	public void updateSynRecord(Date date,String userid,int sync){
 		ContentValues values=new ContentValues();
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.getDefault());
 		values.put(CommonColumn._UPDATE_TIME, format.format(date));
 		values.put(UserColumn._SYNC, sync);
 		
@@ -564,7 +565,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	public void loginTrigger(String account,String passwd){
 		Date date=new Date();
 		ContentValues values=new ContentValues();
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.getDefault());
 		values.put(UserColumn._LOGINTIME, format.format(date));
 		
 		db.update(Tables.USER, values, "( "+UserColumn._USERNAME+" = '"+account+"' or "+UserColumn._EMAIL+" = '"+account+"' ) and "+UserColumn._PASSWD+" = '"+passwd+"'", null);
@@ -576,7 +577,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	public void loginTrigger(String _id){
 		Date date=new Date();
 		ContentValues values=new ContentValues();
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.getDefault());
 		values.put(UserColumn._LOGINTIME, format.format(date));
 		
 		db.update(Tables.USER, values, CommonColumn._ID+" = "+_id, null);
@@ -607,14 +608,14 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 */
 	public long insertDiaryTemplate(Date cDate,Date uDate,String create_id,String text,String sync,String name,String selected){
 		ContentValues values = new ContentValues();
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.getDefault());
 		values.put(CommonColumn._CREATE_TIME, format.format(cDate));
 		values.put(CommonColumn._UPDATE_TIME, format.format(uDate==null?cDate:uDate));
 		values.put(DiaryTemplateColumn._TAMPLETE, text);
 		values.put(DiaryTemplateColumn._SYNC, sync);
 		values.put(DiaryTemplateColumn._NAME, name);
 		values.put(DiaryTemplateColumn._SELECTED, selected);
-		values.put(DiaryTemplateColumn._CREATER_ID, create_id);
+		values.put(DiaryTemplateColumn._CREATER_ID, Integer.parseInt(create_id));
 		
 		return db.insertOrThrow(Tables.DIARY_TEMPLETE, CommonColumn._ID, values);
 	}
@@ -624,7 +625,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 */
 	public void updateDiaryTemplate(DiaryTemplateModel model){
 		ContentValues values=new ContentValues();
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.getDefault());
 		model._UPDATE_TIME=format.format(new Date());
 		values.put(CommonColumn._UPDATE_TIME, model._UPDATE_TIME);
 		if(model._NAME!=null)
@@ -651,7 +652,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 */
 	public void updateDiaryTemplate(Date date,String creater_id,String text,String sync,String name,String selected){
 		ContentValues values=new ContentValues();
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.getDefault());
 		values.put(CommonColumn._UPDATE_TIME, format.format(date));
 		if(text!=null)
 			values.put(DiaryTemplateColumn._TAMPLETE, text);
@@ -662,9 +663,9 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		if(selected!=null)
 			values.put(DiaryTemplateColumn._SELECTED, selected);
 		if(creater_id!=null)
-			values.put(DiaryTemplateColumn._CREATER_ID, creater_id);
+			values.put(DiaryTemplateColumn._CREATER_ID, Integer.parseInt(creater_id));
 		
-		format = new SimpleDateFormat("yyyy-MM-dd");
+		format = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault());
 		String sDate=format.format(date);
 		db.update(Tables.DIARY_TEMPLETE, values,
 				CommonColumn._CREATE_TIME+" between '"+sDate+" 00:00:00' and '"+sDate+" 23:59:59' ",
@@ -758,6 +759,46 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		return results;
 	}
 	/**
+	 * 根据选中状态获取模板
+	 * @param user_id
+	 * @param selected
+	 * @return
+	 */
+	public DiaryTemplateModel[] getDiaryTemplatesBySelected(String user_id,String selected) {
+		Cursor c = db.query(Tables.DIARY_TEMPLETE, new String[] {
+				CommonColumn._ID, DiaryTemplateColumn._NAME,
+				DiaryTemplateColumn._SELECTED, DiaryTemplateColumn._SYNC,
+				DiaryTemplateColumn._TAMPLETE, CommonColumn._CREATE_TIME,
+				CommonColumn._UPDATE_TIME},
+				DiaryTemplateColumn._CREATER_ID + " = " + user_id + " and "
+						+ DiaryTemplateColumn._SELECTED + " = '"+selected+"'", null, null,
+				null, null);
+		DiaryTemplateModel[] results = new DiaryTemplateModel[c == null ? 0 : c.getCount()];
+		if (results.length == 0) {// 模板为空
+			if (c != null)
+				c.close();
+			return new DiaryTemplateModel[0];
+		}
+		int index = 0;
+		while (c.moveToNext()) {
+			DiaryTemplateModel model = new DiaryTemplateModel();
+			model._ID = c.getString(0);
+			model._NAME = c.getString(1);
+			model._SELECTED = c.getString(2);
+			model._SYNC = c.getString(3);
+			model._TAMPLETE = c.getString(4);
+			model._CREATE_TIME = c.getString(5);
+			model._UPDATE_TIME = c.getString(6);
+			model._CREATE_ID=user_id;
+			results[index] = model;
+			index++;
+		}
+		if (c != null)
+			c.close();
+		return results;
+	}
+	
+	/**
 	 * 获取正要编辑的模板
 	 * @param user_id
 	 * @return
@@ -801,7 +842,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	private String createDefaultTemplate(String user_id){
 		String result=DiaryApplication.getInstance().getResources().getText(R.string.default_template).toString();
 		ContentValues values=new ContentValues();
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.getDefault());
 		String sDate=format.format(new Date());
 		values.put(CommonColumn._CREATE_TIME, sDate);
 		values.put(CommonColumn._UPDATE_TIME, sDate);
@@ -847,7 +888,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 */
 	public void insertDiaryContent(DateModel model,String text){
 		ContentValues values=new ContentValues();
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.getDefault());
 		values.put(CommonColumn._CREATE_TIME, format.format(model.getDate()));
 		values.put(CommonColumn._UPDATE_TIME, format.format(model.getDate()));
 		values.put(DiaryTrackColumn._CONFIG_ID, model.getConfigId());
@@ -865,7 +906,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 */
 	public void insertDiaryContent(String userid,Date createDate,Date updateDate,String text,int sync){
 		ContentValues values=new ContentValues();
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.getDefault());
 		values.put(CommonColumn._CREATE_TIME, format.format(createDate));
 		values.put(CommonColumn._UPDATE_TIME, format.format(updateDate));
 		values.put(DiaryContentColumn._USER_ID, userid);
@@ -900,12 +941,12 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 */
 	public void updateDiaryContent(DateModel model,String text,int sync){
 		ContentValues values=new ContentValues();
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.getDefault());
 		values.put(CommonColumn._UPDATE_TIME, format.format(model.getDate()));
 		values.put(DiaryTrackColumn._TEXT, text);
 		values.put(DiaryContentColumn._SYNC, sync);
 		
-		format = new SimpleDateFormat("yyyy-MM-dd");
+		format = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault());
 		String date=format.format(model.getDate());
 		int config_id=model.getConfigId();
 		db.update(Tables.DIARY_TRACK, values,
@@ -923,13 +964,13 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 */
 	public void updateDiaryContent(String userid,Date date,String text,int sync){
 		ContentValues values=new ContentValues();
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.getDefault());
 		values.put(CommonColumn._UPDATE_TIME, format.format(date));
 		if (text!=null)
 			values.put(DiaryContentColumn._CONTENT, text);
 		values.put(DiaryContentColumn._SYNC, sync);
 		
-		format = new SimpleDateFormat("yyyy-MM-dd");
+		format = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault());
 		String sDate=format.format(date);
 		db.update(Tables.DIARY_CONTENT, values,
 				DiaryContentColumn._USER_ID+" = "+userid+" and "+CommonColumn._CREATE_TIME+" between '"+sDate+" 00:00:00' and '"+sDate+" 23:59:59' ",
@@ -941,7 +982,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 * @return
 	 */
 	public String[] getDiaryContent(String userid,Date date){
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault());
 		String sDate=format.format(date);
 		Cursor c=db.query(Tables.DIARY_CONTENT, new String[]{DiaryContentColumn._CONTENT,CommonColumn._CREATE_TIME}, 
 				DiaryContentColumn._USER_ID+" = "+userid+" and "+CommonColumn._CREATE_TIME+" between '"+sDate+" 00:00:00' and '"+sDate+" 23:59:59' ",

@@ -23,7 +23,8 @@
             android:paddingTop="10dip"
             android:shadowColor="#00000000"
             android:background="#00000000"
-            android:textColor="#FF000000"/>
+            android:textColor="#FF000000"
+            android:cursorVisible="true"/>
         <View 
             android:layout_width="match_parent"
             android:layout_height="1dip"
@@ -43,7 +44,9 @@
             android:singleLine="true"
             android:shadowColor="#00000000"
             android:background="#00000000"
-            android:textColor="#FF000000"/>
+            android:textColor="#FF000000"
+            android:cursorVisible="true"
+            android:textCursorDrawable="@drawable/cursor_color"/>
     </LinearLayout>
     
     <LinearLayout

@@ -145,7 +145,6 @@ public class RegisterFragment extends SherlockFragment {
 					new LoginFragment(), false);
 			break;
 		case R.string.sign_up:
-			((UserAuthActivity)RegisterFragment.this.getActivity()).setSupportProgressBarIndeterminateVisibility(true);
 			/**
 			 * 错误判断
 			 */
@@ -157,6 +156,7 @@ public class RegisterFragment extends SherlockFragment {
 				Toast.makeText(RegisterFragment.this.getActivity(), R.string.register_error_unidentical_passwd, 500).show();
 			}
 			else{
+				((UserAuthActivity)RegisterFragment.this.getActivity()).setSupportProgressBarIndeterminateVisibility(true);
 				/**
 				 * 注册
 				 */

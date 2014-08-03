@@ -3,6 +3,7 @@ package com.diary.goal.setting.adapter;
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.database.DiaryHelper;
+import com.diary.goal.setting.database.DiaryHelper.DiaryTemplateModel;
 import com.diary.goal.setting.tools.Constant;
 
 import android.content.Context;
@@ -11,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.TextView;
 /**
  * 
@@ -62,6 +65,31 @@ public class TemplateListAdapter extends BaseAdapter {
 		ViewHolder holder=(ViewHolder)convertView.getTag();
 		holder.title.setText(dataModel[position]._NAME);
 		holder.created_at.setText(dataModel[position]._CREATE_TIME);
+		holder.selected.setSelected(dataModel[position]._SELECTED.equals("0")?false:true);
+		final int pos=position;
+		holder.selected.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if(isChecked){
+					int defaultModelPosi=0;
+					int index=0;
+					dataModel[pos]._SELECTED="1";
+					for(DiaryTemplateModel model:dataModel){
+						index++;
+						if(model._SYNC.equals("-1")){
+							defaultModelPosi=index;
+						}
+					}
+					DiaryTemplateModel[] models=DiaryApplication.getInstance().getDbHelper().getDiaryTemplatesBySelected(
+							DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID), "1");
+					
+				}else{
+					
+				}
+				
+			}
+		});
 		return convertView;
 	}
 	
