@@ -124,6 +124,7 @@ public class TemplateListFragment extends SherlockFragment{
 		
 		tempList.setAdapter(tempAdapter);
 		tempList.setOnItemClickListener(itemListener);
+		tempList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         
         mPullListView.setOnRefreshListener(new OnRefreshListener<ListView>() {
             @Override
