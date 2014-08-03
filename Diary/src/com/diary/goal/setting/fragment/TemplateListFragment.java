@@ -3,9 +3,7 @@ package com.diary.goal.setting.fragment;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.LinkedList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,9 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
@@ -130,7 +126,11 @@ public class TemplateListFragment extends SherlockFragment{
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 mIsStart = true;
-                new GetDataTask().execute();
+        		/**
+        		 * 获取模板列表
+        		 */
+        		fetchDiaryTemplates();
+                //new GetDataTask().execute();
             }
 
             @Override
@@ -143,10 +143,6 @@ public class TemplateListFragment extends SherlockFragment{
         
         mPullListView.doPullRefreshing(true, 500);
         
-		/**
-		 * 获取模板列表
-		 */
-		fetchDiaryTemplates();
 		
 	}
 
@@ -242,7 +238,15 @@ public class TemplateListFragment extends SherlockFragment{
         
         return mDateFormat.format(new Date(time));
     }
-    
+    /**
+     * 网络请求完毕
+     */
+    private void onUIFetchFinished(){
+        mPullListView.onPullDownRefreshComplete();
+        mPullListView.onPullUpRefreshComplete();
+        mPullListView.setHasMoreData(true);
+        setLastUpdateTime();
+    }
 	/**
 	 * 向服务器请求最新模板
 	 */
@@ -261,6 +265,7 @@ public class TemplateListFragment extends SherlockFragment{
 							DiaryApplication.getInstance().getDbHelper().insertDiaryTemplate(
 									dateFormat.parse(obj.getString(Constant.SERVER_USER_CREATED_AT)),
 									dateFormat.parse(obj.getString(Constant.SERVER_USER_UPDATED_AT)),
+									DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID),
 									obj.getString(Constant.SERVER_TEMPLATE_LIST_NAME), 
 									"1",
 									obj.getString(Constant.SERVER_TEMPLATE_LIST_FORMAT), 
@@ -282,6 +287,7 @@ public class TemplateListFragment extends SherlockFragment{
 				default:
 					break;
 				}
+				onUIFetchFinished();
 				/**
 				 * 同步更新模板
 				 */
