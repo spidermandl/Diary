@@ -8,17 +8,13 @@ import com.diary.goal.setting.R;
 import com.diary.goal.setting.database.DiaryHelper.DiaryTemplateModel;
 import com.diary.goal.setting.tools.Constant;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.opengl.Visibility;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,6 +29,7 @@ public class TemplateEditExpandableAdapter extends BaseExpandableListAdapter{
 	private DiaryTemplateModel dataModel;
 	private JSONObject tempContent;//模板全文
 	private JSONArray tempMainTitle;//模板大标题
+	private boolean canEdit=true;//模板是否可编辑
 	
 	private TemplateEditAction action;
 	/**
@@ -57,6 +54,8 @@ public class TemplateEditExpandableAdapter extends BaseExpandableListAdapter{
 			try {
 				tempContent=new JSONObject(dataModel._TAMPLETE);
 				tempMainTitle=tempContent.getJSONArray(Constant.MAIN_SEQUENCE_ORDER);
+				if(dataModel._SYNC.equals("-1"))
+					canEdit=false;
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -82,7 +81,13 @@ public class TemplateEditExpandableAdapter extends BaseExpandableListAdapter{
 		
 	}
 	
-	
+	/**
+	 * 判断是否可以编辑
+	 * @return
+	 */
+	public boolean editable(){
+		return canEdit;
+	}
 	
 	@Override
 	public int getGroupCount() {
@@ -117,6 +122,12 @@ public class TemplateEditExpandableAdapter extends BaseExpandableListAdapter{
 	@Override
 	public Object getChild(int groupPosition, int childPosition) {
 		// TODO Auto-generated method stub
+		try {
+			return tempContent.getJSONArray(tempMainTitle.getString(groupPosition)).getString(childPosition);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 
@@ -160,6 +171,12 @@ public class TemplateEditExpandableAdapter extends BaseExpandableListAdapter{
 				holder.subNum.setVisibility(View.VISIBLE);
 				holder.subNum.setText("("+getChildrenCount(groupPosition)+")");
 			}
+			//不可编辑状态
+			if(!canEdit){
+				holder.add.setVisibility(View.INVISIBLE);
+				holder.subNum.setVisibility(View.VISIBLE);
+				holder.subNum.setText("("+getChildrenCount(groupPosition)+")");
+			}
 			holder.add.setOnClickListener(new OnClickListener() {
 				
 				@Override
@@ -196,6 +213,8 @@ public class TemplateEditExpandableAdapter extends BaseExpandableListAdapter{
 			final int groupP=groupPosition,childP=childPosition ;
 			holder.delButton.setVisibility(View.INVISIBLE);
 			holder.eraseLine.setVisibility(View.INVISIBLE);
+			if(!canEdit)
+				holder.edit.setVisibility(View.INVISIBLE);
 			holder.edit.setOnClickListener(new OnClickListener() {
 				
 				@Override
@@ -207,6 +226,28 @@ public class TemplateEditExpandableAdapter extends BaseExpandableListAdapter{
 				}
 			});
 			holder.title.setText(tempContent.getJSONArray(tempMainTitle.getString(groupPosition)).getString(childPosition));
+			
+			holder.delButton.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					if (action!=null){
+						action.deleteItem(groupP, childP);
+					}
+					
+				}
+			});
+			convertView.setOnLongClickListener(new View.OnLongClickListener() {
+
+				@Override
+				public boolean onLongClick(View v) {
+					SubViewHolder holder=(SubViewHolder)v.getTag();
+					holder.delButton.setVisibility(View.VISIBLE);
+					holder.eraseLine.setVisibility(View.VISIBLE);
+					holder.edit.setVisibility(View.INVISIBLE);
+					return false;
+				}
+			});
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

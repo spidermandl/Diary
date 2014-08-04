@@ -1,7 +1,10 @@
 package com.diary.goal.setting.adapter;
 
+import java.util.ArrayList;
+
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
+import com.diary.goal.setting.activity.TemplateOperateActivity;
 import com.diary.goal.setting.database.DiaryHelper;
 import com.diary.goal.setting.database.DiaryHelper.DiaryTemplateModel;
 import com.diary.goal.setting.tools.Constant;
@@ -65,29 +68,32 @@ public class TemplateListAdapter extends BaseAdapter {
 		ViewHolder holder=(ViewHolder)convertView.getTag();
 		holder.title.setText(dataModel[position]._NAME);
 		holder.created_at.setText(dataModel[position]._CREATE_TIME);
-		holder.selected.setSelected(dataModel[position]._SELECTED.equals("0")?false:true);
+		holder.selected.setChecked(dataModel[position]._SELECTED.equals("0")?false:true);
 		final int pos=position;
 		holder.selected.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				ArrayList<Long> addList=((TemplateOperateActivity)context).getAddIDs();
 				if(isChecked){
-					int defaultModelPosi=0;
-					int index=0;
-					dataModel[pos]._SELECTED="1";
 					for(DiaryTemplateModel model:dataModel){
-						index++;
-						if(model._SYNC.equals("-1")){
-							defaultModelPosi=index;
+						if(model._SELECTED.equals("1")){//原先选中
+							model._SELECTED="0";
+							if(!addList.contains(Long.valueOf(model._ID))&&!model._SYNC.equals("-1")){
+								model._SYNC="2";
+							}
+							DiaryApplication.getInstance().getDbHelper().updateDiaryTemplate(model);
 						}
 					}
-					DiaryTemplateModel[] models=DiaryApplication.getInstance().getDbHelper().getDiaryTemplatesBySelected(
-							DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID), "1");
-					
+					dataModel[pos]._SELECTED="1";
+					if(!addList.contains(Long.valueOf(dataModel[pos]._ID))&&!dataModel[pos]._SYNC.equals("-1")){
+						dataModel[pos]._SYNC="2";
+					}
+					DiaryApplication.getInstance().getDbHelper().updateDiaryTemplate(dataModel[pos]);
 				}else{
-					
+
 				}
-				
+				notifyDataSetChanged();
 			}
 		});
 		return convertView;

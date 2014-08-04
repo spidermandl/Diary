@@ -98,36 +98,36 @@ public class PanelView_5 extends PanelView {
 		paint.setTextSize(20);
 		canvas.drawText(text, (this.getWidth()-paint.measureText(text))/2, this.getHeight()*23/30+fontMetrics.bottom, paint);
 		
-		if(activated){
-			Bitmap cap=BitmapCustomize.customizePicture(context, R.drawable.overview_active,0,0,false);
-			//canvas.drawBitmap(cap, 0, 0, mPaint);
-			icon_width=cap.getWidth();
-			icon_height=cap.getHeight();
-			if(overviewTab==null){
-				overviewTab=new View(context);
-				overviewTab.setLayoutParams(new LayoutParams(icon_width, icon_height));
-				this.addView(overviewTab);
-		        overviewTab.layout(0, 0, icon_width, icon_height);
-				overviewTab.setBackgroundDrawable(new BitmapDrawable(cap));
-				Animation animation = new AlphaAnimation(1, 0); // Change alpha from fully visible to invisible  
-		        animation.setDuration(500); // duration - half a second  
-		        animation.setInterpolator(new LinearInterpolator()); // do not alter animation rate  
-		        animation.setRepeatCount(10); // Repeat animation with 5 times  
-		        animation.setRepeatMode(Animation.REVERSE); //   
-		        overviewTab.setAnimation(animation); 
-		        overviewTab.setOnClickListener(new OnClickListener() {
-					
-					public void onClick(View v) {
-						callPaperOverview();
-					}
-				});
-			}else{
-				overviewTab.setVisibility(View.VISIBLE);
-			}
-		}else{
-			if(overviewTab!=null)
-				overviewTab.setVisibility(View.GONE);
-		}
+//		if(activated){
+//			Bitmap cap=BitmapCustomize.customizePicture(context, R.drawable.overview_active,0,0,false);
+//			//canvas.drawBitmap(cap, 0, 0, mPaint);
+//			icon_width=cap.getWidth();
+//			icon_height=cap.getHeight();
+//			if(overviewTab==null){
+//				overviewTab=new View(context);
+//				overviewTab.setLayoutParams(new LayoutParams(icon_width, icon_height));
+//				this.addView(overviewTab);
+//		        overviewTab.layout(0, 0, icon_width, icon_height);
+//				overviewTab.setBackgroundDrawable(new BitmapDrawable(cap));
+//				Animation animation = new AlphaAnimation(1, 0); // Change alpha from fully visible to invisible  
+//		        animation.setDuration(500); // duration - half a second  
+//		        animation.setInterpolator(new LinearInterpolator()); // do not alter animation rate  
+//		        animation.setRepeatCount(10); // Repeat animation with 5 times  
+//		        animation.setRepeatMode(Animation.REVERSE); //   
+//		        overviewTab.setAnimation(animation); 
+//		        overviewTab.setOnClickListener(new OnClickListener() {
+//					
+//					public void onClick(View v) {
+//						callPaperOverview();
+//					}
+//				});
+//			}else{
+//				overviewTab.setVisibility(View.VISIBLE);
+//			}
+//		}else{
+//			if(overviewTab!=null)
+//				overviewTab.setVisibility(View.GONE);
+//		}
 		
 		this.setOnClickListener(new OnClickListener() {
 

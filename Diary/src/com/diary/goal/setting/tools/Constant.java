@@ -109,6 +109,7 @@ public class Constant {
     public static final String P_ADD_TEMPLATES_LIST="add_template_list";
     public static final String P_UPDATE_TEMPLATES_LIST="update_template_list";
     public static final String P_DELETE_TEMPLATES_LIST="delete_template_list";
+    public static final String P_TEMPLATE_REFRESHED="template_refreshed";//第一次刷新模板列表
     
     /**
      * intent数据交互使用key

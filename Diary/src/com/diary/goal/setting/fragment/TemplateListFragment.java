@@ -37,7 +37,6 @@ import com.diary.goal.setting.adapter.TemplateListAdapter;
 import com.diary.goal.setting.database.DiaryHelper.DiaryTemplateModel;
 import com.diary.goal.setting.tools.API;
 import com.diary.goal.setting.tools.Constant;
-import com.lee.pullrefresh.PullRefreshListViewActivity;
 import com.lee.pullrefresh.ui.PullToRefreshBase;
 import com.lee.pullrefresh.ui.PullToRefreshListView;
 import com.lee.pullrefresh.ui.PullToRefreshBase.OnRefreshListener;
@@ -67,7 +66,6 @@ public class TemplateListFragment extends SherlockFragment{
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 	}
 	
@@ -80,6 +78,7 @@ public class TemplateListFragment extends SherlockFragment{
 		initFunctionality();
 		return layout;
 	}
+	
 	
 	private void initView(View layout) {
 		ViewGroup container=(ViewGroup)layout.findViewById(R.id.temp_list_container);
@@ -141,7 +140,11 @@ public class TemplateListFragment extends SherlockFragment{
         });
         setLastUpdateTime();
         
-        mPullListView.doPullRefreshing(true, 500);
+        if (!DiaryApplication.getInstance().getMemCache().containsKey(Constant.P_TEMPLATE_REFRESHED)||
+        		DiaryApplication.getInstance().getMemCache().get(Constant.P_TEMPLATE_REFRESHED)==null) {
+        	DiaryApplication.getInstance().getMemCache().put(Constant.P_TEMPLATE_REFRESHED, "true");
+        	mPullListView.doPullRefreshing(true, 500);
+		}
         
 		
 	}
