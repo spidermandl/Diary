@@ -15,8 +15,11 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils.TruncateAt;
 import android.view.View;
 import android.widget.TabHost;
+import android.widget.TabWidget;
+import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.diary.goal.setting.DiaryApplication;
@@ -66,6 +69,17 @@ public class MainFrameActivity extends SherlockFragmentActivity {
         if (savedInstanceState != null) {
             mTabHost.setCurrentTabByTag(savedInstanceState.getString("tab"));
         }
+        
+        TabWidget tabWidget = mTabHost.getTabWidget();  
+        for (int i = 0; i < tabWidget.getChildCount(); i++) {
+            View child = tabWidget.getChildAt(i);
+            TextView tv = (TextView)child.findViewById(android.R.id.title);
+            tv.setSingleLine(true);
+            tv.setEllipsize(TruncateAt.MARQUEE);
+            tv.setHorizontallyScrolling(true);
+            tv.setFocusable(true);
+            tv.setFocusableInTouchMode(true);
+       }
         
         syncDiary();
     }

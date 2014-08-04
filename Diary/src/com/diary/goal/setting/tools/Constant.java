@@ -11,6 +11,11 @@ import com.diary.goal.setting.R;
  */
 public class Constant {
 	/**
+	 * ======================================版本管理===============================================
+	 */
+	public static boolean DEBUG=true;//调试模式
+	public static String ANDROID_VERSION_CODE= "1.0.1";//代码版本
+	/**
 	 * ======================================server================================================
 	 */
 	/**
@@ -18,31 +23,31 @@ public class Constant {
 	 */
 	public static final String SERVER_DOMAIN="http://114.215.120.47:3000/";
 	/**
-	 *  登录
+	 *  登录 api
 	 */
 	public static final String LOGIN="users/login";
 	/**
-	 * 注册
+	 * 注册 api
 	 */
 	public static final String REGISTER="users/register";
 	/**
-	 * 获取用户日记
+	 * 获取用户日记 api
 	 */
 	public static final String DIARY_LIST="diarys/list";
 	/**
-	 * 创建用户日记
+	 * 创建用户日记 api
 	 */
 	public static final String DIARY_CREATE="diarys/create";
 	/**
-	 * 更新用户日记
+	 * 更新用户日记 api
 	 */
 	public static final String DIARY_UPDATE="diarys/update";
 	/**
-	 * 获取用户日记模板
+	 * 获取用户日记模板 api
 	 */
 	public static final String TEMPLATE_LIST="templates/list";
 	/**
-	 * 增、删、改用户日记模板
+	 * 增、删、改用户日记模板 api
 	 */
 	public static final String TEMPLATE_OPERATE="templates/operate";
 	/**
