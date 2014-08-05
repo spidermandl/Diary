@@ -168,13 +168,32 @@ public class TemplateListFragment extends SherlockFragment{
 		case android.R.id.home:
 			if(tempAdapter.selectionChanged()){
 				new AlertDialog.Builder(this.getActivity())
-				.setTitle("")
+				.setTitle(R.string.template_sub)
 				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 					
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
-						
+						try {
+							JSONObject template = new JSONObject(tempAdapter.getCurrentItem()._TAMPLETE);
+							JSONArray titles = template.getJSONArray(Constant.MAIN_SEQUENCE_ORDER);
+							for (int k = 0; k < titles.length(); k++) {// 遍历title字段
+								String mainTitle = titles
+										.getString(k);
+								StringBuffer subtitles = new StringBuffer();
+								JSONArray array = template.getJSONArray(mainTitle);
+								int length = array.length();
+								for (int i = 0; i < length; i++) {// 遍历JSONArray
+									subtitles.append('[');
+									subtitles.append(array
+											.getString(i));
+									subtitles.append(']');
+									subtitles.append("\n\n");
+								}
+							}
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				})
 				.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {

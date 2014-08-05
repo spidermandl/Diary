@@ -52,7 +52,13 @@ public class TemplateListAdapter extends BaseAdapter {
 	public boolean selectionChanged(){
 		return !(initChoosenPos==currentChoosenPos);
 	}
-	
+	/**
+	 * 获取选中模板
+	 * @return
+	 */
+	public DiaryHelper.DiaryTemplateModel getCurrentItem(){
+		return dataModel[currentChoosenPos];
+	}
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub

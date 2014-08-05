@@ -74,6 +74,7 @@
     <string name="template_rename_title">命名模板</string>
     <string name="template_saved">保存成功</string>
     <string name="template_rename_hint">模板名没有设置？</string>
+    <string name="template_sub">模板立刻生效？今日的内容会被删除</string>
     
 	<string name="edit_save">保存</string>
 	<string name="edit_back">返回</string>
