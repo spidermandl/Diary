@@ -50,7 +50,7 @@ public class TemplateListAdapter extends BaseAdapter {
 	 * @return
 	 */
 	public boolean selectionChanged(){
-		return initChoosenPos==currentChoosenPos;
+		return !(initChoosenPos==currentChoosenPos);
 	}
 	
 	@Override
