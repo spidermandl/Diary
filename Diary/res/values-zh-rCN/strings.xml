@@ -20,6 +20,7 @@
 	<string name="lines">Lines</string>
 	<string name="normal">Normal</string>
 	<string name="center">Center</string>
+	
 	<string name="opposite">Opposite</string>
     <!--***********************************************************************************-->
     <string name="default_template">{
@@ -38,6 +39,10 @@
     <string name="tab_host_fast_write">行动</string>
     <string name="tab_host_view">圈子</string>
     <string name="tab_host_dream">我</string>
+    <string name ="function_limitation">该功能即将推出，敬请期待！</string>
+    <string name ="me_software_instruction">晨间日记圆梦说明</string>
+    <string name ="me_setting">设置</string>
+    <string name ="me_logout">退出</string>
     <!-- ********************************************************************************* -->
     <string name="login_hint">账号/邮箱</string>
     <string name="password_hint">密码</string>
@@ -78,7 +83,8 @@
 	    \u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020\u0020-晨间日记圆梦</string>
 	<string name="edit_dismiss">舍弃</string>
 	<string name="sub_category_operation">操作</string>
-	
+	<!--********************************************************************************************** -->
+	<string name="diary_lost_warning">最新的改动不会被保存,是否先保存？</string>
 	<string name="richtext_select_all">全选</string>
 	<string name="richtext_cut">剪切</string>
 	<string name="richtext_copy">复制</string>
@@ -91,15 +97,15 @@
 	<string name="no_diary_notice">该天没有日记</string>
 	
 	<!-- config string -->
-	<string name="work">工作</string>
-	<string name="finance">财富</string>
-	<string name="family">人脉</string>
-	<string name="innovation">创意</string>
-	<string name="date">日期</string>
+	<string name="work">工 作</string>
+	<string name="finance">财 富</string>
+	<string name="family">人 脉</string>
+	<string name="innovation">创 意</string>
+	<string name="date">日 期</string>
 	<string name="mit">MIT</string>
-	<string name="healthy">健康</string>
-	<string name="personal">修养</string>
-	<string name="soul">心灵</string>
+	<string name="healthy">健 康</string>
+	<string name="personal">修 养</string>
+	<string name="soul">心 灵</string>
 	
 	<string name="config_file">sudo_conf_CN</string>
 	<string name="config_coding">gbk</string>

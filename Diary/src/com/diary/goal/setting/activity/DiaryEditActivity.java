@@ -20,6 +20,8 @@ import com.diary.goal.setting.tools.API;
 import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.view.RatingPentagramView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -72,10 +74,10 @@ public class DiaryEditActivity extends SherlockActivity {
 			}
 		}
 		if(isFisrtLoad){
-			String latestTemplete=DiaryApplication.getInstance().getDbHelper().getCurrentAppliedDiaryTemplate(memCache.get(Constant.SERVER_USER_ID));
-			if(latestTemplete!=null){//数据库中存在模板
+			String selectedTemplete=DiaryApplication.getInstance().getDbHelper().getCurrentAppliedDiaryTemplate(memCache.get(Constant.SERVER_USER_ID));
+			if(selectedTemplete!=null){//数据库中存在模板
 				try {
-					templete=new JSONObject(latestTemplete);
+					templete=new JSONObject(selectedTemplete);
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -226,6 +228,7 @@ public class DiaryEditActivity extends SherlockActivity {
 					JSONObject subPart=editViews[i].getTextWithJsonFormat();
 					subPart.put(Constant.MAIN_STATUS, ratingViews[i].getRate());
 					restructDiary.put(titles.getString(i), subPart);
+					editViews[i].reClean();
 				}
 				Log.e("save diary", restructDiary.toString());
 				if(isFisrtLoad){
@@ -241,7 +244,7 @@ public class DiaryEditActivity extends SherlockActivity {
 				e.printStackTrace();
 			}
 
-			commitDiary(isFisrtLoad, new Date(), restructDiary.toString());//提交日记至服务器
+			//commitDiary(isFisrtLoad, new Date(), restructDiary.toString());//提交日记至服务器
 			this.finish();
 		}
 		
@@ -254,7 +257,7 @@ public class DiaryEditActivity extends SherlockActivity {
 	 * @param content
 	 */
 	private void commitDiary(final boolean created,final Date date,final String content){
-		final String session_id=memCache.get(Constant.SERVER_SESSION_ID);
+		final String session_id=memCache.get(Constant.P_SESSION);
 		final String user_id=memCache.get(Constant.SERVER_USER_ID);
 		final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		final String[] diaryModel= DiaryApplication.getInstance().getDbHelper().getDiaryContent(user_id,new Date());
@@ -277,6 +280,18 @@ public class DiaryEditActivity extends SherlockActivity {
 		}.start();
 		
 	}
+	/**
+	 * 判断文本是否有变动
+	 * @return
+	 */
+	private boolean textChanged(){
+		for (RichTextEditView view :editViews){
+			if(view.isDirt())
+				return true;
+		}
+		return false;
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, R.string.edit_save, 1, R.string.edit_save)// add("Save")
@@ -291,7 +306,26 @@ public class DiaryEditActivity extends SherlockActivity {
 		// This uses the imported MenuItem from ActionBarSherlock
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			this.finish();
+			if(textChanged()){
+				new AlertDialog.Builder(this)
+				.setTitle(R.string.diary_lost_warning)
+				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+					}
+				})
+				.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						DiaryEditActivity.this.finish();
+					}
+				})
+				.show();
+			}else{
+				this.finish();
+			}
 			//this.overridePendingTransition(R.anim.left_enter, R.anim.right_exit);
 			break;
 		case R.string.edit_save:

@@ -57,14 +57,14 @@ public class PanelView_5 extends PanelView {
 	@Override
 	void init() {
 		// TODO Auto-generated method stub
-		super.init();
 		sudoType=SudoType.SUDO_5;
 		paint=new Paint();
 		paint.setColor(0xFFFFFFFF);
 		paint.setStyle(Style.STROKE);
-		paint.setAntiAlias(true); // �����   
-		paint.setFlags(Paint.ANTI_ALIAS_FLAG); // �����  
+		paint.setAntiAlias(true); 
+		paint.setFlags(Paint.ANTI_ALIAS_FLAG); 
 		this.setOnClickListener(null);
+		super.init();
 	}
 	
 	@Override

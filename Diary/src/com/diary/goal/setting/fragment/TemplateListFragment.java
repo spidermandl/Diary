@@ -9,7 +9,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -164,7 +166,30 @@ public class TemplateListFragment extends SherlockFragment{
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			this.getActivity().finish();
+			if(tempAdapter.selectionChanged()){
+				new AlertDialog.Builder(this.getActivity())
+				.setTitle("")
+				.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						
+					}
+				})
+				.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// TODO Auto-generated method stub
+						
+					}
+				})
+				.show();
+			}
+			else{
+				this.getActivity().finish();
+			}
 			break;
 		case R.string.add_template:
 			Fragment fragment=new TemplateEditFragment();
@@ -300,7 +325,7 @@ public class TemplateListFragment extends SherlockFragment{
 		};
 		final String cDate=DiaryApplication.getInstance().getDbHelper().getLatestTemplate(
 				DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID));
-		final String session_id=DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_SESSION_ID);
+		final String session_id=DiaryApplication.getInstance().getMemCache().get(Constant.P_SESSION);
 		if(listThread==null){
 			listThread=new Thread() {
 				public void run() {
@@ -350,7 +375,7 @@ public class TemplateListFragment extends SherlockFragment{
 		for(DiaryTemplateModel m:adds){
 			addIds.add(Long.parseLong(m._ID));
 		}
-		final String session_id= DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_SESSION_ID);
+		final String session_id= DiaryApplication.getInstance().getMemCache().get(Constant.P_SESSION);
 		final String addJson=transferModelToJsonArray(adds).toString();
 		final String updateJson=transferModelToJsonArray(updates).toString();
 		final String delJson=transferModelToJsonArray(dels).toString();

@@ -65,6 +65,9 @@ public class Constant {
     public static final String SERVER_USER_UPDATED_AT="user_updated_at";
     public static final String SERVER_CONTENT="content";
     public static final String SERVER_USER_NAME="user_name";
+    public static final String SERVER_USER_EMAIL="user_email";
+    public static final String SERVER_USER_NICKNAME="nickname";
+    public static final String SERVER_USER_PROTRAIT="portrait_icon";
     public static final String SERVER_TEMPLATE_LIST="templates";
     public static final String SERVER_TEMPLATE_LIST_NAME="name";
     public static final String SERVER_TEMPLATE_LIST_SELECTED="selected";
@@ -109,6 +112,8 @@ public class Constant {
     public static final String P_PASSWORD="password";
     public static final String P_USER_ID = "user_id";
     public static final String P_EMAIL="email";
+    public static final String P_USER_NICKNAME="nickname";
+    public static final String P_USER_PROTRAIT="portrait_icon";
     public static final String P_SESSION="session_series";
     public static final String P_DEFAULT_TEMPLATE="default_template_content";
     public static final String P_ADD_TEMPLATES_LIST="add_template_list";

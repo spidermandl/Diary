@@ -237,17 +237,19 @@ public class TemplateEditExpandableAdapter extends BaseExpandableListAdapter{
 					
 				}
 			});
-			convertView.setOnLongClickListener(new View.OnLongClickListener() {
-
-				@Override
-				public boolean onLongClick(View v) {
-					SubViewHolder holder=(SubViewHolder)v.getTag();
-					holder.delButton.setVisibility(View.VISIBLE);
-					holder.eraseLine.setVisibility(View.VISIBLE);
-					holder.edit.setVisibility(View.INVISIBLE);
-					return false;
-				}
-			});
+			if(canEdit){
+				convertView.setOnLongClickListener(new View.OnLongClickListener() {
+	
+					@Override
+					public boolean onLongClick(View v) {
+						SubViewHolder holder=(SubViewHolder)v.getTag();
+						holder.delButton.setVisibility(View.VISIBLE);
+						holder.eraseLine.setVisibility(View.VISIBLE);
+						holder.edit.setVisibility(View.INVISIBLE);
+						return false;
+					}
+				});
+			}
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

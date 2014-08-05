@@ -1,5 +1,6 @@
 package com.diary.goal.setting.fragment;
 
+import java.util.Date;
 import java.util.HashMap;
 
 import org.json.JSONException;
@@ -24,7 +25,6 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.Window;
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.activity.MainFrameActivity;
@@ -98,20 +98,31 @@ public class LoginFragment extends SherlockFragment {
 			@Override
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
-				case SUCCESS:		
+				case SUCCESS:	
+					DiaryApplication.getInstance().getMemCache().clear();//切换账户时清空缓存
 					SharedPreferences diary=LoginFragment.this.getActivity().getSharedPreferences(Constant.PREFERENCE_NAME, Context.MODE_PRIVATE);
 					diary.edit().putString(Constant.P_ACCOUNT, account.getText().toString()).commit();  
 					diary.edit().putString(Constant.P_PASSWORD, passwd.getText().toString()).commit();
 					if(msg.obj!=null){
-						long userid=DiaryApplication.getInstance().getDbHelper().getUser( account.getText().toString(), passwd.getText().toString());
+						
 						JSONObject obj=(JSONObject)msg.obj;
 						HashMap<String, String> cache=DiaryApplication.getInstance().getMemCache();
 						try {
-							cache.put(Constant.SERVER_SESSION_ID, obj.getString(Constant.SERVER_SESSION_ID));
+							long userid=DiaryApplication.getInstance().getDbHelper().getUser( account.getText().toString(), passwd.getText().toString());
+							if(userid==0){//本地数据库为空
+								userid=DiaryApplication.getInstance().getDbHelper().createUser(
+										obj.getString(Constant.SERVER_USER_NAME), 
+										passwd.getText().toString(),  
+										obj.getString(Constant.SERVER_USER_EMAIL), 
+										new Date());
+							}
+							cache.put(Constant.P_SESSION, obj.getString(Constant.SERVER_SESSION_ID));
 							//cache.put(Constant.SERVER_USER_ID, obj.getString(Constant.SERVER_USER_ID));
-							cache.put(Constant.SERVER_USER_ID,String.valueOf(userid));
-							//diary.edit().putString(Constant.P_USER_ID, obj.getString(Constant.SERVER_USER_ID)).commit();//存储用于没有网络情况
-							cache.put(Constant.SERVER_USER_NAME, account.getText().toString());
+							cache.put(Constant.SERVER_USER_ID, String.valueOf(userid));
+							cache.put(Constant.P_ACCOUNT, obj.getString(Constant.SERVER_USER_NAME));
+							cache.put(Constant.P_EMAIL, obj.getString(Constant.SERVER_USER_EMAIL));
+							cache.put(Constant.P_USER_NICKNAME, obj.getString(Constant.SERVER_USER_NICKNAME));
+							
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();

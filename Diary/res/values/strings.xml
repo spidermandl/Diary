@@ -39,6 +39,7 @@
     <string name="tab_host_fast_write">Action</string>
     <string name="tab_host_view">Community</string>
     <string name="tab_host_dream">Me</string>
+    <string name ="function_limitation">Gears are running with all speed,this functionality will be released soon!</string>
     <!-- ********************************************************************************* -->
     <string name="login_hint">Username or email</string>
     <string name="password_hint">Password</string>
@@ -56,6 +57,9 @@
     <string name="create_nickname">Create Nickname</string>
     <string name="tamplate_libs">My Diary Tamplates</string>
     <string name ="long_term_vision">My Long Term Vision</string>
+    <string name ="me_software_instruction">Instruction</string>
+    <string name ="me_setting">Setting</string>
+    <string name ="me_logout">Logout</string>
     <!-- ********************************************************************************** -->
     <string name="add_template">Add Template</string>
     <string name="change_template_title">Rename</string>
@@ -70,6 +74,8 @@
     <string name="template_rename_title">Rename Title</string>
     <string name="template_saved">Save successfully</string>
     <string name="template_rename_hint">Name of template has not been set?</string>
+    <!-- ********************************************************************************** -->
+    <string name="diary_lost_warning">Save the changes before discarded?</string>
     
 	<string name="edit_save">SAVE</string>
 	<string name="edit_back">BACK</string>

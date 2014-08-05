@@ -15,6 +15,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.activity.TemplateOperateActivity;
+import com.diary.goal.setting.activity.UserAuthActivity;
 import com.diary.goal.setting.tools.Constant;
 /**
  * 用户个人页面
@@ -23,7 +24,7 @@ import com.diary.goal.setting.tools.Constant;
  */
 public class MeFragment extends SherlockFragment{
 	
-	TextView myTemplate;
+	TextView myTemplate,myLogout;
 	TextView syncText;
 	
 	private OnClickListener listener;
@@ -47,7 +48,7 @@ public class MeFragment extends SherlockFragment{
 
 	private void initView(View layout) {
 		myTemplate=(TextView)layout.findViewById(R.id.me_template);
-		
+		myLogout=(TextView)layout.findViewById(R.id.me_logout);
 	}
 	
 	private void initFunctionality() {
@@ -61,6 +62,10 @@ public class MeFragment extends SherlockFragment{
 					intent.setClass(MeFragment.this.getActivity(), TemplateOperateActivity.class);
 					MeFragment.this.startActivityForResult(intent, 0);
 					break;
+				case R.id.me_logout:
+					MeFragment.this.getActivity().setResult(UserAuthActivity.RESULT_LOGOUT);
+					MeFragment.this.getActivity().finish();
+					break;
 				default:
 					break;
 				}
@@ -69,6 +74,7 @@ public class MeFragment extends SherlockFragment{
 		};
 		
 		myTemplate.setOnClickListener(listener);
+		myLogout.setOnClickListener(listener);
 	}
 	
 	@Override
@@ -81,11 +87,11 @@ public class MeFragment extends SherlockFragment{
 		ab.setDisplayShowHomeEnabled(false);
 		
 		HashMap<String, String> cache=DiaryApplication.getInstance().getMemCache();
-		String name=cache.get(Constant.SERVER_USER_NAME);
+		String name=cache.get(Constant.P_ACCOUNT);
 		if(name==null)
 			ab.setTitle(R.string.me);
 		else
-			ab.setTitle(cache.get(Constant.SERVER_USER_NAME));
+			ab.setTitle(cache.get(Constant.P_ACCOUNT));
 
 	}
 	

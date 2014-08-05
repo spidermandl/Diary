@@ -110,10 +110,12 @@ public class FrontPageFragment extends SherlockFragment{
 						JSONObject obj=(JSONObject)msg.obj;
 						HashMap<String, String> cache=DiaryApplication.getInstance().getMemCache();
 						try {
-							cache.put(Constant.SERVER_SESSION_ID, obj.getString(Constant.SERVER_SESSION_ID));
+							cache.put(Constant.P_SESSION, obj.getString(Constant.SERVER_SESSION_ID));
 							//cache.put(Constant.SERVER_USER_ID, obj.getString(Constant.SERVER_USER_ID));
 							cache.put(Constant.SERVER_USER_ID, String.valueOf(userID));
-							cache.put(Constant.SERVER_USER_NAME, username);
+							cache.put(Constant.P_ACCOUNT, obj.getString(Constant.SERVER_USER_NAME));
+							cache.put(Constant.P_EMAIL, obj.getString(Constant.SERVER_USER_EMAIL));
+							cache.put(Constant.P_USER_NICKNAME, obj.getString(Constant.SERVER_USER_NICKNAME));
 							DiaryApplication.getInstance().getDbHelper().loginTrigger(String.valueOf(userID));
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
@@ -156,13 +158,16 @@ public class FrontPageFragment extends SherlockFragment{
 		password=diary.getString(Constant.P_PASSWORD, null);
 		if(username==null||username.length()==0||password==null||password.length()==0){
 			userID=DiaryApplication.getInstance().getDbHelper().lastestLoginTime();
-			if(userID==0)
-				return false;
-			else{
-				UserModel model=DiaryApplication.getInstance().getDbHelper().getUserInfo(String.valueOf(userID));
-				username=model._USERNAME;
-				password=model._PASSWD;
-			}
+		}else{
+			userID=DiaryApplication.getInstance().getDbHelper().getUser(username, password);
+		}
+		
+		if(userID==0)
+			return false;
+		else{
+			UserModel model=DiaryApplication.getInstance().getDbHelper().getUserInfo(String.valueOf(userID));
+			username=model._USERNAME;
+			password=model._PASSWD;
 		}
 		
 		return true;

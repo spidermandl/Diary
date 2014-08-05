@@ -28,12 +28,29 @@ public class TemplateListAdapter extends BaseAdapter {
 	Context context;
 	private LayoutInflater m_inflater;
 	private DiaryHelper.DiaryTemplateModel[] dataModel;
+	private int initChoosenPos;//起始选中序号
+	private int currentChoosenPos;//当前选中序号
 	
 	public TemplateListAdapter(Context con){
 		this.context=con;
 		m_inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		dataModel=DiaryApplication.getInstance().getDbHelper().getFixedDiaryTemplates(
 				DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID));
+		int index=0;
+		for(DiaryTemplateModel model:dataModel){
+			if(model._SELECTED.equals("1")){
+				currentChoosenPos=initChoosenPos=index;
+				break;
+			}
+			index++;
+		}
+	}
+	/**
+	 * 模板选中项改变
+	 * @return
+	 */
+	public boolean selectionChanged(){
+		return initChoosenPos==currentChoosenPos;
 	}
 	
 	@Override
@@ -71,13 +88,15 @@ public class TemplateListAdapter extends BaseAdapter {
 		holder.selected.setChecked(dataModel[position]._SELECTED.equals("0")?false:true);
 		final int pos=position;
 		holder.selected.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			
+			/**
+			 * 模板单选功能
+			 */
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				ArrayList<Long> addList=((TemplateOperateActivity)context).getAddIDs();
-				if(isChecked){
+				if(isChecked){//选中
 					for(DiaryTemplateModel model:dataModel){
-						if(model._SELECTED.equals("1")){//原先选中
+						if(model._SELECTED.equals("1")){//上一次原先选中的模板
 							model._SELECTED="0";
 							if(!addList.contains(Long.valueOf(model._ID))&&!model._SYNC.equals("-1")){
 								model._SYNC="2";
@@ -86,6 +105,7 @@ public class TemplateListAdapter extends BaseAdapter {
 						}
 					}
 					dataModel[pos]._SELECTED="1";
+					currentChoosenPos=pos;
 					if(!addList.contains(Long.valueOf(dataModel[pos]._ID))&&!dataModel[pos]._SYNC.equals("-1")){
 						dataModel[pos]._SYNC="2";
 					}

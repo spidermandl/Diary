@@ -79,6 +79,8 @@ public class RichTextEditView extends RichEditTextField implements
 	protected int bulletMarginWidth = 5;
 	protected boolean isTextBeSet = false;// 字符串为非手写输入
 	protected Context context;
+	
+	protected String oldText;//记录上次被保存的字串
 
 	private static final int SUB_TITLE = 1;// 标题模式
 	private static final int PLAIN_TEXT = 0;// 正文模式
@@ -354,6 +356,7 @@ public class RichTextEditView extends RichEditTextField implements
 	@Override
 	public void setText(CharSequence text, BufferType type) {
 		isTextBeSet = true;
+		oldText=text.toString();
 		super.setText(text, type);
 	}
 
@@ -829,7 +832,7 @@ public class RichTextEditView extends RichEditTextField implements
 		case SUBTITLE_SIZE:
 			return new SizeSpan((1.5f), start, end, flag);
 		case SUBTITLE_COLOR:
-			return new TextForgroundColorSpan(start, end, flag, 0xFF880015);
+			return new TextForgroundColorSpan(start, end, flag, 0xFF29A0F8);
 			// 正文样式
 		case TEXT_SIZE:
 			return new SizeSpan((1.0f), start, end, flag);
@@ -843,6 +846,18 @@ public class RichTextEditView extends RichEditTextField implements
 
 		return null;
 	}
+
+	public boolean isDirt() {
+		String str=this.getText().toString();
+		return !str.equals(oldText);
+	}
+    /**
+     * 标记内容已被保存
+     */
+	public void reClean() {
+		oldText=this.getText().toString();
+	}
+	
 /*************************************************************************************************
  * tool bar part
  *************************************************************************************************/
@@ -1002,5 +1017,6 @@ public class RichTextEditView extends RichEditTextField implements
 //		sherlockEntryMode.addChain(R.id.cwac_richedittext_format,
 //				sherlockMainMode);
 	}
+
 
 }

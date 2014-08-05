@@ -409,8 +409,8 @@ public class DiaryHelper extends SQLiteOpenHelper{
 				"( "+UserColumn._USERNAME+" = '"+account+"' or "+UserColumn._EMAIL+" = '"+account+"' ) and "+UserColumn._PASSWD+" = '"+passwd+"'",
 				null,null,null,null);
 		if(c==null||!c.moveToFirst()){
-			createUser(account, passwd, null, new Date());
-			return getUser(account,passwd);
+			//createUser(account, passwd, null, new Date());
+			return 0;//getUser(account,passwd);
 		}
 		long _id=c.getInt(0);
 		c.close();
@@ -483,13 +483,13 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 * @param email
 	 * @param date
 	 */
-	public void createUser(String name,String passwd,String email,Date date){
+	public long createUser(String name,String passwd,String email,Date date){
 		Cursor c=db.query(Tables.USER, null, 
 				"( "+UserColumn._USERNAME+" = '"+name+"' or "+UserColumn._EMAIL+" = '"+name+"' ) and "+UserColumn._PASSWD+" = '"+passwd+"'",
 				null,null,null,null);
 		if(c!=null&&c.getCount()!=0){
 			c.close();
-			return;
+			return 0;
 		}
 		ContentValues values = new ContentValues();
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.getDefault());
@@ -500,7 +500,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		values.put(UserColumn._EMAIL, email);
 		values.put(UserColumn._SYNC, 0);
 		
-		db.insertOrThrow(Tables.USER, CommonColumn._ID, values);
+		return db.insertOrThrow(Tables.USER, CommonColumn._ID, values);
 	}
 	
 	/**
@@ -984,7 +984,8 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	public String[] getDiaryContent(String userid,Date date){
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault());
 		String sDate=format.format(date);
-		Cursor c=db.query(Tables.DIARY_CONTENT, new String[]{DiaryContentColumn._CONTENT,CommonColumn._CREATE_TIME}, 
+		Cursor c=db.query(Tables.DIARY_CONTENT, new String[]{DiaryContentColumn._CONTENT,
+				CommonColumn._CREATE_TIME}, 
 				DiaryContentColumn._USER_ID+" = "+userid+" and "+CommonColumn._CREATE_TIME+" between '"+sDate+" 00:00:00' and '"+sDate+" 23:59:59' ",
 				null,null,null,null);
 		if(c==null||c.getCount()==0){

@@ -130,7 +130,7 @@ public class MainFrameActivity extends SherlockFragmentActivity {
     	};
     	HashMap<String, String> cache=DiaryApplication.getInstance().getMemCache();
     	cache.put(Constant.P_DEFAULT_TEMPLATE, this.getResources().getString(Constant.TAMPLATE));
-		final String session_id=cache.get(Constant.SERVER_SESSION_ID);
+		final String session_id=cache.get(Constant.P_SESSION);
 		//String user_id=cache.get(Constant.SERVER_USER_ID);
 		String user_id=DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID);
 		if(session_id!=null){

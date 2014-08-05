@@ -7,12 +7,16 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Window;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.fragment.FrontPageFragment;
+import com.diary.goal.setting.fragment.LoginFragment;
 /**
  * 用户注册登录界面
  * @author desmond.duan
  *
  */
 public class UserAuthActivity extends SherlockFragmentActivity {
+	
+	public static final int RESULT_EXIT=1000;
+	public static final int RESULT_LOGOUT=1001;
     /**
      * 判断是否在做网络请求
      */
@@ -61,7 +65,18 @@ public class UserAuthActivity extends SherlockFragmentActivity {
 	
 	@Override
 	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
-		this.finish();
+		switch (arg1) {
+		case RESULT_EXIT:
+			this.finish();
+			break;
+		case RESULT_LOGOUT:
+			this.getSupportFragmentManager().beginTransaction().replace(
+					R.id.auth_switcher, new LoginFragment()).commitAllowingStateLoss();
+			break;
+		default:
+			this.finish();
+			break;
+		}
 		super.onActivityResult(arg0, arg1, arg2);
 	}
 //	public void showActionBar(){
