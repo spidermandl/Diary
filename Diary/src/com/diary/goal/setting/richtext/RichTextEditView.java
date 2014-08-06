@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.tools.Constant;
+import com.diary.goal.setting.tools.MyLog;
 import com.kemallette.RichEditText.Text.BulletListSpan;
 import com.kemallette.RichEditText.Text.FontSpan;
 import com.kemallette.RichEditText.Text.ISpan;
@@ -214,19 +215,19 @@ public class RichTextEditView extends RichEditTextField implements
 	@Override
 	public void beforeTextChanged(CharSequence s, int start, int count,
 			int after) {
-		//Log.e("beforeTextChanged", "beforeTextChanged");
+		//MyLog.e("beforeTextChanged", "beforeTextChanged");
 	}
 
 	@Override
 	public void afterTextChanged(Editable s) {
-		//Log.e("afterTextChanged", "afterTextChanged");
+		//MyLog.e("afterTextChanged", "afterTextChanged");
 
 	}
 
 	@Override
 	public void onBeforeCompose(int start, int end, CharSequence repText,
 			int repStart, int repEnd) {
-		//Log.e("onBeforeCompose", "onBeforeCompose:" + start + " end:" + end + " repStart:" + repStart + " repEnd:" + repEnd);
+		//MyLog.e("onBeforeCompose", "onBeforeCompose:" + start + " end:" + end + " repStart:" + repStart + " repEnd:" + repEnd);
 	}
 
 	@Override
@@ -281,7 +282,7 @@ public class RichTextEditView extends RichEditTextField implements
 	public void onTextChanged(CharSequence text, int start, int lengthBefore,
 			int lengthAfter) {
 		if (isTextBeSet && text.length() > 0) {
-			Log.e("text is be set", "text is be set");
+			MyLog.e("text is be set", "text is be set");
 			paintAnalysis(0, 0, text, 0, text.length());
 			isTextBeSet = false;
 		}
@@ -290,7 +291,7 @@ public class RichTextEditView extends RichEditTextField implements
 	@Override
 	public void onAfterCompose(int start, int end, CharSequence repText,
 			int repStart, int repEnd) {
-		//Log.e("onAfterCompose", "onAfterCompose:" + start + " end:" + end + " repStart:" + repStart + " repEnd:" + repEnd + "-------------------" + repText);
+		//MyLog.e("onAfterCompose", "onAfterCompose:" + start + " end:" + end + " repStart:" + repStart + " repEnd:" + repEnd + "-------------------" + repText);
 
 		paintAnalysis(start, end, repText, repStart, repEnd);
 
@@ -299,57 +300,57 @@ public class RichTextEditView extends RichEditTextField implements
 	@Override
 	public void onBeforeInsert(int position, CharSequence repText,
 			int repStart, int repEnd) {
-		//Log.e("onBeforeInsert", "onBeforeInsert");
+		//MyLog.e("onBeforeInsert", "onBeforeInsert");
 	}
 
 	@Override
 	public void onAfterInsert(int position, CharSequence repText, int repStart,
 			int repEnd) {
-		//Log.e("onAfterInsert", "onAfterInsert");
+		//MyLog.e("onAfterInsert", "onAfterInsert");
 		paintAnalysis(position, position, repText, repStart, repEnd);
 	}
 
 	@Override
 	public void onBeforeAppend(int position, CharSequence repText,
 			int repStart, int repEnd) {
-		//Log.e("onBeforeAppend", "onBeforeAppend");
+		//MyLog.e("onBeforeAppend", "onBeforeAppend");
 	}
 
 	@Override
 	public void onAfterAppend(int position, CharSequence repText, int repStart,
 			int repEnd) {
 		// applySpan(BOLD, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-		//Log.e("onAfterAppend", "onAfterAppend repStart:" + repStart + " repEnd:" + repEnd);
+		//MyLog.e("onAfterAppend", "onAfterAppend repStart:" + repStart + " repEnd:" + repEnd);
 		paintAnalysis(position, position, repText, repStart, repEnd);
 	}
 
 	@Override
 	public void onBeforeDelete(int start, int end) {
-		//Log.e("onBeforeDelete", "onBeforeDelete:" + start + " end:" + end);
+		//MyLog.e("onBeforeDelete", "onBeforeDelete:" + start + " end:" + end);
 	}
 
 	@Override
 	public void onAfterDelete(int start, int end) {
-		//Log.e("onAfterDelete", "onAfterDelete start:" + start + " end:" + end);
+		//MyLog.e("onAfterDelete", "onAfterDelete start:" + start + " end:" + end);
 		paintAnalysis(start, end, "", 0, 0);
 	}
 
 	@Override
 	public void onTextActionCursorMove(int position) {
-		//Log.e("onTextActionCursorMove", "onTextActionCursorMove");
+		//MyLog.e("onTextActionCursorMove", "onTextActionCursorMove");
 	}
 
 	@Override
 	public void beforeReplace(final int start, final int end,
 			final CharSequence repText, final int repStart, final int repEnd) {
-		//Log.e("beforeReplace", "beforeReplace:" + start + " end:" + end + " repStart:" + repStart + " repEnd:" + repEnd);
+		//MyLog.e("beforeReplace", "beforeReplace:" + start + " end:" + end + " repStart:" + repStart + " repEnd:" + repEnd);
 		removeSpans();
 	}
 
 	@Override
 	public void afterReplace(final int start, final int end,
 			final CharSequence repText, final int repStart, final int repEnd) {
-		//Log.e("afterReplace", "afterReplace start:" + start + " end:" + end + " repStart:" + repStart + " repEnd:" + repEnd);
+		//MyLog.e("afterReplace", "afterReplace start:" + start + " end:" + end + " repStart:" + repStart + " repEnd:" + repEnd);
 
 	}
 
@@ -387,12 +388,12 @@ public class RichTextEditView extends RichEditTextField implements
 		//SpanUtil.reApplySpan(makeSpan(NORMAL, start+repStart, start+repEnd,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE), this.getEditableText());
 		
 		updateStatus(start, end, repText, repStart, repEnd);
-		Log.e("array and text ", "--------------------------------" + this.getText().toString());
+		MyLog.e("array and text ", "--------------------------------" + this.getText().toString());
 		String str = "";
 		for (int i = 0; i < editState.size(); i++) {
 			str += editState.get(i);
 		}
-		Log.e("array and text ", "-------------------------------:" + str);
+		MyLog.e("array and text ", "-------------------------------:" + str);
 		updateTextSpans();
 
 	}
@@ -416,7 +417,7 @@ public class RichTextEditView extends RichEditTextField implements
 		/**
 		 * 设置状态数组的容量>=字符串容量
 		 */
-		Log.e("mET", this.getText().toString());
+		MyLog.e("mET", this.getText().toString());
 		if (this.getText().length() > editState.size()) {
 			for (int i = editState.size(); i < this.getText().length(); i++) {
 				editState.add(INVALID_POS);
@@ -488,8 +489,8 @@ public class RichTextEditView extends RichEditTextField implements
 			int repStart, int repEnd) {
 		int spanStart = 0;// 每轮循环repText读取的启始位置
 		boolean stop = true;
-		Log.e("setRepTextStatus", repText.toString());
-		Log.e("setRepTextStatus editState size", editState.size()+" "+position);
+		MyLog.e("setRepTextStatus", repText.toString());
+		MyLog.e("setRepTextStatus editState size", editState.size()+" "+position);
 		while (true) {
 			if ((position + spanStart - 1 < 0)
 					|| editState.get(position + spanStart - 1) == PLAIN_TEXT// 纯正文
@@ -952,7 +953,7 @@ public class RichTextEditView extends RichEditTextField implements
 				sherlockActionMode = (com.actionbarsherlock.view.ActionMode) method
 						.invoke(getContext(), sherlockEntryMode);
 			} catch (Exception e) {
-				Log.e(getClass().getSimpleName(),
+				MyLog.e(getClass().getSimpleName(),
 						"Exception starting action mode", e);
 			}
 		}

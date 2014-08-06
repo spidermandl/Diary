@@ -142,8 +142,10 @@ public class TemplateListFragment extends SherlockFragment{
         });
         setLastUpdateTime();
         
-        if (!DiaryApplication.getInstance().getMemCache().containsKey(Constant.P_TEMPLATE_REFRESHED)||
-        		DiaryApplication.getInstance().getMemCache().get(Constant.P_TEMPLATE_REFRESHED)==null) {
+        /**
+         * 判断是否为第一次加载列表
+         */
+        if (!DiaryApplication.getInstance().getMemCache().containsKey(Constant.P_TEMPLATE_REFRESHED)) {
         	DiaryApplication.getInstance().getMemCache().put(Constant.P_TEMPLATE_REFRESHED, "true");
         	mPullListView.doPullRefreshing(true, 500);
 		}
@@ -348,11 +350,14 @@ public class TemplateListFragment extends SherlockFragment{
 		};
 		final String cDate=DiaryApplication.getInstance().getDbHelper().getLatestTemplate(
 				DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID).toString());
-		final String session_id=DiaryApplication.getInstance().getMemCache().get(Constant.P_SESSION).toString();
+		final Object session_id=DiaryApplication.getInstance().getMemCache().get(Constant.P_SESSION);
 		if(listThread==null){
 			listThread=new Thread() {
 				public void run() {
-					JSONObject result = API.getUserTemplates(session_id, cDate);
+					JSONObject result =null;
+					if(session_id!=null){
+						result=API.getUserTemplates(session_id.toString(), cDate);
+					}
 					if(result!=null&&result.has(Constant.SERVER_SUCCESS)){
 						Message msg=new Message();
 						msg.what=SUCCESS;
@@ -398,21 +403,23 @@ public class TemplateListFragment extends SherlockFragment{
 //		for(DiaryTemplateModel m:adds){
 //			addIds.add(Long.parseLong(m._ID));
 //		}
-//		final String session_id= DiaryApplication.getInstance().getMemCache().get(Constant.P_SESSION).toString();
+//		final Object session_id= DiaryApplication.getInstance().getMemCache().get(Constant.P_SESSION);
 //		final String addJson=transferModelToJsonArray(adds).toString();
 //		final String updateJson=transferModelToJsonArray(updates).toString();
 //		final String delJson=transferModelToJsonArray(dels).toString();
 //		if(updateThread==null){
 //			updateThread=new Thread() {
 //				public void run() {
-//					JSONObject result = API.pushUserTemplates(session_id,addJson,updateJson,delJson);
-//					if(result!=null&&result.has(Constant.SERVER_SUCCESS)){
-//						Message msg=new Message();
-//						msg.what=SUCCESS;
-//						msg.obj=result;
-//						updateHandler.sendMessage(msg);
-//					}else{
-//						updateHandler.sendEmptyMessage(FAIL);
+//					if(session_id!=null){
+//						JSONObject result = API.pushUserTemplates(session_id.toString(),addJson,updateJson,delJson);
+//						if(result!=null&&result.has(Constant.SERVER_SUCCESS)){
+//							Message msg=new Message();
+//							msg.what=SUCCESS;
+//							msg.obj=result;
+//							updateHandler.sendMessage(msg);
+//						}else{
+//							updateHandler.sendEmptyMessage(FAIL);
+//						}
 //					}
 //					updateThread=null;
 //				};

@@ -1,21 +1,12 @@
 package com.diary.goal.setting.activity;
 
-import java.util.Date;
 import java.util.HashMap;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.test.SyncBaseInstrumentation;
 import android.text.TextUtils.TruncateAt;
 import android.view.View;
 import android.widget.TabHost;
@@ -23,23 +14,20 @@ import android.widget.TabWidget;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.fragment.CommunityFragment;
 import com.diary.goal.setting.fragment.MeFragment;
 import com.diary.goal.setting.fragment.ActionFragment;
 import com.diary.goal.setting.fragment.SoduKuFragment;
 import com.diary.goal.setting.service.SyncDBService;
-import com.diary.goal.setting.tools.API;
-import com.diary.goal.setting.tools.Constant;
 
 public class MainFrameActivity extends SherlockFragmentActivity {
 	TabHost mTabHost;
     TabManager mTabManager;
     
-    private Handler handler;
-	private final static int SUCCESS=0;
-	private final static int FAIL=1;
+//  private Handler handler;
+//	private final static int SUCCESS=0;
+//	private final static int FAIL=1;
 
 	/**
 	 * request code of an activty
@@ -83,13 +71,17 @@ public class MainFrameActivity extends SherlockFragmentActivity {
             tv.setFocusableInTouchMode(true);
        }
        
-       Intent intent=new Intent();
-       intent.setClass(this, SyncDBService.class);
-       this.startService(intent);
+       SyncDBService.startSelf(this, SyncDBService.DIARY_SYNC);
        
-       syncDiary();
+       //syncDiary();
     }
 
+    @Override
+    protected void onDestroy() {
+    	SyncDBService.stopService(this);
+    	super.onDestroy();
+    }
+    
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -100,66 +92,66 @@ public class MainFrameActivity extends SherlockFragmentActivity {
     /**
      * 同步机制，同步服务器上的日记
      */
-    private void syncDiary(){
-
-    	handler=new Handler(){
-    		@Override
-    		public void handleMessage(Message msg) {
-    			switch (msg.what) {
-				case SUCCESS:
-					JSONObject obj = (JSONObject)msg.obj;
-					try {
-						JSONArray array=obj.getJSONArray(Constant.SERVER_DIARY_LIST);
-						String uid=DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID).toString();
-						for(int i=0;i<array.length();i++){
-							JSONObject diary=array.getJSONObject(i);
-							
-							String created_at=diary.getString(Constant.SERVER_CREATED_AT);
-							String updated_at=diary.getString(Constant.SERVER_UPDATED_AT);
-							String content=diary.getString(Constant.SERVER_CONTENT);
-							DiaryApplication.getInstance().getDbHelper().insertDiaryContent(uid, created_at, updated_at,content, 1);//插入单条日记
-						}
-						DiaryApplication.getInstance().getDbHelper().updateSynRecord(new Date(), uid, 1);//账户同步完成
-					} catch (JSONException e) {
-						e.printStackTrace();
-					}
-					break;
-				case FAIL:
-					
-					break;
-
-				default:
-					break;
-				}
-    			super.handleMessage(msg);
-    		}
-    	};
-    	HashMap<String, Object> cache=DiaryApplication.getInstance().getMemCache();
-    	cache.put(Constant.P_DEFAULT_TEMPLATE, this.getResources().getString(Constant.TAMPLATE));
-		final Object session_id=cache.get(Constant.P_SESSION);
-		//String user_id=cache.get(Constant.SERVER_USER_ID);
-		String user_id=cache.get(Constant.SERVER_USER_ID).toString();
-		if(session_id!=null){
-			if(!DiaryApplication.getInstance().getDbHelper().getSynRecord(user_id)){
-				//没有同步过
-				new Thread(){
-		    		public void run() {
-	    				JSONObject result=API.fetchDiarys(session_id.toString());			
-						if(result!=null&&result.has(Constant.SERVER_SUCCESS)){
-							Message msg=new Message();
-							msg.obj=result;
-							msg.what=SUCCESS;
-							handler.sendMessage(msg);
-						}
-						else{
-							handler.sendEmptyMessage(FAIL);
-						}
-		    		};
-		    	}.start();
-			}
-		}
-		
-    }
+//    private void syncDiary(){
+//
+//    	handler=new Handler(){
+//    		@Override
+//    		public void handleMessage(Message msg) {
+//    			switch (msg.what) {
+//				case SUCCESS:
+//					JSONObject obj = (JSONObject)msg.obj;
+//					try {
+//						JSONArray array=obj.getJSONArray(Constant.SERVER_DIARY_LIST);
+//						String uid=DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID).toString();
+//						for(int i=0;i<array.length();i++){
+//							JSONObject diary=array.getJSONObject(i);
+//							
+//							String created_at=diary.getString(Constant.SERVER_CREATED_AT);
+//							String updated_at=diary.getString(Constant.SERVER_UPDATED_AT);
+//							String content=diary.getString(Constant.SERVER_CONTENT);
+//							DiaryApplication.getInstance().getDbHelper().insertDiaryContent(uid, created_at, updated_at,content, 1);//插入单条日记
+//						}
+//						DiaryApplication.getInstance().getDbHelper().updateSynRecord(new Date(), uid, 1);//账户同步完成
+//					} catch (JSONException e) {
+//						e.printStackTrace();
+//					}
+//					break;
+//				case FAIL:
+//					
+//					break;
+//
+//				default:
+//					break;
+//				}
+//    			super.handleMessage(msg);
+//    		}
+//    	};
+//    	HashMap<String, Object> cache=DiaryApplication.getInstance().getMemCache();
+//    	cache.put(Constant.P_DEFAULT_TEMPLATE, this.getResources().getString(Constant.TAMPLATE));
+//		final Object session_id=cache.get(Constant.P_SESSION);
+//		//String user_id=cache.get(Constant.SERVER_USER_ID);
+//		String user_id=cache.get(Constant.SERVER_USER_ID).toString();
+//		if(session_id!=null){
+//			if(!DiaryApplication.getInstance().getDbHelper().getSynRecord(user_id)){
+//				//没有同步过
+//				new Thread(){
+//		    		public void run() {
+//	    				JSONObject result=API.fetchDiarys(session_id.toString());			
+//						if(result!=null&&result.has(Constant.SERVER_SUCCESS)){
+//							Message msg=new Message();
+//							msg.obj=result;
+//							msg.what=SUCCESS;
+//							handler.sendMessage(msg);
+//						}
+//						else{
+//							handler.sendEmptyMessage(FAIL);
+//						}
+//		    		};
+//		    	}.start();
+//			}
+//		}
+//		
+//    }
     /**
      * This is a helper class that implements a generic mechanism for
      * associating fragments with the tabs in a tab host.  It relies on a

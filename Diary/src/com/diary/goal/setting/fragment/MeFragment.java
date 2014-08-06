@@ -87,7 +87,7 @@ public class MeFragment extends SherlockFragment{
 		ab.setDisplayShowHomeEnabled(false);
 		
 		HashMap<String, Object> cache=DiaryApplication.getInstance().getMemCache();
-		String name=cache.get(Constant.P_ACCOUNT).toString();
+		Object name=cache.get(Constant.P_ACCOUNT);
 		if(name==null)
 			ab.setTitle(R.string.me);
 		else

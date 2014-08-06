@@ -251,6 +251,7 @@ public class DiaryEditActivity extends SherlockActivity {
 			}
 
 			//commitDiary(isFisrtLoad, new Date(), restructDiary.toString());//提交日记至服务器
+			SyncDBService.startSelf(this, SyncDBService.DIARY_SYNC);
 			this.finish();
 		}
 		
