@@ -14,14 +14,17 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
+import com.diary.goal.setting.database.DiaryHelper.DiaryContentModel;
 import com.diary.goal.setting.richtext.DiaryValidator;
 import com.diary.goal.setting.richtext.RichTextEditView;
+import com.diary.goal.setting.service.SyncDBService;
 import com.diary.goal.setting.tools.API;
 import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.view.RatingPentagramView;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -39,16 +42,13 @@ public class DiaryEditActivity extends SherlockActivity {
     private RatingPentagramView[] ratingViews = new RatingPentagramView[8];
     private JSONObject templete=null;//存储正在编辑的日记模板和内容
     private boolean isFisrtLoad=true;//是否为第一次进入当天日记编辑
-    //private String[] diaryModel;//日记查询的结果
-    private final static int _CONTENT=0;
-    private final static int _CREATE_TIME=1;
     
 	private Handler handler;
 	private final static int CREATE_SUCCESS=0;
 	private final static int UPDATE_SUCCESS=1;
 	private final static int FAIL=2;
 	
-	HashMap<String, String> memCache;//缓存
+	HashMap<String, Object> memCache;//缓存
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
@@ -56,6 +56,11 @@ public class DiaryEditActivity extends SherlockActivity {
 
 		initViews();
 		initFunctionality();
+		
+       Intent intent=new Intent();
+       intent.setClass(this, SyncDBService.class);
+       this.startService(intent);
+       
 		super.onCreate(savedInstanceState);
 	}
 	
@@ -63,8 +68,8 @@ public class DiaryEditActivity extends SherlockActivity {
 		/**
 		 * 载入模板 和 日记
 		 */
-		String[] diaryModel= DiaryApplication.getInstance().getDbHelper().getDiaryContent(memCache.get(Constant.SERVER_USER_ID),new Date());
-		String content= diaryModel[_CONTENT];
+		DiaryContentModel diaryModel= DiaryApplication.getInstance().getDbHelper().getDiaryContent(memCache.get(Constant.SERVER_USER_ID).toString(),new Date());
+		String content= diaryModel._CONTENT;
 		if(content!=null){//当天日记已经编辑过
 			try {
 				templete=new JSONObject(content);
@@ -74,7 +79,7 @@ public class DiaryEditActivity extends SherlockActivity {
 			}
 		}
 		if(isFisrtLoad){
-			String selectedTemplete=DiaryApplication.getInstance().getDbHelper().getCurrentAppliedDiaryTemplate(memCache.get(Constant.SERVER_USER_ID));
+			String selectedTemplete=DiaryApplication.getInstance().getDbHelper().getCurrentAppliedDiaryTemplate(memCache.get(Constant.SERVER_USER_ID).toString());
 			if(selectedTemplete!=null){//数据库中存在模板
 				try {
 					templete=new JSONObject(selectedTemplete);
@@ -148,11 +153,11 @@ public class DiaryEditActivity extends SherlockActivity {
 			public void handleMessage(Message msg) {
 				switch (msg.what) {
 				case CREATE_SUCCESS:
-					DiaryApplication.getInstance().getDbHelper().updateDiaryContent(memCache.get(Constant.SERVER_USER_ID),new Date(), null, 1);
+					DiaryApplication.getInstance().getDbHelper().updateDiaryContent(memCache.get(Constant.SERVER_USER_ID).toString(),new Date(), null, 1);
 					break;
 				
 				case UPDATE_SUCCESS:
-					DiaryApplication.getInstance().getDbHelper().updateDiaryContent(memCache.get(Constant.SERVER_USER_ID),new Date(), null, 1);
+					DiaryApplication.getInstance().getDbHelper().updateDiaryContent(memCache.get(Constant.SERVER_USER_ID).toString(),new Date(), null, 1);
 					break;
 				case FAIL:
 					
@@ -228,15 +233,16 @@ public class DiaryEditActivity extends SherlockActivity {
 					JSONObject subPart=editViews[i].getTextWithJsonFormat();
 					subPart.put(Constant.MAIN_STATUS, ratingViews[i].getRate());
 					restructDiary.put(titles.getString(i), subPart);
-					editViews[i].reClean();
+					editViews[i].reClean();//同步
 				}
 				Log.e("save diary", restructDiary.toString());
 				if(isFisrtLoad){
 					Date date=new Date();
-					DiaryApplication.getInstance().getDbHelper().insertDiaryContent(memCache.get(Constant.SERVER_USER_ID),date,date, restructDiary.toString(),0);
+					DiaryApplication.getInstance().getDbHelper().insertDiaryContent(memCache.get(Constant.SERVER_USER_ID).toString(),date,date, restructDiary.toString(),0);
 				}
-				else
-					DiaryApplication.getInstance().getDbHelper().updateDiaryContent(memCache.get(Constant.SERVER_USER_ID),new Date(), restructDiary.toString(),0);
+				else{
+					DiaryApplication.getInstance().getDbHelper().updateDiaryContent(memCache.get(Constant.SERVER_USER_ID).toString(),new Date(), restructDiary.toString(),0);
+				}
 				
 				DiaryApplication.getInstance().updateStatusPanel();//更新九宫格状态
 			} catch (JSONException e) {
@@ -257,16 +263,16 @@ public class DiaryEditActivity extends SherlockActivity {
 	 * @param content
 	 */
 	private void commitDiary(final boolean created,final Date date,final String content){
-		final String session_id=memCache.get(Constant.P_SESSION);
-		final String user_id=memCache.get(Constant.SERVER_USER_ID);
+		final Object session_id=memCache.get(Constant.P_SESSION);
+		final String user_id=memCache.get(Constant.SERVER_USER_ID).toString();
 		final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		final String[] diaryModel= DiaryApplication.getInstance().getDbHelper().getDiaryContent(user_id,new Date());
+		final DiaryContentModel diaryModel= DiaryApplication.getInstance().getDbHelper().getDiaryContent(user_id,new Date());
 		new Thread(){
 			public void run() {
 				if(session_id!=null){
 					JSONObject result=created?
-							 API.createDiary(session_id, diaryModel[_CREATE_TIME], content)
-							:API.updateDiary(session_id, diaryModel[_CREATE_TIME], format.format(date), content);
+							 API.createDiary(session_id.toString(), diaryModel._CREATE_TIME, content)
+							:API.updateDiary(session_id.toString(), diaryModel._CREATE_TIME, format.format(date), content);
 					if(result!=null&&result.has(Constant.SERVER_SESSION_ID)){
 						Message msg=new Message();
 						msg.what=isFisrtLoad?CREATE_SUCCESS:UPDATE_SUCCESS;
@@ -313,6 +319,7 @@ public class DiaryEditActivity extends SherlockActivity {
 					
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
+						saveDiary();
 					}
 				})
 				.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {

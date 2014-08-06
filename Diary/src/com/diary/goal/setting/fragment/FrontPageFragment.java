@@ -108,7 +108,7 @@ public class FrontPageFragment extends SherlockFragment{
 					
 					if(msg.obj!=null){
 						JSONObject obj=(JSONObject)msg.obj;
-						HashMap<String, String> cache=DiaryApplication.getInstance().getMemCache();
+						HashMap<String, Object> cache=DiaryApplication.getInstance().getMemCache();
 						try {
 							cache.put(Constant.P_SESSION, obj.getString(Constant.SERVER_SESSION_ID));
 							//cache.put(Constant.SERVER_USER_ID, obj.getString(Constant.SERVER_USER_ID));
@@ -138,7 +138,7 @@ public class FrontPageFragment extends SherlockFragment{
 						intent.setClass(FrontPageFragment.this.getActivity(), MainFrameActivity.class);
 						FrontPageFragment.this.startActivityForResult(intent, 0);
 						
-						HashMap<String, String> cache=DiaryApplication.getInstance().getMemCache();
+						HashMap<String, Object> cache=DiaryApplication.getInstance().getMemCache();
 						cache.put(Constant.SERVER_USER_ID, String.valueOf(userID));
 					}
 				default:

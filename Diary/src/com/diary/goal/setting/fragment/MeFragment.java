@@ -86,12 +86,12 @@ public class MeFragment extends SherlockFragment{
 		ab.setDisplayUseLogoEnabled(false);
 		ab.setDisplayShowHomeEnabled(false);
 		
-		HashMap<String, String> cache=DiaryApplication.getInstance().getMemCache();
-		String name=cache.get(Constant.P_ACCOUNT);
+		HashMap<String, Object> cache=DiaryApplication.getInstance().getMemCache();
+		String name=cache.get(Constant.P_ACCOUNT).toString();
 		if(name==null)
 			ab.setTitle(R.string.me);
 		else
-			ab.setTitle(cache.get(Constant.P_ACCOUNT));
+			ab.setTitle(cache.get(Constant.P_ACCOUNT).toString());
 
 	}
 	

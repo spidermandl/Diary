@@ -63,7 +63,11 @@
             
         </activity>
         
-        
+        <service
+            android:name=".service.SyncDBService"
+            android:stopWithTask="true" >
+        </service>
+
     </application>
 
 </manifest>

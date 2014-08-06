@@ -177,31 +177,35 @@ public class TemplateListFragment extends SherlockFragment{
 							JSONObject template = new JSONObject(tempAdapter.getCurrentItem()._TAMPLETE);
 							JSONArray titles = template.getJSONArray(Constant.MAIN_SEQUENCE_ORDER);
 							for (int k = 0; k < titles.length(); k++) {// 遍历title字段
-								String mainTitle = titles
-										.getString(k);
+								String mainTitle = titles.getString(k);
 								StringBuffer subtitles = new StringBuffer();
 								JSONArray array = template.getJSONArray(mainTitle);
 								int length = array.length();
 								for (int i = 0; i < length; i++) {// 遍历JSONArray
 									subtitles.append('[');
-									subtitles.append(array
-											.getString(i));
+									subtitles.append(array.getString(i));
 									subtitles.append(']');
 									subtitles.append("\n\n");
 								}
 							}
+							//保存到数据库
+							DiaryApplication.getInstance().getDbHelper().updateDiaryContent(
+									DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID).toString(),
+									new Date(), template.toString(), 0);
+							tempAdapter.syncSelection();
+							
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+						TemplateListFragment.this.getActivity().finish();	
 					}
 				})
 				.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
 					
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// TODO Auto-generated method stub
-						
+						TemplateListFragment.this.getActivity().finish();	
 					}
 				})
 				.show();
@@ -312,7 +316,7 @@ public class TemplateListFragment extends SherlockFragment{
 							DiaryApplication.getInstance().getDbHelper().insertDiaryTemplate(
 									dateFormat.parse(obj.getString(Constant.SERVER_USER_CREATED_AT)),
 									dateFormat.parse(obj.getString(Constant.SERVER_USER_UPDATED_AT)),
-									DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID),
+									DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID).toString(),
 									obj.getString(Constant.SERVER_TEMPLATE_LIST_NAME), 
 									"1",
 									obj.getString(Constant.SERVER_TEMPLATE_LIST_FORMAT), 
@@ -338,13 +342,13 @@ public class TemplateListFragment extends SherlockFragment{
 				/**
 				 * 同步更新模板
 				 */
-				updateDiaryTemplate();
+				//updateDiaryTemplate();
 				super.handleMessage(msg);
 			}
 		};
 		final String cDate=DiaryApplication.getInstance().getDbHelper().getLatestTemplate(
-				DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID));
-		final String session_id=DiaryApplication.getInstance().getMemCache().get(Constant.P_SESSION);
+				DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID).toString());
+		final String session_id=DiaryApplication.getInstance().getMemCache().get(Constant.P_SESSION).toString();
 		if(listThread==null){
 			listThread=new Thread() {
 				public void run() {
@@ -363,84 +367,84 @@ public class TemplateListFragment extends SherlockFragment{
 			listThread.start();
 		}
 	}
-	/**
-	 * 更新模板
-	 */
-	private void updateDiaryTemplate(){
-		updateHandler=new Handler(){
-			@Override
-			public void handleMessage(Message msg) {
-				switch (msg.what) {
-				case SUCCESS:
-					
-					break;
-				case FAIL:
-					break;
-				default:
-					break;
-				}
-				super.handleMessage(msg);
-			}
-		};
-		String user_id=DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID);
-		DiaryTemplateModel[] adds=DiaryApplication.getInstance().getDbHelper().getDiaryTemplatesBySync(user_id, "0");
-		DiaryTemplateModel[] updates=DiaryApplication.getInstance().getDbHelper().getDiaryTemplatesBySync(user_id, "2");
-		DiaryTemplateModel[] dels=DiaryApplication.getInstance().getDbHelper().getDiaryTemplatesBySync(user_id, "-2");
-		ArrayList<Long> addIds=((TemplateOperateActivity)this.getActivity()).getAddIDs();
-		addIds.clear();
-		/**
-		 * 保存新增模板id
-		 */
-		for(DiaryTemplateModel m:adds){
-			addIds.add(Long.parseLong(m._ID));
-		}
-		final String session_id= DiaryApplication.getInstance().getMemCache().get(Constant.P_SESSION);
-		final String addJson=transferModelToJsonArray(adds).toString();
-		final String updateJson=transferModelToJsonArray(updates).toString();
-		final String delJson=transferModelToJsonArray(dels).toString();
-		if(updateThread==null){
-			updateThread=new Thread() {
-				public void run() {
-					JSONObject result = API.pushUserTemplates(session_id,addJson,updateJson,delJson);
-					if(result!=null&&result.has(Constant.SERVER_SUCCESS)){
-						Message msg=new Message();
-						msg.what=SUCCESS;
-						msg.obj=result;
-						updateHandler.sendMessage(msg);
-					}else{
-						updateHandler.sendEmptyMessage(FAIL);
-					}
-					updateThread=null;
-				};
-			};
-			updateThread.start();
-		}
-	}
-	/**
-	 * 模板model转成JsonArray
-	 * @param models
-	 * @return
-	 */
-	private JSONArray transferModelToJsonArray(DiaryTemplateModel[] models){
-		JSONArray sends=new JSONArray();
-		String user_id=DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID);
-		for(DiaryTemplateModel m:models){
-			JSONObject obj=new JSONObject();
-			try {
-				obj.put(Constant.SERVER_TEMPLATE_LIST_ID, m._ID);
-				obj.put(Constant.SERVER_USER_ID, user_id);
-				obj.put(Constant.SERVER_TEMPLATE_LIST_NAME, m._NAME);
-				obj.put(Constant.SERVER_TEMPLATE_LIST_FORMAT, m._TAMPLETE);
-				obj.put(Constant.SERVER_TEMPLATE_LIST_SELECTED, m._SELECTED);
-				obj.put(Constant.SERVER_USER_CREATED_AT, m._CREATE_TIME);
-				obj.put(Constant.SERVER_USER_UPDATED_AT, m._UPDATE_TIME);
-				sends.put(obj);
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return sends;
-	}
+//	/**
+//	 * 更新模板
+//	 */
+//	private void updateDiaryTemplate(){
+//		updateHandler=new Handler(){
+//			@Override
+//			public void handleMessage(Message msg) {
+//				switch (msg.what) {
+//				case SUCCESS:
+//					
+//					break;
+//				case FAIL:
+//					break;
+//				default:
+//					break;
+//				}
+//				super.handleMessage(msg);
+//			}
+//		};
+//		String user_id=DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID).toString();
+//		DiaryTemplateModel[] adds=DiaryApplication.getInstance().getDbHelper().getDiaryTemplatesBySync(user_id, "0");
+//		DiaryTemplateModel[] updates=DiaryApplication.getInstance().getDbHelper().getDiaryTemplatesBySync(user_id, "2");
+//		DiaryTemplateModel[] dels=DiaryApplication.getInstance().getDbHelper().getDiaryTemplatesBySync(user_id, "-2");
+//		ArrayList<Long> addIds=(ArrayList<Long>)DiaryApplication.getInstance().getMemCache().get(Constant.P_TEMPLATE_ADDLIST);
+//		addIds.clear();
+//		/**
+//		 * 保存新增模板id
+//		 */
+//		for(DiaryTemplateModel m:adds){
+//			addIds.add(Long.parseLong(m._ID));
+//		}
+//		final String session_id= DiaryApplication.getInstance().getMemCache().get(Constant.P_SESSION).toString();
+//		final String addJson=transferModelToJsonArray(adds).toString();
+//		final String updateJson=transferModelToJsonArray(updates).toString();
+//		final String delJson=transferModelToJsonArray(dels).toString();
+//		if(updateThread==null){
+//			updateThread=new Thread() {
+//				public void run() {
+//					JSONObject result = API.pushUserTemplates(session_id,addJson,updateJson,delJson);
+//					if(result!=null&&result.has(Constant.SERVER_SUCCESS)){
+//						Message msg=new Message();
+//						msg.what=SUCCESS;
+//						msg.obj=result;
+//						updateHandler.sendMessage(msg);
+//					}else{
+//						updateHandler.sendEmptyMessage(FAIL);
+//					}
+//					updateThread=null;
+//				};
+//			};
+//			updateThread.start();
+//		}
+//	}
+//	/**
+//	 * 模板model转成JsonArray
+//	 * @param models
+//	 * @return
+//	 */
+//	private JSONArray transferModelToJsonArray(DiaryTemplateModel[] models){
+//		JSONArray sends=new JSONArray();
+//		String user_id=DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID).toString();
+//		for(DiaryTemplateModel m:models){
+//			JSONObject obj=new JSONObject();
+//			try {
+//				obj.put(Constant.SERVER_TEMPLATE_LIST_ID, m._ID);
+//				obj.put(Constant.SERVER_USER_ID, user_id);
+//				obj.put(Constant.SERVER_TEMPLATE_LIST_NAME, m._NAME);
+//				obj.put(Constant.SERVER_TEMPLATE_LIST_FORMAT, m._TAMPLETE);
+//				obj.put(Constant.SERVER_TEMPLATE_LIST_SELECTED, m._SELECTED);
+//				obj.put(Constant.SERVER_USER_CREATED_AT, m._CREATE_TIME);
+//				obj.put(Constant.SERVER_USER_UPDATED_AT, m._UPDATE_TIME);
+//				sends.put(obj);
+//			} catch (JSONException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+//		return sends;
+//	}
 	
 }

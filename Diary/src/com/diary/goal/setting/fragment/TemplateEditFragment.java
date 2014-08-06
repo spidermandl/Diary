@@ -274,7 +274,7 @@ public class TemplateEditFragment extends SherlockFragment{
 	private void deleteTemplate(){
 		DiaryTemplateModel model=expandableAdapter.getDataModel();
 		if(model._ID!=null){//默认模板id为空
-			ArrayList<Long> addList=((TemplateOperateActivity)this.getActivity()).getAddIDs();
+			ArrayList<Long> addList=(ArrayList<Long>)DiaryApplication.getInstance().getMemCache().get(Constant.P_TEMPLATE_ADDLIST);
 			if(addList.contains(Long.valueOf(model._ID))){
 				DiaryApplication.getInstance().getDbHelper().deleteDiaryTemplate(model);
 			}else{
@@ -293,7 +293,7 @@ public class TemplateEditFragment extends SherlockFragment{
 		DiaryTemplateModel model=expandableAdapter.getDataModel();
 		JSONObject tempContent=expandableAdapter.getTempJson();
 		model._TAMPLETE=tempContent.toString();
-		ArrayList<Long> addList=((TemplateOperateActivity)this.getActivity()).getAddIDs();
+		ArrayList<Long> addList=(ArrayList<Long>)DiaryApplication.getInstance().getMemCache().get(Constant.P_TEMPLATE_ADDLIST);
 		if(!addList.contains(Long.valueOf(model._ID)))//模板已经存在
 			model._SYNC="2";
 		DiaryApplication.getInstance().getDbHelper().updateDiaryTemplate(model);
@@ -308,10 +308,10 @@ public class TemplateEditFragment extends SherlockFragment{
 		model._TAMPLETE=expandableAdapter.getTempJson().toString();
 		Date date=new Date();
 		long _id=DiaryApplication.getInstance().getDbHelper().insertDiaryTemplate(
-				date,date,DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID),
+				date,date,DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID).toString(),
 				model._TAMPLETE, "0", model._NAME, "0");
 		model._ID=String.valueOf(_id);
-		((TemplateOperateActivity)this.getActivity()).getAddIDs().add(Long.valueOf(_id));
+		((ArrayList<Long>)DiaryApplication.getInstance().getMemCache().get(Constant.P_TEMPLATE_ADDLIST)).add(Long.valueOf(_id));
 		isChanged=false;
 	}
 	/**

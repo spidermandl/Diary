@@ -46,7 +46,7 @@ public class PaperOverviewActivity extends SherlockActivity {
 	ArrayList<Integer> txtPos=new ArrayList<Integer>();
 	ArrayList<Integer> starPos=new ArrayList<Integer>();
 	QuickView textPanel;
-	HashMap<String, String> memCache;
+	HashMap<String, Object> memCache;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +89,9 @@ public class PaperOverviewActivity extends SherlockActivity {
 		 */
 		Date date=new Date(getIntent().getLongExtra("review_date", (new Date()).getTime()));
 		try {
-			String rawDiary=DiaryApplication.getInstance().getDbHelper().getDiaryContent(memCache.get(Constant.SERVER_USER_ID),date)[0];
+			String rawDiary=DiaryApplication.getInstance().getDbHelper()
+					.getDiaryContent(memCache.get(Constant.SERVER_USER_ID).toString(),date)
+					._CONTENT;
 			if(rawDiary!=null)
 				diaryText=new JSONObject(rawDiary);
 		} catch (JSONException e1) {

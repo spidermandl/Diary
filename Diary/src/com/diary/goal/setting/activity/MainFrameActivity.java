@@ -8,13 +8,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.test.SyncBaseInstrumentation;
 import android.text.TextUtils.TruncateAt;
 import android.view.View;
 import android.widget.TabHost;
@@ -28,6 +29,7 @@ import com.diary.goal.setting.fragment.CommunityFragment;
 import com.diary.goal.setting.fragment.MeFragment;
 import com.diary.goal.setting.fragment.ActionFragment;
 import com.diary.goal.setting.fragment.SoduKuFragment;
+import com.diary.goal.setting.service.SyncDBService;
 import com.diary.goal.setting.tools.API;
 import com.diary.goal.setting.tools.Constant;
 
@@ -80,8 +82,12 @@ public class MainFrameActivity extends SherlockFragmentActivity {
             tv.setFocusable(true);
             tv.setFocusableInTouchMode(true);
        }
-        
-        syncDiary();
+       
+       Intent intent=new Intent();
+       intent.setClass(this, SyncDBService.class);
+       this.startService(intent);
+       
+       syncDiary();
     }
 
     @Override
@@ -104,7 +110,7 @@ public class MainFrameActivity extends SherlockFragmentActivity {
 					JSONObject obj = (JSONObject)msg.obj;
 					try {
 						JSONArray array=obj.getJSONArray(Constant.SERVER_DIARY_LIST);
-						String uid=DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID);
+						String uid=DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID).toString();
 						for(int i=0;i<array.length();i++){
 							JSONObject diary=array.getJSONObject(i);
 							
@@ -128,17 +134,17 @@ public class MainFrameActivity extends SherlockFragmentActivity {
     			super.handleMessage(msg);
     		}
     	};
-    	HashMap<String, String> cache=DiaryApplication.getInstance().getMemCache();
+    	HashMap<String, Object> cache=DiaryApplication.getInstance().getMemCache();
     	cache.put(Constant.P_DEFAULT_TEMPLATE, this.getResources().getString(Constant.TAMPLATE));
-		final String session_id=cache.get(Constant.P_SESSION);
+		final Object session_id=cache.get(Constant.P_SESSION);
 		//String user_id=cache.get(Constant.SERVER_USER_ID);
-		String user_id=DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID);
+		String user_id=cache.get(Constant.SERVER_USER_ID).toString();
 		if(session_id!=null){
 			if(!DiaryApplication.getInstance().getDbHelper().getSynRecord(user_id)){
 				//没有同步过
 				new Thread(){
 		    		public void run() {
-	    				JSONObject result=API.fetchDiarys(session_id);			
+	    				JSONObject result=API.fetchDiarys(session_id.toString());			
 						if(result!=null&&result.has(Constant.SERVER_SUCCESS)){
 							Message msg=new Message();
 							msg.obj=result;

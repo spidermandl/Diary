@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.lang.ref.SoftReference;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -48,7 +49,7 @@ public class DiaryApplication extends Application {
 	/**
 	 * 数据缓存,包括用户id等服务器信息
 	 */
-	private HashMap<String, String> memCache;
+	private HashMap<String, Object> memCache;
 
 	private int screen_width;
 	private int screen_height;
@@ -96,7 +97,8 @@ public class DiaryApplication extends Application {
 		screen_height=displaymetrics.heightPixels;
 		initialOrientation=this.getResources().getConfiguration().orientation;
 		dbHelper = new DiaryHelper(this);
-		memCache = new HashMap<String, String>();
+		memCache = new HashMap<String, Object>();
+		memCache.put(Constant.P_TEMPLATE_ADDLIST, new ArrayList<Long>()); 
 		
 //		ueHandler = new UEHandler(this); 
 //        Thread.setDefaultUncaughtExceptionHandler(ueHandler); 
@@ -236,7 +238,7 @@ public class DiaryApplication extends Application {
 	        SudoKuStatus.put(SudoType.SUDO_9, false);
 		}
 		
-		String diaryText=DiaryApplication.getInstance().getDbHelper().getDiaryContent(memCache.get(Constant.SERVER_USER_ID),new Date())[0];
+		String diaryText=DiaryApplication.getInstance().getDbHelper().getDiaryContent(memCache.get(Constant.SERVER_USER_ID).toString(),new Date())._CONTENT;
 		if(diaryText!=null){
 			try {
 				JSONObject diaryObject=new JSONObject(diaryText);
@@ -271,10 +273,10 @@ public class DiaryApplication extends Application {
 			}
 		}
 	}
-	public HashMap<String, String> getMemCache() {
+	public HashMap<String, Object> getMemCache() {
 		return memCache;
 	}
-	public void setMemCache(HashMap<String, String> memCache) {
+	public void setMemCache(HashMap<String, Object> memCache) {
 		this.memCache = memCache;
 	}
 

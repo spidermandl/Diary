@@ -160,7 +160,50 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	public interface DiaryContentColumn{
 		public static final String _USER_ID="user_id";//本地用户id
 		public static final String _CONTENT="_content";
-		public static final String _SYNC = "sync";//是否同步, 0:没有同步，1:已经同步
+		public static final String _SYNC = "sync";//是否同步, -1:无效，0:没有同步，1:已经同步
+	}
+	
+	/**
+	 * 
+	 * 日记内容内存模型
+	 */
+	public static class DiaryContentModel implements Parcelable{
+		public String _ID=null;
+		public String _CONTENT=null;
+		public int _SYNC=-1;
+		public String _CREATE_TIME=null;
+		public String _UPDATE_TIME=null;
+		public String _USER_ID=null;
+		public static final Parcelable.Creator<DiaryContentModel> CREATOR = new Parcelable.Creator<DiaryContentModel>() {
+		    public DiaryContentModel createFromParcel(Parcel in) {
+		    	DiaryContentModel model = new DiaryContentModel(); 
+		    	model._ID=in.readString();
+		    	model._CONTENT=in.readString();
+		    	model._SYNC=in.readInt();
+		    	model._CREATE_TIME=in.readString();
+		    	model._UPDATE_TIME=in.readString();
+		    	model._USER_ID=in.readString();
+		        return model;
+		    }
+		
+		    public DiaryContentModel[] newArray(int size) {
+		        return new DiaryContentModel[size];
+		    }
+		 };
+		@Override
+		public int describeContents() {
+			// TODO Auto-generated method stub
+			return 0;
+		}
+		@Override
+		public void writeToParcel(Parcel dest, int flags) {
+			dest.writeString(_ID);
+			dest.writeString(_CONTENT);
+			dest.writeInt(_SYNC);
+			dest.writeString(_CREATE_TIME);
+			dest.writeString(_UPDATE_TIME);
+			dest.writeString(_USER_ID);
+		}
 	}
 	
 	public static final String CREATE_DIARY_TRACK = 
@@ -502,32 +545,12 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		
 		return db.insertOrThrow(Tables.USER, CommonColumn._ID, values);
 	}
-	
 	/**
-	 * 判断账户是否已经同步
-	 * @param account
-	 * @param passwd
-	 * @return
-	 */
-	public boolean getSynRecord(String account,String passwd){
-		Cursor c=db.query(Tables.USER, new String[]{UserColumn._SYNC}, 
-				"( "+UserColumn._USERNAME+" = '"+account+"' or "+UserColumn._EMAIL+" = '"+account+"' ) and "+UserColumn._PASSWD+" = '"+passwd+"'",
-				null,null,null,null);
-		if(c==null||!c.moveToFirst()){
-			return false;
-		}
-		if(c.getInt(0)==0){
-			c.close();
-			return false;
-		}
-		c.close();
-		return true;
-	}
-	/**
-	 * 判断账户是否已经同步
+	 * 判断账户是否同步
 	 * @param userid
 	 * @return
 	 */
+	@Deprecated
 	public boolean getSynRecord(String userid){
 		Cursor c=db.query(Tables.USER, new String[]{UserColumn._SYNC}, 
 				CommonColumn._ID+" = "+userid,
@@ -544,6 +567,28 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		c.close();
 		return true;
 	}
+	/**
+	 * 判断账户是否已经同步
+	 * @param account
+	 * @param passwd
+	 * @return
+	 */
+	@Deprecated
+	public boolean getSynRecord(String account,String passwd){
+		Cursor c=db.query(Tables.USER, new String[]{UserColumn._SYNC}, 
+				"( "+UserColumn._USERNAME+" = '"+account+"' or "+UserColumn._EMAIL+" = '"+account+"' ) and "+UserColumn._PASSWD+" = '"+passwd+"'",
+				null,null,null,null);
+		if(c==null||!c.moveToFirst()){
+			return false;
+		}
+		if(c.getInt(0)==0){
+			c.close();
+			return false;
+		}
+		c.close();
+		return true;
+	}
+
 	/**
 	 * 用户所有日记同步完成
 	 * @param date
@@ -601,6 +646,24 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	/**********************************************************************************
 	 *日记模板表操作方法
 	 **********************************************************************************/
+	/**
+	 * 判断账户本地是否有模板
+	 * @param userid
+	 * @return
+	 */
+	public boolean getSynTemp(String userid){
+		Cursor c=db.query(Tables.DIARY_TEMPLETE, new String[]{CommonColumn._ID}, 
+				CommonColumn._ID+" = "+userid,
+				null,null,null,null);
+		if(c==null||c.getCount()==0){
+			if(c!=null)
+				c.close();
+			return false;
+		}
+		c.close();
+		return true;
+	}
+	
 	/**
 	 * 新建模板
 	 * @param date
@@ -672,7 +735,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		        null);
 	}
 	/**
-	 * 删除
+	 * 删除模板
 	 * @param model
 	 */
 	public void deleteDiaryTemplate(DiaryTemplateModel model){
@@ -879,6 +942,24 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 * 日记表（diary_content）表操作方法
 	 *******************************************************************************************/
 	/**
+	 * 判断账户本地是否有日记
+	 * @param userid
+	 * @return
+	 */
+	public boolean getSynDiary(String userid){
+		Cursor c=db.query(Tables.DIARY_CONTENT, new String[]{CommonColumn._ID}, 
+				CommonColumn._ID+" = "+userid,
+				null,null,null,null);
+		if(c==null||c.getCount()==0){
+			if(c!=null)
+				c.close();
+			return false;
+		}
+		c.close();
+		return true;
+	}
+	
+	/**
 	 * 创建日记内容
 	 * @param model
 	 * @param text
@@ -935,28 +1016,6 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	}
 	/**
 	 * 更新日记内容
-	 * @deprecated
-	 * @param model
-	 * @param text
-	 */
-	public void updateDiaryContent(DateModel model,String text,int sync){
-		ContentValues values=new ContentValues();
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.getDefault());
-		values.put(CommonColumn._UPDATE_TIME, format.format(model.getDate()));
-		values.put(DiaryTrackColumn._TEXT, text);
-		values.put(DiaryContentColumn._SYNC, sync);
-		
-		format = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault());
-		String date=format.format(model.getDate());
-		int config_id=model.getConfigId();
-		db.update(Tables.DIARY_TRACK, values,
-				CommonColumn._CREATE_TIME+" between '"+date+" 00:00:00' and '"+date+" 23:59:59' " +
-				      " and "
-		           +DiaryTrackColumn._CONFIG_ID+ " = "+config_id,
-		        null);
-	}
-	/**
-	 * 更新日记内容
 	 * @param userid
 	 * @param date
 	 * @param text
@@ -981,29 +1040,36 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 * @param date
 	 * @return
 	 */
-	public String[] getDiaryContent(String userid,Date date){
+	public DiaryContentModel getDiaryContent(String userid,Date date){
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd",Locale.getDefault());
 		String sDate=format.format(date);
-		Cursor c=db.query(Tables.DIARY_CONTENT, new String[]{DiaryContentColumn._CONTENT,
-				CommonColumn._CREATE_TIME}, 
+		Cursor c=db.query(Tables.DIARY_CONTENT, new String[]{
+					CommonColumn._ID,
+					CommonColumn._CREATE_TIME,
+					CommonColumn._UPDATE_TIME,
+					DiaryContentColumn._USER_ID,
+					DiaryContentColumn._CONTENT,
+					DiaryContentColumn._SYNC,
+				}, 
 				DiaryContentColumn._USER_ID+" = "+userid+" and "+CommonColumn._CREATE_TIME+" between '"+sDate+" 00:00:00' and '"+sDate+" 23:59:59' ",
 				null,null,null,null);
 		if(c==null||c.getCount()==0){
 			if(c!=null)
 				c.close();
-			return new String[]{null,null};
+			return new DiaryContentModel();
 		}
 		if(c.moveToFirst()){
-			String[] result=new String[2];
-			result[0]=c.getString(0);
-			result[1]=c.getString(1);
+			DiaryContentModel result=new DiaryContentModel();
+			result._ID=c.getString(0);
+			result._CREATE_TIME=c.getString(1);
+			result._UPDATE_TIME=c.getString(2);
+			result._USER_ID=c.getString(3);
+			result._CONTENT=c.getString(4);
+			result._SYNC=c.getInt(5);
 			c.close();
 			return  result;
 		}
-	    return new String[]{null,null};
+	    return new DiaryContentModel();
 	}
-
-	
-
 
 }

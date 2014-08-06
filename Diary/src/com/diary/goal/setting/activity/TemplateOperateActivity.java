@@ -18,8 +18,6 @@ import com.diary.goal.setting.fragment.TemplateListFragment;
  * 
  */
 public class TemplateOperateActivity extends SherlockFragmentActivity{
-
-	private ArrayList<Long> addIDs=new ArrayList<Long>(); //新增加的模板id
 	
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -63,12 +61,6 @@ public class TemplateOperateActivity extends SherlockFragmentActivity{
 		default:
 			return false;
 		}
-	}
-	public ArrayList<Long> getAddIDs() {
-		return addIDs;
-	}
-	public void setAddIDs(ArrayList<Long> addIDs) {
-		this.addIDs = addIDs;
 	}
 
 }

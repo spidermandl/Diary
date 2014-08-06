@@ -1,5 +1,6 @@
 package com.diary.goal.setting.fragment;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -100,13 +101,14 @@ public class LoginFragment extends SherlockFragment {
 				switch (msg.what) {
 				case SUCCESS:	
 					DiaryApplication.getInstance().getMemCache().clear();//切换账户时清空缓存
+					DiaryApplication.getInstance().getMemCache().put(Constant.P_TEMPLATE_ADDLIST, new ArrayList<Long>());
 					SharedPreferences diary=LoginFragment.this.getActivity().getSharedPreferences(Constant.PREFERENCE_NAME, Context.MODE_PRIVATE);
 					diary.edit().putString(Constant.P_ACCOUNT, account.getText().toString()).commit();  
 					diary.edit().putString(Constant.P_PASSWORD, passwd.getText().toString()).commit();
 					if(msg.obj!=null){
 						
 						JSONObject obj=(JSONObject)msg.obj;
-						HashMap<String, String> cache=DiaryApplication.getInstance().getMemCache();
+						HashMap<String, Object> cache=DiaryApplication.getInstance().getMemCache();
 						try {
 							long userid=DiaryApplication.getInstance().getDbHelper().getUser( account.getText().toString(), passwd.getText().toString());
 							if(userid==0){//本地数据库为空

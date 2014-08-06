@@ -69,7 +69,6 @@ public class UEHandler implements Thread.UncaughtExceptionHandler {
 		FileOutputStream fos = null;
 		try {
 			if (file.exists()) {
-				// 清空之前的记录
 				file.delete();
 			} else {
 				file.getParentFile().mkdirs();

@@ -120,6 +120,7 @@ public class Constant {
     public static final String P_UPDATE_TEMPLATES_LIST="update_template_list";
     public static final String P_DELETE_TEMPLATES_LIST="delete_template_list";
     public static final String P_TEMPLATE_REFRESHED="template_refreshed";//第一次刷新模板列表
+    public static final String P_TEMPLATE_ADDLIST="template_add_list_id";//新添模板id列表，ArrayList类
     
     /**
      * intent数据交互使用key

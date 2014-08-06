@@ -34,8 +34,8 @@ public class TemplateListAdapter extends BaseAdapter {
 	public TemplateListAdapter(Context con){
 		this.context=con;
 		m_inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		dataModel=DiaryApplication.getInstance().getDbHelper().getFixedDiaryTemplates(
-				DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID));
+		dataModel=DiaryApplication.getInstance().getDbHelper().
+				getFixedDiaryTemplates(DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID).toString());
 		int index=0;
 		for(DiaryTemplateModel model:dataModel){
 			if(model._SELECTED.equals("1")){
@@ -53,12 +53,19 @@ public class TemplateListAdapter extends BaseAdapter {
 		return !(initChoosenPos==currentChoosenPos);
 	}
 	/**
+	 * 模板选中位置同步
+	 */
+	public void syncSelection(){
+		initChoosenPos=currentChoosenPos;
+	}
+	/**
 	 * 获取选中模板
 	 * @return
 	 */
 	public DiaryHelper.DiaryTemplateModel getCurrentItem(){
 		return dataModel[currentChoosenPos];
 	}
+	
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
@@ -99,7 +106,7 @@ public class TemplateListAdapter extends BaseAdapter {
 			 */
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				ArrayList<Long> addList=((TemplateOperateActivity)context).getAddIDs();
+				ArrayList<Long> addList=(ArrayList<Long>)DiaryApplication.getInstance().getMemCache().get(Constant.P_TEMPLATE_ADDLIST);
 				if(isChecked){//选中
 					for(DiaryTemplateModel model:dataModel){
 						if(model._SELECTED.equals("1")){//上一次原先选中的模板
