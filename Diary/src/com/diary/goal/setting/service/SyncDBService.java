@@ -217,13 +217,17 @@ public class SyncDBService extends Service {
 		if (session_id != null) {
 			new Thread(){
 				public void run() {
-					JSONObject result=API.updateDiary(session_id.toString(), diaryModel._CREATE_TIME, format.format(date), diaryModel._CONTENT);
-					if(result!=null&&result.has(Constant.SERVER_SESSION_ID)){
-						Message msg=new Message();
-						msg.obj=date;
-						handler.sendMessage(msg);
+					if(diaryModel._SYNC==1){
+						JSONObject result=API.updateDiary(session_id.toString(), diaryModel._CREATE_TIME, format.format(date), diaryModel._CONTENT);
+						if(result!=null&&result.has(Constant.SERVER_SESSION_ID)){
+							Message msg=new Message();
+							msg.obj=date;
+							handler.sendMessage(msg);
+						}else{
+							handler.sendEmptyMessage(FAIL);
+						}
 					}else{
-						handler.sendEmptyMessage(FAIL);
+						sThread.setProcess(false);
 					}
 				};
 			}.start();
