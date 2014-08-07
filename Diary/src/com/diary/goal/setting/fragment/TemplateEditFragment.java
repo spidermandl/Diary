@@ -31,7 +31,6 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
-import com.diary.goal.setting.activity.TemplateOperateActivity;
 import com.diary.goal.setting.adapter.TemplateEditExpandableAdapter;
 import com.diary.goal.setting.adapter.TemplateEditExpandableAdapter.TemplateEditAction;
 import com.diary.goal.setting.database.DiaryHelper.DiaryTemplateModel;
@@ -251,7 +250,7 @@ public class TemplateEditFragment extends SherlockFragment{
 	}
 	
     /**
-     * 返回
+     * 返回上一个界面
      */
 	private void backToPreviousFragment(){
 		/**

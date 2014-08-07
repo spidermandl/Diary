@@ -134,11 +134,58 @@
                    android:drawableRight="@drawable/icon_right"
                    android:background="@drawable/me_item_selector"
                    android:clickable="true"/>
+               
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/item_line_2" />
+                
+                <TextView
+                   android:id="@+id/me_sync"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginLeft="1dp"
+                   android:layout_marginRight="1dp"
+                   android:layout_marginTop="1dp"
+                   android:layout_marginBottom="1dp"
+                   android:padding="10dp"
+                   android:text="@string/me_sync"
+                   android:textColor="#FF000000" 
+                   android:drawableRight="@drawable/icon_right"
+                   android:background="@drawable/me_item_selector"
+                   android:clickable="true"/>
                 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/item_line_2" />
+                
+                <TextView
+                   android:id="@+id/me_version_check"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_marginLeft="1dp"
+                   android:layout_marginRight="1dp"
+                   android:layout_marginTop="1dp"
+                   android:layout_marginBottom="1dp"
+                   android:padding="10dp"
+                   android:text="@string/me_version_check"
+                   android:textColor="#FF000000" 
+                   android:drawableRight="@drawable/icon_right"
+                   android:background="@drawable/me_item_selector"
+                   android:clickable="true"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/note_list_item_on_bg"
+                android:orientation="vertical" >
+                
                 
                 <TextView
                    android:id="@+id/me_logout"
@@ -154,7 +201,7 @@
                    android:drawableRight="@drawable/icon_right"
                    android:background="@drawable/me_item_selector"
                    android:clickable="true"/>
-
+                
             </LinearLayout>
             
         </LinearLayout>

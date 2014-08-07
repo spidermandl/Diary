@@ -1,7 +1,5 @@
 package com.diary.goal.setting.activity;
 
-import java.util.ArrayList;
-
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 

@@ -13,8 +13,8 @@ public class Constant {
 	/**
 	 * ======================================版本管理===============================================
 	 */
-	public static boolean DEBUG=true;//调试模式
-	public static String ANDROID_VERSION_CODE= "1.0.1";//代码版本
+	public static final boolean DEBUG=true;//调试模式
+	public static final String ANDROID_VERSION_CODE= "1.0.1";//代码版本
 	/**
 	 * ======================================server================================================
 	 */
@@ -30,6 +30,10 @@ public class Constant {
 	 * 注册 api
 	 */
 	public static final String REGISTER="users/register";
+	/**
+	 * 版本检查 api
+	 */
+	public static final String VERSION_CHECK="users/check_version";
 	/**
 	 * 获取用户日记 api
 	 */

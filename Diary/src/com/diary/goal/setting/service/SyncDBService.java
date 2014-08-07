@@ -217,13 +217,18 @@ public class SyncDBService extends Service {
 		if (session_id != null) {
 			new Thread(){
 				public void run() {
-					JSONObject result=API.updateDiary(session_id.toString(), diaryModel._CREATE_TIME, format.format(date), diaryModel._CONTENT);
-					if(result!=null&&result.has(Constant.SERVER_SESSION_ID)){
-						Message msg=new Message();
-						msg.obj=date;
-						handler.sendMessage(msg);
+					if(diaryModel._SYNC==0){//没有同步
+						JSONObject result=API.updateDiary(session_id.toString(), diaryModel._CREATE_TIME, format.format(date), diaryModel._CONTENT);
+						if(result!=null&&result.has(Constant.SERVER_SUCCESS)){
+							Message msg=new Message();
+							msg.what=SUCCESS;
+							msg.obj=date;
+							handler.sendMessage(msg);
+						}else{
+							handler.sendEmptyMessage(FAIL);
+						}
 					}else{
-						handler.sendEmptyMessage(FAIL);
+						sThread.setProcess(false);
 					}
 				};
 			}.start();
@@ -284,7 +289,7 @@ public class SyncDBService extends Service {
 		final String addJson=transferModelToJsonArray(adds).toString();
 		final String updateJson=transferModelToJsonArray(updates).toString();
 		final String delJson=transferModelToJsonArray(dels).toString();
-		if(session_id!=null||(adds.length>0&&updates.length>0&&dels.length>0)){
+		if(session_id!=null&&(adds.length>0||updates.length>0||dels.length>0)){
 			new Thread() {
 				public void run() {
 					JSONObject result = API.pushUserTemplates(session_id.toString(),addJson,updateJson,delJson);
@@ -356,9 +361,10 @@ public class SyncDBService extends Service {
 				if (!isProcessing) {
 					switch (optSignal(false, 0)) {
 					case EXIT_SYNC:
+						MyLog.e("----------------------------------", "EXIT_SYNC");
 						return;
 					case NONE_SYNC:
-						MyLog.e("----------------------------------", "NONE_SYNC");
+						//MyLog.e("----------------------------------", "NONE_SYNC");
 						try {
 							if(idleCount>=120){
 								optSignal(true, DIARY_SYNC);
@@ -389,7 +395,7 @@ public class SyncDBService extends Service {
 					}
 				} else {
 					try {
-						MyLog.e("----------------------------------", "isProcessing");
+						//MyLog.e("----------------------------------", "isProcessing");
 						Thread.sleep(200);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block

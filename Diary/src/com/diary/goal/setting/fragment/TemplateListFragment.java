@@ -2,8 +2,8 @@ package com.diary.goal.setting.fragment;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,15 +53,13 @@ public class TemplateListFragment extends SherlockFragment{
 	private ListView tempList;
 	private OnItemClickListener itemListener;
 	private TemplateListAdapter tempAdapter;
-    private SimpleDateFormat mDateFormat = new SimpleDateFormat("MM-dd HH:mm");
+    private SimpleDateFormat mDateFormat = new SimpleDateFormat("MM-dd HH:mm",Locale.getDefault());
     private boolean mIsStart = true;
     private int mCurIndex = 0;
     private static final int mLoadDataCount = 100;
     
-	private Handler tempListHandler,
-	              updateHandler;
-	private Thread listThread,//获取模板列表线程
-	               updateThread;//更新模板线程
+	private Handler tempListHandler;//处理获取到的模板handler
+	private Thread listThread;//获取模板列表线程
 	
 	private final static int SUCCESS=0;
 	private final static int FAIL=1;

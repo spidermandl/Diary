@@ -24,8 +24,10 @@ import com.diary.goal.setting.tools.Constant;
  */
 public class MeFragment extends SherlockFragment{
 	
-	TextView myTemplate,myLogout;
-	TextView syncText;
+	TextView myTemplate,
+	         myLogout,
+	         mySync,
+	         myVersionCheck;
 	
 	private OnClickListener listener;
 	
@@ -48,6 +50,8 @@ public class MeFragment extends SherlockFragment{
 
 	private void initView(View layout) {
 		myTemplate=(TextView)layout.findViewById(R.id.me_template);
+		mySync=(TextView)layout.findViewById(R.id.me_sync);
+		myVersionCheck=(TextView)layout.findViewById(R.id.me_version_check);
 		myLogout=(TextView)layout.findViewById(R.id.me_logout);
 	}
 	
@@ -61,6 +65,10 @@ public class MeFragment extends SherlockFragment{
 					Intent intent=new Intent();
 					intent.setClass(MeFragment.this.getActivity(), TemplateOperateActivity.class);
 					MeFragment.this.startActivityForResult(intent, 0);
+					break;
+				case R.id.me_sync:
+					break;
+				case R.id.me_version_check:
 					break;
 				case R.id.me_logout:
 					MeFragment.this.getActivity().setResult(UserAuthActivity.RESULT_LOGOUT);

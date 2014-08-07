@@ -40,6 +40,17 @@ public class API {
 	}
 	
 	/**
+	 * 版本检查
+	 * @param version
+	 * @return
+	 */
+	public static JSONObject versionCheck(String version){
+		HashMap<String, String> params = new HashMap<String, String>();
+		params.put("version", Constant.ANDROID_VERSION_CODE);
+		return HTTPTools.connectPost(Constant.SERVER_DOMAIN+Constant.VERSION_CHECK, params);
+	}
+	
+	/**
 	 * 获得用户日记
 	 */
 	public static JSONObject fetchDiarys(String session_id){
@@ -62,6 +73,7 @@ public class API {
 		params.put("content", content);
 		return HTTPTools.connectPost(Constant.SERVER_DOMAIN+Constant.DIARY_CREATE, params);
 	}
+	
 	/**
 	 * 更新用户日记
 	 * @param session_id

@@ -1,6 +1,5 @@
 package com.diary.goal.setting.activity;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -18,7 +17,6 @@ import com.diary.goal.setting.database.DiaryHelper.DiaryContentModel;
 import com.diary.goal.setting.richtext.DiaryValidator;
 import com.diary.goal.setting.richtext.RichTextEditView;
 import com.diary.goal.setting.service.SyncDBService;
-import com.diary.goal.setting.tools.API;
 import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.view.RatingPentagramView;
 
@@ -26,8 +24,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.widget.TextView;
 /**
@@ -43,10 +39,6 @@ public class DiaryEditActivity extends SherlockActivity {
     private JSONObject templete=null;//存储正在编辑的日记模板和内容
     private boolean isFisrtLoad=true;//是否为第一次进入当天日记编辑
     
-	private Handler handler;
-	private final static int CREATE_SUCCESS=0;
-	private final static int UPDATE_SUCCESS=1;
-	private final static int FAIL=2;
 	
 	HashMap<String, Object> memCache;//缓存
     
@@ -148,28 +140,6 @@ public class DiaryEditActivity extends SherlockActivity {
 					new DiaryValidator(null, DiaryValidator.getSubTitlePattern()));
 		}
 		
-		handler=new Handler(){
-			@Override
-			public void handleMessage(Message msg) {
-				switch (msg.what) {
-				case CREATE_SUCCESS:
-					DiaryApplication.getInstance().getDbHelper().updateDiaryContent(memCache.get(Constant.SERVER_USER_ID).toString(),new Date(), null, 1);
-					break;
-				
-				case UPDATE_SUCCESS:
-					DiaryApplication.getInstance().getDbHelper().updateDiaryContent(memCache.get(Constant.SERVER_USER_ID).toString(),new Date(), null, 1);
-					break;
-				case FAIL:
-					
-					break;
-
-				default:
-					break;
-				}
-				super.handleMessage(msg);
-			}
-		};
-		
 	}
 
 	protected void initViews(){
@@ -257,36 +227,6 @@ public class DiaryEditActivity extends SherlockActivity {
 		
 	}
 
-	/**
-	 * 向服务器提交
-	 * @param created
-	 * @param date
-	 * @param content
-	 */
-	private void commitDiary(final boolean created,final Date date,final String content){
-		final Object session_id=memCache.get(Constant.P_SESSION);
-		final String user_id=memCache.get(Constant.SERVER_USER_ID).toString();
-		final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		final DiaryContentModel diaryModel= DiaryApplication.getInstance().getDbHelper().getDiaryContent(user_id,new Date());
-		new Thread(){
-			public void run() {
-				if(session_id!=null){
-					JSONObject result=created?
-							 API.createDiary(session_id.toString(), diaryModel._CREATE_TIME, content)
-							:API.updateDiary(session_id.toString(), diaryModel._CREATE_TIME, format.format(date), content);
-					if(result!=null&&result.has(Constant.SERVER_SESSION_ID)){
-						Message msg=new Message();
-						msg.what=isFisrtLoad?CREATE_SUCCESS:UPDATE_SUCCESS;
-						msg.obj=date;
-						handler.sendMessage(msg);
-					}else{
-						handler.sendEmptyMessage(FAIL);
-					}
-				}
-			};
-		}.start();
-		
-	}
 	/**
 	 * 判断文本是否有变动
 	 * @return
