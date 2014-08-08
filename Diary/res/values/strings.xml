@@ -62,6 +62,9 @@
     <string name="me_sync">Synchronization</string>
     <string name="me_version_check">Check for Updates</string>
     <string name ="me_logout">Logout</string>
+    <string name = "me_sync_finish">Sync finished</string> 
+    <string name = "me_no_more_update">Latest version,no more updates</string> 
+    <string name = "me_new_version">New version is available,be sure to download?</string>
     <!-- ********************************************************************************** -->
     <string name="add_template">Add Template</string>
     <string name="change_template_title">Rename</string>

@@ -34,6 +34,12 @@ public class TemplateListAdapter extends BaseAdapter {
 	public TemplateListAdapter(Context con){
 		this.context=con;
 		m_inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		initData();
+	}
+	/**
+	 * 载入数据
+	 */
+	private void initData(){
 		dataModel=DiaryApplication.getInstance().getDbHelper().
 				getFixedDiaryTemplates(DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID).toString());
 		int index=0;
@@ -44,6 +50,12 @@ public class TemplateListAdapter extends BaseAdapter {
 			}
 			index++;
 		}
+	}
+	
+	@Override
+	public void notifyDataSetChanged() {
+		initData();
+		super.notifyDataSetChanged();
 	}
 	/**
 	 * 模板选中项改变

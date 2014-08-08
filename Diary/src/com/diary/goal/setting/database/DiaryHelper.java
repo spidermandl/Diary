@@ -8,12 +8,14 @@ import java.util.Locale;
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.invalid.DateModel;
+import com.diary.goal.setting.tools.Constant;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.os.Debug;
 import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -25,6 +27,68 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	private static final String DB_NAME = "diary.db";//DB name
 	private static final int DB_VERSION = 1;	//DB version
 	
+	/**
+	 *********************************************基本方法********************************************************
+	 */
+	public DiaryHelper(Context context){
+		super(context, getDataBasePath(), null, DB_VERSION);
+		db = getWritableDatabase();
+	}
+
+	public static String getDataBasePath(){
+		if(Constant.DEBUG){
+			if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())){
+				File f=new File(Environment.getExternalStorageDirectory().getAbsolutePath()+ File.separator + "diary");
+				if(!f.exists()){
+					if(f.mkdirs())
+						return f.getAbsolutePath()+File.separator+DB_NAME;
+				}
+				else
+					return f.getAbsolutePath()+File.separator+DB_NAME;
+			}
+		}
+		return DB_NAME;
+	}
+	
+	@Override
+	public void onCreate(SQLiteDatabase db) {
+		db.beginTransaction();
+		
+		db.execSQL(CREATE_DIARY_TRACK);
+		db.execSQL(CREATE_DIARY_CONFIG);
+		db.execSQL(CREATE_USER);
+		db.execSQL(CREATE_DIARY_TEMPLETE);
+		db.execSQL(CREATE_DIARY_CONTENT);
+		
+		db.execSQL(CREATE_VIEW_TRACK_CONFIG);
+	    
+		db.setTransactionSuccessful();
+		db.endTransaction();
+		
+	}
+
+	@Override
+	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		db.beginTransaction();
+		
+		db.execSQL(DROP_VIEW_CONFIG_TRACK);
+		db.execSQL(DROP_DIARY_TRACK);
+		db.execSQL(DROP_DIRAY_CONFIG);
+		db.execSQL(DROP_DIARY_TEMPLETE);
+		db.execSQL(DROP_DIARY_CONTENT);
+		db.execSQL(DROP_USER);
+		
+		
+		db.setTransactionSuccessful();
+		db.endTransaction();
+		onCreate(db);
+	}
+	
+	/**
+	 * 
+	 * 数据库静态内容定义
+	 *
+	 */
 	public interface Tables {
 		/**@table diary model config*/
 		public static final String DIARY_CONFIG = "diary_config";
@@ -96,11 +160,12 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 */
 	public interface DiaryTemplateColumn{
 		public static final String _TAMPLETE = "templete"; //json:{[subtitle,type],[subtile,type]...}
-		public static final String _SYNC = "sync";/*同步状态, 0:新增加的模板,没有同步,
+		public static final String _SYNC = "sync";/*同步状态,   0:新增加的模板,没有同步,
 		                                                     1:已经同步,
 		                                                     2:已经修改但没有同步,
 		                                                    -1 不需要同步（如用户当天正编辑的模板）,
 		                                                    -2 需要删除的模板（和服务器同步后该条目删除）
+		                                                    -3 第一个创建的模板且没有同步过
 		                                          */
 		public static final String _NAME = "name";//模板名
 		public static final String _CREATER_ID = "creater_id";//创建者id
@@ -304,61 +369,11 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	public static final String DROP_USER = "DROP TABLE IF EXISTS " + Tables.USER+" ";
 	public static final String DROP_DIARY_TEMPLETE = "DROP TABLE IF EXISTS " + Tables.DIARY_TEMPLETE+" ";
 	public static final String DROP_DIARY_CONTENT= "DROP TABLE IF EXISTS " + Tables.DIARY_CONTENT+" ";
-	/**
-	 *******************************************************************************************************************************
-	 */
-	public DiaryHelper(Context context){
-		super(context, getDataBasePath(), null, DB_VERSION);
-		db = getWritableDatabase();
-	}
-
-	public static String getDataBasePath(){
-		if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())){
-			File f=new File(Environment.getExternalStorageDirectory().getAbsolutePath()+ File.separator + "diary");
-			if(!f.exists()){
-				if(f.mkdirs())
-					return f.getAbsolutePath()+File.separator+DB_NAME;
-			}
-			else
-				return f.getAbsolutePath()+File.separator+DB_NAME;
-		}
-		return DB_NAME;
-	}
 	
-	@Override
-	public void onCreate(SQLiteDatabase db) {
-		db.beginTransaction();
-		
-		db.execSQL(CREATE_DIARY_TRACK);
-		db.execSQL(CREATE_DIARY_CONFIG);
-		db.execSQL(CREATE_USER);
-		db.execSQL(CREATE_DIARY_TEMPLETE);
-		db.execSQL(CREATE_DIARY_CONTENT);
-		
-		db.execSQL(CREATE_VIEW_TRACK_CONFIG);
-	    
-		db.setTransactionSuccessful();
-		db.endTransaction();
-		
-	}
 
-	@Override
-	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.beginTransaction();
-		
-		db.execSQL(DROP_VIEW_CONFIG_TRACK);
-		db.execSQL(DROP_DIARY_TRACK);
-		db.execSQL(DROP_DIRAY_CONFIG);
-		db.execSQL(DROP_DIARY_TEMPLETE);
-		db.execSQL(DROP_DIARY_CONTENT);
-		db.execSQL(DROP_USER);
-		
-		
-		db.setTransactionSuccessful();
-		db.endTransaction();
-		onCreate(db);
-	}
-
+	/*******************************************************************************************
+	 ********************************************************数据库方法操作**************************
+	 *******************************************************************************************/
 	public Cursor getDateDiaryAll(){
 		Cursor c=db.query(Tables.DIARY_CONFIG, 
 				new String[]{CommonColumn._ID,
@@ -911,7 +926,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 		values.put(CommonColumn._UPDATE_TIME, sDate);
 		values.put(DiaryTemplateColumn._CREATER_ID,Integer.parseInt(user_id));
 		values.put(DiaryTemplateColumn._TAMPLETE,result);
-		values.put(DiaryTemplateColumn._SYNC, "-1");
+		values.put(DiaryTemplateColumn._SYNC, "-3");
 		values.put(DiaryTemplateColumn._NAME, DiaryApplication.getInstance().getResources().getText(R.string.default_template_name).toString());
 		values.put(DiaryTemplateColumn._SELECTED, "1");
 		
@@ -926,7 +941,7 @@ public class DiaryHelper extends SQLiteOpenHelper{
 	 */
 	public String getLatestTemplate(String user_id){
 		Cursor c=db.query(Tables.DIARY_TEMPLETE, new String[]{CommonColumn._CREATE_TIME}, 
-				DiaryTemplateColumn._CREATER_ID+" = "+user_id,
+				DiaryTemplateColumn._CREATER_ID+" = "+user_id+" and "+DiaryTemplateColumn._SYNC+" <> '-3'",
 				null, null, null, CommonColumn._CREATE_TIME+" DESC ", "1");
 		if(c==null||!c.moveToFirst()){
 			if(c!=null)

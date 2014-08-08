@@ -310,18 +310,26 @@ public class TemplateListFragment extends SherlockFragment{
 					JSONObject result = (JSONObject)msg.obj;
 					try {
 						JSONArray array=result.getJSONArray(Constant.SERVER_TEMPLATE_LIST);
-						SimpleDateFormat dateFormat=new SimpleDateFormat();
+						SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.getDefault());
 						for(int i=0;i<array.length();i++){
 							JSONObject obj=array.getJSONObject(i);
 							DiaryApplication.getInstance().getDbHelper().insertDiaryTemplate(
 									dateFormat.parse(obj.getString(Constant.SERVER_USER_CREATED_AT)),
 									dateFormat.parse(obj.getString(Constant.SERVER_USER_UPDATED_AT)),
 									DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID).toString(),
-									obj.getString(Constant.SERVER_TEMPLATE_LIST_NAME), 
-									"1",
 									obj.getString(Constant.SERVER_TEMPLATE_LIST_FORMAT), 
+									"1",
+									obj.getString(Constant.SERVER_TEMPLATE_LIST_NAME), 
 									obj.getString(Constant.SERVER_TEMPLATE_LIST_SELECTED));
 
+						}
+						
+						DiaryTemplateModel[] models=DiaryApplication.getInstance().getDbHelper().getDiaryTemplatesBySync(
+								DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID).toString(), 
+								"-3");
+						for(DiaryTemplateModel m:models){
+							m._SYNC="-1";
+							DiaryApplication.getInstance().getDbHelper().updateDiaryTemplate(m);
 						}
 						
 						tempAdapter.notifyDataSetChanged();

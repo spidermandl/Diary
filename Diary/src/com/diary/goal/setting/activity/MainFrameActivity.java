@@ -13,7 +13,9 @@ import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
 
+import com.actionbarsherlock.ActionBarSherlock;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Window;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.fragment.CommunityFragment;
 import com.diary.goal.setting.fragment.MeFragment;
@@ -40,7 +42,7 @@ public class MainFrameActivity extends SherlockFragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.Theme_Sherlock); //Used for theme switching in samples
         super.onCreate(savedInstanceState);
-
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.main_frame);
         mTabHost = (TabHost)findViewById(android.R.id.tabhost);
         mTabHost.setup();

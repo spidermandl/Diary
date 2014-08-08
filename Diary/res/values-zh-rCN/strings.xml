@@ -40,11 +40,6 @@
     <string name="tab_host_view">圈子</string>
     <string name="tab_host_dream">我</string>
     <string name ="function_limitation">该功能即将推出，敬请期待！</string>
-    <string name ="me_software_instruction">晨间日记圆梦说明</string>
-    <string name ="me_setting">设置</string>
-    <string name="me_sync">数据同步</string>
-    <string name="me_version_check">检查版本更新</string>
-    <string name ="me_logout">退出</string>
     <!-- ********************************************************************************* -->
     <string name="login_hint">账号/邮箱</string>
     <string name="password_hint">密码</string>
@@ -62,6 +57,14 @@
     <string name="create_nickname">创建昵称</string>
     <string name="tamplate_libs">我的模板库</string>
     <string name ="long_term_vision">我的梦想规划</string>
+    <string name ="me_software_instruction">晨间日记圆梦说明</string>
+    <string name ="me_setting">设置</string>
+    <string name="me_sync">数据同步</string>
+    <string name="me_version_check">检查版本更新</string>
+    <string name ="me_logout">退出</string>
+    <string name = "me_sync_finish">同步完成</string> 
+    <string name = "me_no_more_update">已经是最新的版本</string> 
+    <string name = "me_new_version">有新的版本可供下载，现在下载？</string>
     <!-- ********************************************************************************** -->
     <string name="add_template">新建模板</string>
     <string name="change_template_title">编辑标题</string>

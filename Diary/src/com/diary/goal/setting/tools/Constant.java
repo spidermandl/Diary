@@ -13,7 +13,7 @@ public class Constant {
 	/**
 	 * ======================================版本管理===============================================
 	 */
-	public static final boolean DEBUG=true;//调试模式
+	public static final boolean DEBUG=false;//调试模式
 	public static final String ANDROID_VERSION_CODE= "1.0.1";//代码版本
 	/**
 	 * ======================================server================================================
@@ -77,6 +77,8 @@ public class Constant {
     public static final String SERVER_TEMPLATE_LIST_SELECTED="selected";
     public static final String SERVER_TEMPLATE_LIST_FORMAT="format";
     public static final String SERVER_TEMPLATE_LIST_ID="local_id";
+    public static final String SERVER_UPDATE_URL = "url";
+    public static final String SERVER_UPDATE_VERSION = "version";
 /**
  * =======================================client================================================
  */

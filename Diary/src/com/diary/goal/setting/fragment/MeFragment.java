@@ -2,20 +2,35 @@ package com.diary.goal.setting.fragment;
 
 import java.util.HashMap;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.AlertDialog;
+import android.app.DownloadManager;
+import android.app.DownloadManager.Request;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
+import com.diary.goal.setting.activity.MainFrameActivity;
 import com.diary.goal.setting.activity.TemplateOperateActivity;
 import com.diary.goal.setting.activity.UserAuthActivity;
+import com.diary.goal.setting.service.SyncDBService;
+import com.diary.goal.setting.tools.API;
 import com.diary.goal.setting.tools.Constant;
 /**
  * 用户个人页面
@@ -24,12 +39,20 @@ import com.diary.goal.setting.tools.Constant;
  */
 public class MeFragment extends SherlockFragment{
 	
+	private static final int SYNC_SUCCESS=1;
+	private static final int VERSION_CHECK_SUCCESS=2;
+	private static final int FAIL=3;
+	
 	TextView myTemplate,
 	         myLogout,
 	         mySync,
 	         myVersionCheck;
 	
 	private OnClickListener listener;
+	private Handler networkHandler;
+	private boolean isProgress=false;//进度条显示
+	
+	
 	
 	
 	@Override
@@ -60,29 +83,127 @@ public class MeFragment extends SherlockFragment{
 			
 			@Override
 			public void onClick(View v) {
-				switch (v.getId()) {
-				case R.id.me_template:
-					Intent intent=new Intent();
-					intent.setClass(MeFragment.this.getActivity(), TemplateOperateActivity.class);
-					MeFragment.this.startActivityForResult(intent, 0);
-					break;
-				case R.id.me_sync:
-					break;
-				case R.id.me_version_check:
-					break;
-				case R.id.me_logout:
-					MeFragment.this.getActivity().setResult(UserAuthActivity.RESULT_LOGOUT);
-					MeFragment.this.getActivity().finish();
-					break;
-				default:
-					break;
+				MainFrameActivity self=(MainFrameActivity)MeFragment.this.getActivity();
+				if(!isProgress){
+					switch (v.getId()) {
+					case R.id.me_template:
+						Intent intent=new Intent();
+						intent.setClass(MeFragment.this.getActivity(), TemplateOperateActivity.class);
+						MeFragment.this.startActivityForResult(intent, 0);
+						break;
+					case R.id.me_sync://同步
+						self.setSupportProgressBarIndeterminateVisibility(true);
+						isProgress=true;
+						SyncDBService.startSelf(MeFragment.this.getActivity(),SyncDBService.DIARY_SYNC);
+						SyncDBService.startSelf(MeFragment.this.getActivity(),SyncDBService.TEMPLATE_SYNC);
+						new Thread(){
+							public void run() {
+								try {
+									Thread.sleep(1000);
+								} catch (InterruptedException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								networkHandler.sendEmptyMessage(SYNC_SUCCESS);
+							};
+						}.start();
+						break;
+					case R.id.me_version_check://版本检查
+						self.setSupportProgressBarIndeterminateVisibility(true);
+						isProgress=true;
+						new Thread(){
+							@Override
+							public void run() {
+								JSONObject result=API.versionCheck(Constant.ANDROID_VERSION_CODE);
+								Message msg=new Message();
+								msg.what=VERSION_CHECK_SUCCESS;
+								msg.obj=result;
+								networkHandler.sendMessage(msg);
+							}
+						}.start();
+						break;
+					case R.id.me_logout://切换账户
+						MeFragment.this.getActivity().setResult(UserAuthActivity.RESULT_LOGOUT);
+						MeFragment.this.getActivity().finish();
+						break;
+					default:
+						break;
+					}
 				}
 				
 			}
 		};
 		
 		myTemplate.setOnClickListener(listener);
+		mySync.setOnClickListener(listener);
+		myVersionCheck.setOnClickListener(listener);
 		myLogout.setOnClickListener(listener);
+		
+		networkHandler=new Handler(){
+			public void handleMessage(android.os.Message msg) {
+				switch (msg.what) {
+				case SYNC_SUCCESS:
+					Toast.makeText(getActivity(), R.string.me_sync_finish, 500).show();
+					break;
+				case VERSION_CHECK_SUCCESS:
+					AlertDialog.Builder hint=new AlertDialog.Builder(getActivity());
+					if(msg.obj!=null){
+						final JSONObject result=(JSONObject)msg.obj;
+						if(result.has(Constant.SERVER_UPDATE_URL)){
+							hint.setTitle(R.string.me_new_version);
+							hint.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+								
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+
+								}
+							});
+							hint.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+								
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									Uri uri;
+									try { 
+										//下载
+									    DownloadManager downloadManager = (DownloadManager) MeFragment.this.getActivity().getSystemService(Context.DOWNLOAD_SERVICE);									
+										uri = Uri.parse(result.getString(Constant.SERVER_UPDATE_URL));
+										Request request = new Request(uri);
+										request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE|DownloadManager.Request.NETWORK_WIFI);  
+										request.setVisibleInDownloadsUi(false);
+									    downloadManager.enqueue(request);
+									} catch (JSONException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
+									
+								}
+							});
+							hint.show();
+							break;
+						}
+					}
+					hint.setTitle(R.string.me_no_more_update);
+					hint.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO Auto-generated method stub
+							
+						}
+					});
+					hint.show();
+					break;
+					
+				case FAIL:
+					break;
+					
+				default:
+					break;
+				}
+				isProgress=false;
+				((MainFrameActivity)MeFragment.this.getActivity()).setSupportProgressBarIndeterminateVisibility(false);
+			};
+		};
 	}
 	
 	@Override
