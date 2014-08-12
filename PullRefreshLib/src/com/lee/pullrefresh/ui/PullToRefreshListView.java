@@ -3,6 +3,7 @@ package com.lee.pullrefresh.ui;
 import com.lee.pullrefresh.ui.ILoadingLayout.State;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AbsListView;

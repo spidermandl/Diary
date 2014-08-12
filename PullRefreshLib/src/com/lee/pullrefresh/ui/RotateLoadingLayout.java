@@ -3,6 +3,7 @@ package com.lee.pullrefresh.ui;
 import com.lee.pullrefresh.R;
 
 import android.content.Context;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -140,7 +141,13 @@ public class RotateLoadingLayout extends LoadingLayout {
     @Override
     public void onPull(float scale) {
         float angle = scale * 180f; // SUPPRESS CHECKSTYLE
-        mArrowImageView.setRotation(angle);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+            RotateAnimation animation = new RotateAnimation(angle, angle,Animation.RELATIVE_TO_SELF, 0.5f,Animation.RELATIVE_TO_SELF,0.5f);
+            animation.setDuration(100);
+            animation.setFillAfter(true);
+            mArrowImageView.startAnimation(animation);
+        }else
+        	mArrowImageView.setRotation(angle);
     }
     
     /**
@@ -148,6 +155,13 @@ public class RotateLoadingLayout extends LoadingLayout {
      */
     private void resetRotation() {
         mArrowImageView.clearAnimation();
-        mArrowImageView.setRotation(0);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+            RotateAnimation animation = new RotateAnimation(0, 0,Animation.RELATIVE_TO_SELF, 0.5f,Animation.RELATIVE_TO_SELF,0.5f);
+            animation.setDuration(100);
+            animation.setFillAfter(true);
+            mArrowImageView.startAnimation(animation);
+        }else{
+        	mArrowImageView.setRotation(0);
+        }
     }
 }

@@ -18,6 +18,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Window;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.fragment.CommunityFragment;
+import com.diary.goal.setting.fragment.LoginFragment;
 import com.diary.goal.setting.fragment.MeFragment;
 import com.diary.goal.setting.fragment.ActionFragment;
 import com.diary.goal.setting.fragment.SoduKuFragment;
@@ -44,6 +45,7 @@ public class MainFrameActivity extends SherlockFragmentActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.main_frame);
+        this.setSupportProgressBarIndeterminateVisibility(false);
         mTabHost = (TabHost)findViewById(android.R.id.tabhost);
         mTabHost.setup();
 

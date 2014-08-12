@@ -468,6 +468,8 @@ public class DiaryHelper extends SQLiteOpenHelper{
 				null,null,null,null);
 		if(c==null||!c.moveToFirst()){
 			//createUser(account, passwd, null, new Date());
+			if(c!=null)
+				c.close();
 			return 0;//getUser(account,passwd);
 		}
 		long _id=c.getInt(0);

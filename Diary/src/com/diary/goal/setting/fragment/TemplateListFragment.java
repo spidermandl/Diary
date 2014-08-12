@@ -135,7 +135,7 @@ public class TemplateListFragment extends SherlockFragment{
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 mIsStart = false;
-                new GetDataTask().execute();
+                //new GetDataTask().execute();
             }
         });
         setLastUpdateTime();
