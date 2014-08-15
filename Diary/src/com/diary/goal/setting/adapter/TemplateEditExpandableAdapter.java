@@ -71,7 +71,9 @@ public class TemplateEditExpandableAdapter extends BaseExpandableListAdapter{
 				for(int i=0;i<tempMainTitle.length();i++){
 					String key=tempMainTitle.getString(i);
 					tempContent.remove(key);
-					tempContent.put(key, new JSONArray());
+					JSONArray array=new JSONArray();
+					array.put(context.getResources().getString(R.string.template_none_title));
+					tempContent.put(key, array);
 				}
 				
 			} catch (JSONException e) {

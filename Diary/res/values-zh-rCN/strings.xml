@@ -80,7 +80,9 @@
     <string name="template_saved">保存成功</string>
     <string name="template_rename_hint">模板名没有设置？</string>
     <string name="template_sub">模板立刻生效？今日的内容会被删除</string>
-    
+    <string name="template_none_title">无</string>
+    <string name="template_delete_none">必须要有一条记录点</string>
+    <!-- *********************************************************************************** -->
 	<string name="edit_save">保存</string>
 	<string name="edit_back">返回</string>
 	<string name="start_jounery">点击进入</string>

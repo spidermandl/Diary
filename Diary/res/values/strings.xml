@@ -80,6 +80,8 @@
     <string name="template_saved">Save successfully</string>
     <string name="template_rename_hint">Name of template has not been set?</string>
     <string name="template_sub">Works on today?Content been set will be erased</string>
+    <string name="template_none_title">None</string>
+    <string name="template_delete_none">At least one sub item required</string>
     <!-- ********************************************************************************** -->
     <string name="diary_lost_warning">Save the changes before discarded?</string>
     

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
-import com.diary.goal.setting.activity.TemplateOperateActivity;
 import com.diary.goal.setting.database.DiaryHelper;
 import com.diary.goal.setting.database.DiaryHelper.DiaryTemplateModel;
 import com.diary.goal.setting.tools.Constant;
@@ -54,7 +53,8 @@ public class TemplateListAdapter extends BaseAdapter {
 	
 	@Override
 	public void notifyDataSetChanged() {
-		initData();
+		dataModel=DiaryApplication.getInstance().getDbHelper().
+				getFixedDiaryTemplates(DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID).toString());
 		super.notifyDataSetChanged();
 	}
 	/**

@@ -127,6 +127,20 @@ public class TemplateEditFragment extends SherlockFragment{
 			public void deleteItem(int group, int child) {
 //				new EditTempBuilder(TemplateEditFragment.this.getActivity(),group,child,DELETE_ITEM)
 //				.show();
+				if(expandableAdapter.getChildrenCount(group)<=1){
+					new AlertDialog.Builder(TemplateEditFragment.this.getActivity())
+					.setMessage(R.string.template_delete_none)
+					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO Auto-generated method stub
+							
+						}
+					})
+					.show();
+					return;
+				}
 				JSONObject tempContent=expandableAdapter.getTempJson();
 				JSONArray array=null;
 				try {

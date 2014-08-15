@@ -313,6 +313,16 @@ public class TemplateListFragment extends SherlockFragment{
 						SimpleDateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",Locale.getDefault());
 						for(int i=0;i<array.length();i++){
 							JSONObject obj=array.getJSONObject(i);
+							if(obj.getString(Constant.SERVER_TEMPLATE_LIST_SELECTED).equals("1")){
+								//清空选中模板
+								DiaryTemplateModel[] selects=DiaryApplication.getInstance().getDbHelper().getDiaryTemplatesBySelected(
+										DiaryApplication.getInstance().getMemCache().get(Constant.SERVER_USER_ID).toString(), "1");
+								
+								for(DiaryTemplateModel model:selects){
+									model._SELECTED="0";
+									DiaryApplication.getInstance().getDbHelper().updateDiaryTemplate(model);
+								}
+							}
 							DiaryApplication.getInstance().getDbHelper().insertDiaryTemplate(
 									dateFormat.parse(obj.getString(Constant.SERVER_USER_CREATED_AT)),
 									dateFormat.parse(obj.getString(Constant.SERVER_USER_UPDATED_AT)),
@@ -321,6 +331,7 @@ public class TemplateListFragment extends SherlockFragment{
 									"1",
 									obj.getString(Constant.SERVER_TEMPLATE_LIST_NAME), 
 									obj.getString(Constant.SERVER_TEMPLATE_LIST_SELECTED));
+							
 
 						}
 						
