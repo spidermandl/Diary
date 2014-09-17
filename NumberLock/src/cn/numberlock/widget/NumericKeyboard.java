@@ -22,7 +22,9 @@ import android.view.accessibility.AccessibilityEvent;
  */
 public class NumericKeyboard extends View {
 	private int screen_width = 0;// 屏幕的宽度
-	private int first_x = 0;// 绘制1的x坐标
+	private int first_1_x = 0;// 绘制第一列1的x坐标
+	private int first_2_x = 0;// 绘制第二列1的x坐标
+	private int first_3_x = 0;// 绘制第三列1的x坐标
 	private float first_y = 0;// 绘制1的y坐标
 //	private int title_height = 200;// 标题栏高度
 	//声明数组保存每一列的圆心横坐标
@@ -32,6 +34,9 @@ public class NumericKeyboard extends View {
 	private float circle_x,circle_y;//点击处的圆心坐标
 	private int number = -1;//点击的数字
 	private OnNumberClick onNumberClick;//数字点击事件
+	
+	private final static int DIGITAL_SIZE=80;//数字大小
+	private int CIRCLE_RADIUS;//数字圆半径
 	/*
 	 * 判断刷新数据
 	 * -1 不进行数据刷新
@@ -68,15 +73,19 @@ public class NumericKeyboard extends View {
 	private void initData(Context context) {
 		// 获取屏幕的宽度
 		screen_width = SystemUtils.getSystemDisplay(context)[0];
+		// 圆半径
+		CIRCLE_RADIUS=screen_width/10;
 		// 获取绘制1的x坐标
-		first_x = screen_width / 4;
+		first_1_x = screen_width / 5;
+		first_2_x =screen_width / 2;
+		first_3_x = screen_width-screen_width / 5;
 		// 获取绘制1的y坐标
 		first_y = (SystemUtils.getSystemDisplay(context)[1] - SystemUtils.getSystemDisplay(context)[1]/3) / 4;
 		//添加每一排的横坐标
-		xs[0]=first_x+10; xs[1]=first_x*2+10; xs[2]=first_x*3+10;
+		xs[0]=first_1_x; xs[1]=first_2_x; xs[2]=first_3_x;
 		//添加每一列的纵坐标
-		ys[0]=40+first_y-15; ys[1]=40+first_y+first_x-15; 
-		ys[2]=40+first_y+first_x*2-15; ys[3]=40+first_y+first_x*3-15;
+		ys[0]=40+first_y-15; ys[1]=40+first_y+first_1_x-15; 
+		ys[2]=40+first_y+first_1_x*2-15; ys[3]=40+first_y+first_1_x*3-15;
 	}
 
 	@Override
@@ -85,41 +94,41 @@ public class NumericKeyboard extends View {
 		// 创建画笔对象
 		Paint paint = new Paint();
 		paint.setColor(Color.GREEN);// 设置画笔颜色
-		paint.setTextSize(80);// 设置字体大小
+		paint.setTextSize(DIGITAL_SIZE);// 设置字体大小
 		// 绘制文本,注意是从坐标开始往上绘制
 		// 绘制第一排1,2,3
-		canvas.drawText("1", first_x, 40 + first_y, paint);
-		canvas.drawText("2", first_x * 2, 40 + first_y, paint);
-		canvas.drawText("3", first_x * 3, 40 + first_y, paint);
+		canvas.drawText("1", first_1_x, 40 + first_y, paint);
+		canvas.drawText("2", first_1_x * 2, 40 + first_y, paint);
+		canvas.drawText("3", first_1_x * 3, 40 + first_y, paint);
 		// 绘制第2排4,5,6
-		canvas.drawText("4", first_x, 40 + first_y + first_x, paint);
-		canvas.drawText("5", first_x * 2, 40 + first_y + first_x, paint);
-		canvas.drawText("6", first_x * 3, 40 + first_y + first_x, paint);
+		canvas.drawText("4", first_2_x, 40 + first_y + first_1_x, paint);
+		canvas.drawText("5", first_2_x * 2, 40 + first_y + first_1_x, paint);
+		canvas.drawText("6", first_2_x * 3, 40 + first_y + first_1_x, paint);
 		// 绘制第3排7,8,9
-		canvas.drawText("7", first_x, 40 + first_y + first_x * 2, paint);
-		canvas.drawText("8", first_x * 2, 40 + first_y + first_x * 2, paint);
-		canvas.drawText("9", first_x * 3, 40 + first_y + first_x * 2, paint);
+		canvas.drawText("7", first_3_x, 40 + first_y + first_1_x * 2, paint);
+		canvas.drawText("8", first_3_x * 2, 40 + first_y + first_1_x * 2, paint);
+		canvas.drawText("9", first_3_x * 3, 40 + first_y + first_1_x * 2, paint);
 		// 绘制第4排0
-		canvas.drawText("0", first_x * 2, 40 + first_y + first_x * 3, paint);
+		canvas.drawText("0", first_2_x * 2, 40 + first_y + first_1_x * 3, paint);
 		//为每一个数字绘制一个圆
 		paint.setColor(Color.WHITE);//设置画笔颜色
 		paint.setAntiAlias(true);//设置抗锯齿
 		//设置绘制空心圆
 		paint.setStyle(Paint.Style.STROKE);
 		//依次绘制第一排的圆
-		canvas.drawCircle(first_x+10, 40 + first_y - 15, 50, paint);
-		canvas.drawCircle(first_x*2+10, 40 + first_y - 15, 50, paint);
-		canvas.drawCircle(first_x*3+10, 40 + first_y - 15, 50, paint);
+		canvas.drawCircle(first_1_x, 40 + first_y - 15, CIRCLE_RADIUS, paint);
+		canvas.drawCircle(first_2_x, 40 + first_y - 15, CIRCLE_RADIUS, paint);
+		canvas.drawCircle(first_3_x, 40 + first_y - 15, CIRCLE_RADIUS, paint);
 		//依次绘制第2排的圆
-		canvas.drawCircle(first_x+10, 40 + first_y + first_x - 15, 50, paint);
-		canvas.drawCircle(first_x*2+10, 40 + first_y + first_x - 15, 50, paint);
-		canvas.drawCircle(first_x*3+10, 40 + first_y + first_x - 15, 50, paint);
+		canvas.drawCircle(first_1_x, 40 + first_y + first_1_x - 15, CIRCLE_RADIUS, paint);
+		canvas.drawCircle(first_2_x, 40 + first_y + first_1_x - 15, CIRCLE_RADIUS, paint);
+		canvas.drawCircle(first_3_x, 40 + first_y + first_1_x - 15, CIRCLE_RADIUS, paint);
 		//依次绘制第3排的圆
-		canvas.drawCircle(first_x+10, 40 + first_y + first_x * 2 - 15, 50, paint);
-		canvas.drawCircle(first_x*2+10, 40 + first_y + first_x * 2 - 15, 50, paint);
-		canvas.drawCircle(first_x*3+10, 40 + first_y + first_x * 2 - 15, 50, paint);
+		canvas.drawCircle(first_1_x, 40 + first_y + first_1_x * 2 - 15, CIRCLE_RADIUS, paint);
+		canvas.drawCircle(first_2_x, 40 + first_y + first_1_x * 2 - 15, CIRCLE_RADIUS, paint);
+		canvas.drawCircle(first_3_x, 40 + first_y + first_1_x * 2 - 15, CIRCLE_RADIUS, paint);
 		//绘制最后一个圆
-		canvas.drawCircle(first_x*2+10, 40 + first_y + first_x * 3 - 15, 50, paint);
+		canvas.drawCircle(first_2_x*2+10, 40 + first_y + first_1_x * 3 - 15, 50, paint);
 	
 		//判断是否点击数字
 		if(circle_x > 0 && circle_y > 0){//点击
