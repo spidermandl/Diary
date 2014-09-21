@@ -2,6 +2,7 @@ package cn.numberlock;
 
 import cn.numberlock.util.Consts;
 import cn.numberlock.util.MyPrefs;
+import cn.numberlock.widget.InputCircleView;
 import cn.numberlock.widget.NumericKeyboard;
 import cn.numberlock.widget.NumericKeyboard.OnNumberClick;
 import cn.numberlock.widget.PasswordTextView;
@@ -23,7 +24,7 @@ import android.widget.Toast;
 public class Test1Activity extends Activity {
 	private NumericKeyboard nk;// 数字键盘布局
 	// 密码框
-	private PasswordTextView et_pwd1, et_pwd2, et_pwd3, et_pwd4;
+	private InputCircleView et_pwd1, et_pwd2, et_pwd3, et_pwd4;
 	private int type;
 	private TextView tv_info;//提示信息
 	//声明字符串保存每一次输入的密码
@@ -46,10 +47,10 @@ public class Test1Activity extends Activity {
 	private void initWidget() {
 		nk = (NumericKeyboard) findViewById(R.id.nk);// 数字键盘
 		// 密码框
-		et_pwd1 = (PasswordTextView) findViewById(R.id.et_pwd1);
-		et_pwd2 = (PasswordTextView) findViewById(R.id.et_pwd2);
-		et_pwd3 = (PasswordTextView) findViewById(R.id.et_pwd3);
-		et_pwd4 = (PasswordTextView) findViewById(R.id.et_pwd4);
+		et_pwd1 = (InputCircleView) findViewById(R.id.et_pwd1);
+		et_pwd2 = (InputCircleView) findViewById(R.id.et_pwd2);
+		et_pwd3 = (InputCircleView) findViewById(R.id.et_pwd3);
+		et_pwd4 = (InputCircleView) findViewById(R.id.et_pwd4);
 		tv_info = (TextView) findViewById(R.id.tv_info);//提示信息
 	}
 
@@ -62,11 +63,11 @@ public class Test1Activity extends Activity {
 			@Override
 			public void onNumberReturn(int number) {
 				// 设置显示密码
-				setText(number + "");
+				setNumber(number);
 			}
 		});
 		//监听最后一个密码框的文本改变事件回调
-		et_pwd4.setOnTextChangedListener(new PasswordTextView.OnTextChangedListener() {
+		et_pwd4.setOnTextChangedListener(new InputCircleView.OnTextChangedListener() {
 			@Override
 			public void textChanged(String content) {
 				input = et_pwd1.getTextContent() + et_pwd2.getTextContent()+
@@ -77,7 +78,7 @@ public class Test1Activity extends Activity {
 					tv_info.setText(getString(R.string.please_input_pwd_again));
 					type = Consts.SURE_SETTING_PASSWORD;
 					fBuffer.append(input);//保存第一次输入的密码
-					clearText();//清除输入
+					clearInput();//清除输入
 				}else if(type == Consts.LOGIN_PASSWORD){//登录
 					
 				}else if(type == Consts.SURE_SETTING_PASSWORD){//确认密码
@@ -88,7 +89,7 @@ public class Test1Activity extends Activity {
 						MyPrefs.getInstance().initSharedPreferences(Test1Activity.this);
 					}else{//不一致
 						showToastMsg(getString(R.string.not_equals));
-						clearText();//清除输入
+						clearInput();//清除输入
 					}
 				}
 			}
@@ -100,27 +101,29 @@ public class Test1Activity extends Activity {
 	 * 
 	 * @param text
 	 */
-	private void setText(String text) {
+	private void setNumber(int number) {
 		// 从左往右依次显示
-		if (TextUtils.isEmpty(et_pwd1.getTextContent())) {
-			et_pwd1.setTextContent(text);
-		} else if (TextUtils.isEmpty(et_pwd2.getTextContent())) {
-			et_pwd2.setTextContent(text);
-		} else if (TextUtils.isEmpty(et_pwd3.getTextContent())) {
-			et_pwd3.setTextContent(text);
-		} else if (TextUtils.isEmpty(et_pwd4.getTextContent())) {
-			et_pwd4.setTextContent(text);
+		if (!et_pwd1.isInputed()) {
+			et_pwd1.setInput(number);
+			return;
+		} else if (!et_pwd2.isInputed()) {
+			et_pwd2.setInput(number);
+			return;
+		} else if (!et_pwd3.isInputed()) {
+			et_pwd3.setInput(number);
+		} else if (!et_pwd4.isInputed()) {
+			et_pwd4.setInput(number);
 		}
 	}
 
 	/**
 	 * 清除输入的内容--重输
 	 */
-	private void clearText() {
-		et_pwd1.setTextContent("");
-		et_pwd2.setTextContent("");
-		et_pwd3.setTextContent("");
-		et_pwd4.setTextContent("");
+	private void clearInput() {
+		et_pwd1.setInput(InputCircleView.NIL);
+		et_pwd2.setInput(InputCircleView.NIL);
+		et_pwd3.setInput(InputCircleView.NIL);
+		et_pwd4.setInput(InputCircleView.NIL);
 	}
 
 	/**
@@ -128,14 +131,16 @@ public class Test1Activity extends Activity {
 	 */
 	private void deleteText() {
 		// 从右往左依次删除
-		if (!TextUtils.isEmpty(et_pwd4.getTextContent())) {
-			et_pwd4.setTextContent("");
-		} else if (!TextUtils.isEmpty(et_pwd3.getTextContent())) {
-			et_pwd3.setTextContent("");
-		} else if (!TextUtils.isEmpty(et_pwd2.getTextContent())) {
-			et_pwd2.setTextContent("");
-		} else if (!TextUtils.isEmpty(et_pwd1.getTextContent())) {
-			et_pwd1.setTextContent("");
+		if (et_pwd4.isInputed()) {
+			et_pwd4.setInput(InputCircleView.NIL);
+			return;
+		} else if (et_pwd3.isInputed()) {
+			et_pwd3.setInput(InputCircleView.NIL);
+			return;
+		} else if (et_pwd2.isInputed()) {
+			et_pwd2.setInput(InputCircleView.NIL);
+		} else if (et_pwd1.isInputed()) {
+			et_pwd1.setInput(InputCircleView.NIL);
 		}
 	}
 	
@@ -147,7 +152,7 @@ public class Test1Activity extends Activity {
 		//判断点击的按钮
 		switch (v.getId()) {
 		case R.id.btn_again://重输
-			clearText();//清除所有输入的内容
+			clearInput();//清除所有输入的内容
 			break;
 		case R.id.btn_delete://删除
 			deleteText();//删除刚刚输入的内容

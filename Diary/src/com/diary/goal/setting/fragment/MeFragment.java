@@ -91,6 +91,8 @@ public class MeFragment extends SherlockFragment{
 						intent.setClass(MeFragment.this.getActivity(), TemplateOperateActivity.class);
 						MeFragment.this.startActivityForResult(intent, 0);
 						break;
+					case R.id.me_setting:
+						break;
 					case R.id.me_sync://同步
 						self.setSupportProgressBarIndeterminateVisibility(true);
 						isProgress=true;

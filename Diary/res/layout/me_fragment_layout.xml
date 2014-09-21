@@ -121,7 +121,7 @@
                     android:background="@drawable/item_line_2" />
                 
                 <TextView
-                   android:id="@+id/setting"
+                   android:id="@+id/me_setting"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
                    android:layout_marginLeft="1dp"
@@ -130,7 +130,7 @@
                    android:layout_marginBottom="1dp"
                    android:padding="10dp"
                    android:text="@string/me_setting"
-                   android:textColor="#FFCCCCCC" 
+                   android:textColor="#FF000000" 
                    android:drawableRight="@drawable/icon_right"
                    android:background="@drawable/me_item_selector"
                    android:clickable="true"/>
