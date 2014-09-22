@@ -165,4 +165,6 @@ public class Test1Activity extends Activity {
 	private void showToastMsg(String text){
 		Toast.makeText(this, text, 1000).show();
 	}
+	
+	
 }
