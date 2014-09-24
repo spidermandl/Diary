@@ -8,9 +8,9 @@
 	<!-- 描述数字键盘取消 -->
 	<string name="numeric_keyboard_cancel">numeric keyboard cancel</string>
     
-	<string name="please_input_pwd">Input Password</string>
-	<string name="please_input_pwd_again">Input Password again</string>
-	<string name="not_equals">Password does\'t match\!</string>
+	<string name="please_input_pwd">请输入密码</string>
+	<string name="please_input_pwd_again">再一次确认密码</string>
+	<string name="not_equals">两次输入的密码不同</string>
 	<string name="setting_pwd_success">密码设置成功！</string>
 	<string name="login_success">登录成功！</string>
 	<string name="input_again">重输</string>

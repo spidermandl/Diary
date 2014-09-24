@@ -5,6 +5,8 @@ import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.app.DownloadManager.Request;
@@ -12,6 +14,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -27,6 +30,7 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
 import com.diary.goal.setting.activity.MainFrameActivity;
+import com.diary.goal.setting.activity.SettingActivity;
 import com.diary.goal.setting.activity.TemplateOperateActivity;
 import com.diary.goal.setting.activity.UserAuthActivity;
 import com.diary.goal.setting.service.SyncDBService;
@@ -46,7 +50,8 @@ public class MeFragment extends SherlockFragment{
 	TextView myTemplate,
 	         myLogout,
 	         mySync,
-	         myVersionCheck;
+	         myVersionCheck,
+	         mySetting;
 	
 	private OnClickListener listener;
 	private Handler networkHandler;
@@ -76,6 +81,7 @@ public class MeFragment extends SherlockFragment{
 		mySync=(TextView)layout.findViewById(R.id.me_sync);
 		myVersionCheck=(TextView)layout.findViewById(R.id.me_version_check);
 		myLogout=(TextView)layout.findViewById(R.id.me_logout);
+		mySetting=(TextView)layout.findViewById(R.id.me_setting);
 	}
 	
 	private void initFunctionality() {
@@ -90,6 +96,11 @@ public class MeFragment extends SherlockFragment{
 						Intent intent=new Intent();
 						intent.setClass(MeFragment.this.getActivity(), TemplateOperateActivity.class);
 						MeFragment.this.startActivityForResult(intent, 0);
+						break;
+					case R.id.me_setting:
+						intent=new Intent();
+						intent.setClass(MeFragment.this.getActivity(), SettingActivity.class);
+						MeFragment.this.startActivity(intent);
 						break;
 					case R.id.me_sync://同步
 						self.setSupportProgressBarIndeterminateVisibility(true);
@@ -138,6 +149,7 @@ public class MeFragment extends SherlockFragment{
 		mySync.setOnClickListener(listener);
 		myVersionCheck.setOnClickListener(listener);
 		myLogout.setOnClickListener(listener);
+		mySetting.setOnClickListener(listener);
 		
 		networkHandler=new Handler(){
 			public void handleMessage(android.os.Message msg) {
@@ -155,26 +167,23 @@ public class MeFragment extends SherlockFragment{
 								
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
-
+									try {
+										if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.GINGERBREAD){
+											sysDownloadOver9(result.getString(Constant.SERVER_UPDATE_URL));
+										}else{
+											sysDownloadLess9(result.getString(Constant.SERVER_UPDATE_URL));
+										}
+									} catch (JSONException e) {
+										// TODO Auto-generated catch block
+										e.printStackTrace();
+									}
 								}
 							});
 							hint.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
 								
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
-									Uri uri;
-									try { 
-										//下载
-									    DownloadManager downloadManager = (DownloadManager) MeFragment.this.getActivity().getSystemService(Context.DOWNLOAD_SERVICE);									
-										uri = Uri.parse(result.getString(Constant.SERVER_UPDATE_URL));
-										Request request = new Request(uri);
-										request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE|DownloadManager.Request.NETWORK_WIFI);  
-										request.setVisibleInDownloadsUi(false);
-									    downloadManager.enqueue(request);
-									} catch (JSONException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
+
 									
 								}
 							});
@@ -230,4 +239,27 @@ public class MeFragment extends SherlockFragment{
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 	
+	/**
+	 * 大于系统版本9 下载
+	 * @param url
+	 */
+	@TargetApi(9)
+	private void sysDownloadOver9(String url){
+	    DownloadManager downloadManager = (DownloadManager) MeFragment.this.getActivity().getSystemService(Context.DOWNLOAD_SERVICE);									
+		Uri uri = Uri.parse(url);
+		Request request = new Request(uri);
+		request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE|DownloadManager.Request.NETWORK_WIFI);  
+		request.setVisibleInDownloadsUi(false);
+	    downloadManager.enqueue(request);
+	}
+	/**
+	 * 小于系统版本9 下载
+	 * @param url
+	 */
+	private void sysDownloadLess9(String url){
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+		Uri uri = Uri.parse(url);
+		intent.setData(uri);  
+        startActivity(intent);  
+	}
 }

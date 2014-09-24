@@ -11,14 +11,12 @@
         android:id="@+id/btn1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/test1"
         android:textSize="20sp"
         android:onClick="doMainClick"/>
     <Button 
         android:id="@+id/btn2"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/test2"
         android:textSize="20sp"
         android:layout_marginTop="15dp"
         android:onClick="doMainClick"/>

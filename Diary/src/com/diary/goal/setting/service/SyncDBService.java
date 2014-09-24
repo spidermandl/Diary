@@ -85,7 +85,7 @@ public class SyncDBService extends Service {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
-		this.optSignal(true, intent.getIntExtra(REQUEST_SIGNAL, NONE_SYNC));
+		this.optSignal(true, intent==null?NONE_SYNC:intent.getIntExtra(REQUEST_SIGNAL, NONE_SYNC));
 		return START_STICKY;
 	}
 

@@ -83,6 +83,9 @@
     <string name="template_none_title">None</string>
     <string name="template_delete_none">At least one sub item required</string>
     <!-- ********************************************************************************** -->
+    <string name="setting_title">Setting</string>
+    <string name="passwd_protection">Password Protection</string>
+    <!-- ********************************************************************************** -->
     <string name="diary_lost_warning">Save the changes before discarded?</string>
     
 	<string name="edit_save">SAVE</string>
