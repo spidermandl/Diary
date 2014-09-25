@@ -9,10 +9,12 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
+import android.widget.TextView;
 
 /**
  * 自定义的数字键盘(不完善)
@@ -46,6 +48,11 @@ public class NumericKeyboard extends View {
 	 * 判断刷新数据 -1 不进行数据刷新 0 按下刷新 1 弹起刷新
 	 */
 	private int type = -1;
+	
+	//忘记密码
+	private boolean forgetPasswd=false;
+	//回退输入
+	private boolean backwards=false;
 
 	/**
 	 * 构造方法
@@ -142,6 +149,19 @@ public class NumericKeyboard extends View {
 				rect.bottom = (int)center_s[i][1] + CIRCLE_RADIUS;
 				canvas.drawBitmap(BitmapFactory.decodeResource(this.getResources(), getNumberID(i, false)),null, rect, null);
 			}
+		}
+		TextPaint paint=new TextPaint();
+		if (!backwards) {
+			paint.setTextSize(40);
+			paint.setColor(0xFFFFFFFF);
+			String text=this.getContext().getResources().getString(R.string.passwd_backwards);
+			canvas.drawText(text, center_s[9][0]-paint.measureText(text)/2,center_s[0][1], paint);
+		}
+		if (!forgetPasswd) {
+			paint.setTextSize(40);
+			paint.setColor(0x77FFFFFF);
+			String text=this.getContext().getResources().getString(R.string.number_forget);
+			canvas.drawText(text, center_s[9][0]-paint.measureText(text)/2,center_s[0][1]+2*CIRCLE_RADIUS, paint);
 		}
 
 	}
@@ -313,6 +333,14 @@ public class NumericKeyboard extends View {
 		type = 0;// 按下刷新
 		// 绘制点击时的背景圆
 		invalidate();
+	}
+
+	public void setForgetPasswd(boolean forgetPasswd) {
+		this.forgetPasswd = forgetPasswd;
+	}
+
+	public void setBackwards(boolean backwards) {
+		this.backwards = backwards;
 	}
 
 	/**

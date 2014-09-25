@@ -160,8 +160,8 @@ public class SyncDBService extends Service {
 		HashMap<String, Object> cache = DiaryApplication.getInstance().getMemCache();
 		cache.put(Constant.P_DEFAULT_TEMPLATE,this.getResources().getString(Constant.TAMPLATE));
 		final Object session_id = cache.get(Constant.P_SESSION);
-		String user_id = cache.get(Constant.SERVER_USER_ID).toString();
 		if (session_id != null) {
+			String user_id = cache.get(Constant.SERVER_USER_ID)==null?"-1":cache.get(Constant.SERVER_USER_ID).toString();
 			if (!DiaryApplication.getInstance().getDbHelper().getSynDiary(user_id)) {
 				// 没有同步过
 				new Thread() {
