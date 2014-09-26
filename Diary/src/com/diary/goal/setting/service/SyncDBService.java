@@ -210,6 +210,10 @@ public class SyncDBService extends Service {
 		};
 		HashMap<String, Object> memCache = DiaryApplication.getInstance().getMemCache();
 		final Object session_id=memCache.get(Constant.P_SESSION);
+		if(memCache.get(Constant.SERVER_USER_ID)==null){//缓存可能被清空
+			sThread.setProcess(false);
+			return;
+		}
 		final String user_id=memCache.get(Constant.SERVER_USER_ID).toString();
 		final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		final DiaryContentModel diaryModel= DiaryApplication.getInstance().getDbHelper().getDiaryContent(user_id,new Date());

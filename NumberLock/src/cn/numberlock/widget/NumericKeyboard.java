@@ -151,18 +151,25 @@ public class NumericKeyboard extends View {
 			}
 		}
 		TextPaint paint=new TextPaint();
-		if (!backwards) {
-			paint.setTextSize(40);
-			paint.setColor(0xFFFFFFFF);
-			String text=this.getContext().getResources().getString(R.string.passwd_backwards);
-			canvas.drawText(text, center_s[9][0]-paint.measureText(text)/2,center_s[0][1], paint);
+		paint.setAntiAlias(true);
+		
+		if (onNumberClick != null){
+			onNumberClick.onInstructionShow(backwards, forgetPasswd,
+					new float[]{center_s[9][0],center_s[0][1]},
+					new float[]{center_s[9][0],center_s[0][1]+2*CIRCLE_RADIUS});
 		}
-		if (!forgetPasswd) {
-			paint.setTextSize(40);
-			paint.setColor(0x77FFFFFF);
-			String text=this.getContext().getResources().getString(R.string.number_forget);
-			canvas.drawText(text, center_s[9][0]-paint.measureText(text)/2,center_s[0][1]+2*CIRCLE_RADIUS, paint);
-		}
+//		if (!backwards) {
+//			paint.setTextSize(40);
+//			paint.setColor(0xFFFFFFFF);
+//			String text=this.getContext().getResources().getString(R.string.passwd_backwards);
+//			canvas.drawText(text, center_s[9][0]-paint.measureText(text)/2,center_s[0][1], paint);
+//		}
+//		if (!forgetPasswd) {
+//			paint.setTextSize(40);
+//			paint.setColor(0x77FFFFFF);
+//			String text=this.getContext().getResources().getString(R.string.number_forget);
+//			canvas.drawText(text, center_s[9][0]-paint.measureText(text)/2,center_s[0][1]+2*CIRCLE_RADIUS, paint);
+//		}
 
 	}
 
@@ -359,5 +366,12 @@ public class NumericKeyboard extends View {
 		 * @param number
 		 */
 		public void onNumberReturn(int number);
+		
+		/**
+		 * 设置panel上文字显示
+		 * @param isPasswd_backwards
+		 * @param isPasswd_forget
+		 */
+		public void onInstructionShow(boolean isPasswd_backwards,boolean isPasswd_forget,float[] point1,float[] point2);
 	}
 }
