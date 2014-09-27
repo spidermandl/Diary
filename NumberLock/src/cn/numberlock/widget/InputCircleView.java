@@ -77,6 +77,9 @@ public class InputCircleView extends View {
 	public void setInput(int number){
 		inputNumber=number;
 		invalidate();
+		if(this.onTextChangedListener!=null){
+			this.onTextChangedListener.textChanged(null);
+		}
 	}
 	
 	public String getTextContent(){

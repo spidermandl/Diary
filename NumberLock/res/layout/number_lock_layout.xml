@@ -58,34 +58,30 @@
         android:id="@+id/nk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/rl_bottom"
+        android:layout_alignParentBottom="true"
         android:layout_below="@id/ll_pass" />
     <!-- 底部布局 -->
 
-    <RelativeLayout
-        android:id="@id/rl_bottom"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true" >
 
-        <!-- 重输按钮 -->
+     <!-- 忘记密码按钮 -->
 
-        <Button
-            android:id="@+id/btn_again"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:onClick="doClick"
-            android:text="@string/input_again" />
-        <!-- 删除按钮 -->
+     <TextView
+         android:id="@+id/btn_number_forget"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_below="@id/ll_pass"
+         android:onClick="doClick"
+         android:text="@string/number_forget" />
+     <!-- 删除按钮 -->
 
-        <Button
-            android:id="@+id/btn_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:onClick="doClick"
-            android:text="@string/delete" />
-    </RelativeLayout>
+     <TextView
+         android:id="@+id/btn_passwd_backwards"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_below="@id/ll_pass"
+         android:text="@string/passwd_backwards"
+         android:textColor="#FFFFFFFF"
+         android:textStyle="bold"
+         android:onClick="doClick" />
 
 </RelativeLayout>

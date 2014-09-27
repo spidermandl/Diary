@@ -160,8 +160,8 @@ public class SyncDBService extends Service {
 		HashMap<String, Object> cache = DiaryApplication.getInstance().getMemCache();
 		cache.put(Constant.P_DEFAULT_TEMPLATE,this.getResources().getString(Constant.TAMPLATE));
 		final Object session_id = cache.get(Constant.P_SESSION);
-		String user_id = cache.get(Constant.SERVER_USER_ID).toString();
 		if (session_id != null) {
+			String user_id = cache.get(Constant.SERVER_USER_ID)==null?"-1":cache.get(Constant.SERVER_USER_ID).toString();
 			if (!DiaryApplication.getInstance().getDbHelper().getSynDiary(user_id)) {
 				// 没有同步过
 				new Thread() {
@@ -210,6 +210,10 @@ public class SyncDBService extends Service {
 		};
 		HashMap<String, Object> memCache = DiaryApplication.getInstance().getMemCache();
 		final Object session_id=memCache.get(Constant.P_SESSION);
+		if(memCache.get(Constant.SERVER_USER_ID)==null){//缓存可能被清空
+			sThread.setProcess(false);
+			return;
+		}
 		final String user_id=memCache.get(Constant.SERVER_USER_ID).toString();
 		final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		final DiaryContentModel diaryModel= DiaryApplication.getInstance().getDbHelper().getDiaryContent(user_id,new Date());
