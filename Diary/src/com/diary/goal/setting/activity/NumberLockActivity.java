@@ -11,7 +11,6 @@ import cn.numberlock.widget.NumericKeyboard.OnNumberClick;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
