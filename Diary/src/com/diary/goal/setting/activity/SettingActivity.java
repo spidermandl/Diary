@@ -12,6 +12,7 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.diary.goal.setting.R;
+import com.diary.goal.setting.tools.Constant;
 
 /**
  * 用户设置界面
@@ -69,12 +70,15 @@ public class SettingActivity extends SherlockActivity implements OnClickListener
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.passwd_check:
+			Intent intent=new Intent();
+			intent.setClass(this, NumberLockActivity.class);
 			if(passwd_protect_check.isChecked()){//check时间先于click事件
 				passwd_protect_check.setChecked(false);
-				Intent intent=new Intent();
-				intent.setClass(this, NumberLockActivity.class);
-				startActivity(intent);
+				intent.putExtra(NumberLockActivity.TYPE,NumberLockActivity.SETTING_PASSWORD);
+			}else{
+				intent.putExtra(NumberLockActivity.TYPE,NumberLockActivity.CLEAR_PASSWORD);
 			}
+			startActivity(intent);
 			break;
 
 		default:

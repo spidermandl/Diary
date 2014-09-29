@@ -15,6 +15,7 @@
         android:layout_marginTop="50dp"
         android:text="@string/please_input_pwd"
         android:textColor="#ffffff"
+        android:textStyle="bold"
         android:textSize="16sp" />
     <!-- 密码显示框 -->
 
@@ -80,6 +81,8 @@
          android:layout_height="wrap_content"
          android:layout_below="@id/ll_pass"
          android:text="@string/passwd_backwards"
+         android:textColor="#FFFFFFFF"
+         android:textStyle="bold"
          android:onClick="doClick" />
 
 </RelativeLayout>
