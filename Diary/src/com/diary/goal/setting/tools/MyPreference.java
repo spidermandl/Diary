@@ -1,5 +1,7 @@
 package com.diary.goal.setting.tools;
 
+import com.diary.goal.setting.DiaryApplication;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -17,6 +19,7 @@ public class MyPreference {
 		//初始化自身对象
 		if(myPrefs == null){
 			myPrefs = new MyPreference();
+			myPrefs.initSharedPreferences();
 		}
 		return myPrefs;
 	}
@@ -25,10 +28,10 @@ public class MyPreference {
 	 * 初始化SharedPreferences对象
 	 * @param context
 	 */
-	public MyPreference initSharedPreferences(Context context){
+	public MyPreference initSharedPreferences(){
 		//获取SharedPreferences对象
 		if(sp == null){
-			sp = context.getSharedPreferences(Constant.PREFERENCE_NAME, Context.MODE_PRIVATE);
+			sp = DiaryApplication.getInstance().getSharedPreferences(Constant.PREFERENCE_NAME, Context.MODE_PRIVATE);
 		}
 		return myPrefs;
 	}

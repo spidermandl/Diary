@@ -127,7 +127,8 @@ public class Constant {
     public static final String P_DELETE_TEMPLATES_LIST="delete_template_list";
     public static final String P_TEMPLATE_REFRESHED="template_refreshed";//第一次刷新模板列表
     public static final String P_TEMPLATE_ADDLIST="template_add_list_id";//新添模板id列表，ArrayList类
-    public static final String P_NUMBER_LOCK="number_lock";//
+    public static final String P_NUMBER_LOCK="number_lock";//缓存数字解锁密码
+    public static final String P_NUMBER_LOCK_ACTIVATED="number_lock_activated";//数字解锁激活
     /**
      * intent数据交互使用key
      */

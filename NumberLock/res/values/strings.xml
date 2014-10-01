@@ -13,6 +13,7 @@
 	<string name="not_equals">Password does\'t match\!</string>
 	<string name="setting_pwd_success">Password has been set!</string>
 	<string name="login_success">登录成功！</string>
+	<string name="login_fail">Incorrect Password!</string>
 	<string name="input_again">重输</string>
 	<string name="passwd_backwards">delete</string>
 	<string name="number_forget">Forget Password?</string>

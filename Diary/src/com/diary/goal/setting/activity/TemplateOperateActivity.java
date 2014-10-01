@@ -8,6 +8,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.Window;
 import com.diary.goal.setting.R;
+import com.diary.goal.setting.activity.base.BaseSherlockFragmentActivity;
 import com.diary.goal.setting.fragment.TemplateListFragment;
 
 /**
@@ -15,7 +16,7 @@ import com.diary.goal.setting.fragment.TemplateListFragment;
  * 日记模板操作
  * 
  */
-public class TemplateOperateActivity extends SherlockFragmentActivity{
+public class TemplateOperateActivity extends BaseSherlockFragmentActivity{
 	
 	@Override
 	protected void onCreate(Bundle arg0) {

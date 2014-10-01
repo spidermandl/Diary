@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
+import com.diary.goal.setting.activity.base.BaseSherlockActivity;
 import com.diary.goal.setting.adapter.CalendarAdapter;
 import com.diary.goal.setting.view.ViewFlow;
 /**
@@ -12,7 +13,7 @@ import com.diary.goal.setting.view.ViewFlow;
  * @author desmond.duan
  *
  */
-public class CalanderActivity extends SherlockActivity {
+public class CalanderActivity extends BaseSherlockActivity {
 
 	private ViewFlow viewFlow;
 	private CalendarAdapter mAdapter;

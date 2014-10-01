@@ -45,6 +45,10 @@ public class NumberLockActivity extends Activity{
 	//声明字符串保存每一次输入的密码
 	private String input;
 	private StringBuffer fBuffer = new StringBuffer();
+	//忘记密码
+	private boolean forgetPasswd=false;
+	//回退输入
+	private boolean backwards=false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,14 +56,15 @@ public class NumberLockActivity extends Activity{
 		setContentView(R.layout.number_lock_layout);// 关联布局文件
 		initWidget();// 初始化控件
 		initListener();// 事件处理
-		//获取界面传递的值
-		type = getIntent().getIntExtra(TYPE, 1);
 	}
 
 	/**
 	 * 初始化控件
 	 */
 	private void initWidget() {
+		//获取界面传递的值
+		type = getIntent().getIntExtra(TYPE, 1);
+		
 		nk = (NumericKeyboard) findViewById(R.id.nk);// 数字键盘
 		// 密码框
 		et_pwd1 = (InputCircleView) findViewById(R.id.et_pwd1);
@@ -70,6 +75,10 @@ public class NumberLockActivity extends Activity{
 		passwd_forget=(TextView)findViewById(R.id.btn_number_forget);
 		passwd_backwards=(TextView)findViewById(R.id.btn_passwd_backwards);
 		((RelativeLayout.LayoutParams)tv_info.getLayoutParams()).topMargin=DiaryApplication.getInstance().getScreen_h()/7;
+	
+		if(type==LOGIN_PASSWORD){
+			forgetPasswd=true;
+		}
 	}
 
 	/**
@@ -83,14 +92,14 @@ public class NumberLockActivity extends Activity{
 				// 设置显示密码
 				setNumber(number);
 				if(type==LOGIN_PASSWORD){
-					nk.setForgetPasswd(true);
+					forgetPasswd=true;
 				}
-				nk.setBackwards(true);
+				backwards=true;
 			}
 			
 			@Override
-			public void onInstructionShow(boolean isPasswd_backwards,boolean isPasswd_forget,float[] point1,float[] point2){
-				if(isPasswd_backwards){
+			public void onInstructionShow(float[] point1,float[] point2){
+				if(backwards){
 					RelativeLayout.LayoutParams params=(RelativeLayout.LayoutParams)passwd_backwards.getLayoutParams();
 					params.leftMargin=(int)point1[0]-passwd_backwards.getWidth()/2;
 					params.topMargin=(int)point1[1]-passwd_backwards.getHeight()/2;
@@ -99,9 +108,9 @@ public class NumberLockActivity extends Activity{
 				}else{
 					passwd_backwards.setVisibility(View.INVISIBLE);
 				}				
-				if(isPasswd_forget){
+				if(forgetPasswd){
 					RelativeLayout.LayoutParams params=(RelativeLayout.LayoutParams)passwd_forget.getLayoutParams();
-					params.leftMargin=(int)point2[0]-passwd_forget.getWidth()/2;
+					params.leftMargin=(int)point2[0]-passwd_forget.getWidth();
 					params.topMargin=(int)point2[1]-passwd_forget.getHeight()/2;
 					passwd_forget.requestLayout();
 					passwd_forget.setVisibility(View.VISIBLE);
@@ -128,13 +137,21 @@ public class NumberLockActivity extends Activity{
 					intent.putExtra(TYPE, SURE_SETTING_PASSWORD);
 					NumberLockActivity.this.startActivity(intent);
 				}else if(type == LOGIN_PASSWORD){//登录
-					
+					String numberCode=MyPreference.getInstance().readString(Constant.P_NUMBER_LOCK);
+			        if(input.equals(numberCode)){
+			        	DiaryApplication.getInstance().getMemCache().put(Constant.P_NUMBER_LOCK_ACTIVATED, Boolean.FALSE);
+			        	NumberLockActivity.this.finish();
+			        }else{
+			        	showToastMsg(getString(R.string.login_fail));
+						clearInput();//清除输入
+			        }
 				}else if(type == SURE_SETTING_PASSWORD){//确认密码
 					//判断两次输入的密码是否一致
 					if(input.equals(fBuffer.toString())){//一致
 						showToastMsg(getString(R.string.setting_pwd_success));
 						//保存密码到文件中
-						MyPreference.getInstance().initSharedPreferences(NumberLockActivity.this).writeString(Constant.P_NUMBER_LOCK, fBuffer.toString());
+						MyPreference.getInstance().writeString(Constant.P_NUMBER_LOCK, fBuffer.toString());
+						DiaryApplication.getInstance().getMemCache().put(Constant.P_NUMBER_LOCK_ACTIVATED, Boolean.FALSE);
 						NumberLockActivity.this.finish();
 					}else{//不一致
 						showToastMsg(getString(R.string.not_equals));
@@ -145,11 +162,21 @@ public class NumberLockActivity extends Activity{
 						NumberLockActivity.this.startActivity(intent);
 					}
 				}else if(type==CLEAR_PASSWORD){//清除密码
-					
+					String numberCode=MyPreference.getInstance().readString(Constant.P_NUMBER_LOCK);
+			        if(input.equals(numberCode)){
+			        	MyPreference.getInstance().writeString(Constant.P_NUMBER_LOCK, "");
+			        	DiaryApplication.getInstance().getMemCache().put(Constant.P_NUMBER_LOCK_ACTIVATED, Boolean.FALSE);
+			        	NumberLockActivity.this.finish();
+			        }else{
+			        	showToastMsg(getString(R.string.login_fail));
+						clearInput();//清除输入
+			        }
 				}
 			}
 		});
-		
+		/**
+		 * 忘记密码 按钮
+		 */
 		passwd_forget.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -158,6 +185,19 @@ public class NumberLockActivity extends Activity{
 					
 				}
 				
+			}
+		});
+		
+		/**
+		 * 删除密码 按钮
+		 */
+		passwd_backwards.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if(v.getVisibility()==View.VISIBLE){
+					deleteText();//删除刚刚输入的内容
+				}
 			}
 		});
 	}
@@ -213,24 +253,6 @@ public class NumberLockActivity extends Activity{
 		}
 	}
 	
-	/**
-	 * 按钮的点击事件处理
-	 * @param v
-	 */
-	public void doClick(View v){
-		//判断点击的按钮
-		switch (v.getId()) {
-		case R.id.btn_number_forget://重输
-			clearInput();//清除所有输入的内容
-			break;
-		case R.id.btn_passwd_backwards://删除
-			deleteText();//删除刚刚输入的内容
-			break;
-
-		default:
-			break;
-		}
-	}
 	
 	/**
 	 * 显示Toast提示信息

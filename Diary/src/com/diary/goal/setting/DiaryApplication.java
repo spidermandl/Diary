@@ -50,6 +50,10 @@ public class DiaryApplication extends Application {
 	 * 数据缓存,包括用户id等服务器信息
 	 */
 	private HashMap<String, Object> memCache;
+	/**
+	 * 缓存有效标志位
+	 */
+	private boolean cacheFlag;
 
 	private int screen_width;
 	private int screen_height;
@@ -99,12 +103,20 @@ public class DiaryApplication extends Application {
 		dbHelper = new DiaryHelper(this);
 		memCache = new HashMap<String, Object>();
 		memCache.put(Constant.P_TEMPLATE_ADDLIST, new ArrayList<Long>()); 
+		setCacheFlag(true);
 		
 //		ueHandler = new UEHandler(this); 
 //        Thread.setDefaultUncaughtExceptionHandler(ueHandler); 
 		FlurryAgent.onStartSession(this, Constant.FLURRY_KEY);
 		super.onCreate();
 	}
+	
+	@Override
+	public void onLowMemory() {
+		cacheFlag=false;
+		super.onLowMemory();
+	}
+	
 	/**
 	 * 进程退出
 	 */
@@ -278,6 +290,12 @@ public class DiaryApplication extends Application {
 	}
 	public void setMemCache(HashMap<String, Object> memCache) {
 		this.memCache = memCache;
+	}
+	public boolean isCacheFlag() {
+		return cacheFlag;
+	}
+	public void setCacheFlag(boolean cacheFlag) {
+		this.cacheFlag = cacheFlag;
 	}
 
 }

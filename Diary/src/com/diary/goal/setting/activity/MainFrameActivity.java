@@ -13,18 +13,16 @@ import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
 
-import com.actionbarsherlock.ActionBarSherlock;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Window;
 import com.diary.goal.setting.R;
+import com.diary.goal.setting.activity.base.BaseSherlockFragmentActivity;
 import com.diary.goal.setting.fragment.CommunityFragment;
-import com.diary.goal.setting.fragment.LoginFragment;
 import com.diary.goal.setting.fragment.MeFragment;
 import com.diary.goal.setting.fragment.ActionFragment;
 import com.diary.goal.setting.fragment.SoduKuFragment;
 import com.diary.goal.setting.service.SyncDBService;
 
-public class MainFrameActivity extends SherlockFragmentActivity {
+public class MainFrameActivity extends BaseSherlockFragmentActivity {
 	TabHost mTabHost;
     TabManager mTabManager;
     

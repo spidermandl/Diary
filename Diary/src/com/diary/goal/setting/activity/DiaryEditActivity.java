@@ -8,11 +8,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
+import com.diary.goal.setting.activity.base.BaseSherlockActivity;
 import com.diary.goal.setting.database.DiaryHelper.DiaryContentModel;
 import com.diary.goal.setting.richtext.DiaryValidator;
 import com.diary.goal.setting.richtext.RichTextEditView;
@@ -31,7 +31,7 @@ import android.widget.TextView;
  * @author desmond.duan
  *
  */
-public class DiaryEditActivity extends SherlockActivity {
+public class DiaryEditActivity extends BaseSherlockActivity {
      
     private RichTextEditView[] editViews=new RichTextEditView[8];
     private TextView[] mainTitles=new TextView[8];
