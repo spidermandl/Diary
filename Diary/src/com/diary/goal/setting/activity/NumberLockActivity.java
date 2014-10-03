@@ -9,6 +9,8 @@ import cn.numberlock.widget.InputCircleView;
 import cn.numberlock.widget.NumericKeyboard;
 import cn.numberlock.widget.NumericKeyboard.OnNumberClick;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -99,19 +101,22 @@ public class NumberLockActivity extends Activity{
 			
 			@Override
 			public void onInstructionShow(float[] point1,float[] point2){
+				RelativeLayout.LayoutParams params=(RelativeLayout.LayoutParams)passwd_backwards.getLayoutParams();
+				params.leftMargin=(int)point1[0]-passwd_backwards.getWidth()/2;
+				params.topMargin=(int)point1[1]-passwd_backwards.getHeight()/2;
+				
 				if(backwards){
-					RelativeLayout.LayoutParams params=(RelativeLayout.LayoutParams)passwd_backwards.getLayoutParams();
-					params.leftMargin=(int)point1[0]-passwd_backwards.getWidth()/2;
-					params.topMargin=(int)point1[1]-passwd_backwards.getHeight()/2;
 					passwd_backwards.requestLayout();
 					passwd_backwards.setVisibility(View.VISIBLE);
 				}else{
 					passwd_backwards.setVisibility(View.INVISIBLE);
-				}				
+				}	
+				
+				params=(RelativeLayout.LayoutParams)passwd_forget.getLayoutParams();
+				params.leftMargin=(int)point2[0]-passwd_forget.getWidth();
+				params.topMargin=(int)point2[1]-passwd_forget.getHeight()/2;
+				
 				if(forgetPasswd){
-					RelativeLayout.LayoutParams params=(RelativeLayout.LayoutParams)passwd_forget.getLayoutParams();
-					params.leftMargin=(int)point2[0]-passwd_forget.getWidth();
-					params.topMargin=(int)point2[1]-passwd_forget.getHeight()/2;
 					passwd_forget.requestLayout();
 					passwd_forget.setVisibility(View.VISIBLE);
 				}else{
@@ -182,7 +187,34 @@ public class NumberLockActivity extends Activity{
 			@Override
 			public void onClick(View v) {
 				if(v.getVisibility()==View.VISIBLE){
-					
+					new AlertDialog.Builder(NumberLockActivity.this)
+					.setMessage(R.string.clear_by_login_passwd)
+					.setNegativeButton(android.R.string.cancel,new DialogInterface.OnClickListener(){
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							// TODO Auto-generated method stub
+							
+						}
+						
+					})
+					.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener(){
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							MyPreference.getInstance().writeString(Constant.P_NUMBER_LOCK_LOGIN, "true");//设置登陆破解数字密码
+				        	MyPreference.getInstance().writeString(Constant.P_NUMBER_LOCK, "");
+				        	DiaryApplication.getInstance().getMemCache().put(Constant.P_NUMBER_LOCK_ACTIVATED, Boolean.FALSE);
+							Intent intent = new Intent();
+							intent.setClass(NumberLockActivity.this, UserAuthActivity.class);
+							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  //注意本行的FLAG设置
+							intent.putExtra(UserAuthActivity.COMING_INTENT_TYPE, UserAuthActivity.UNLOCK_NUMBER_LOCK);
+							startActivity(intent);
+							
+						}
+						
+					})
+					.show();
 				}
 				
 			}
@@ -260,5 +292,11 @@ public class NumberLockActivity extends Activity{
 	 */
 	private void showToastMsg(String text){
 		Toast.makeText(this, text, 1000).show();
+	}
+	
+	@Override
+	public void onBackPressed() {
+		if(type!=LOGIN_PASSWORD)
+			super.onBackPressed();
 	}
 }

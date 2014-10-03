@@ -3,6 +3,7 @@ package com.diary.goal.setting.activity;
 import java.util.HashMap;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -90,6 +91,14 @@ public class MainFrameActivity extends BaseSherlockFragmentActivity {
         outState.putString("tab", mTabHost.getCurrentTabTag());
     }
     
+    @Override
+    public void onBackPressed() {
+		Intent intent = new Intent();
+		intent.setClass(MainFrameActivity.this, UserAuthActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  //注意本行的FLAG设置
+		intent.putExtra(UserAuthActivity.COMING_INTENT_TYPE, UserAuthActivity.EXIT);
+		startActivity(intent);
+    }
     /**
      * This is a helper class that implements a generic mechanism for
      * associating fragments with the tabs in a tab host.  It relies on a

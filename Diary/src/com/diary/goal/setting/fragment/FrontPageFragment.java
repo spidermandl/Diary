@@ -27,6 +27,7 @@ import com.diary.goal.setting.database.DiaryHelper.UserModel;
 import com.diary.goal.setting.tools.API;
 import com.diary.goal.setting.tools.BitmapCustomize;
 import com.diary.goal.setting.tools.Constant;
+import com.diary.goal.setting.tools.MyPreference;
 /**
  * 首页界面
  * @author desmond.duan
@@ -74,6 +75,17 @@ public class FrontPageFragment extends SherlockFragment{
 //				String username=diary.getString(Constant.P_ACCOUNT, null);
 //				String passwd=diary.getString(Constant.P_PASSWORD, null);
 				if (hasAccount){
+					/**
+					 * 登陆破解数字密码
+					 */
+					String numberLock=MyPreference.getInstance().readString(Constant.P_NUMBER_LOCK_LOGIN);
+					if(numberLock!=null&&numberLock.equals("true")){
+						handler.sendEmptyMessage(FAIL);
+						return;
+					}
+					/**
+					 * 传统登陆
+					 */
 					JSONObject result=API.login(username, password);
 					if(result!=null&&result.has(Constant.SERVER_SUCCESS)){
 						Message msg=new Message();
@@ -104,7 +116,8 @@ public class FrontPageFragment extends SherlockFragment{
 				case SUCCESS:		
 					Intent intent=new Intent();
 					intent.setClass(FrontPageFragment.this.getActivity(), MainFrameActivity.class);
-					FrontPageFragment.this.startActivityForResult(intent, 0);
+					FrontPageFragment.this.startActivity(intent);
+					MyPreference.getInstance().writeString(Constant.P_NUMBER_LOCK_LOGIN,"false");
 					
 					if(msg.obj!=null){
 						JSONObject obj=(JSONObject)msg.obj;
@@ -136,7 +149,7 @@ public class FrontPageFragment extends SherlockFragment{
 					}else{
 						intent=new Intent();
 						intent.setClass(FrontPageFragment.this.getActivity(), MainFrameActivity.class);
-						FrontPageFragment.this.startActivityForResult(intent, 0);
+						FrontPageFragment.this.startActivity(intent);
 						
 						HashMap<String, Object> cache=DiaryApplication.getInstance().getMemCache();
 						cache.put(Constant.SERVER_USER_ID, String.valueOf(userID));

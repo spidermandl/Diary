@@ -49,6 +49,10 @@ public class SettingActivity extends BaseSherlockActivity implements OnClickList
 		
 		passwd_protect_check.setOnClickListener(this);
 		
+	}
+	
+	@Override
+	protected void onResume() {
 		String numberCode = MyPreference.getInstance().readString(Constant.P_NUMBER_LOCK);
 		if(numberCode==null||numberCode.equals("")){//密码关闭
 			passwd_protect_check.setChecked(false);
@@ -57,8 +61,7 @@ public class SettingActivity extends BaseSherlockActivity implements OnClickList
 			passwd_protect_check.setChecked(true);
 			passwd_protect_status.setText(R.string.passwd_protection_open);
 		}
-		
-		
+		super.onResume();
 	}
 	
 	@Override

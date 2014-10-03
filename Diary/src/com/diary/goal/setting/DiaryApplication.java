@@ -16,6 +16,7 @@ import org.json.JSONObject;
 
 import com.diary.goal.setting.database.DiaryHelper;
 import com.diary.goal.setting.thread.UEHandler;
+import com.diary.goal.setting.tools.CacheMap;
 import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.tools.Constant.SudoType;
 import com.flurry.android.FlurryAgent;
@@ -49,7 +50,7 @@ public class DiaryApplication extends Application {
 	/**
 	 * 数据缓存,包括用户id等服务器信息
 	 */
-	private HashMap<String, Object> memCache;
+	private CacheMap memCache;
 	/**
 	 * 缓存有效标志位
 	 */
@@ -101,7 +102,7 @@ public class DiaryApplication extends Application {
 		screen_height=displaymetrics.heightPixels;
 		initialOrientation=this.getResources().getConfiguration().orientation;
 		dbHelper = new DiaryHelper(this);
-		memCache = new HashMap<String, Object>();
+		memCache = new CacheMap();
 		memCache.put(Constant.P_TEMPLATE_ADDLIST, new ArrayList<Long>()); 
 		setCacheFlag(true);
 		
@@ -144,6 +145,7 @@ public class DiaryApplication extends Application {
     		//am.killBackgroundProcesses("com.diary.goal.setting"); 
     	}
 	}
+	
 	/**
 	 * 获取屏幕宽度
 	 * @return
@@ -285,12 +287,10 @@ public class DiaryApplication extends Application {
 			}
 		}
 	}
-	public HashMap<String, Object> getMemCache() {
+	public CacheMap getMemCache() {
 		return memCache;
 	}
-	public void setMemCache(HashMap<String, Object> memCache) {
-		this.memCache = memCache;
-	}
+
 	public boolean isCacheFlag() {
 		return cacheFlag;
 	}

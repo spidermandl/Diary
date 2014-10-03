@@ -36,10 +36,11 @@ int id nk 0x7f070008
 int id tv_info 0x7f070002
 int layout activity_main 0x7f030000
 int layout number_lock_layout 0x7f030001
-int string dialog_cancel 0x7f05000f
-int string dialog_msg 0x7f05000d
-int string dialog_ok 0x7f05000e
-int string dialog_title 0x7f05000c
+int string clear_by_login_passwd 0x7f05000c
+int string dialog_cancel 0x7f050010
+int string dialog_msg 0x7f05000e
+int string dialog_ok 0x7f05000f
+int string dialog_title 0x7f05000d
 int string input_again 0x7f050009
 int string login_fail 0x7f050008
 int string login_success 0x7f050007

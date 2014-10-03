@@ -32,6 +32,7 @@ import com.diary.goal.setting.activity.MainFrameActivity;
 import com.diary.goal.setting.activity.UserAuthActivity;
 import com.diary.goal.setting.tools.API;
 import com.diary.goal.setting.tools.Constant;
+import com.diary.goal.setting.tools.MyPreference;
 
 /**
  *   登陆界面
@@ -102,6 +103,7 @@ public class LoginFragment extends SherlockFragment {
 				case SUCCESS:	
 					DiaryApplication.getInstance().getMemCache().clear();//切换账户时清空缓存
 					DiaryApplication.getInstance().getMemCache().put(Constant.P_TEMPLATE_ADDLIST, new ArrayList<Long>());
+					MyPreference.getInstance().writeString(Constant.P_NUMBER_LOCK_LOGIN,"false");
 					SharedPreferences diary=LoginFragment.this.getActivity().getSharedPreferences(Constant.PREFERENCE_NAME, Context.MODE_PRIVATE);
 					diary.edit().putString(Constant.P_ACCOUNT, account.getText().toString()).commit();  
 					diary.edit().putString(Constant.P_PASSWORD, passwd.getText().toString()).commit();

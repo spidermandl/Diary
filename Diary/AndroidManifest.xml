@@ -75,7 +75,7 @@
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.Black.NoTitleBar">
         </activity>
-        
+
         <service
             android:name=".service.SyncDBService"
             android:stopWithTask="true" >

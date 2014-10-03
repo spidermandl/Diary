@@ -17,6 +17,7 @@
 	<string name="input_again">重输</string>
 	<string name="passwd_backwards">删除</string>
 	<string name="number_forget">忘记密码?</string>
+	<string name="clear_by_login_passwd">使用登陆密码重新登陆？</string>
 	<string name="dialog_title">提示</string>
 	<string name="dialog_msg">请选择类型：</string>
 	<string name="dialog_ok">设置密码</string>

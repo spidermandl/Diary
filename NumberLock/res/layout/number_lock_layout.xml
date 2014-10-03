@@ -71,7 +71,8 @@
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:layout_below="@id/ll_pass"
-         android:text="@string/number_forget" />
+         android:text="@string/number_forget"
+         android:textColor="#77DDDDDD" />
      <!-- 删除按钮 -->
 
      <TextView

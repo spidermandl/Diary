@@ -361,10 +361,8 @@ public class SyncDBService extends Service {
 				if (!isProcessing) {
 					switch (optSignal(false, 0)) {
 					case EXIT_SYNC:
-						MyLog.e("----------------------------------", "EXIT_SYNC");
 						return;
-					case NONE_SYNC:
-						//MyLog.e("----------------------------------", "NONE_SYNC");
+					case NONE_SYNC://空闲状态
 						try {
 							if(idleCount>=120){
 								if(DiaryApplication.getInstance().isCacheFlag()){
@@ -400,7 +398,6 @@ public class SyncDBService extends Service {
 					}
 				} else {
 					try {
-						//MyLog.e("----------------------------------", "isProcessing");
 						Thread.sleep(200);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
