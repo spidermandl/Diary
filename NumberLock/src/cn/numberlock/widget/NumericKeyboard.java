@@ -49,10 +49,10 @@ public class NumericKeyboard extends View {
 	 */
 	private int type = -1;
 	
-	//忘记密码
-	private boolean forgetPasswd=false;
-	//回退输入
-	private boolean backwards=false;
+//	//忘记密码
+//	private boolean forgetPasswd=false;
+//	//回退输入
+//	private boolean backwards=false;
 
 	/**
 	 * 构造方法
@@ -154,7 +154,7 @@ public class NumericKeyboard extends View {
 		paint.setAntiAlias(true);
 		
 		if (onNumberClick != null){
-			onNumberClick.onInstructionShow(backwards, forgetPasswd,
+			onNumberClick.onInstructionShow(
 					new float[]{center_s[9][0],center_s[0][1]},
 					new float[]{center_s[9][0],center_s[0][1]+2*CIRCLE_RADIUS});
 		}
@@ -342,13 +342,13 @@ public class NumericKeyboard extends View {
 		invalidate();
 	}
 
-	public void setForgetPasswd(boolean forgetPasswd) {
-		this.forgetPasswd = forgetPasswd;
-	}
-
-	public void setBackwards(boolean backwards) {
-		this.backwards = backwards;
-	}
+//	public void setForgetPasswd(boolean forgetPasswd) {
+//		this.forgetPasswd = forgetPasswd;
+//	}
+//
+//	public void setBackwards(boolean backwards) {
+//		this.backwards = backwards;
+//	}
 
 	/**
 	 * 数字点击事件
@@ -369,9 +369,7 @@ public class NumericKeyboard extends View {
 		
 		/**
 		 * 设置panel上文字显示
-		 * @param isPasswd_backwards
-		 * @param isPasswd_forget
 		 */
-		public void onInstructionShow(boolean isPasswd_backwards,boolean isPasswd_forget,float[] point1,float[] point2);
+		public void onInstructionShow(float[] point1,float[] point2);
 	}
 }

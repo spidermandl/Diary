@@ -12,14 +12,16 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.diary.goal.setting.R;
+import com.diary.goal.setting.activity.base.BaseSherlockActivity;
 import com.diary.goal.setting.tools.Constant;
+import com.diary.goal.setting.tools.MyPreference;
 
 /**
  * 用户设置界面
  * @author Desmond Duan
  *
  */
-public class SettingActivity extends SherlockActivity implements OnClickListener{
+public class SettingActivity extends BaseSherlockActivity implements OnClickListener{
 
 	private TextView passwd_protect_status;
 	private CheckBox passwd_protect_check;
@@ -47,8 +49,19 @@ public class SettingActivity extends SherlockActivity implements OnClickListener
 		
 		passwd_protect_check.setOnClickListener(this);
 		
-		passwd_protect_check.setChecked(false);
-		
+	}
+	
+	@Override
+	protected void onResume() {
+		String numberCode = MyPreference.getInstance().readString(Constant.P_NUMBER_LOCK);
+		if(numberCode==null||numberCode.equals("")){//密码关闭
+			passwd_protect_check.setChecked(false);
+			passwd_protect_status.setText(R.string.passwd_protection_close);
+		}else{
+			passwd_protect_check.setChecked(true);
+			passwd_protect_status.setText(R.string.passwd_protection_open);
+		}
+		super.onResume();
 	}
 	
 	@Override
@@ -73,9 +86,12 @@ public class SettingActivity extends SherlockActivity implements OnClickListener
 			Intent intent=new Intent();
 			intent.setClass(this, NumberLockActivity.class);
 			if(passwd_protect_check.isChecked()){//check时间先于click事件
+				//设置密码
 				passwd_protect_check.setChecked(false);
 				intent.putExtra(NumberLockActivity.TYPE,NumberLockActivity.SETTING_PASSWORD);
 			}else{
+				//取消密码
+				passwd_protect_check.setChecked(true);
 				intent.putExtra(NumberLockActivity.TYPE,NumberLockActivity.CLEAR_PASSWORD);
 			}
 			startActivity(intent);

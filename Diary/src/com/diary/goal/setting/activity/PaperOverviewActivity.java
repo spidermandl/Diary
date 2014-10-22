@@ -13,6 +13,7 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
+import com.diary.goal.setting.activity.base.BaseSherlockActivity;
 import com.diary.goal.setting.tools.BitmapCustomize;
 import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.view.QuickView;
@@ -32,7 +33,7 @@ import android.widget.ScrollView;
  * @author Desmond Duan
  *
  */
-public class PaperOverviewActivity extends SherlockActivity {
+public class PaperOverviewActivity extends BaseSherlockActivity {
 
 	private static final int MAIN_TITLE=0;
 	private static final int SUB_TITLE=1;

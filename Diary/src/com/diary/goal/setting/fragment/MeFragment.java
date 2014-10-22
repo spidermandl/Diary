@@ -138,8 +138,11 @@ public class MeFragment extends SherlockFragment{
 						}.start();
 						break;
 					case R.id.me_logout://切换账户
-						MeFragment.this.getActivity().setResult(UserAuthActivity.RESULT_LOGOUT);
-						MeFragment.this.getActivity().finish();
+						intent = new Intent();
+						intent.setClass(MeFragment.this.getActivity(), UserAuthActivity.class);
+						intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  
+						intent.putExtra(UserAuthActivity.COMING_INTENT_TYPE, UserAuthActivity.LOGOUT);
+						startActivity(intent);
 						break;
 					default:
 						break;

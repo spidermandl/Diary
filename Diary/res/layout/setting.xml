@@ -36,15 +36,22 @@
                    android:paddingLeft="10dp"
                    android:text="@string/passwd_protection"
                    android:textColor="#FF000000" />
+              <TextView
+                   android:id="@+id/passwd_status_commet"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_alignTop="@id/passwd_status_title"
+                   android:layout_toRightOf="@id/passwd_status_title"
+                   android:text=":"
+                   android:textColor="#FF000000" />
               
               <TextView
                    android:id="@+id/passwd_status"
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:layout_alignTop="@id/passwd_status_title"
-                   android:layout_toRightOf="@id/passwd_status_title"
+                   android:layout_toRightOf="@id/passwd_status_commet"
                    android:paddingLeft="10dp"
-                   android:text="jjjjjjjjjjjjj"
                    android:textColor="#FF000000" />
                
                <CheckBox

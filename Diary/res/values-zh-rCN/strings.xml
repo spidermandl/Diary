@@ -88,6 +88,8 @@
     <string name="passwd_protection">密\u0020码\u0020保\u0020护</string>
     <!-- ********************************************************************************** -->
     <string name="export_title">导出</string>
+    <string name="passwd_protection_open">开启</string>
+    <string name="passwd_protection_close">关闭</string>
     <!-- *********************************************************************************** -->
 	<string name="edit_save">保存</string>
 	<string name="edit_back">返回</string>

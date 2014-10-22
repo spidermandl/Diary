@@ -3,6 +3,7 @@ package com.diary.goal.setting.activity;
 import java.util.HashMap;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -13,18 +14,16 @@ import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TextView;
 
-import com.actionbarsherlock.ActionBarSherlock;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Window;
 import com.diary.goal.setting.R;
+import com.diary.goal.setting.activity.base.BaseSherlockFragmentActivity;
 import com.diary.goal.setting.fragment.CommunityFragment;
-import com.diary.goal.setting.fragment.LoginFragment;
 import com.diary.goal.setting.fragment.MeFragment;
 import com.diary.goal.setting.fragment.ActionFragment;
 import com.diary.goal.setting.fragment.SoduKuFragment;
 import com.diary.goal.setting.service.SyncDBService;
 
-public class MainFrameActivity extends SherlockFragmentActivity {
+public class MainFrameActivity extends BaseSherlockFragmentActivity {
 	TabHost mTabHost;
     TabManager mTabManager;
     
@@ -92,6 +91,14 @@ public class MainFrameActivity extends SherlockFragmentActivity {
         outState.putString("tab", mTabHost.getCurrentTabTag());
     }
     
+    @Override
+    public void onBackPressed() {
+		Intent intent = new Intent();
+		intent.setClass(MainFrameActivity.this, UserAuthActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);  //注意本行的FLAG设置
+		intent.putExtra(UserAuthActivity.COMING_INTENT_TYPE, UserAuthActivity.EXIT);
+		startActivity(intent);
+    }
     /**
      * This is a helper class that implements a generic mechanism for
      * associating fragments with the tabs in a tab host.  It relies on a

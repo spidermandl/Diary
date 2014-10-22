@@ -1,5 +1,6 @@
 package com.diary.goal.setting.activity;
 
+import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -8,11 +9,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
+import com.diary.goal.setting.activity.base.BaseSherlockActivity;
 import com.diary.goal.setting.database.DiaryHelper.DiaryContentModel;
 import com.diary.goal.setting.richtext.DiaryValidator;
 import com.diary.goal.setting.richtext.RichTextEditView;
@@ -21,17 +22,19 @@ import com.diary.goal.setting.tools.Constant;
 import com.diary.goal.setting.view.RatingPentagramView;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 /**
  * 编写日记activity
  * @author desmond.duan
  *
  */
-public class DiaryEditActivity extends SherlockActivity {
+public class DiaryEditActivity extends BaseSherlockActivity {
      
     private RichTextEditView[] editViews=new RichTextEditView[8];
     private TextView[] mainTitles=new TextView[8];
@@ -44,6 +47,7 @@ public class DiaryEditActivity extends SherlockActivity {
     
 	@Override
 	protected void onCreate(Bundle savedInstanceState){
+		
 		setContentView(R.layout.diary_edit);
 
 		initViews();
@@ -132,9 +136,10 @@ public class DiaryEditActivity extends SherlockActivity {
 		Log.e("init diary", templete.toString());
 		/**
 		 * 获得焦点焦点控件
+		 * 不获取焦点
 		 */
-		int type=getIntent().getIntExtra("sudoType", 2);
-		editViews[type>5?type-2:type-1].requestFocus();
+//		int type=getIntent().getIntExtra("sudoType", 2);
+//		editViews[type>5?type-2:type-1].requestFocus();
 		for (int i=0;i<8;i++){
 			editViews[i].addValidator(
 					new DiaryValidator(null, DiaryValidator.getSubTitlePattern()));
@@ -150,7 +155,6 @@ public class DiaryEditActivity extends SherlockActivity {
 //		ab.setDisplayUseLogoEnabled(false);
 //		ab.setDisplayShowHomeEnabled(false);
 //		ab.setTitle(R.string.edit_back);
-		
 		
 		editViews[0]=(RichTextEditView)findViewById(R.id.diary_content_1);
 		editViews[1]=(RichTextEditView)findViewById(R.id.diary_content_2);
@@ -287,6 +291,19 @@ public class DiaryEditActivity extends SherlockActivity {
 			break;
 		}
 		return true;
+	}
+	
+	@Override
+	public void finish() {
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		// 得到InputMethodManager的实例
+		if (imm.isActive()) {
+			// 如果开启
+			imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT,
+					InputMethodManager.HIDE_NOT_ALWAYS);
+			// 关闭软键盘，开启方法相同，这个方法是切换开启与关闭状态的
+		}
+		super.finish();
 	}
 	
 }

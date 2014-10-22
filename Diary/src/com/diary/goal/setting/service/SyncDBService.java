@@ -210,10 +210,6 @@ public class SyncDBService extends Service {
 		};
 		HashMap<String, Object> memCache = DiaryApplication.getInstance().getMemCache();
 		final Object session_id=memCache.get(Constant.P_SESSION);
-		if(memCache.get(Constant.SERVER_USER_ID)==null){//缓存可能被清空
-			sThread.setProcess(false);
-			return;
-		}
 		final String user_id=memCache.get(Constant.SERVER_USER_ID).toString();
 		final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		final DiaryContentModel diaryModel= DiaryApplication.getInstance().getDbHelper().getDiaryContent(user_id,new Date());
@@ -365,14 +361,17 @@ public class SyncDBService extends Service {
 				if (!isProcessing) {
 					switch (optSignal(false, 0)) {
 					case EXIT_SYNC:
-						MyLog.e("----------------------------------", "EXIT_SYNC");
 						return;
-					case NONE_SYNC:
-						//MyLog.e("----------------------------------", "NONE_SYNC");
+					case NONE_SYNC://空闲状态
 						try {
 							if(idleCount>=120){
-								optSignal(true, DIARY_SYNC);
-								optSignal(true, TEMPLATE_SYNC);
+								if(DiaryApplication.getInstance().isCacheFlag()){
+									optSignal(true, DIARY_SYNC);
+									optSignal(true, TEMPLATE_SYNC);
+								}else{
+									//缓存被清除
+									idleCount=0;
+								}
 							}
 							idleCount++;
 							Thread.sleep(500);
@@ -399,7 +398,6 @@ public class SyncDBService extends Service {
 					}
 				} else {
 					try {
-						//MyLog.e("----------------------------------", "isProcessing");
 						Thread.sleep(200);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block

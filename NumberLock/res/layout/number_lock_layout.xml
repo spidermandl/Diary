@@ -71,8 +71,8 @@
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:layout_below="@id/ll_pass"
-         android:onClick="doClick"
-         android:text="@string/number_forget" />
+         android:text="@string/number_forget"
+         android:textColor="#77DDDDDD" />
      <!-- 删除按钮 -->
 
      <TextView
@@ -82,7 +82,6 @@
          android:layout_below="@id/ll_pass"
          android:text="@string/passwd_backwards"
          android:textColor="#FFFFFFFF"
-         android:textStyle="bold"
-         android:onClick="doClick" />
+         android:textStyle="bold" />
 
 </RelativeLayout>

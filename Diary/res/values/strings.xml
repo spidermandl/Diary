@@ -86,6 +86,8 @@
     <!-- ********************************************************************************** -->
     <string name="setting_title">Setting</string>
     <string name="passwd_protection">Password Protection</string>
+    <string name="passwd_protection_open">Open</string>
+    <string name="passwd_protection_close">Close</string>
     <!-- ********************************************************************************** -->
     <string name="export_title">Export</string>
     <!-- ********************************************************************************** -->
