@@ -51,7 +51,8 @@ public class MeFragment extends SherlockFragment{
 	         myLogout,
 	         mySync,
 	         myVersionCheck,
-	         mySetting;
+	         mySetting,
+	         myExport;
 	
 	private OnClickListener listener;
 	private Handler networkHandler;
@@ -82,6 +83,7 @@ public class MeFragment extends SherlockFragment{
 		myVersionCheck=(TextView)layout.findViewById(R.id.me_version_check);
 		myLogout=(TextView)layout.findViewById(R.id.me_logout);
 		mySetting=(TextView)layout.findViewById(R.id.me_setting);
+		myExport=(TextView)layout.findViewById(R.id.me_export);
 	}
 	
 	private void initFunctionality() {
@@ -97,10 +99,12 @@ public class MeFragment extends SherlockFragment{
 						intent.setClass(MeFragment.this.getActivity(), TemplateOperateActivity.class);
 						MeFragment.this.startActivityForResult(intent, 0);
 						break;
-					case R.id.me_setting:
+					case R.id.me_setting://设置
 						intent=new Intent();
 						intent.setClass(MeFragment.this.getActivity(), SettingActivity.class);
 						MeFragment.this.startActivity(intent);
+						break;
+					case R.id.me_export://日记导出
 						break;
 					case R.id.me_sync://同步
 						self.setSupportProgressBarIndeterminateVisibility(true);
@@ -150,6 +154,7 @@ public class MeFragment extends SherlockFragment{
 		myVersionCheck.setOnClickListener(listener);
 		myLogout.setOnClickListener(listener);
 		mySetting.setOnClickListener(listener);
+		myExport.setOnClickListener(listener);
 		
 		networkHandler=new Handler(){
 			public void handleMessage(android.os.Message msg) {

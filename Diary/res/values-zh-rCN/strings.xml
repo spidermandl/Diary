@@ -59,6 +59,7 @@
     <string name ="long_term_vision">我的梦想规划</string>
     <string name ="me_software_instruction">晨间日记圆梦说明</string>
     <string name ="me_setting">设置</string>
+    <string name ="me_export">导出日记</string>
     <string name="me_sync">数据同步</string>
     <string name="me_version_check">检查版本更新</string>
     <string name ="me_logout">退出</string>
@@ -85,6 +86,8 @@
     <!-- ********************************************************************************** -->
     <string name="setting_title">设置</string>
     <string name="passwd_protection">密\u0020码\u0020保\u0020护</string>
+    <!-- ********************************************************************************** -->
+    <string name="export_title">导出</string>
     <!-- *********************************************************************************** -->
 	<string name="edit_save">保存</string>
 	<string name="edit_back">返回</string>
