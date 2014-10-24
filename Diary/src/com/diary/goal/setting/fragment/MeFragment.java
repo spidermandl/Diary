@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragment;
 import com.diary.goal.setting.DiaryApplication;
 import com.diary.goal.setting.R;
+import com.diary.goal.setting.activity.FileExploreActivity;
 import com.diary.goal.setting.activity.MainFrameActivity;
 import com.diary.goal.setting.activity.SettingActivity;
 import com.diary.goal.setting.activity.TemplateOperateActivity;
@@ -105,6 +107,13 @@ public class MeFragment extends SherlockFragment{
 						MeFragment.this.startActivity(intent);
 						break;
 					case R.id.me_export://日记导出
+						if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())){
+							intent=new Intent();
+							intent.setClass(MeFragment.this.getActivity(), FileExploreActivity.class);
+							MeFragment.this.startActivity(intent);
+						}else{
+							
+						}
 						break;
 					case R.id.me_sync://同步
 						self.setSupportProgressBarIndeterminateVisibility(true);

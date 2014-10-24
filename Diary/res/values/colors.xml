@@ -22,4 +22,5 @@
     <drawable name="auth_bar_split_bg">#ffcccccc</drawable>
     <drawable name="edit_child_item_bg">#00ffffff</drawable>
     <drawable name="edit_child_item_select_bg">#ffCCCCCC</drawable>
+    <drawable name="light_blue_item_bg">#FFEFEFEF</drawable>
 </resources>
