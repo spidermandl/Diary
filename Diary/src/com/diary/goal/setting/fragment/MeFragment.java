@@ -67,7 +67,8 @@ public class MeFragment extends SherlockFragment{
 	         myVersionCheck,
 	         mySetting,
 	         myExport;
-	ImageView myhead;
+	ImageView myHead;
+	
 	private OnClickListener listener;
 	private Handler networkHandler;
 	private boolean isProgress=false;//进度条显示
@@ -99,7 +100,7 @@ public class MeFragment extends SherlockFragment{
 		mySetting=(TextView)layout.findViewById(R.id.me_setting);
 		myExport=(TextView)layout.findViewById(R.id.me_export);
 		//change user head image
-				myhead = (ImageView) layout.findViewById(R.id.head_icon);
+		myHead = (ImageView) layout.findViewById(R.id.head_icon);
 	}
 	
 	private void initFunctionality() {
@@ -167,6 +168,10 @@ public class MeFragment extends SherlockFragment{
 						intent.putExtra(UserAuthActivity.COMING_INTENT_TYPE, UserAuthActivity.LOGOUT);
 						startActivity(intent);
 						break;
+					case R.id.head_icon://更换用户头像
+						intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+						startActivityForResult(intent, 1);
+						break;
 					default:
 						break;
 					}
@@ -181,14 +186,7 @@ public class MeFragment extends SherlockFragment{
 		myLogout.setOnClickListener(listener);
 		mySetting.setOnClickListener(listener);
 		myExport.setOnClickListener(listener);
-	myhead.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-				startActivityForResult(intent, 1);
-			}
-		});
+	    myHead.setOnClickListener(listener);
 		networkHandler=new Handler(){
 			public void handleMessage(android.os.Message msg) {
 				switch (msg.what) {
@@ -304,7 +302,7 @@ public class MeFragment extends SherlockFragment{
 					e.printStackTrace();
 				}			
 			}
-	        myhead.setImageBitmap(bitmap);	       
+	        myHead.setImageBitmap(bitmap);	       
 		}
 		
 	}
