@@ -1,28 +1,40 @@
 package com.diary.goal.setting.fragment;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.app.DownloadManager.Request;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
+import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,7 +67,7 @@ public class MeFragment extends SherlockFragment{
 	         myVersionCheck,
 	         mySetting,
 	         myExport;
-	
+	ImageView myhead;
 	private OnClickListener listener;
 	private Handler networkHandler;
 	private boolean isProgress=false;//进度条显示
@@ -86,6 +98,8 @@ public class MeFragment extends SherlockFragment{
 		myLogout=(TextView)layout.findViewById(R.id.me_logout);
 		mySetting=(TextView)layout.findViewById(R.id.me_setting);
 		myExport=(TextView)layout.findViewById(R.id.me_export);
+		//change user head image
+				myhead = (ImageView) layout.findViewById(R.id.head_icon);
 	}
 	
 	private void initFunctionality() {
@@ -167,7 +181,14 @@ public class MeFragment extends SherlockFragment{
 		myLogout.setOnClickListener(listener);
 		mySetting.setOnClickListener(listener);
 		myExport.setOnClickListener(listener);
-		
+	myhead.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+				startActivityForResult(intent, 1);
+			}
+		});
 		networkHandler=new Handler(){
 			public void handleMessage(android.os.Message msg) {
 				switch (msg.what) {
@@ -254,6 +275,38 @@ public class MeFragment extends SherlockFragment{
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
 		super.onActivityResult(requestCode, resultCode, data);
+		if(resultCode==Activity.RESULT_OK){
+			//获取SD卡状态
+			String sdStatus = Environment.getExternalStorageState();
+			if(!sdStatus.equals(Environment.MEDIA_MOUNTED)){//检测sd卡是否可用
+				Log.i("TestFile", "Sd card is not avaiable/writeable right now");
+				return;
+			}
+			//照片名？？
+		String name =	new DateFormat().format("yyyyMMdd_hhmmss",Calendar.getInstance(Locale.CHINA))+".jpg";
+			Toast.makeText(getActivity(), name, 1).show();
+			Bundle bundle = data.getExtras();
+			Bitmap bitmap = (Bitmap) bundle.get("data");// 获取相机返回的数据，并转换为Bitmap图片格式
+	        FileOutputStream b =null;
+	        File file = new File("/sdcard/myImage/");
+	        file.mkdirs();//创建文件夹
+	        String fileName="/sdcard/myImage/"+name;
+	        try {
+				b = new FileOutputStream(fileName);
+				bitmap.compress(Bitmap.CompressFormat.JPEG, 100, b);//把数据写入文件	
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}finally{
+				try {
+					b.flush();
+					b.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}			
+			}
+	        myhead.setImageBitmap(bitmap);	       
+		}
+		
 	}
 	
 	/**
