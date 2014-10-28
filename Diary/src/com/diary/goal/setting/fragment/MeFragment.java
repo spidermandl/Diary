@@ -73,6 +73,7 @@ public class MeFragment extends SherlockFragment{
 	private static final int PHOTO_REQUEST_CUT = 3;// 结果
 	private final String IMAGE_TYPE = "image/*";//get what type of image
 	int crop = 180;
+	String wahahaha=null;
 	TextView myTemplate,
 	         myLogout,
 	         mySync,
@@ -215,6 +216,7 @@ public class MeFragment extends SherlockFragment{
 						dlg.dismiss();
 						Intent intent = new Intent(Intent.ACTION_PICK,null);
 						 intent.setDataAndType(MediaStore.Images.Media.INTERNAL_CONTENT_URI, "image/*");
+						 intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
 						 startActivityForResult(intent, PHOTO_REQUEST_GALLERY);					
 						}
 					});
@@ -235,7 +237,9 @@ public class MeFragment extends SherlockFragment{
 								Toast.makeText(getActivity(), "暂无头像",0).show();	
 							}else{
 							Intent intent = new Intent(getActivity().getApplication(),BigImageActivity.class);
-							intent.putExtra("url", String.valueOf(Uri.fromFile(tempFile)));
+							intent.putExtra("url", String.valueOf(Uri.fromFile(tempFile)));//拍照url
+							           //相册url
+							intent.putExtra("url2", wahahaha);
 							startActivity(intent);
 							}
 						}
@@ -382,7 +386,7 @@ public class MeFragment extends SherlockFragment{
 	case PHOTO_REQUEST_GALLERY:
 		if(data!=null){
 			startPhotoZoom(data.getData(), 150);
-			
+			wahahaha=String.valueOf(data.getData());
 		}
 		break;
 	case PHOTO_REQUEST_CUT:
