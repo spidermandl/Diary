@@ -68,6 +68,7 @@ public class MeFragment extends SherlockFragment{
 	private static final int SYNC_SUCCESS=1;
 	private static final int VERSION_CHECK_SUCCESS=2;
 	private static final int FAIL=3;
+	
 	private static final int PHOTO_REQUEST_TAKEPHOTO = 1;// 拍照
 	private static final int PHOTO_REQUEST_GALLERY = 2;// 从相册中选择
 	private static final int PHOTO_REQUEST_CUT = 3;// 结果
@@ -190,63 +191,61 @@ public class MeFragment extends SherlockFragment{
 						intent.putExtra(UserAuthActivity.COMING_INTENT_TYPE, UserAuthActivity.LOGOUT);
 						startActivity(intent);
 						break;
-					case R.id.head_icon://用户头像点击事件
-						
+					case R.id.head_icon:// 用户头像点击事件
+
 						final AlertDialog dlg = new AlertDialog.Builder(getActivity()).create();
 						dlg.show();
 						Window window = dlg.getWindow();
 						window.setContentView(R.layout.edit_head);
-						photo = (TextView) window.findViewById(R.id.photo);//拍照
-					    photo.setOnClickListener(new OnClickListener() {					
-						@Override
-						public void onClick(View v) {			
-						dlg.dismiss();
-						Intent	intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-						intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
-						startActivityForResult(intent, PHOTO_REQUEST_TAKEPHOTO);
-						
-						
-						}
-					});
-					from_photoalbum =(TextView) window.findViewById(R.id.from_photoalbum);//相册
-					from_photoalbum.setOnClickListener(new OnClickListener() {
-						
-						@Override
-						public void onClick(View v) {
-						dlg.dismiss();
-						Intent intent = new Intent(Intent.ACTION_PICK,null);
-						 intent.setDataAndType(MediaStore.Images.Media.INTERNAL_CONTENT_URI, "image/*");
-						 intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
-						 startActivityForResult(intent, PHOTO_REQUEST_GALLERY);					
-						}
-					});
-					mycancel = (TextView) window.findViewById(R.id.alertcancel);//取消
-					mycancel.setOnClickListener(new OnClickListener() {						
-						@Override
-						public void onClick(View v) {	
-							dlg.dismiss();
-						}
-					});
-					bighead = (TextView) window.findViewById(R.id.bighead);//查看大头像
-					bighead.setOnClickListener(new OnClickListener() {
-						
-						@Override
-						public void onClick(View v) {
-							//
-							if(tempFile==null){
-								Toast.makeText(getActivity(), "暂无头像",0).show();	
-							}else{
-							Intent intent = new Intent(getActivity().getApplication(),BigImageActivity.class);
-							intent.putExtra("url", String.valueOf(Uri.fromFile(tempFile)));//拍照url
-							           //相册url
-							intent.putExtra("url2", wahahaha);
-							startActivity(intent);
+						photo = (TextView) window.findViewById(R.id.photo);// 拍照
+						photo.setOnClickListener(new OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								dlg.dismiss();
+								Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+								intent.putExtra(MediaStore.EXTRA_OUTPUT,Uri.fromFile(tempFile));
+								startActivityForResult(intent,PHOTO_REQUEST_TAKEPHOTO);
+
 							}
-						}
-						
-					});
-					
-					
+						});
+						from_photoalbum = (TextView) window.findViewById(R.id.from_photoalbum);// 相册
+						from_photoalbum.setOnClickListener(new OnClickListener() {
+
+									@Override
+									public void onClick(View v) {
+										dlg.dismiss();
+										Intent intent = new Intent(Intent.ACTION_PICK, null);
+										intent.setDataAndType(MediaStore.Images.Media.INTERNAL_CONTENT_URI,"image/*");
+										intent.putExtra(MediaStore.EXTRA_OUTPUT,Uri.fromFile(tempFile));
+										startActivityForResult(intent,PHOTO_REQUEST_GALLERY);
+									}
+								});
+						mycancel = (TextView) window.findViewById(R.id.alertcancel);// 取消
+						mycancel.setOnClickListener(new OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								dlg.dismiss();
+							}
+						});
+						bighead = (TextView) window.findViewById(R.id.bighead);// 查看大头像
+						bighead.setOnClickListener(new OnClickListener() {
+
+							@Override
+							public void onClick(View v) {
+								//
+								if (tempFile == null) {
+									Toast.makeText(getActivity(), "暂无头像", 0).show();
+								} else {
+									Intent intent = new Intent(getActivity().getApplication(),BigImageActivity.class);
+									intent.putExtra("url", String.valueOf(Uri.fromFile(tempFile)));// 拍照url
+									// 相册url
+									intent.putExtra("url2", wahahaha);
+									startActivity(intent);
+								}
+							}
+
+						});
+
 						break;
 					default:
 						break;
@@ -326,21 +325,24 @@ public class MeFragment extends SherlockFragment{
 			};
 		};
 	}
+
 	// 使用系统当前日期加以调整作为照片的名称
 	private String getPhotoFileName() {
-	Date date = new Date(System.currentTimeMillis());
-	SimpleDateFormat dateFormat = new SimpleDateFormat("'IMG'_yyyyMMdd_HHmmss");
-	return dateFormat.format(date) + ".jpg";
+		Date date = new Date(System.currentTimeMillis());
+		SimpleDateFormat dateFormat = new SimpleDateFormat("'IMG'_yyyyMMdd_HHmmss");
+		return dateFormat.format(date) + ".jpg";
 	}
-	//将进行剪裁后的图片显示到UI界面上
+
+	// 将进行剪裁后的图片显示到UI界面上
 	private void setPicToView(Intent picdata) {
-	Bundle bundle = picdata.getExtras();
-	if (bundle != null) {
-	Bitmap photo = bundle.getParcelable("data");
-	Drawable drawable = new BitmapDrawable(photo);
-	myHead.setBackgroundDrawable(drawable);
+		Bundle bundle = picdata.getExtras();
+		if (bundle != null) {
+			Bitmap photo = bundle.getParcelable("data");
+			Drawable drawable = new BitmapDrawable(photo);
+			myHead.setBackgroundDrawable(drawable);
+		}
 	}
-	}
+
 	private void startPhotoZoom(Uri uri, int size) {
 		Intent intent = new Intent("com.android.camera.action.CROP");
 		intent.setDataAndType(uri, "image/*");
@@ -357,7 +359,7 @@ public class MeFragment extends SherlockFragment{
 		intent.putExtra("return-data", true);
 
 		startActivityForResult(intent, PHOTO_REQUEST_CUT);
-		}
+	}
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -378,25 +380,25 @@ public class MeFragment extends SherlockFragment{
 	}
 	
 	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {	
-	switch (requestCode) {
-	case PHOTO_REQUEST_TAKEPHOTO:
-		startPhotoZoom(Uri.fromFile(tempFile), 150);
-		break;
-	case PHOTO_REQUEST_GALLERY:
-		if(data!=null){
-			startPhotoZoom(data.getData(), 150);
-			wahahaha=String.valueOf(data.getData());
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		switch (requestCode) {
+		case PHOTO_REQUEST_TAKEPHOTO:
+			startPhotoZoom(Uri.fromFile(tempFile), 150);
+			break;
+		case PHOTO_REQUEST_GALLERY:
+			if (data != null) {
+				startPhotoZoom(data.getData(), 150);
+				wahahaha = String.valueOf(data.getData());
+			}
+			break;
+		case PHOTO_REQUEST_CUT:
+			if (data != null)
+				setPicToView(data);
+			break;
+		default:
+			break;
 		}
-		break;
-	case PHOTO_REQUEST_CUT:
-		if(data!=null)
-			setPicToView(data);
-		break;
-	default:
-		break;
-	}
-	super.onActivityResult(requestCode, resultCode, data);
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 	
 	/**
